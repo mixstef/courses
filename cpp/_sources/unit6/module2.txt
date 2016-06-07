@@ -1,0 +1,155 @@
+Ενότητα 6-2
+===============
+
+Προσεταιριστικές δομές: STL Maps
+----------------------------------
+Ένα ενδιαφέρον STL container είναι το map: περιέχει ταξινομημένα ζεύγη κλειδιών-τιμών. Στο κλασικό map **το ίδιο κλειδί μπορεί να υπάρχει μόνο μία φορά!**
+
+* Στις περιπτώσεις που χρειαζόμαστε περισσότερες εμφανίσεις του ίδιου κλειδιού υπάρχει το multimap container.
+* Αν το κλειδί είναι ενσωματωμένο στο αντικείμενο της τιμής, μπορούμε να χρησιμοποιήσουμε τα set/multiset containers.
+    
+Το map container είναι υλοποιημένο ως template και μπορεί να χρησιμοποιηθεί για οποιοδήποτε τύπο κλειδιού και τιμής. Επειδή ένα map ταξινομεί εσωτερικά τα κλειδιά του, ο τύπος του κλειδιού πρέπει να ορίζει τουλάχιστον τον τελεστή <.
+
+
+STL Maps: βασικές οδηγίες χρήσης
+-----------------------------------
+Προσθέστε στα includes σας:
+
+.. code-block:: c++
+
+   #include <map>
+   
+Στο επόμενο παράδειγμα δημιουργούμε ένα map με κλειδιά τύπου string και τιμές τύπου int:
+
+.. code-block:: c++
+
+   // create an empty map with string keys and int values
+   map<string,int> dict;
+
+Στη συνέχεια, μέσω του τελεστή [ ] προσθέτουμε/αλλάζουμε ζεύγη κλειδιού-τιμής:
+
+.. code-block:: c++
+
+   // put new items using []
+   dict["hello"] = 23;
+   dict["bye"] = 50;
+   dict["geia"] = 99;
+
+   // change some values
+   ++dict["bye"];
+   ++dict["not there"];	// this works also! Read access will set to int()
+
+Στα δύο τελευταία παραδείγματα:
+
+* Η τιμή που αντιστοιχεί στο "bye" αυξάνεται κατά 1 (γίνεται 51). 
+* Η αύξηση της τιμής του "not there" δεν προκαλεί σφάλμα! **Εάν ζητηθεί το map[key] χωρίς να υπάρχει το key, τότε αυτό εισάγεται αυτόματα και η τιμή αρχικοποιείται με τον default constructor της (ή το 0 για native τύπους). Μετά επιστρέφεται αυτή η αρχική τιμή.** 
+ 
+  * Στο προηγούμενο, εισάγεται το κλειδί "not there" με τιμή 0, επιστρέφεται και στη συνέχεια αυξάνεται κατά 1.
+
+Η απεικόνιση των περιεχομένων του map γίνεται μέσω iterator, όπως στο vector:
+
+.. code-block:: c++
+
+  // display map contents
+  for (map<string,int>::const_iterator mp=dict.begin(); mp!=dict.end(); ++mp) {
+    // NOTE: iterators are pointing to a pair<const Key,T> , 1st is called "first", 2nd is "second"
+    cout << mp->first << " -> " << mp->second << endl;
+  }
+
+* Ο επιστρεφόμενος iterator "δείχνει" σε μια δομή ζεύγους pair, το πρώτο μέλος της οποίας είναι το κλειδί (ονομάζεται "first") και το δεύτερο η τιμή (ονομάζεται "second").
+* Για να προσπελάσουμε το πρώτο ή το δεύτερο μέλος του iterator χρησιμοποιούμε τον τελεστή ->
+
+  
+Υπάρχει και εναλλακτική μέθοδος εισαγωγής (σημαντικά πολυπλοκότερη!) η οποία εισάγει το ζεύγος κλειδιού-τιμής μόνο όταν το κλειδί δεν υπάρχει ήδη, μέσω της συνάρτησης-μέλους insert():
+
+.. code-block:: c++
+
+  // a complex way to do insertions! (pair templates are in <utility>, but is included by <map> too)
+  pair<map<string,int>::iterator,bool> result;	// to be used next
+  
+  result = dict.insert(pair<string,int>("coooool!",24));
+  // NOTE: result IS a pair, NOT an iterator pointing to a pair
+  if (result.second) {
+    cout << "inserted!" << endl;
+  } 
+  
+  result = dict.insert(make_pair("bye",87));	// make_pair() utility creates pair of suitable type
+  if (result.second) {
+    cout << "inserted!" << endl;
+  }
+
+* Η insert() επιστρέφει ενα ζεύγος iterator,bool: το 2ο μέλος ("second") δείχνει αν η εισαγωγή ήταν επιτυχής. Αν ήταν, το 1ο μέλος "δείχνει" στο ζεύγος που μόλις εισήχθηκε, αλλιώς στο ζεύγος με το ίδιο κλειδί που ήδη υπάρχει.
+
+Η συνάρτηση-μέλος find() (διαφορετική από τον γενικό αλγόριθμο find) βρίσκει ένα κλειδί μέσα στο map:
+
+.. code-block:: c++
+
+   // find an item in map
+   map<string,int>::iterator mp;
+   mp = dict.find("geia");
+   if (mp!=dict.end()) {
+     cout << "found " << mp->first << " with value " << mp->second << endl;
+   }
+
+
+Παράδειγμα χρήσης STL Maps: Wordcount
+---------------------------------------
+Θέλουμε να διαβάσουμε λέξεις από ένα αρχείο κειμένου και να υπολογίσουμε τη συχνότητα εμφάνισης με τη βοήθεια ενός map container.
+
+* Χρησιμοποιούμε τον τελεστή >> για να εξάγουμε "λέξεις" χωρισμένες με κενά μεταξύ τους.
+* Μετατρέπουμε τις λέξεις σε πεζά γράμματα πριν το μέτρημα.
+* Αφαιρούμε επίσης από την αρχή και το τέλος διάφορα σημεία στίξης.
+
+..	code-block:: c++
+
+	#include <iostream>
+	#include <fstream>
+	#include <string>
+	#include <map>
+	#include <cctype>
+
+	using namespace std;
+
+	int main() {
+	  
+	  ifstream ifs("randomtext.txt");
+	  if (!ifs) {
+	    cout << "cannot open input file!" << endl;
+	    return 1;
+	  }
+
+..	code-block:: c++
+
+	  map<string,int> wc;
+	  string word;
+	  while (ifs >> word) {
+
+	    // lowercase word - this will work for default C locale and chars only
+	    // include <cctype> to use tolower()
+	    for (string::iterator p=word.begin();p!=word.end();++p) {
+	      *p = tolower(*p);
+	    }
+	  
+	    // left trim unwanted chars
+	    unsigned int pos = word.find_first_not_of("()\"'.?,");
+	    if (pos!=string::npos) {
+	      word.erase(0,pos);
+	    }
+	    // right trim unwanted characters
+	    pos = word.find_last_not_of("()\"'.?,");
+	    if (pos!=string::npos) {
+	      word.erase(pos+1);
+	    }
+	    
+	    ++wc[word];
+	  } 
+	  
+	  ifs.close();
+	  
+	  for (map<string,int>::const_iterator mp=wc.begin(); mp!=wc.end(); ++mp) {
+	    cout << mp->first << " :" << mp->second << endl;
+	  }
+	  
+	  return 0;
+	}
+

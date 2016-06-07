@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Ενότητα 6-2 &mdash; Internet Programming Lectures v1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Internet Programming Lectures v1.0 documentation" href="../index.html" />
+    <link rel="prev" title="Ενότητα 6-1" href="module1.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="module1.html" title="Ενότητα 6-1"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Internet Programming Lectures v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>Ενότητα 6-2<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="twisted-deferreds">
+<h2>Twisted και Deferreds<a class="headerlink" href="#twisted-deferreds" title="Permalink to this headline">¶</a></h2>
+<p>Τα αντικείμενα Deferreds (&#8220;καθυστερούμενα&#8221;;) αποτελούν ένα κομβικό σημείο στη λειτουργία του Twisted. Επειδή η εξυπηρέτηση των αιτήσεων γίνεται διαδοχικά σε non-blocking mode, ο κώδικας εξυπηρέτησης για ένα event δεν πρέπει να καθυστερεί. Τι θα συμβεί π.χ. όταν κατά την εξυπηρέτηση μιας αίτησης πρέπει αν διαβάσουμε έναν δεύτερο απομακρυσμένο διαδικτυακό πόρο; Εδώ μπαίνει η χρήση των Deferreds.</p>
+<p>Στο παράδειγμα που ακολουθεί, η εξυπηρέτηση της αίτησης web βασίζεται στην ανάγνωση μιας δεύτερης ιστοσελίδας. Η ανάγνωση αυτή γίνεται μέσω της μεθόδου <tt class="docutils literal"><span class="pre">getPage()</span></tt>, η οποία επιστρέφει <strong>αμέσως</strong> ένα αντικείμενο Deferred. Στο αντικείμενο αυτό προσθέτουμε ένα callback κκαι ένα errback, τα οποία θα κληθούν μετά την επιτυχή ανάγνωση (ή το σφάλμα ανάγνωσης, αντίστοιχα). Στο μεταξύ, το framework είναι σε θέση να εξυπηρετήσει άλλες αιτήσεις.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">twisted.application</span> <span class="kn">import</span> <span class="n">internet</span><span class="p">,</span><span class="n">service</span>
+<span class="kn">from</span> <span class="nn">twisted.web</span> <span class="kn">import</span> <span class="n">server</span><span class="p">,</span><span class="n">resource</span>
+<span class="kn">from</span> <span class="nn">twisted.web.client</span> <span class="kn">import</span> <span class="n">getPage</span>
+
+<span class="c"># definitions of resources</span>
+<span class="k">class</span> <span class="nc">Root</span><span class="p">(</span><span class="n">resource</span><span class="o">.</span><span class="n">Resource</span><span class="p">):</span>  <span class="c"># the root resource class</span>
+        <span class="n">isLeaf</span> <span class="o">=</span> <span class="bp">False</span>
+
+<span class="k">class</span> <span class="nc">Page</span><span class="p">(</span><span class="n">resource</span><span class="o">.</span><span class="n">Resource</span><span class="p">):</span>  <span class="c"># the sample page resource class</span>
+        <span class="n">isLeaf</span> <span class="o">=</span> <span class="bp">True</span>
+
+        <span class="k">def</span> <span class="nf">render_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">request</span><span class="p">):</span>
+                <span class="sd">&quot;&quot;&quot; called to handle a GET request &quot;&quot;&quot;</span>
+
+                <span class="c"># request next web page - a deferred is returned.</span>
+                <span class="c"># When callback fires, page content will be</span>
+                <span class="c"># the 1st param in callback invocation.</span>
+                <span class="c"># If errback fires, 1st param will be a failobj (a description of error)</span>
+                <span class="n">dfr</span> <span class="o">=</span> <span class="n">getPage</span><span class="p">(</span><span class="s">&quot;http://sample.page.url&quot;</span><span class="p">)</span>
+                <span class="c"># add a callback and errback to deferred object</span>
+                <span class="c"># we pass also the request object as additional param</span>
+                <span class="n">dfr</span><span class="o">.</span><span class="n">addCallback</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">handlePageOK</span><span class="p">,</span><span class="n">request</span><span class="p">)</span>
+                <span class="n">dfr</span><span class="o">.</span><span class="n">addErrback</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">handlePageError</span><span class="p">,</span><span class="n">request</span><span class="p">)</span>
+
+                <span class="c"># notify the framework that we are not done yet</span>
+                <span class="k">return</span> <span class="n">server</span><span class="o">.</span><span class="n">NOT_DONE_YET</span>      <span class="c"># more of response to follow</span>
+
+
+        <span class="k">def</span> <span class="nf">handlePageOK</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">content</span><span class="p">,</span><span class="n">request</span><span class="p">):</span>
+                <span class="sd">&quot;&quot;&quot; callback for getPage(). &#39;content&#39; is the page text &quot;&quot;&quot;</span>
+
+                <span class="c"># forward reply to client as is</span>
+                <span class="n">request</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+                <span class="c"># signal end of reply</span>
+                <span class="n">request</span><span class="o">.</span><span class="n">finish</span><span class="p">()</span>
+
+
+        <span class="k">def</span> <span class="nf">handlePageError</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">failobj</span><span class="p">,</span><span class="n">request</span><span class="p">):</span>
+                <span class="sd">&quot;&quot;&quot; callback for getPage(). &#39;failobj&#39; holds the error description &quot;&quot;&quot;</span>
+
+                <span class="c"># change reply to text/plain, error message may contain invalid HTML chars</span>
+                <span class="n">request</span><span class="o">.</span><span class="n">setHeader</span><span class="p">(</span><span class="s">&#39;Content-type&#39;</span><span class="p">,</span><span class="s">&#39;text/plain&#39;</span><span class="p">)</span>
+                <span class="c"># reply with description of error</span>
+                <span class="n">request</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">failobj</span><span class="p">))</span>
+                <span class="c"># signal end of reply</span>
+                <span class="n">request</span><span class="o">.</span><span class="n">finish</span><span class="p">()</span>
+
+
+<span class="c"># main program part</span>
+
+<span class="c"># build the resources tree</span>
+<span class="n">root</span> <span class="o">=</span> <span class="n">Root</span><span class="p">()</span>                   <span class="c"># the &quot;/&quot; resource</span>
+<span class="n">root</span><span class="o">.</span><span class="n">putChild</span><span class="p">(</span><span class="s">&quot;page&quot;</span><span class="p">,</span><span class="n">Page</span><span class="p">())</span>    <span class="c"># the &quot;/data&quot; resource</span>
+
+<span class="c"># here we connect a &quot;Site&quot; (subclass of &quot;twistewd.web.http.HTTPFactory&quot;) to a &quot;resource&quot;</span>
+<span class="n">site</span> <span class="o">=</span> <span class="n">server</span><span class="o">.</span><span class="n">Site</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+
+<span class="c"># create an object that represents our application</span>
+<span class="c"># object must be called exactly &#39;application&#39; to use the twistd launcher!</span>
+<span class="n">application</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s">&quot;simple-web-server&quot;</span><span class="p">)</span>
+
+<span class="c"># create the echo service that our application will offer</span>
+<span class="n">web_echo_service</span> <span class="o">=</span> <span class="n">internet</span><span class="o">.</span><span class="n">TCPServer</span><span class="p">(</span><span class="mi">50007</span><span class="p">,</span><span class="n">site</span><span class="p">)</span>
+<span class="c"># add the web echo service to our application object</span>
+<span class="n">web_echo_service</span><span class="o">.</span><span class="n">setServiceParent</span><span class="p">(</span><span class="n">application</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Παρατηρήστε ότι:</p>
+<ul class="simple">
+<li>όταν κληθεί το callback, το πρώτο όρισμα περιέχει το κείμενο της ιστοσελίδας</li>
+<li>όταν κληθεί το errback, το πρώτο όρισμα περιέχει ένα αντικείμενο που περιγράφει το σφάλμα</li>
+<li>και στο callback και στο errback μπορούμε να περάσουμε πρόσθετες παραμέτρους, κατά την προσθήκη τους στο deferred αντικείμενο</li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h2>Παράδειγμα: επεξεργασία σελίδας πρόγνωσης καιρού<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Χρησιμοποιούμε την τεχνική των Deferreds και <a class="reference external" href="../unit2/module3.html#rexp-extract-weather"><em>την εξαγωγή πληροφορίας με τη βοήθεια των regular expressions</em></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">re</span>
+
+<span class="kn">from</span> <span class="nn">twisted.application</span> <span class="kn">import</span> <span class="n">internet</span><span class="p">,</span><span class="n">service</span>
+<span class="kn">from</span> <span class="nn">twisted.web</span> <span class="kn">import</span> <span class="n">server</span><span class="p">,</span><span class="n">resource</span>
+<span class="kn">from</span> <span class="nn">twisted.web.client</span> <span class="kn">import</span> <span class="n">getPage</span>
+
+<span class="c"># definitions of resources</span>
+<span class="k">class</span> <span class="nc">Root</span><span class="p">(</span><span class="n">resource</span><span class="o">.</span><span class="n">Resource</span><span class="p">):</span>  <span class="c"># the root resource class</span>
+        <span class="n">isLeaf</span> <span class="o">=</span> <span class="bp">False</span>
+
+<span class="k">class</span> <span class="nc">Page</span><span class="p">(</span><span class="n">resource</span><span class="o">.</span><span class="n">Resource</span><span class="p">):</span>  <span class="c"># the sample page resource class</span>
+        <span class="n">isLeaf</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="c"># rexps for data extraction - common for all objects</span>
+        <span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;&lt;tr class=&quot;TRstyle[01]&quot;&gt;(.+?)&lt;/tr&gt;&#39;</span><span class="p">,</span><span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">)</span>
+        <span class="n">rexp2</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;&lt;td[^&gt;]+&gt;(.+?)&lt;/td&gt;&#39;</span><span class="p">,</span><span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">)</span>
+        <span class="n">rexp3</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;&lt;span[^&gt;]+&gt;(.+?)&lt;/span&gt;&#39;</span><span class="p">,</span><span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">render_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">request</span><span class="p">):</span>
+                <span class="sd">&quot;&quot;&quot; called to handle a GET request &quot;&quot;&quot;</span>
+
+                <span class="c"># request next web page - a deferred is returned.</span>
+                <span class="n">dfr</span> <span class="o">=</span> <span class="n">getPage</span><span class="p">(</span><span class="s">&quot;http://weather.forecast.url&quot;</span><span class="p">)</span>
+                <span class="c"># add a callback and errback to deferred object</span>
+                <span class="c"># we pass also the request object as additional param</span>
+                <span class="n">dfr</span><span class="o">.</span><span class="n">addCallback</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">handlePageOK</span><span class="p">,</span><span class="n">request</span><span class="p">)</span>
+                <span class="n">dfr</span><span class="o">.</span><span class="n">addErrback</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">handlePageError</span><span class="p">,</span><span class="n">request</span><span class="p">)</span>
+
+                <span class="c"># notify the framework that we are not done yet</span>
+                <span class="k">return</span> <span class="n">server</span><span class="o">.</span><span class="n">NOT_DONE_YET</span>      <span class="c"># more of response to follow</span>
+
+
+        <span class="k">def</span> <span class="nf">handlePageOK</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">content</span><span class="p">,</span><span class="n">request</span><span class="p">):</span>
+                <span class="sd">&quot;&quot;&quot; callback for getPage(). &#39;content&#39; is the page text &quot;&quot;&quot;</span>
+
+                <span class="c"># change reply to text/plain</span>
+                <span class="n">request</span><span class="o">.</span><span class="n">setHeader</span><span class="p">(</span><span class="s">&#39;Content-type&#39;</span><span class="p">,</span><span class="s">&#39;text/plain&#39;</span><span class="p">)</span>
+
+                <span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rexp</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&quot;iso8859_7&quot;</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">m</span><span class="p">:</span>
+                        <span class="n">m2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rexp2</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">m2</span><span class="p">)</span><span class="o">&lt;</span><span class="mi">10</span><span class="p">:</span> <span class="k">continue</span> <span class="c"># skip irregular entries</span>
+
+                        <span class="n">day</span><span class="p">,</span><span class="n">date</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rexp3</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">m2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                        <span class="n">time</span> <span class="o">=</span> <span class="n">m2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="n">grad</span> <span class="o">=</span> <span class="n">m2</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">u&quot;&amp;deg;&quot;</span><span class="p">,</span><span class="nb">unichr</span><span class="p">(</span><span class="mi">176</span><span class="p">))</span>
+                        <span class="n">humid</span> <span class="o">=</span> <span class="n">m2</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+                        <span class="n">wind</span> <span class="o">=</span> <span class="n">m2</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+                        <span class="n">sky</span> <span class="o">=</span> <span class="n">m2</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span>
+                        <span class="n">outstr</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="se">\t</span><span class="si">%s</span><span class="se">\t</span><span class="si">%s</span><span class="se">\t</span><span class="si">%s</span><span class="se">\t</span><span class="si">%s</span><span class="se">\t</span><span class="si">%s</span><span class="se">\t</span><span class="si">%s</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">day</span><span class="p">,</span><span class="n">date</span><span class="p">,</span><span class="n">time</span><span class="p">,</span><span class="n">grad</span><span class="p">,</span><span class="n">humid</span><span class="p">,</span><span class="n">wind</span><span class="p">,</span><span class="n">sky</span><span class="p">)</span>
+
+                        <span class="n">request</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">outstr</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&quot;utf_8&quot;</span><span class="p">))</span>
+
+                <span class="c"># signal end of reply</span>
+                <span class="n">request</span><span class="o">.</span><span class="n">finish</span><span class="p">()</span>
+
+
+        <span class="k">def</span> <span class="nf">handlePageError</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">failobj</span><span class="p">,</span><span class="n">request</span><span class="p">):</span>
+                <span class="sd">&quot;&quot;&quot; callback for getPage(). &#39;failobj&#39; holds the error description &quot;&quot;&quot;</span>
+
+                <span class="c"># change reply to text/plain, error message may contain invalid HTML chars</span>
+                <span class="n">request</span><span class="o">.</span><span class="n">setHeader</span><span class="p">(</span><span class="s">&#39;Content-type&#39;</span><span class="p">,</span><span class="s">&#39;text/plain&#39;</span><span class="p">)</span>
+                <span class="c"># reply with description of error</span>
+                <span class="n">request</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">failobj</span><span class="p">))</span>
+                <span class="c"># signal end of reply</span>
+                <span class="n">request</span><span class="o">.</span><span class="n">finish</span><span class="p">()</span>
+
+
+<span class="c"># main program part</span>
+
+<span class="c"># build the resources tree</span>
+<span class="n">root</span> <span class="o">=</span> <span class="n">Root</span><span class="p">()</span>                   <span class="c"># the &quot;/&quot; resource</span>
+<span class="n">root</span><span class="o">.</span><span class="n">putChild</span><span class="p">(</span><span class="s">&quot;page&quot;</span><span class="p">,</span><span class="n">Page</span><span class="p">())</span>    <span class="c"># the &quot;/data&quot; resource</span>
+
+<span class="c"># here we connect a &quot;Site&quot; (subclass of &quot;twistewd.web.http.HTTPFactory&quot;) to a &quot;resource&quot;</span>
+<span class="n">site</span> <span class="o">=</span> <span class="n">server</span><span class="o">.</span><span class="n">Site</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+
+<span class="c"># create an object that represents our application</span>
+<span class="c"># object must be called exactly &#39;application&#39; to use the twistd launcher!</span>
+<span class="n">application</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s">&quot;simple-web-server&quot;</span><span class="p">)</span>
+
+<span class="c"># create the echo service that our application will offer</span>
+<span class="n">web_echo_service</span> <span class="o">=</span> <span class="n">internet</span><span class="o">.</span><span class="n">TCPServer</span><span class="p">(</span><span class="mi">50007</span><span class="p">,</span><span class="n">site</span><span class="p">)</span>
+<span class="c"># add the web echo service to our application object</span>
+<span class="n">web_echo_service</span><span class="o">.</span><span class="n">setServiceParent</span><span class="p">(</span><span class="n">application</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="module1.html" title="Ενότητα 6-1"
+             >previous</a> |</li>
+        <li><a href="../index.html">Internet Programming Lectures v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2011, mistral.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.6.
+    </div>
+  </body>
+</html>

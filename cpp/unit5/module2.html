@@ -1,0 +1,342 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Ενότητα 5-2 &mdash; C++ Lectures v1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="C++ Lectures v1.0 documentation" href="../index.html" />
+    <link rel="prev" title="Ενότητα 5-1" href="module1.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="module1.html" title="Ενότητα 5-1"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">C++ Lectures v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>Ενότητα 5-2<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>Εδώ επεκτείνουμε την κλάση <tt class="docutils literal"><span class="pre">Employee</span></tt> από τις προηγούμενες ενότητες.</p>
+<div class="section" id="exceptions">
+<h2>Χειρισμός σφαλμάτων (Exceptions)<a class="headerlink" href="#exceptions" title="Permalink to this headline">¶</a></h2>
+<p>Όλες οι μοντέρνες γλώσσες προγραμματισμού έχουν έναν ειδικό τρόπο να αντιμετωπίζουν τα σφάλματα κατά την εκτέλεση: τα λεγόμενα <tt class="docutils literal"><span class="pre">exceptions</span></tt>. Η γενική ιδέα είναι:</p>
+<ul class="simple">
+<li>Σε κάποιο σημείο του κώδικα, η εκτέλεση μπορεί να &quot;ρίξει&quot; (throw) ή να &quot;υψώσει&quot; (raise) μια ένδειξη σφάλματος (exception).</li>
+<li>Αμέσως η εκτέλεση σταματά και αρχίζει η επιστροφή &quot;προς τα έξω&quot; (καλούσες συναρτήσεις). Δεν εκτελείται πουθενά άλλος κώδικας των συναρτήσεων, απλά εξετάζεται αν κάπου &quot;πιάνεται&quot; (catch) η κατάσταση σφάλματος.</li>
+<li>Αν ναι, εκτελείται ο κώδικας του &quot;πιασίματος&quot;.</li>
+<li>Αν όχι, μετακινούμαστε στην καλούσα συνάρτηση και επαναλαμβάνουμε.</li>
+<li>Όταν φτάσουμε στο επίπεδο του main() χωρίς να βρεθεί &quot;πιάσιμο&quot;, τότε το πρόγραμμά μας διακόπτεται.</li>
+</ul>
+<p>Η χρήση των exceptions διαχωρίζει την αναγνώριση του σφάλματος (στη συνάρτηση που συμβαίνει) από την αντίδραση στο σφάλμα (στον κώδικα του χρήστη που χρησιμοποιεί τη συνάρτηση όπου έγινε το σφάλμα).</p>
+<p>Στην κλάση Employee μπορούμε να αντιμετωπίσουμε με exception την περίπτωση κατασκευής αντικειμένου με άκυρα πεδία, όπως στο επόμενο (το firstname είναι κενό και το age και salary αρνητικά!):</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">Employee</span> <span class="n">empl</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="s">&quot;Doe&quot;</span><span class="p">,</span><span class="o">-</span><span class="mi">21</span><span class="p">,</span><span class="o">-</span><span class="mf">88.0</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Τροποποιούμε τον κώδικα της Employee (<tt class="docutils literal"><span class="pre">employee.h</span></tt> και <tt class="docutils literal"><span class="pre">employee.cpp</span></tt>),</p>
+<ul class="simple">
+<li>προσθέτοντας μια private συνάρτηση <tt class="docutils literal"><span class="pre">check()</span></tt> που επιστρέφει true αν οι μεταβλητές μέλη έχουν σωστή τιμή</li>
+<li>τροποποιώντας τον constructor της Employee έτσι ώστε να καλεί την check() και, αν η επιστρεφόμενη τιμή είναι false, να ρίχνει ένα exception τύπου <strong>runtime_error</strong> (γενικού τύπου exception, ορίζεται από τη C++, πρέπει να προσθέσετε στα includes του <tt class="docutils literal"><span class="pre">employee.cpp</span></tt> το <tt class="docutils literal"><span class="pre">#include</span> <span class="pre">&lt;stdexcept&gt;</span></tt>):</li>
+</ul>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">Employee</span><span class="o">::</span><span class="n">Employee</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span> <span class="o">&amp;</span><span class="n">fs</span><span class="p">,</span><span class="k">const</span> <span class="n">string</span> <span class="o">&amp;</span><span class="n">ls</span><span class="p">,</span><span class="kt">int</span> <span class="n">ag</span><span class="p">,</span><span class="kt">double</span> <span class="n">sal</span><span class="p">)</span><span class="o">:</span> <span class="n">firstname</span><span class="p">(</span><span class="n">fs</span><span class="p">),</span><span class="n">lastname</span><span class="p">(</span><span class="n">ls</span><span class="p">),</span><span class="n">age</span><span class="p">(</span><span class="n">ag</span><span class="p">),</span><span class="n">salary</span><span class="p">(</span><span class="n">sal</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">check</span><span class="p">())</span> <span class="k">throw</span> <span class="n">runtime_error</span><span class="p">(</span><span class="s">&quot;Invalid argumements in Employee object initialization!&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="n">Employee</span><span class="o">::</span><span class="n">check</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span><span class="o">!</span><span class="n">firstname</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">lastname</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">age</span><span class="o">&gt;</span><span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">salary</span><span class="o">&gt;=</span><span class="mf">0.0</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Αν εκτελεστεί τώρα η εξής main():</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="n">Employee</span> <span class="n">empl</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="s">&quot;Doe&quot;</span><span class="p">,</span><span class="o">-</span><span class="mi">21</span><span class="p">,</span><span class="o">-</span><span class="mf">88.0</span><span class="p">);</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">empl</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>τότε, εφόσον δεν &quot;πιάνεται&quot; πουθενά το exception, το πρόγραμμά μας θα διακοπεί με μια ένδειξη σφάλματος:</p>
+<div class="highlight-python"><pre>terminate called after throwing an instance of 'std::runtime_error'
+  what():  Invalid argumements in Employee object initialization!
+Aborted</pre>
+</div>
+<p>Αν θέλαμε να πιάσουμε το exception θα γράφαμε το main() κάπως έτσι:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="n">Employee</span> <span class="n">empl</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="s">&quot;Doe&quot;</span><span class="p">,</span><span class="o">-</span><span class="mi">21</span><span class="p">,</span><span class="o">-</span><span class="mf">88.0</span><span class="p">);</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">empl</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">catch</span> <span class="p">(</span><span class="n">runtime_error</span> <span class="o">&amp;</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;oops! runtime error with message: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">e</span><span class="p">.</span><span class="n">what</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>ή και έτσι:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+<span class="k">try</span> <span class="p">{</span>
+  <span class="n">Employee</span> <span class="n">empl</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="s">&quot;Doe&quot;</span><span class="p">,</span><span class="o">-</span><span class="mi">21</span><span class="p">,</span><span class="o">-</span><span class="mf">88.0</span><span class="p">);</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">empl</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">catch</span> <span class="p">(</span><span class="n">runtime_error</span> <span class="o">&amp;</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;oops! runtime error with message: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">e</span><span class="p">.</span><span class="n">what</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+  <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>όπου <tt class="docutils literal"><span class="pre">cerr</span></tt> είναι το αντίστοιχο του <tt class="docutils literal"><span class="pre">cout</span></tt> για μηνύματα σφάλματος.</p>
+</div>
+<div class="section" id="operator-overloading">
+<h2>Υπερφόρτωση τελεστών (operator overloading)<a class="headerlink" href="#operator-overloading" title="Permalink to this headline">¶</a></h2>
+<p>Την χρησιμοποιήσαμε ήδη για να ορίσουμε το <tt class="docutils literal"><span class="pre">&lt;&lt;</span></tt> (inserter) για την κλάση Employee.
+Γενικότερα,για να (επανα)προσδιορίσουμε τη λειτουργία τελεστή # (όπου # οποιοσδήποτε τελεστής όπως +, - κλπ) μεταξύ δύο αντικειμένων κλάσεων Α και Β στην έκφραση <tt class="docutils literal"><span class="pre">Α</span> <span class="pre">#</span> <span class="pre">Β</span></tt></p>
+<ul class="simple">
+<li>Μέθοδος 1: προσθέτουμε συνάρτηση-μέλος της Α στη μορφή <tt class="docutils literal"><span class="pre">operator#(B)</span></tt>.</li>
+<li>Μέθοδος 2: προσθέτουμε συνάρτηση στη μορφή <tt class="docutils literal"><span class="pre">operator#(A,B)</span></tt>.<ul>
+<li>Με τον 2ο τρόπο, η συνάρτηση είναι συνήθως <strong>friend</strong> για να μπορεί να προσπελάσει τα private μέλη της κλάσης.</li>
+</ul>
+</li>
+</ul>
+<p>Στην περίπτωση του <tt class="docutils literal"><span class="pre">cout</span> <span class="pre">&lt;&lt;</span> <span class="pre">employee_obj</span></tt>, αριστερά βρίσκεται το cout, συνεπώς δεν μπορούμε να χρησιμοποιήσουμε τη μέθοδο 1, να προσθέσουμε δηλαδή μια συνάρτηση-μέλος στην κλάση Employee.</p>
+<p>Με τη μέθοδο 2, η συνάρτηση (friend της κλάσης Employee) ορίζεται:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">ostream</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="n">stream</span><span class="p">,</span><span class="k">const</span> <span class="n">Employee</span> <span class="o">&amp;</span><span class="n">empl</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Η συνάρτηση επιστρέφει το ίδιο το 1ο όρισμα  (stream εξόδου), για να μπορούμε να γράφουμε</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">empl1</span> <span class="o">&lt;&lt;</span> <span class="n">empl2</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span> <span class="c1">// same as ((cout&lt;&lt;empl1)&lt;&lt;empl2)&lt;&lt;endl;</span>
+</pre></div>
+</div>
+<p>Με την ίδια μέθοδο μπορούμε να υπερφορτώσουμε τον τελεστή &gt;&gt; (extractor) για την κλάση Employee:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">istream</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="n">istream</span> <span class="o">&amp;</span><span class="n">stream</span><span class="p">,</span><span class="n">Employee</span> <span class="o">&amp;</span><span class="n">empl</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">string</span> <span class="n">firstname</span><span class="p">,</span><span class="n">lastname</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">age</span><span class="p">;</span>
+  <span class="kt">double</span> <span class="n">salary</span><span class="p">;</span>
+  <span class="n">stream</span> <span class="o">&gt;&gt;</span> <span class="n">firstname</span> <span class="o">&gt;&gt;</span> <span class="n">lastname</span> <span class="o">&gt;&gt;</span> <span class="n">age</span> <span class="o">&gt;&gt;</span> <span class="n">salary</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">stream</span><span class="p">)</span> <span class="k">return</span> <span class="n">stream</span><span class="p">;</span>        <span class="c1">// input stream not good, return here</span>
+  <span class="n">empl</span> <span class="o">=</span> <span class="n">Employee</span><span class="p">(</span><span class="n">firstname</span><span class="p">,</span><span class="n">lastname</span><span class="p">,</span><span class="n">age</span><span class="p">,</span><span class="n">salary</span><span class="p">);</span>    <span class="c1">// will throw exception with invalid data!</span>
+
+  <span class="k">return</span> <span class="n">stream</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Παρατηρήστε ότι:</p>
+<ul class="simple">
+<li>Διαβάζουμε πρώτα σε προσωρινές μεταβλητές. Αν το stream εισόδου είναι σε σφάλμα επιστρέφουμε αμέσως (ο χρήστης πρέπει να το ανιχνεύσει και να πράξει ανάλογα). Αλλιώς, προσπαθούμε να κατασκευάσουμε ένα αντικείμενο Employee. Αν οι τιμές είναι άκυρες, ο constructor θα προκαλέσει exception.</li>
+<li>Σε αντίθεση με τον τελεστή &lt;&lt;, εδώ η δεύτερη παράμετρος <tt class="docutils literal"><span class="pre">Employee</span> <span class="pre">&amp;empl</span></tt> δεν είναι const για να μπορούμε να αναθέσουμε σε αυτή τις τιμές που διαβάστηκαν.</li>
+<li>Η συνάρτηση πρέπει να δηλωθεί στο <tt class="docutils literal"><span class="pre">employee.h</span></tt>, στη συγκεκριμένη περίπτωση μάλιστα δεν είναι απραίτητο να είναι friend της Employee.</li>
+</ul>
+<p>Μπορούμε να δοκιμάσουμε το extraction με το εξής main():</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">Employee</span> <span class="n">empl</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.0</span><span class="p">);</span>
+
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">cin</span><span class="o">&gt;&gt;</span><span class="n">empl</span><span class="p">)){</span>
+      <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;input stream error&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+      <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">empl</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">catch</span><span class="p">(</span><span class="n">runtime_error</span> <span class="o">&amp;</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;invalid input given&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="default-constructor">
+<h2>Default constructor<a class="headerlink" href="#default-constructor" title="Permalink to this headline">¶</a></h2>
+<p>Τι είναι όμως στο προηγούμενο main() αυτό το <tt class="docutils literal"><span class="pre">Employee</span> <span class="pre">empl(&quot;a&quot;,&quot;b&quot;,1,0.0);</span></tt>; Γιατί δεν μπορούμε απλά να δηλώσουμε ένα αντικείμενο τύπου Employee ως εξής;</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">Employee</span> <span class="n">empl</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Η απάντηση είναι απλή: γιατί δεν υπάρχει constructor χωρίς ορίσματα (default constructor) στην κλάση Employee!</p>
+<p>Η C++ επιμένει στη χρήση constructors για την αρχικοποίηση των νεοδημιουργούμενων αντικειμένων. Η χρήση μη αρχικοποιημένων αντικειμένων συνήθως έχει άσχημη κατάληξη, έτσι η C++ δεν το επιτρέπει.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Δυστυχώς η C++ έχει κληρονομήσει από την πρόγονο C ένα κακό χαρακτηριστικό: οι τοπικές μεταβλητές και μεταβλητές κλάσεων native τύπου (int, char κλπ) <strong>δεν αρχικοποιούνται αυτόματα</strong>! Έτσι πάντα <strong>πρέπει</strong> να το κάνουμε εμείς στον κωδικά μας.</p>
+</div>
+<p>Ας ορίσουμε έναν default constructor για την κλάση Employee, ο οποίος θα αρχικοποιεί τις native τύπου μεταβλητές της κλάσης:</p>
+<p>Στο <tt class="docutils literal"><span class="pre">employee.h</span></tt> προσθέτουμε:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="k">public</span><span class="o">:</span>
+  <span class="n">Employee</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>Στο <tt class="docutils literal"><span class="pre">employee.cpp</span></tt> προσθέτουμε:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">Employee</span><span class="o">::</span><span class="n">Employee</span><span class="p">()</span><span class="o">:</span> <span class="n">age</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">salary</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span> <span class="p">{</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Για χάρη του παραδείγματος επιτρέπουμε στον default constructor να δώσει άκυρη τιμή στο age (0). Αν γράφαμε πραγματική εφαρμογή ίσως να ήταν απαραίτητη μια διαφορετική προσέγγιση.</p>
+</div>
+<p>Με τις πιο πάνω μετατροπές, η main() για την εισαγωγή πολλαπλών εγγραφών Employee θα μπορούσε να είναι:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="cp">#include &lt;iostream&gt;</span>
+<span class="cp">#include &lt;stdexcept&gt;</span>
+
+<span class="cp">#include &quot;employee.h&quot;</span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">Employee</span> <span class="n">empl</span><span class="p">;</span>
+
+  <span class="c1">// read employee records until EOF or other error</span>
+  <span class="k">while</span> <span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">try</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">cin</span><span class="o">&gt;&gt;</span><span class="n">empl</span><span class="p">)){</span>
+        <span class="k">break</span><span class="p">;</span>       <span class="c1">// input stream error - exit while loop</span>
+      <span class="p">}</span>
+      <span class="k">else</span> <span class="p">{</span>
+        <span class="c1">// do something with valid record here</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">empl</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">catch</span><span class="p">(</span><span class="n">runtime_error</span> <span class="o">&amp;</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// do nothing - skip invalid record</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="formatted-input">
+<h2>Διαβάζοντας από αρχείο (formatted input)<a class="headerlink" href="#formatted-input" title="Permalink to this headline">¶</a></h2>
+<p>Με τη C++ είναι πολύ εύκολο να διαβάσουμε δεδομένα από αρχείο αντί του πληκτρολογίου, με ελάχιστες αλλαγές στο προηγούμενο πρόγραμμα. Υποθέστε ότι έχουμε το ακόλουθο αρχείο κειμένου (<tt class="docutils literal"><span class="pre">records.txt</span></tt>) με εγγραφές Employee:</p>
+<div class="highlight-python"><pre>Aser Ngiorth         34      23.45
+Niash Ria            28      47.58
+Berfi Nee            66      55.11
+Kaf Net              21      31.60
+Noia Den             36      50.93
+Lirthar Set          44      37.07</pre>
+</div>
+<p>Συνδέουμε το αρχείο αυτό με ένα stream εισόδου (τύπου <tt class="docutils literal"><span class="pre">ifstream</span></tt>). Στα includes σας προσθέστε</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="cp">#include &lt;fstream&gt;</span>
+</pre></div>
+</div>
+<p>Στον κώδικα της main() δημιουργούμε ένα αντικείμενο <tt class="docutils literal"><span class="pre">ifstream</span></tt> και το συνδέουμε με το αρχείο <tt class="docutils literal"><span class="pre">records.txt</span></tt>.</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">ifstream</span> <span class="n">ifs</span><span class="p">(</span><span class="s">&quot;records.txt&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Η πιο πάνω εντολή προσπαθεί να ανοίξει το αρχείο για είσοδο. Επειδή αυτό μπορεί να αποτύχει για διάφορους λόγους, <strong>πάντοτε</strong> ελέγχουμε την επιτυχία του ανοίγματος αμέσως μετά:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ifs</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">// file open error</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;cannot open input file!&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+  <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Στη συνέχεια μπορούμε να διαβάσουμε από το <tt class="docutils literal"><span class="pre">ifs</span></tt> όπως ακριβώς διαβάζαμε το <tt class="docutils literal"><span class="pre">cin</span></tt>:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">ifs</span><span class="o">&gt;&gt;</span><span class="n">empl</span><span class="p">)){</span>
+</pre></div>
+</div>
+<p>Όταν λήγει ο χρόνος ζωής του <tt class="docutils literal"><span class="pre">ifs</span></tt> (όταν τελειώνει η main()), το αρχείο κλείνει αυτόματα. Συνηθίζεται όμως να κλείνουμε το αρχείο ρητά όταν ολοκληρώσουμε την ανάγνωση από αυτό:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">ifs</span><span class="p">.</span><span class="n">close</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>Συνολικά ο κώδικας του <tt class="docutils literal"><span class="pre">employeemain.cpp</span></tt> θα είναι τώρα:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="cp">#include &lt;iostream&gt;</span>
+<span class="cp">#include &lt;stdexcept&gt;</span>
+<span class="cp">#include &lt;fstream&gt;</span>
+
+<span class="cp">#include &quot;employee.h&quot;</span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">Employee</span> <span class="n">empl</span><span class="p">;</span>
+  
+  <span class="c1">// create input file object and open it</span>
+  <span class="n">ifstream</span> <span class="n">ifs</span><span class="p">(</span><span class="s">&quot;records.txt&quot;</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ifs</span><span class="p">)</span> <span class="p">{</span>	<span class="c1">// file open error</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;cannot open input file!&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span> 
+    
+  <span class="c1">// read employee records until EOF or other error</span>
+  <span class="k">while</span> <span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">try</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">ifs</span><span class="o">&gt;&gt;</span><span class="n">empl</span><span class="p">)){</span>
+        <span class="k">break</span><span class="p">;</span>	<span class="c1">// input stream error - exit while loop</span>
+      <span class="p">}</span>
+      <span class="k">else</span> <span class="p">{</span>
+        <span class="c1">// do something with valid record here</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">empl</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">catch</span><span class="p">(</span><span class="n">runtime_error</span> <span class="o">&amp;</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// do nothing - skip invalid record </span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="c1">// NOTE: no actual need to close file - destructor will do it if we don&#39;t</span>
+  <span class="n">ifs</span><span class="p">.</span><span class="n">close</span><span class="p">();</span>
+  
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="module1.html" title="Ενότητα 5-1"
+             >previous</a> |</li>
+        <li><a href="../index.html">C++ Lectures v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, mistral.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+    </div>
+  </body>
+</html>

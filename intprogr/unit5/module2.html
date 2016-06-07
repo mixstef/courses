@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Ενότητα 5-2 &mdash; Internet Programming Lectures v1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Internet Programming Lectures v1.0 documentation" href="../index.html" />
+    <link rel="next" title="Ενότητα 6-1" href="../unit6/module1.html" />
+    <link rel="prev" title="Ενότητα 5-1" href="module1.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../unit6/module1.html" title="Ενότητα 6-1"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="module1.html" title="Ενότητα 5-1"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Internet Programming Lectures v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>Ενότητα 5-2<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="non-blocking-sockets-framework-twisted">
+<h2>Non-blocking sockets με το framework Twisted<a class="headerlink" href="#non-blocking-sockets-framework-twisted" title="Permalink to this headline">¶</a></h2>
+<p>Το ολοκληρωμένο open source framework <a class="reference external" href="http://twistedmatrix.com">Twisted</a> είναι υλοποιημένο σε Python και επιτρέπει την ανάπτυξη διαδικτυακών εφαρμογών μεγάλης κλίμακας. Πρέπει να εγκατασταθεί ξεχωριστά από την Python και αποτελείται από παρα πολλές βιβλιοθήκες. Στα παραδείγματα που ακολουθούν παρουσιάζεται ένα ελάχιστο μέρος των δυνατοτήτων του framework! Η γενική ιδέα είναι ότι το framework αναλαμβάνει σε ένα loop (&#8220;reactor&#8221;) να παρακολουθεί όλες τις πηγές εισόδου-εξόδου και όταν υπάρχουν δεδομένα να καλεί τις συναρτήσεις του χρήστη.</p>
+<p>Στο παράδειγμα που ακολουθεί υλοποιούμε τον ίδιο απλοϊκό TCP echo server. Προσέξτε τα imports, εδώ δεν χρησιμοποιούμε τα πάντα από το twisted!</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">twisted.internet.protocol</span> <span class="kn">import</span> <span class="n">Protocol</span><span class="p">,</span><span class="n">Factory</span>
+<span class="kn">from</span> <span class="nn">twisted.application</span> <span class="kn">import</span> <span class="n">service</span><span class="p">,</span><span class="n">internet</span>
+</pre></div>
+</div>
+<p>Αρχικά γράφουμε την κλάση <tt class="docutils literal"><span class="pre">Echo</span></tt> (απόγονο του <tt class="docutils literal"><span class="pre">Protocol</span></tt> του twisted) που θα δημιουργεί αντικείμενα χειρισμού των εισερχόμενων αιτήσεων. Η έξοδος του print θα εμφανιστεί στο log που κρατάει το framework:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Echo</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; a class implementing the echo protocol &quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">dataReceived</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">data</span><span class="p">):</span>
+                <span class="sd">&quot;&quot;&quot; called whenever data is received. May fire on partial or multiple msg reception &quot;&quot;&quot;</span>
+
+                <span class="c"># debug only - print in log the received data</span>
+                <span class="k">print</span> <span class="s">&quot;Received </span><span class="si">%s</span><span class="s"> bytes :</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">),</span><span class="n">data</span><span class="p">)</span>
+
+                <span class="c"># echo data back to client</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">transport</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>      <span class="c"># transport wraps physical connection details</span>
+                                                <span class="c"># like a TCP based transport</span>
+</pre></div>
+</div>
+<p>Στη συνέχεια, στο κυρίως πρόγραμμα, δημιουργούμε ένα αντικείμενο τύπου <tt class="docutils literal"><span class="pre">Factory</span></tt>, το οποίο σε κάθε αίτηση δημιουργεί το αντικείμενο χειρισμού (τύπου <tt class="docutils literal"><span class="pre">Echo</span></tt>).</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># create the Factory object that will generate protοcol objects</span>
+<span class="n">factory</span> <span class="o">=</span> <span class="n">Factory</span><span class="p">()</span>
+<span class="n">factory</span><span class="o">.</span><span class="n">protocol</span> <span class="o">=</span> <span class="n">Echo</span>         <span class="c"># factory.protocol will be used to build actual protocol objects</span>
+</pre></div>
+</div>
+<p>Αμέσως μετά, δημιουργούμε το αντικείμενο <tt class="docutils literal"><span class="pre">application</span></tt> που αντιπροσωπεύει την εφαρμογή μας. <strong>Προσοχή!</strong> Επειδή θα χρησιμοποιήσουμε ειδικό πρόγραμμα εκτέλεσης της εφαρμογής που παρέχει το twisted framework, <strong>η μεταβλητή πρέπει να λέγεται ακριβώς application</strong>!</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># create an object that represents our application</span>
+<span class="c"># object must be called exactly &#39;application&#39; to use the twistd launcher!</span>
+<span class="n">application</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s">&quot;echo&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Εκτός από την εφαρμογή, πρέπει να δημιουργήσουμε και την &#8220;υπηρεσία&#8221; echo (σε ποιο port ακούει, με ποιο factory φτιάχνει αντικείμενα χειρισμού) και να τη συνδέσουμε με την εφαρμογή μας:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># create the echo service that our application will offer</span>
+<span class="n">echo_service</span> <span class="o">=</span> <span class="n">internet</span><span class="o">.</span><span class="n">TCPServer</span><span class="p">(</span><span class="mi">50007</span><span class="p">,</span><span class="n">factory</span><span class="p">)</span>
+<span class="c"># add the echo service to our application object</span>
+<span class="n">echo_service</span><span class="o">.</span><span class="n">setServiceParent</span><span class="p">(</span><span class="n">application</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Για να ξεκινήσουμε τον server μας (έστω ότι το αρχείο λέγεται twisted-echo-server.py) σε debugging mode (το log φαίνεται στην κονσόλα, Ctrl-C για διακοπή) δίνουμε:</p>
+<div class="highlight-python"><pre>twistd -ny twisted-echo-server.py</pre>
+</div>
+<p>Ενώ για κανονική λειτουργία στο background (ως daemon) παραλείπουμε το -n :</p>
+<div class="highlight-python"><pre>twistd -y twisted-echo-server.py</pre>
+</div>
+<p>Στα παρακάτω παραδείγματα συνδυάζουμε το Twisted framework με τις λύσεις για τη μεταφορά μη τετριμμένου όγκου δεδομένων χρησιμοποιώντας την ένδειξη μεγέθους των δεδομένων.</p>
+</div>
+<div class="section" id="bonus-twisted">
+<h2>Bonus υλικό: Twisted και ένδειξη μεγέθους<a class="headerlink" href="#bonus-twisted" title="Permalink to this headline">¶</a></h2>
+<p>Στο παράδειγμα που ακολουθεί, συνδυάζουμε τον <a class="reference external" href="../unit4/module2.html#tcp-client-bytecount"><em>client που προσθέτει την ένδειξη μεγέθους</em></a> στα δεδομένα που στέλνει με την εξής παραλλαγή του echo server του Twisted:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">twisted.internet.protocol</span> <span class="kn">import</span> <span class="n">Protocol</span><span class="p">,</span><span class="n">Factory</span>
+<span class="kn">from</span> <span class="nn">twisted.application</span> <span class="kn">import</span> <span class="n">service</span><span class="p">,</span><span class="n">internet</span>
+
+
+<span class="k">class</span> <span class="nc">EchoCount</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; a class implementing the echo protocol &quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+                <span class="sd">&quot;&quot;&quot; per protocol object initializations &quot;&quot;&quot;</span>
+                <span class="c"># base class Protocol has no __init__ to call</span>
+
+                <span class="c"># prefix holding string of msg length</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+                <span class="c"># expected content length, 0 means not extracted yet</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">contentlength</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="c"># count of bytes received until now</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">recvcount</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="c"># count of data bytes (without header) received (and echoed)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">datalen</span> <span class="o">=</span> <span class="mi">0</span>
+
+
+        <span class="k">def</span> <span class="nf">dataReceived</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">data</span><span class="p">):</span>
+                <span class="sd">&quot;&quot;&quot; called whenever data is received. May fire on partial or multiple msg reception &quot;&quot;&quot;</span>
+
+                <span class="n">recvlen</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">recvcount</span> <span class="o">+=</span> <span class="n">recvlen</span>
+                <span class="k">print</span> <span class="s">&quot;received data with len </span><span class="si">%s</span><span class="s"> (total received=</span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">recvlen</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">recvcount</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">contentlength</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>       <span class="c"># we still are in the process of extracting content length</span>
+                        <span class="n">i</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">i</span><span class="o">==-</span><span class="mi">1</span><span class="p">:</span>       <span class="c"># space not found, accumulate prefix</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">+=</span> <span class="n">data</span>     <span class="c"># NOTE: we don&#39;t do a security check on accumulated length...</span>
+                                <span class="k">return</span>  <span class="c"># don&#39;t send anything back</span>
+
+                        <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">+=</span> <span class="n">data</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">contentlength</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix</span><span class="p">)</span>   <span class="c"># NOTE: we also don&#39;t check the validity of content length...</span>
+                        <span class="k">print</span> <span class="s">&quot;extracted content length=</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">contentlength</span>
+
+                        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>       <span class="c"># skip space too</span>
+
+
+                <span class="c"># echo back received data</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">transport</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+                <span class="n">sendlen</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">datalen</span> <span class="o">+=</span> <span class="n">sendlen</span>         <span class="c"># real data length until now (without bytecount header)</span>
+                <span class="k">print</span> <span class="s">&quot;echoed data with len </span><span class="si">%s</span><span class="s"> (total sent=</span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">sendlen</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">datalen</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">datalen</span><span class="o">==</span><span class="bp">self</span><span class="o">.</span><span class="n">contentlength</span><span class="p">:</span>    <span class="c"># echoed the specified number of data bytes, shutdown connection</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">transport</span><span class="o">.</span><span class="n">loseConnection</span><span class="p">()</span>
+
+
+
+
+<span class="c"># main program part</span>
+
+<span class="c"># create the Factory object that will generate protcol objects</span>
+<span class="n">factory</span> <span class="o">=</span> <span class="n">Factory</span><span class="p">()</span>
+<span class="n">factory</span><span class="o">.</span><span class="n">protocol</span> <span class="o">=</span> <span class="n">EchoCount</span>            <span class="c"># factory.protocol will be used to build actual protocol objects</span>
+
+<span class="c"># create an object that represents our application</span>
+<span class="c"># object must be called exactly &#39;application&#39; to use the twistd launcher!</span>
+<span class="n">application</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s">&quot;echo&quot;</span><span class="p">)</span>
+
+<span class="c"># create the echo service that our application will offer</span>
+<span class="n">echo_service</span> <span class="o">=</span> <span class="n">internet</span><span class="o">.</span><span class="n">TCPServer</span><span class="p">(</span><span class="mi">50007</span><span class="p">,</span><span class="n">factory</span><span class="p">)</span>
+<span class="c"># add the echo service to our application object</span>
+<span class="n">echo_service</span><span class="o">.</span><span class="n">setServiceParent</span><span class="p">(</span><span class="n">application</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../unit6/module1.html" title="Ενότητα 6-1"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="module1.html" title="Ενότητα 5-1"
+             >previous</a> |</li>
+        <li><a href="../index.html">Internet Programming Lectures v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2011, mistral.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.6.
+    </div>
+  </body>
+</html>

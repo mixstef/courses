@@ -1,0 +1,251 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Άσκηση Α2.1: Μάντεψε τη λέξη! &mdash; C++ Lectures v1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="C++ Lectures v1.0 documentation" href="../index.html" />
+    <link rel="prev" title="Ενότητα 2-2" href="module2.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="module2.html" title="Ενότητα 2-2"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">C++ Lectures v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>Άσκηση Α2.1: Μάντεψε τη λέξη!<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>Χρησιμοποιήστε όσα μάθατε για να προγραμματίσετε το γνωστό παιχνίδι (&#8220;κρεμάλα&#8221;) σε απλό κείμενο για την κονσόλα.</p>
+<div class="section" id="id2">
+<h2>Τι πρέπει να υλοποιήσετε<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">Γενικά</p>
+<ul>
+<li><p class="first">Μπορείτε να χρησιμοποιήσετε λέξεις στα αγγλικά για να αποφύγετε τα προβλήματα κωδικοποίησης χαρακτήρων. Εάν επιμένετε όμως, μπορείτε να χρησιμοποιήσετε ελληνικά, αφού πρώτα φροντίσετε για την αποθήκευση του αρχείου σας κατά iso-8859-7 και την ρύθμιση της κονσόλας σας στο ίδιο σετ χαρακτήρων.</p>
+</li>
+<li><p class="first">Πρέπει να χρησιμοποιήσετε <strong>μόνο</strong> μεταβλητές τύπου int, char, bool ή string. Όσοι έχετε προηγούμενη εμπειρία με τη C/C++ αποφύγετε τον πειρασμό να χρησιμοποιήσετε πίνακες (arrays)!</p>
+</li>
+<li><p class="first">Η μυστική λέξη θα δηλώνεται ρητά στην αρχή του προγράμματος (για απλότητα - αργότερα μπορεί να αλλάξει αυτό). Το ίδιο και οι προσπάθειες που απομένουν στον παίκτη. Π.χ.:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">string</span> <span class="n">secretword</span> <span class="o">=</span> <span class="s">&quot;supercalifragilisticexpialidocious&quot;</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">tries</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+<li><p class="first">Στη συνέχεια:</p>
+<ol class="arabic simple">
+<li>Θα αρχικοποιείτε όποιες άλλες μεταβλητές θέλετε (την κατάσταση του παιχνιδιού, δηλαδή).</li>
+</ol>
+<blockquote>
+<ul class="simple">
+<li>Για το ποια γράμματα έχουν αποκαλυφθεί και ποια όχι μπορείτε να έχετε ένα string με &#8216;0&#8217; και &#8216;1&#8217; (ή οποιονδήποτε συνδυασμό 2 χαρακτήρων), με τον έναν χαρακτήρα να αντιστοιχεί στα κρυφά και τον άλλον στα φανερά γράμματα.</li>
+</ul>
+</blockquote>
+<ol class="arabic simple" start="2">
+<li>Θα αποκαλύπτετε το πρώτο και το τελευταίο γράμμα, καθώς και όποιο άλλο γράμμα είναι όμοιο με αυτά.</li>
+<li>Θα τυπώνετε τη λέξη με _ στα γράμματα που δεν έχουν αποκαλυφθεί.</li>
+<li>Θα τυπώνετε τις σωστές και τις λάθος επιλογές του χρήστη, καθώς και τις προσπάθειες που απομένουν.</li>
+<li>Θα ζητάτε από το χρήστη έναν χαρακτήρα (με ανίχνευση σφάλματος).</li>
+<li>Θα ελέγχετε αν ο χαρακτήρας έχει ήδη δοθεί:</li>
+</ol>
+<blockquote>
+<ol class="arabic simple" start="7">
+<li>Αν ναι, θα ζητάτε ξανά νέο χαρακτήρα.</li>
+<li>Αν όχι, θα ελέγχετε αν ο χαρακτήρας υπάρχει μέσα στη λέξη.</li>
+</ol>
+<blockquote>
+<ol class="arabic simple" start="9">
+<li>Αν ναι, θα αποκαλύπτετε το γράμμα (σε όσες θέσεις υπάρχει στη λέξη). Ελέγξτε αν ο χρήστης κέρδισε.</li>
+<li>Αν όχι, θα μειώνετε τις προσπάθειες που απομένουν. Ελέγξτε αν ο χρήστης έχασε.</li>
+<li>Επαναλαμβάνετε από το βήμα 4.</li>
+</ol>
+</blockquote>
+</blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2>Εργαλεία<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">το μήκος ενός string το παίρνουμε με τη μέθοδο <strong>length()</strong></p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="kt">int</span> <span class="n">wordl</span> <span class="o">=</span> <span class="n">word</span><span class="p">.</span><span class="n">length</span><span class="p">();</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">η προσπέλαση του στοιχείου i μπορεί να γίνει με το []</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">word</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">η μέθοδος find() μπορεί (μεταξύ άλλων) να βρει τη θέση ενός χαρακτήρα μέσα στο string (<a class="reference external" href="http://www.cplusplus.com/reference/string/string/find/">http://www.cplusplus.com/reference/string/string/find/</a>)</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="n">word</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="sc">&#39;x&#39;</span><span class="p">)</span><span class="o">!=</span><span class="n">string</span><span class="o">::</span><span class="n">npos</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;found!&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><strong>string::npos</strong> είναι η σταθερά που επιστρέφεται όταν ο χαρακτήρας δεν υπάρχει στο string</li>
+</ul>
+</li>
+<li><p class="first">η μέθοδος substr() επιστρέφει ένα μέρος του string ως νέο string (<a class="reference external" href="http://www.cplusplus.com/reference/string/string/substr/">http://www.cplusplus.com/reference/string/string/substr/</a>)</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="c">// simple program for the guess the word game</span>
+
+<span class="c">// NOTE!!! this must be saved in monobyte encoding (like iso-8859-7) to work correctly!!!</span>
+<span class="c">// Remember to switch your console too in that encoding!!! (BUT: g++ outputs errors in utf8...from locale?)</span>
+
+<span class="c">// following header provides cin, cout etc</span>
+<span class="cp">#include &lt;iostream&gt;</span>
+<span class="c">// this declares the string class defs and some global funcs</span>
+<span class="cp">#include &lt;string&gt;</span>
+
+<span class="c">// all usual symbols are in standard c++ library namespace</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="c">// according to specs(?) main MUST be int returning!</span>
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">tries</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>	<span class="c">// how many tries left</span>
+  <span class="n">string</span> <span class="n">word</span> <span class="o">=</span>  <span class="s">&quot;γλοιωδης&quot;</span><span class="p">;</span>
+  
+  <span class="n">string</span> <span class="n">state</span> <span class="o">=</span> <span class="s">&quot;10000001&quot;</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">wordl</span> <span class="o">=</span> <span class="n">word</span><span class="p">.</span><span class="n">length</span><span class="p">();</span>
+</pre></div>
+</div>
+<div class="highlight-c++"><div class="highlight"><pre>  <span class="kt">int</span> <span class="n">shown</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+  <span class="n">string</span> <span class="n">rights</span> <span class="o">=</span> <span class="n">string</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>	<span class="c">// g++ seems not to have a string s = char operator...</span>
+  <span class="n">rights</span> <span class="o">+=</span> <span class="n">word</span><span class="p">[</span><span class="n">wordl</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+  <span class="n">string</span> <span class="n">wrongs</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">;</span>
+  <span class="n">string</span> <span class="n">alls</span> <span class="o">=</span> <span class="n">rights</span><span class="p">;</span>
+  
+  <span class="kt">char</span> <span class="n">ch</span><span class="p">;</span>
+  
+  <span class="kt">bool</span> <span class="n">stillplaying</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+
+  <span class="c">// display current state </span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">wordl</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="sc">&#39;1&#39;</span><span class="p">)</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">word</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39; &#39;</span><span class="p">;</span>	<span class="c">// cannot use word[i]+&#39; &#39;, this is char+char=numeric...</span>
+      							<span class="c">// nor &quot; &quot; + &quot; &quot; (c-strings!) - one must be string</span>
+    <span class="k">else</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;_ &quot;</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Correct: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">rights</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s">Wrong: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">wrongs</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s">Tries left: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">tries</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span> 
+
+  
+  <span class="k">while</span> <span class="p">(</span><span class="n">stillplaying</span><span class="p">)</span> <span class="p">{</span>
+        
+    <span class="c">// get use choice</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;enter your choice:&quot;</span><span class="p">;</span>
+    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">ch</span><span class="p">;</span>
+    <span class="c">// check if already passed</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">alls</span><span class="p">.</span><span class="n">find_first_of</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span><span class="o">!=</span><span class="n">string</span><span class="o">::</span><span class="n">npos</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;passed already!</span><span class="se">\n</span><span class="s">enter your choice:&quot;</span><span class="p">;</span>
+      <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">ch</span><span class="p">;</span>
+    <span class="p">}</span>
+          
+    <span class="c">// check if correct</span>
+    <span class="kt">bool</span> <span class="n">found</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">wordl</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>	<span class="c">// NOTE: i MUSt be re-declared here!</span>
+      <span class="k">if</span> <span class="p">((</span><span class="n">word</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="n">ch</span><span class="p">)</span><span class="o">&amp;&amp;</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="sc">&#39;0&#39;</span><span class="p">))</span> <span class="p">{</span>	<span class="c">// found (and not passed already)</span>
+        <span class="n">state</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;1&#39;</span><span class="p">;</span>
+        <span class="n">alls</span> <span class="o">+=</span> <span class="n">ch</span><span class="p">;</span>
+        <span class="n">rights</span> <span class="o">+=</span> <span class="n">ch</span><span class="p">;</span>
+        <span class="n">shown</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="n">found</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-c++"><div class="highlight"><pre>    <span class="c">// if wrong, reduce tries</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">found</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">tries</span> <span class="o">-=</span> <span class="mi">1</span><span class="p">;</span>
+      <span class="n">wrongs</span> <span class="o">+=</span> <span class="n">ch</span><span class="p">;</span>
+      <span class="n">alls</span> <span class="o">+=</span> <span class="n">ch</span><span class="p">;</span>
+    <span class="p">}</span> 
+    
+    <span class="c">// display current state (here that state word is updated) </span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">wordl</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="sc">&#39;1&#39;</span><span class="p">)</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">word</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39; &#39;</span><span class="p">;</span>	<span class="c">// cannot use word[i]+&#39; &#39;, this is char+char=numeric...</span>
+      							<span class="c">// nor &quot; &quot; + &quot; &quot; (c-strings!) - one must be string</span>
+      <span class="k">else</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;_ &quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Correct: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">rights</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s">Wrong: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">wrongs</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s">Tries left: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">tries</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span> 
+
+    
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">found</span><span class="p">)</span> <span class="p">{</span>	<span class="c">// check if finished</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">shown</span><span class="o">==</span><span class="n">wordl</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;You won!&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+        <span class="n">stillplaying</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>	<span class="c">// check if loosing</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">tries</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;You loose...sorry!&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+        <span class="n">stillplaying</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    
+  <span class="p">}</span>
+
+  <span class="k">return</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="module2.html" title="Ενότητα 2-2"
+             >previous</a> |</li>
+        <li><a href="../index.html">C++ Lectures v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, mistral.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+    </div>
+  </body>
+</html>

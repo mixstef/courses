@@ -1,0 +1,68 @@
+
+Ενότητα 2-2
+============
+
+Ανίχνευση σφαλμάτων Εισόδου-Εξόδου (I/O Errors)
+------------------------------------------------
+* Γενικότερα για *streams* εισόδου εξόδου (π.χ. σε αρχεία), τα **cin** και **cout** είναι μια μόνο περίπτωση προκαθορισμένων streams.
+
+* Status bits
+  
+  http://www.cplusplus.com/reference/iostream/ios_base/iostate/
+  
+  * *goodbit* - το stream σε κατάσταση επιτυχίας
+  * *failbit* - αποτυχία, "δεν μπορώ να εκτελέσω τη λειτουργία που ζητήθηκε"
+  * *badbit* - σοβαρή αποτυχία, "η συσκευή εισόδου/εξόδου δεν λειτουργεί σωστά"
+  * *eofbit* - end of file (EOF), "δεν υπάρχουν άλλα δεδομένα" (δεν είναι κατ'ανάγκη κατάσταση σφάλματος!)
+  
+* Έλεγχος κατάστασης - συναρτήσεις αντικειμένων stream
+
+  * *good()* - αληθές αν το stream σε κατάσταση επιτυχίας
+  * *fail()* - αληθές αν έχει τεθεί το failbit ή το badbit
+  * *bad()* - αληθές αν έχει τεθεί το badbit
+  * *eof()* - αληθές αν έχει τεθεί το eofbit
+
+* Όταν συμβεί ένα σφάλμα, το stream **παραμένει στην κατάσταση αυτή** έως ότου ζητηθεί από το πρόγραμμα η επαναφορά στην κατάσταση good (εάν αυτό είναι φυσικά δυνατό) μέσω της μεθόδου **clear()**.
+* Σε περίπτωση που ο χρήστης έχει εισάγει μη αποδεκτούς χαρακτήρες, π.χ. γράμματα κατά την ανάγνωση αριθμού απο stream εισόδου, πρέπει να απομακρύνουμε τους χαρακτήρες αυτούς από το stream πριν επιχειρήσουμε νέα ανάγνωση (μέθοδος **ignore()**).
+ 
+Χειρισμός σφαλμάτων στο stream cin
+------------------------------------
+* Μέσω των συναρτήσεων ελέγχου κατάστασης
+
+  .. code-block:: c++
+  
+     cin >> d1;	
+     if (cin.fail()) {
+       cin.clear(); // clear error state
+       // extract a number of characters, or until \n is met - remove this \n, too
+       cin.ignore(numeric_limits<streamsize>::max(),'\n');	// include <limits> to use this
+       cout << "wrong input!" << endl;
+     }
+     
+* Δοκιμή του ίδιου του cin μέσα σε συνθήκη - **πιο σύνηθες**
+
+  .. code-block:: c++
+     
+     // !cin indicates an error condition (any kind of error actually, but here we don't care)
+     // this is due to the special evaluation of cin when used in a condition:
+     // if fail() is true, cin returns a zero pointer (evaluated to false)  
+     
+     while (!(cin >> d2)) {	
+       cin.clear(); // clear error state
+       cin.ignore(numeric_limits<streamsize>::max(),'\n');
+       cout << "wrong input!\n";    
+     }
+     
+* Σχετικό με το προηγούμενο: "διάβασε αριθμούς από ένα stream μέχρι να μην υπάρχουν άλλοι"
+
+  (για την ακρίβεια: "μέχρι να συμβεί ένα σφάλμα ή μέχρι το EOF")
+  
+  .. code-block:: c++
+     
+     int i;
+     
+     // read integers from cin until no more input
+     while (cin>>i) {
+       // do something with input
+     }
+

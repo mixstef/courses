@@ -1,0 +1,180 @@
+Ενότητα 6-2
+=============
+
+Twisted και Deferreds
+--------------------------
+Τα αντικείμενα Deferreds ("καθυστερούμενα";) αποτελούν ένα κομβικό σημείο στη λειτουργία του Twisted. Επειδή η εξυπηρέτηση των αιτήσεων γίνεται διαδοχικά σε non-blocking mode, ο κώδικας εξυπηρέτησης για ένα event δεν πρέπει να καθυστερεί. Τι θα συμβεί π.χ. όταν κατά την εξυπηρέτηση μιας αίτησης πρέπει αν διαβάσουμε έναν δεύτερο απομακρυσμένο διαδικτυακό πόρο; Εδώ μπαίνει η χρήση των Deferreds.
+
+Στο παράδειγμα που ακολουθεί, η εξυπηρέτηση της αίτησης web βασίζεται στην ανάγνωση μιας δεύτερης ιστοσελίδας. Η ανάγνωση αυτή γίνεται μέσω της μεθόδου ``getPage()``, η οποία επιστρέφει **αμέσως** ένα αντικείμενο Deferred. Στο αντικείμενο αυτό προσθέτουμε ένα callback κκαι ένα errback, τα οποία θα κληθούν μετά την επιτυχή ανάγνωση (ή το σφάλμα ανάγνωσης, αντίστοιχα). Στο μεταξύ, το framework είναι σε θέση να εξυπηρετήσει άλλες αιτήσεις.
+
+.. comment: following code based on twisted-simple-web-server-deferreds.py
+
+..	code-block:: python
+
+	from twisted.application import internet,service
+	from twisted.web import server,resource
+	from twisted.web.client import getPage
+
+	# definitions of resources
+	class Root(resource.Resource):	# the root resource class
+		isLeaf = False
+
+	class Page(resource.Resource):	# the sample page resource class
+		isLeaf = True
+		
+		def render_GET(self,request):
+			""" called to handle a GET request """
+		
+			# request next web page - a deferred is returned.
+			# When callback fires, page content will be 
+			# the 1st param in callback invocation.
+			# If errback fires, 1st param will be a failobj (a description of error)
+			dfr = getPage("http://sample.page.url")
+			# add a callback and errback to deferred object
+			# we pass also the request object as additional param
+			dfr.addCallback(self.handlePageOK,request)
+			dfr.addErrback(self.handlePageError,request)
+		
+			# notify the framework that we are not done yet
+			return server.NOT_DONE_YET	# more of response to follow
+		
+
+		def handlePageOK(self,content,request):
+			""" callback for getPage(). 'content' is the page text """
+		
+			# forward reply to client as is
+			request.write(content)
+			# signal end of reply
+			request.finish()
+			 
+
+		def handlePageError(self,failobj,request):
+			""" callback for getPage(). 'failobj' holds the error description """
+		
+			# change reply to text/plain, error message may contain invalid HTML chars
+			request.setHeader('Content-type','text/plain')
+			# reply with description of error
+			request.write(str(failobj))
+			# signal end of reply
+			request.finish()
+
+
+	# main program part
+
+	# build the resources tree
+	root = Root()			# the "/" resource
+	root.putChild("page",Page())	# the "/data" resource
+
+	# here we connect a "Site" (subclass of "twistewd.web.http.HTTPFactory") to a "resource"
+	site = server.Site(root)
+
+	# create an object that represents our application
+	# object must be called exactly 'application' to use the twistd launcher!
+	application = service.Application("simple-web-server")
+
+	# create the echo service that our application will offer
+	web_echo_service = internet.TCPServer(50007,site)
+	# add the web echo service to our application object
+	web_echo_service.setServiceParent(application)
+
+Παρατηρήστε ότι:
+
+* όταν κληθεί το callback, το πρώτο όρισμα περιέχει το κείμενο της ιστοσελίδας
+
+* όταν κληθεί το errback, το πρώτο όρισμα περιέχει ένα αντικείμενο που περιγράφει το σφάλμα
+
+* και στο callback και στο errback μπορούμε να περάσουμε πρόσθετες παραμέτρους, κατά την προσθήκη τους στο deferred αντικείμενο
+
+Παράδειγμα: επεξεργασία σελίδας πρόγνωσης καιρού
+--------------------------------------------------
+Χρησιμοποιούμε την τεχνική των Deferreds και :ref:`την εξαγωγή πληροφορίας με τη βοήθεια των regular expressions <rexp-extract-weather>`:
+
+.. comment: following code based on twisted-simple-web-server-deferreds2.py
+
+..	code-block:: python
+
+	import re
+
+	from twisted.application import internet,service
+	from twisted.web import server,resource
+	from twisted.web.client import getPage
+
+	# definitions of resources
+	class Root(resource.Resource):	# the root resource class
+		isLeaf = False
+
+	class Page(resource.Resource):	# the sample page resource class
+		isLeaf = True
+		# rexps for data extraction - common for all objects
+		rexp = re.compile(r'<tr class="TRstyle[01]">(.+?)</tr>',re.DOTALL)
+		rexp2 = re.compile(r'<td[^>]+>(.+?)</td>',re.DOTALL)
+		rexp3 = re.compile(r'<span[^>]+>(.+?)</span>',re.DOTALL)	
+		
+		def render_GET(self,request):
+			""" called to handle a GET request """
+		
+			# request next web page - a deferred is returned.
+			dfr = getPage("http://weather.forecast.url")
+			# add a callback and errback to deferred object
+			# we pass also the request object as additional param
+			dfr.addCallback(self.handlePageOK,request)
+			dfr.addErrback(self.handlePageError,request)
+		
+			# notify the framework that we are not done yet
+			return server.NOT_DONE_YET	# more of response to follow
+		
+
+		def handlePageOK(self,content,request):
+			""" callback for getPage(). 'content' is the page text """
+		
+			# change reply to text/plain
+			request.setHeader('Content-type','text/plain')
+
+			m = self.rexp.findall(content.decode("iso8859_7"))
+			for item in m:
+				m2 = self.rexp2.findall(item)
+				if len(m2)<10: continue	# skip irregular entries
+			
+				day,date = self.rexp3.findall(m2[0])
+				time = m2[1]
+				grad = m2[3].replace(u"&deg;",unichr(176))
+				humid = m2[4]
+				wind = m2[5]
+				sky = m2[8]
+				outstr = "%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % (day,date,time,grad,humid,wind,sky)
+			
+				request.write(outstr.encode("utf_8"))
+			
+			# signal end of reply
+			request.finish()
+			 
+
+		def handlePageError(self,failobj,request):
+			""" callback for getPage(). 'failobj' holds the error description """
+		
+			# change reply to text/plain, error message may contain invalid HTML chars
+			request.setHeader('Content-type','text/plain')
+			# reply with description of error
+			request.write(str(failobj))
+			# signal end of reply
+			request.finish()
+
+
+	# main program part
+
+	# build the resources tree
+	root = Root()			# the "/" resource
+	root.putChild("page",Page())	# the "/data" resource
+
+	# here we connect a "Site" (subclass of "twistewd.web.http.HTTPFactory") to a "resource"
+	site = server.Site(root)
+
+	# create an object that represents our application
+	# object must be called exactly 'application' to use the twistd launcher!
+	application = service.Application("simple-web-server")
+
+	# create the echo service that our application will offer
+	web_echo_service = internet.TCPServer(50007,site)
+	# add the web echo service to our application object
+	web_echo_service.setServiceParent(application)
+ 

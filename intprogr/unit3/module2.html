@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Ενότητα 3-2 &mdash; Internet Programming Lectures v1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Internet Programming Lectures v1.0 documentation" href="../index.html" />
+    <link rel="next" title="Ενότητα 4-1" href="../unit4/module1.html" />
+    <link rel="prev" title="Ενότητα 3-1" href="module1.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../unit4/module1.html" title="Ενότητα 4-1"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="module1.html" title="Ενότητα 3-1"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Internet Programming Lectures v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>Ενότητα 3-2<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="udp-multicasting">
+<h2>UDP Multicasting<a class="headerlink" href="#udp-multicasting" title="Permalink to this headline">¶</a></h2>
+<p>Όπως είναι γνωστό, multicasting είναι η δυνατότητα παράδοσης ενός πακέτου δεδομένουν σε μια ομάδα παραληπτών. Αν και δεν γνώρισε ιδιαίτερη ανάπτυξη στο ευρύτερο διαδίκτυο, το multicasting χρησιμοποιείται εντός τοπικών δικτύων, κυρίως για ανακάλυψη υπηρεσιών (service discovery) μεταξύ τοπικά συνδεδεμένων υπολογιστών ή για συντονισμό συσκευών όπως οι routers. Το κλασσικό IP multicasting μπορεί να υλοποιηθεί μόνο μέσω του πρωτοκόλλου UDP.</p>
+<p>Η υλοποίηση ενός multicasting UDP server ή client δεν διαφέρει από τα παραδείγματα της προηγούμενης ενότητας. Απλά, στα αντικείμενα socket προσδίδονται κάποια πρόσθετα χαρακτηριστικά μέσω της μεθόδου <tt class="docutils literal"><span class="pre">setsockopt()</span></tt>. Η μέθοδος αυτή δέχεται 3 ορίσματα:</p>
+<ol class="arabic simple">
+<li>Το επίπεδο πρωτοκόλλων στο οποίο ανήκει το χαρακτηριστικό που αλλάζουμε.</li>
+<li>Το όνομα του χαρακτηριστικού που αλλάζουμε.</li>
+<li>Τη νέα τιμή του χαρακτηριστικού (το είδος της τιμής εξαρτάται από το κάθε χαρακτηριστικό).</li>
+</ol>
+<p>Ένα multicasting group παραληπτών προσδιορίζεται από μια ειδικού τύπου διεύθυνση IP (από την &#8220;Class D&#8221; περιοχή: 224.x.x.x έως 239.x.x.x). Στα παραδείγματα που ακολουθούν χρησιμοποιείται η διεύθυνση <tt class="docutils literal"><span class="pre">224.1.1.1</span></tt>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Σε αντίθεση με όλα τα άλλα διαδικτυακά παραδείγματα, τα οποία μπορούν να εκτελεστούν και χωρίς ενεργή δικτυακή σύνδεση (μέσω του localhost), το multicasting απαιτεί δικτυακή σύνδεση: με το localhost μόνο, η διαδικτυακή βιβλιοθήκη συστήματος θα διαμαρτυρηθεί ότι δεν έχει τρόπο να δρομολογήσει τα πακέτα προς το 224.1.1.1 των παραδειγμάτων!</p>
+</div>
+</div>
+<div class="section" id="multicasting-udp-client">
+<h2>Multicasting UDP client<a class="headerlink" href="#multicasting-udp-client" title="Permalink to this headline">¶</a></h2>
+<p>Ο κώδικας ενός απλού UDP client έχει ως εξής:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">socket</span>
+
+
+<span class="c"># create the client socket object - no difference from &#39;server&#39; socket!</span>
+<span class="n">sock</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span><span class="n">socket</span><span class="o">.</span><span class="n">SOCK_DGRAM</span><span class="p">)</span>
+
+<span class="c"># specify ttl for multicast packet (1 by default)</span>
+<span class="c">#sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL,2)</span>
+
+<span class="c"># By putting 0 here, msg will not be sent to own host&#39;s receiver! (1 is default)</span>
+<span class="c">#sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_LOOP, 0)</span>
+
+<span class="c"># send a msg to multicast group</span>
+<span class="n">sock</span><span class="o">.</span><span class="n">sendto</span><span class="p">(</span><span class="s">&quot;who&#39;s there?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;224.1.1.1&#39;</span><span class="p">,</span> <span class="mi">50008</span><span class="p">))</span>
+
+<span class="c"># close socket</span>
+<span class="n">sock</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Παρατηρήστε ότι στον client <strong>δεν αλλάζει απολύτως τίποτα!!</strong> Η διεύθυνση αποστολής είναι η <tt class="docutils literal"><span class="pre">224.1.1.1</span></tt>.</p>
+<p>Προαιρετικά, μέσω του <tt class="docutils literal"><span class="pre">setsockopt()</span></tt> μπορούμε να ρυθμίσουμε 2 χαρακτηριστικά του socket (σε σχόλιο στον κώδικα):</p>
+<ul class="simple">
+<li>Το IP_MULTICAST_TTL καθορίζει πόσους δρομολογητές θα διασχίσει το multicast πακέτο μας (αν υποθέσουμε ότι οι δρομολογητές είναι διατεθειμένοι να το προωθήσουν!). Η εξ&#8217;ορισμού τιμή είναι 1.</li>
+<li>Το IP_MULTICAST_LOOP καθορίζει αν τα multicast δεδομένα θα επιστρέψουν και σε εμάς που τα στέλνουμε (true(1)/false(0), εξ&#8217;ορισμού true).</li>
+</ul>
+</div>
+<div class="section" id="multicasting-udp-server">
+<h2>Multicasting UDP server<a class="headerlink" href="#multicasting-udp-server" title="Permalink to this headline">¶</a></h2>
+<p>Ο αντίστοιχος κώδικας του απλού UDP server:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">socket</span>
+
+<span class="c"># create a datagram socket</span>
+<span class="n">sock</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span><span class="n">socket</span><span class="o">.</span><span class="n">SOCK_DGRAM</span><span class="p">)</span>
+
+<span class="c"># this option of socket layer indicates we want to reuse socket (typical for multicasting apps)</span>
+<span class="n">sock</span><span class="o">.</span><span class="n">setsockopt</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">SOL_SOCKET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SO_REUSEADDR</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c"># bind receiver socket to an arbitrary non-privileged port.</span>
+<span class="c"># Here host is &#39;&#39;, meaning INADDR_ANY (any interface)</span>
+<span class="n">sock</span><span class="o">.</span><span class="n">bind</span><span class="p">((</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="mi">50008</span><span class="p">))</span>   <span class="c"># NOTE: tuple argument!</span>
+
+<span class="c"># add membership to multicast ip 224.1.1.1 - must provide our interface address, too</span>
+<span class="n">sock</span><span class="o">.</span><span class="n">setsockopt</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">IPPROTO_IP</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">IP_ADD_MEMBERSHIP</span><span class="p">,</span><span class="n">socket</span><span class="o">.</span><span class="n">inet_aton</span><span class="p">(</span><span class="s">&#39;224.1.1.1&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">socket</span><span class="o">.</span><span class="n">inet_aton</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">INADDR_ANY</span><span class="p">)))</span>
+
+<span class="c"># run until manually killed, serversock will be garbage collected</span>
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+
+        <span class="n">requestdata</span><span class="p">,</span><span class="n">addr</span> <span class="o">=</span> <span class="n">sock</span><span class="o">.</span><span class="n">recvfrom</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+
+        <span class="k">print</span> <span class="s">&quot;server: from </span><span class="si">%s</span><span class="s"> received multicast data=</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">addr</span><span class="p">),</span><span class="n">requestdata</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Παρατηρήστε ότι:</p>
+<ul>
+<li><p class="first">Η <strong>σημαντική</strong> αλλαγή γίνεται με το <tt class="docutils literal"><span class="pre">IP_ADD_MEMBERSHIP</span></tt>. Με την κλήση αυτή της <tt class="docutils literal"><span class="pre">setsockopt()</span></tt>, το server socket προστίθεται ως παραλήπτης στο group του <tt class="docutils literal"><span class="pre">224.1.1.1</span></tt>. Η αλλαγή αυτή προκαλεί μια σειρά &#8216;παρασκηνιακές&#8217; ενέργειες του συστήματος, όπως την αποστολή μηνύματος στο τοπικό δίκτυο προς κάθε ενδιαφερόμενο mutlicast-enabled router, ότι ο υπολογιστής μας είναι αποδέκτης πακέτων προς το <tt class="docutils literal"><span class="pre">224.1.1.1</span></tt> (κάτι που θα πρακτικά αγνοείται σε συνήθη τοπικά δίκτυα..).</p>
+<ul>
+<li><p class="first">Το τρίτο όρισμα της <tt class="docutils literal"><span class="pre">setsockopt</span></tt> προσδιορίζει όχι μόνο το group <tt class="docutils literal"><span class="pre">224.1.1.1</span></tt>, αλλά και το interface του δικού μας υπολογιστή απ&#8217;όπου θέλουμε να λαμβάνουμε τα multicast πακέτα. Επειδή το όρισμα αυτό πρέπει να έχει μια ειδική μορφή για να προωθηθεί στην υποκείμενη C συνάρτηση setsockopt του συστήματος, προκύπτει αυτή η &#8216;άκομψη&#8217; έκφραση:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">socket</span><span class="o">.</span><span class="n">inet_aton</span><span class="p">(</span><span class="s">&#39;224.1.1.1&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">socket</span><span class="o">.</span><span class="n">inet_aton</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">INADDR_ANY</span><span class="p">))</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+<li><p class="first">Το <tt class="docutils literal"><span class="pre">SO_REUSEADDR</span></tt> είναι προαιρετικό αλλά πολύ συνηθισμένο σε multicast εφαρμογές. Γενικά έχει πολλές χρήσεις, στο UDP multicasting όμως επιτρέπει σε πολλές εφαρμογές &#8216;server&#8217;, στον ίδιο υπολογιστή, να δέχονται ταυτόχρονα τα ίδια multicast πακέτα.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h2>Απλή &#8220;ανακάλυψη υπηρεσίας&#8221;<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Για να δείξουμε ότι το ίδιο multicasting socket μπορεί να χρησιμοποιηθεί για την αποστολή κανονικών (unicast) πακέτων, τροποποιούμε ελαφρά τον server και τον client: ο server με τη λήψη του multicast μηνύματος απαντάει με unicast στον αποστολέα. Δείτε το ως ένα απλό παράδειγμα &#8220;ανακάλυψης υπηρεσίας&#8221; (service discovery), όπου ο client μαθαίνει &#8220;τι υπάρχει εκεί έξω&#8221;.</p>
+<p>Ο κώδικας του server:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">socket</span>
+
+<span class="c"># create a datagram socket</span>
+<span class="n">sock</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span><span class="n">socket</span><span class="o">.</span><span class="n">SOCK_DGRAM</span><span class="p">)</span>
+
+<span class="c"># this option of socket layer indicates we want to reuse socket (typical for multicasting apps)</span>
+<span class="n">sock</span><span class="o">.</span><span class="n">setsockopt</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">SOL_SOCKET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SO_REUSEADDR</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c"># bind receiver socket to an arbitrary non-privileged port.</span>
+<span class="c"># Here host is &#39;&#39;, meaning INADDR_ANY (any interface)</span>
+<span class="n">sock</span><span class="o">.</span><span class="n">bind</span><span class="p">((</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="mi">50008</span><span class="p">))</span>   <span class="c"># NOTE: tuple argument!</span>
+
+<span class="c"># add membership to multicast ip 224.1.1.1 - must provide our interface address, too (ANY)</span>
+<span class="n">sock</span><span class="o">.</span><span class="n">setsockopt</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">IPPROTO_IP</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">IP_ADD_MEMBERSHIP</span><span class="p">,</span><span class="n">socket</span><span class="o">.</span><span class="n">inet_aton</span><span class="p">(</span><span class="s">&#39;224.1.1.1&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">socket</span><span class="o">.</span><span class="n">inet_aton</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">INADDR_ANY</span><span class="p">)))</span>
+
+
+<span class="c"># run until manually killed, try-finally closes socket after user interruption</span>
+<span class="k">try</span><span class="p">:</span>
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+
+                <span class="n">requestdata</span><span class="p">,</span><span class="n">addr</span> <span class="o">=</span> <span class="n">sock</span><span class="o">.</span><span class="n">recvfrom</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+
+                <span class="k">print</span> <span class="s">&quot;server: from </span><span class="si">%s</span><span class="s"> received multicast data=</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">addr</span><span class="p">),</span><span class="n">requestdata</span><span class="p">)</span>
+
+                <span class="c"># reply with unicast msg via same socket</span>
+                <span class="n">sock</span><span class="o">.</span><span class="n">sendto</span><span class="p">(</span><span class="s">&quot;Me!&quot;</span><span class="p">,</span><span class="n">addr</span><span class="p">)</span>
+
+
+<span class="k">finally</span><span class="p">:</span>
+        <span class="n">sock</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Η δομή <tt class="docutils literal"><span class="pre">try..finally</span></tt> μας επιτρέπει να κλείσουμε ρητά το server socket, όταν ο χρήστης διακόψει από το πληκτρολόγιο την εκτέλεση του server (οποιδήποτε σφάλμα ή διακοπή συμβεί στο try block, η Python εγγυάται ότι θα εκτελεστεί το finally block).</p>
+<p>Στη συνέχεια δίνεται ο κώδικας του client. Παρατηρήστε ότι ορίζουμε ένα timeout, μέσα στο οποίο υποθέτουμε ότι θα έρθουν τυχόν απαντήσεις στα multicast μηνύματά μας:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">socket</span>
+
+<span class="c"># create the client socket object - no difference from &#39;server&#39; socket!</span>
+<span class="n">sock</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span><span class="n">socket</span><span class="o">.</span><span class="n">SOCK_DGRAM</span><span class="p">)</span>
+
+<span class="c"># specify ttl for multicast packet (1 by default)</span>
+<span class="c">#sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL,2)</span>
+
+<span class="c"># By putting 0 here, msg will not be sent to own host&#39;s receiver! (1 is default)</span>
+<span class="c">#sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_LOOP, 0)</span>
+
+<span class="c"># send a msg to multicast group</span>
+<span class="n">sock</span><span class="o">.</span><span class="n">sendto</span><span class="p">(</span><span class="s">&quot;who&#39;s there?&quot;</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;224.1.1.1&#39;</span><span class="p">,</span> <span class="mi">50008</span><span class="p">))</span>
+
+<span class="n">sock</span><span class="o">.</span><span class="n">settimeout</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="c"># wait for responses, to be manually killed or timeout in 3 sec</span>
+<span class="k">try</span><span class="p">:</span>
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+                <span class="n">requestdata</span><span class="p">,</span><span class="n">addr</span> <span class="o">=</span> <span class="n">sock</span><span class="o">.</span><span class="n">recvfrom</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+
+                <span class="k">print</span> <span class="s">&quot;client: from </span><span class="si">%s</span><span class="s"> received unicast data=</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">addr</span><span class="p">),</span><span class="n">requestdata</span><span class="p">)</span>
+
+<span class="k">except</span> <span class="n">socket</span><span class="o">.</span><span class="n">timeout</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+<span class="k">finally</span><span class="p">:</span>
+        <span class="c"># close socket</span>
+        <span class="n">sock</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../unit4/module1.html" title="Ενότητα 4-1"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="module1.html" title="Ενότητα 3-1"
+             >previous</a> |</li>
+        <li><a href="../index.html">Internet Programming Lectures v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2011, mistral.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.6.
+    </div>
+  </body>
+</html>

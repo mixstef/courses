@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Ενότητα 1-1 &mdash; Internet Programming Lectures v1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Internet Programming Lectures v1.0 documentation" href="../index.html" />
+    <link rel="next" title="Ενότητα 1-2" href="module2.html" />
+    <link rel="prev" title="Internet Programming - Υλικό Μαθήματος" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="module2.html" title="Ενότητα 1-2"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Internet Programming - Υλικό Μαθήματος"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Internet Programming Lectures v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>Ενότητα 1-1<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>Είδη διαδικτυακών εφαρμογών<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Εφαρμογές σε διάφορα επίπεδα:</p>
+<ul class="simple">
+<li>Clients και servers πάνω από τις διαδικτυακές υπηρεσίες του λειτουργικού συστήματος: χρησιμοποιούν χαμηλού επιπέδου υπηρεσίες όπως sockets.</li>
+<li>Clients και servers που χρησιμοποιούν κάποια βιβλιοθήκη γνωστού πρωτοκόλλου εφαρμογής (π.χ. web clients και servers με το HTTP)</li>
+<li>Επεκτάσεις υπαρχουσών εφαρμογών (π.χ. επέκταση ενός browser (=web client) με javascript, ή ενός web server μέσω PHP).</li>
+</ul>
+<p>Θα ασχοληθούμε αρχικά με τις 2 πρώτες κατηγορίες, χρησιμοποιώντας τη γλώσσα Python.</p>
+</div>
+<div class="section" id="python">
+<h2>Γιατί Python;<a class="headerlink" href="#python" title="Permalink to this headline">¶</a></h2>
+<p>Απάντηση: <a class="reference external" href="http://www.google.com/search?q=why+python">google://{why python}</a></p>
+<p>Πλεονεκτήματα για το μάθημα:</p>
+<ul class="simple">
+<li>Ευέλικτη γλώσσα, συγκέντρωση στον αλγόριθμο, όχι στο debugging!</li>
+<li>Πλήρης σειρά έτοιμων διαδικτυακών (και όχι μόνο!) βιβλιοθηκών.</li>
+<li>99,999% συμβατότητα κώδικα σε οποιοδήποτε λειτουργικό σύστημα.</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2>Οι πρώτες πληροφορίες για την Python<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h3>Εκδόσεις της γλώσσας<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>Η γλώσσα εξελίσσεται συνεχώς, έτσι παρουσιάζονται συνέχεια καινούργιες εκδόσεις. Μπορείτε να διαλέξετε την τελευταία έκδοση από τη σειρά <strong>2.x</strong> (2.7 τη στιγμή που γράφεται το παρόν, η τελευταία της σειράς 2.x) για τη μέγιστη συμβατότητα με υπάρχουσες third-party βιβλιοθήκες.  Οι πιο τολμηροί μπορούν να δοκιμάσουν τη σειρά <strong>3.x</strong> αλλά προσοχή: σε κάποια σημεία η σύνταξη της γλώσσας έχει αλλάξει (<a class="reference external" href="http://docs.python.org/3.1/whatsnew/3.0.html">http://docs.python.org/3.1/whatsnew/3.0.html</a>)!</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Στα παραδείγματα που ακολουθούν χρησιμοποιείται η σύνταξη της σειράς 2.x</p>
+</div>
+</div>
+<div class="section" id="on-line">
+<h3>On-line πληροφορίες<a class="headerlink" href="#on-line" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Τεκμηρίωση της γλώσσας:  <a class="reference external" href="http://docs.python.org/">http://docs.python.org/</a><ul>
+<li>Tutorial: <a class="reference external" href="http://docs.python.org/tutorial/index.html">http://docs.python.org/tutorial/index.html</a></li>
+<li>Library Reference: <a class="reference external" href="http://docs.python.org/library/index.html">http://docs.python.org/library/index.html</a></li>
+<li>Downloads: <a class="reference external" href="http://python.org/download/">http://python.org/download/</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>Εκτέλεση προγραμμάτων Python<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>Ένα προγραμμα Python είναι ένα απλό αρχείο κειμένου.</p>
+<ul class="simple">
+<li>Γράψτε το σε οποιονδήποτε editor απλού κειμένου,</li>
+<li>ή επιλέξτε File -&gt; New από το απλό IDE (IDLE) που συνοδεύει τη γλώσσα.</li>
+</ul>
+<p>Το πρόγραμμα διερμηνεύεται από την αρχή προς το τέλος. Συνήθως οι πρώτες 2 γραμμές περιέχουν πληροφορία εκτέλεσης (ποιος interpreter; για συστήματα τύπου Unix) και κωδικοποίησης χαρακτήρων (π.χ. UTF-8):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#!/usr/bin/python</span>
+<span class="c"># -*- coding: UTF-8 -*-</span>
+</pre></div>
+</div>
+<p>Η εκτέλεση μπορεί να γίνει</p>
+<ul class="simple">
+<li>Από την κονσόλα, πληκτρολογώντας <tt class="docutils literal"><span class="pre">python</span></tt> και ως όρισμα το όνομα του αρχείου python.</li>
+<li>Από την κονσόλα, πληκτρολογώντας το όνομα του αρχείου python (αν υπάρχει η πρώτη γραμμή π.χ. <tt class="docutils literal"><span class="pre">#!/usr/bin/python</span></tt>).</li>
+<li>Από το IDLE, επιλέγοντας Run -&gt; Run Module στο παράθυρο του κώδικα.</li>
+</ul>
+<p><strong>Επίσης:</strong> Για να δοκιμάσετε άμεσα μικρά κομμάτια κώδικα, η Python διαθέτει έναν interactive shell, όπου μπορείτε να πληκτρολογήσετε μία μία τις εντολές σας και να παρατηρήσετε άμεσα το αποτέλεσμα.</p>
+<ul class="simple">
+<li>Είτε δίνοντας την εντολή python στην κονσόλα (συνήθως σε συστήματα τύπου Unix).</li>
+<li>Είτε ξεκινώντας το IDLE.</li>
+</ul>
+<p>Θυμηθείτε ότι η εξ ορισμού κωδικοποίηση χαρακτήρων στα μοντέρνα συστήματα είναι UTF-8.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Οι σημειώσεις αυτές παράγονται από την εφαρμογή <a class="reference external" href="http://sphinx.pocoo.org/">Sphinx</a> που είναι γραμμένη επίσης σε Python!</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="module2.html" title="Ενότητα 1-2"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Internet Programming - Υλικό Μαθήματος"
+             >previous</a> |</li>
+        <li><a href="../index.html">Internet Programming Lectures v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2011, mistral.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.6.
+    </div>
+  </body>
+</html>

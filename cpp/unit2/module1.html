@@ -1,0 +1,303 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Ενότητα 2-1 &mdash; C++ Lectures v1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="C++ Lectures v1.0 documentation" href="../index.html" />
+    <link rel="next" title="Ενότητα 2-2" href="module2.html" />
+    <link rel="prev" title="Υλικό μαθήματος προγραμματισμού (C++)" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="module2.html" title="Ενότητα 2-2"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Υλικό μαθήματος προγραμματισμού (C++)"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">C++ Lectures v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>Ενότητα 2-1<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="native-data-types-char-int-double-bool">
+<h2>Native data types: char, int, double [και bool]<a class="headerlink" href="#native-data-types-char-int-double-bool" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">Τι διαφέρουν από τους σύνθετους τύπους:</p>
+<ul>
+<li><p class="first">Άμεση απεικόνιση σε τύπους δεδομένων που υποστηρίζει το υλικό.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Ο τύπος bool αντιμετωπίζεται ως ειδική περίπτωση από τη C++ για αύξηση της αποδοτικότητας κατά την αποθήκευση και χειρισμό.</p>
+</div>
+</li>
+<li><p class="first">Δεν είναι κλάσεις και δεν έχουν μεθόδους (methods) ή ιδιότητες (properties).</p>
+</li>
+</ul>
+</li>
+<li><p class="first">Τι μπορούμε να κάνουμε με αυτά</p>
+<ul>
+<li><p class="first">δήλωση+αρχικοποίηση, ανάθεση τιμής (στα αριστερά του =), λήψη τιμής (στα δεξιά του =)</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span>               <span class="c1">// define + init</span>
+<span class="kt">char</span> <span class="n">c1</span><span class="p">,</span><span class="n">c2</span><span class="p">;</span>      <span class="c1">// definition</span>
+<span class="kt">bool</span> <span class="n">b</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>   <span class="c1">// true is a keyword, same is false</span>
+<span class="kt">double</span> <span class="n">d</span><span class="p">;</span>
+
+<span class="n">d</span> <span class="o">=</span> <span class="mf">12.34</span><span class="p">;</span>
+<span class="n">c2</span> <span class="o">=</span> <span class="sc">&#39;x&#39;</span><span class="p">;</span>
+<span class="n">c1</span> <span class="o">=</span> <span class="n">c2</span><span class="p">;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="implicit-conversions">
+<h2>Αυτόματες μετατροπές (Implicit conversions)<a class="headerlink" href="#implicit-conversions" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Ασφαλείς ([bool-&gt;]char-&gt;int-&gt;double) και μη ασφαλείς μετατροπές.</li>
+<li>Παράδειγμα: εισαγωγή, ανάθεση σε διαφορετικό τύπο και εκτύπωση.</li>
+</ul>
+<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">#include &lt;iostream&gt;</span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kt">bool</span> <span class="n">b</span><span class="p">;</span>
+  <span class="kt">char</span> <span class="n">c</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+  <span class="kt">double</span> <span class="n">d</span><span class="p">;</span>
+  
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;give a bool:&quot;</span><span class="p">;</span>
+  <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">b</span><span class="p">;</span>
+  <span class="n">c</span> <span class="o">=</span> <span class="n">b</span><span class="p">;</span>
+  <span class="n">i</span> <span class="o">=</span> <span class="n">b</span><span class="p">;</span>
+  <span class="n">d</span> <span class="o">=</span> <span class="n">b</span><span class="p">;</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;b=&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">b</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; c=&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">c</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; i=&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; d=&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">d</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+  
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;give a char:&quot;</span><span class="p">;</span>
+  <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">c</span><span class="p">;</span>
+  <span class="n">b</span> <span class="o">=</span> <span class="n">c</span><span class="p">;</span>
+  <span class="n">i</span> <span class="o">=</span> <span class="n">c</span><span class="p">;</span>
+  <span class="n">d</span> <span class="o">=</span> <span class="n">c</span><span class="p">;</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;b=&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">b</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; c=&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">c</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; i=&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; d=&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">d</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>  
+
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;give an int:&quot;</span><span class="p">;</span>
+  <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">;</span>
+  <span class="n">b</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+  <span class="n">c</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+  <span class="n">d</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;b=&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">b</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; c=&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">c</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; i=&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; d=&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">d</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>  
+
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;give a double:&quot;</span><span class="p">;</span>
+  <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">d</span><span class="p">;</span>
+  <span class="n">b</span> <span class="o">=</span> <span class="n">d</span><span class="p">;</span>
+  <span class="n">c</span> <span class="o">=</span> <span class="n">d</span><span class="p">;</span>
+  <span class="n">i</span> <span class="o">=</span> <span class="n">d</span><span class="p">;</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;b=&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">b</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; c=&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">c</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; i=&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; d=&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">d</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>  
+
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Ο μεταγλωττιστής μπορεί να προειδοποιήσει για μη ασφαλείς μετατροπές αν το ζητήσουμε με την επιλογή <strong>-Wconversion</strong>:</p>
+<div class="last highlight-python"><pre>g++ -Wall -Wconversion implicitconversions.cpp -o implicitconversions
+implicitconversions.cpp: In function ‘int main()’:
+implicitconversions.cpp:28: warning: conversion to ‘char’ from ‘int’ may alter its value
+implicitconversions.cpp:35: warning: conversion to ‘char’ from ‘double’ may alter its value
+implicitconversions.cpp:36: warning: conversion to ‘int’ from ‘double’ may alter its value</pre>
+</div>
+</div>
+</div>
+<div class="section" id="operators">
+<h2>Τελεστές (Operators)<a class="headerlink" href="#operators" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">Διαφορετική λειτουργία ανά τύπο δεδομένων!</p>
+</li>
+<li><p class="first">Προτεραιότητα (precedence), προσεταιριστικότητα (associativity).</p>
+<ul class="simple">
+<li>Γενικά ακολουθούνται οι κανόνες που ξέρουμε από τα μαθηματικά.</li>
+<li>Συνοπτικός πίνακας: <a class="reference external" href="http://www.cppreference.com/wiki/operator_precedence">http://www.cppreference.com/wiki/operator_precedence</a></li>
+</ul>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">a</span> <span class="o">&lt;&lt;</span> <span class="n">b</span> <span class="o">&lt;&lt;</span> <span class="n">c</span><span class="p">;</span>
+<span class="p">((</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">a</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">b</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">cc</span><span class="p">;</span>  <span class="c1">// ισοδύναμο με προηγούμενο</span>
+</pre></div>
+</div>
+<div class="highlight-c++"><div class="highlight"><pre><span class="c1">// ΠΡΟΣΟΧΗ! Στο επόμενο ΔΕΝ πρέπει να υποθέσουμε ότι το (a+b)</span>
+<span class="c1">// θα υπολογιστεί πριν το (c-f) ή το αντίστροφο</span>
+<span class="n">v</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">c</span><span class="o">-</span><span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Ο τελεστής ++</p>
+<p>Παράδειγμα χρήσης:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="cp">#include &lt;iostream&gt;</span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">;</span>
+  
+  <span class="n">i</span><span class="o">=</span><span class="mi">5</span><span class="p">;</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;initially i=&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>	<span class="c1">// will print i=5</span>
+  <span class="n">j</span><span class="o">=++</span><span class="n">i</span><span class="p">;</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;after j=++i; i=&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; and j=&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">j</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>	<span class="c1">// will print i=6 and j=6</span>
+  <span class="n">j</span><span class="o">=</span><span class="n">i</span><span class="o">++</span><span class="p">;</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;after j=i++; i=&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; and j=&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">j</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>	<span class="c1">// will print i=7 and j=6</span>
+  
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Παραδοσιακή συμβουλή στην περίπτωση που ο τελεστής ++ χρησιμοποιείται μόνο για αύξηση (χωρίς ανάθεση) - αν και οι σύγχρονοι μεταγλωττιστές είναι αρκετά έξυπνοι να διαλέξουν την αποδοτικότερη μορφή, όπως και να το γράψουμε:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="o">++</span><span class="n">p</span><span class="p">;</span>       <span class="c1">// προτιμήστε αυτή τη μορφή του ++ για να αυξήσετε κατά 1 το p</span>
+           <span class="c1">// είναι αποδοτικότερη, ιδίως όταν το p είναι σύνθετο αντικείμενο</span>
+
+<span class="n">p</span><span class="o">++</span><span class="p">;</span>       <span class="c1">// σε σχέση με τη μορφή αυτή</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="calculator">
+<h2>Παράδειγμα: calculator<a class="headerlink" href="#calculator" title="Permalink to this headline">¶</a></h2>
+<p>(θεωρούμε ότι ο χρήστης θα εισάγει ΣΩΣΤΑ δεδομένα!)</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="c1">// simple calculator of double quantities</span>
+
+<span class="c1">// this program assumes that the user will enter the CORRECT input in cin</span>
+<span class="c1">// no checking whatsoever is done to validate entries</span>
+
+<span class="c1">// following header provides cin, cout etc</span>
+<span class="cp">#include &lt;iostream&gt;</span>
+
+<span class="c1">// all usual symbols are in standard c++ library namespace</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  
+  <span class="kt">double</span> <span class="n">d1</span><span class="p">,</span><span class="n">d2</span><span class="p">;</span>
+  <span class="kt">char</span> <span class="n">op</span><span class="p">;</span>
+  
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;A:&quot;</span><span class="p">;</span>
+  <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">d1</span><span class="p">;</span>	
+
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;B:&quot;</span><span class="p">;</span>
+  <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">d2</span><span class="p">;</span>
+   
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;op:&quot;</span><span class="p">;</span>
+  <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">op</span><span class="p">;</span>
+    
+  <span class="k">switch</span> <span class="p">(</span><span class="n">op</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="sc">&#39;+&#39;</span><span class="o">:</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">d1</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;+&#39;</span> <span class="o">&lt;&lt;</span> <span class="n">d2</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;=&#39;</span> <span class="o">&lt;&lt;</span> <span class="n">d1</span><span class="o">+</span><span class="n">d2</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span>
+    <span class="k">case</span> <span class="sc">&#39;-&#39;</span><span class="o">:</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">d1</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;-&#39;</span> <span class="o">&lt;&lt;</span> <span class="n">d2</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;=&#39;</span> <span class="o">&lt;&lt;</span> <span class="n">d1</span><span class="o">-</span><span class="n">d2</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span>
+    <span class="k">case</span> <span class="sc">&#39;*&#39;</span><span class="o">:</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">d1</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;*&#39;</span> <span class="o">&lt;&lt;</span> <span class="n">d2</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;=&#39;</span> <span class="o">&lt;&lt;</span> <span class="n">d1</span><span class="o">*</span><span class="n">d2</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span>
+    <span class="k">case</span> <span class="sc">&#39;/&#39;</span><span class="o">:</span> <span class="k">if</span> <span class="p">(</span><span class="n">d2</span><span class="o">==</span><span class="mf">0.0</span><span class="p">)</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;division by 0!&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span>
+    	      <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">d1</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;/&#39;</span> <span class="o">&lt;&lt;</span> <span class="n">d2</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;=&#39;</span> <span class="o">&lt;&lt;</span> <span class="n">d1</span><span class="o">/</span><span class="n">d2</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span>
+    <span class="k">default</span><span class="o">:</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;unknown operation!&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+   
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="module2.html" title="Ενότητα 2-2"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Υλικό μαθήματος προγραμματισμού (C++)"
+             >previous</a> |</li>
+        <li><a href="../index.html">C++ Lectures v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, mistral.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+    </div>
+  </body>
+</html>

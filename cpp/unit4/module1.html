@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Ενότητα 4-1 &mdash; C++ Lectures v1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="C++ Lectures v1.0 documentation" href="../index.html" />
+    <link rel="next" title="Ενότητα 4-2" href="module2.html" />
+    <link rel="prev" title="Ενότητα 3-2" href="../unit3/module2.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="module2.html" title="Ενότητα 4-2"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../unit3/module2.html" title="Ενότητα 3-2"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">C++ Lectures v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>Ενότητα 4-1<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>Εισαγωγή στις κλάσεις<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Οι κλάσεις ορίζουν σύνθετους τύπους αντικειμένων (σε αντίθεση με τους native τύπους) και αποτελούν το κύριο εργαλείο αντικειμενοστρεφούς προγραμματισμού. Μια κλάση δηλώνεται με τη λέξη κλειδί <strong>class</strong>:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Test</span> <span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+  <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+  <span class="n">Test</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span><span class="kt">int</span> <span class="n">b</span><span class="p">,</span><span class="kt">int</span> <span class="n">c</span><span class="p">);</span>
+<span class="k">protected</span><span class="o">:</span>
+  <span class="kt">int</span> <span class="n">j</span><span class="p">;</span>
+<span class="k">private</span><span class="o">:</span>
+  <span class="c1">//int err = 3;     NOTE! Cannot init a non-static variable! Compilation error.</span>
+  <span class="kt">int</span> <span class="n">k</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>Η δήλωση αυτή είναι το &quot;αρχιτεκτονικό σχέδιο&quot; της κλάσης: δεν δεσμεύει χώρο μνήμης η ίδια, αλλά θα χρησιμοποιηθεί για τη δημιουργία στιγμιοτύπων της κλάσης (objects στην ορολογία της C++).</p>
+<p>Όπως φαίνεται στο προηγούμενο παράδειγμα, η κλάση μπορεί να περικλείει μεταβλητές (member variables) και συναρτήσεις (member functions).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Οι μεταβλητές <strong>δεν μπορούν να αρχικοποιούνται</strong> μέσα στη δήλωση της κλάσης!</p>
+</div>
+<p>Οι λέξεις κλειδιά <strong>public</strong>, <strong>protected</strong> και <strong>private</strong> προσδιορίζουν τον τρόπο προσπέλασης των μελών μιας κλάσης (access specifiers):</p>
+<ul class="simple">
+<li><strong>public:</strong> πρόσβαση στα μέλη αυτά έχει ο κώδικας απ'οποιοδήποτε σημείο του προγράμματος.</li>
+<li><strong>private:</strong> τα μέλη αυτά μπορεί να προσπελάσει μόνο κώδικας από συναρτήσεις της ίδιας της κλάσης.</li>
+<li><strong>protected:</strong> μέχρι να μιλήσουμε για κληρονομικότητα, ισοδυναμεί με private.</li>
+</ul>
+<p>Αν δεν υπάρχει access specifier, τα μέλη που ακολουθούν είναι private (η C++ μας δείχνει τον &quot;σωστό τρόπο&quot; χρήσης). Δεν είναι υποχρεωτικό να εμφανίζονται τα public, protected και private μόνο μια φορά.</p>
+<p>Ο κώδικας των συναρτήσεων της κλάσης πρέπει να οριστεί στη συνέχεια. Η δήλωση:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">Test</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span><span class="kt">int</span> <span class="n">b</span><span class="p">,</span><span class="kt">int</span> <span class="n">c</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>προσδιορίζει μια ειδικού τύπου συνάρτηση με όνομα ίδιο με της κλάσης, για την οποία θα μιλήσουμε σε λίγο.</p>
+<p>Εφόσον έχει προηγηθεί η δήλωση της κλάσης Test, μια μεταβλητή αντικειμένου της κλάσης Test μπορεί να οριστεί όπως ακριβώς κάθε native μεταβλητή:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">Test</span> <span class="n">tob</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Η δήλωση-αρχικοποίηση της μεταβλητής tob ως αντικείμενο της κλάσης Test</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">Test</span> <span class="n">tob</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>έχει ως σκοπό να αρχικοποιήσει τα i, j και k του αντικειμένου tob στις τιμές 1, 2 και 3 αντίστοιχα. Κατά τη δημιουργία του αντικειμένου η C++ καλεί μια ειδική συνάρτηση-κατασκευαστή (constructor) της κλάσης, με τις παραμέτρους της δήλωσης (εδώ τα 1, 2, 3). Ο constructor δηλώνεται ως <strong>public</strong> συνάρτηση μέλος της κλάσης, με το όνομα της συνάρτησης <strong>ίδιο</strong> με εκείνο της κλάσης και <strong>χωρίς τύπο επιστροφής</strong> (δεν επιστρέφει ποτέ κάτι).</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="k">public</span><span class="o">:</span>
+  <span class="n">Test</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span><span class="kt">int</span> <span class="n">b</span><span class="p">,</span><span class="kt">int</span> <span class="n">c</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Αν και σπάνιο, μπορούμε να αρχικοποιήσουμε αντικείμενα χωρίς constructor. Η C++ καλεί έναν εξ'ορισμού constructor στην περίπτωση αυτή. Επίσης μπορούμε να δηλώσουμε πολλούς διαφορετικούς constructors για μια κλάση, αρκεί κάθε ένας να έχει διαφορετικό αριθμό ή/και τύπο παραμέτρων εισόδου (οπότε, ανάλογα με το πώς αρχικοποιούμε το αντικείμενο καθορίζεται και ποιος constructor θα κληθεί). Προσοχή: από τη στιγμή που θα ορίσουμε έστω και έναν constructor, δεν μπορούμε πλέον να χρησιμοποιήσουμε τον εξ'ορισμού constructor.</p>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>Ανάθεση αρχικών τιμών στα μέλη της κλάσης<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>Η συνάρτηση constructor μπορεί να εκτελεί διάφορες λειτουργίες αρχικοποίησης, μία βασική όμως είναι η ανάθεση των αρχικών τιμών στις μεταβλητές μέλη της κλάσης με τον εξής τρόπο:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">Test</span><span class="o">::</span><span class="n">Test</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span><span class="kt">int</span> <span class="n">b</span><span class="p">,</span><span class="kt">int</span> <span class="n">c</span><span class="p">)</span><span class="o">:</span> <span class="n">i</span><span class="p">(</span><span class="n">a</span><span class="p">),</span><span class="n">j</span><span class="p">(</span><span class="n">b</span><span class="p">),</span><span class="n">k</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Εδώ η μεταβλητή-μέλος i του αντικειμένου της κλάσης Test θα αρχικοποιηθεί με την τιμή της πρώτης παραμέτρου a, η j με τη δεύτερη παράμετρο b και η k με την c. Παρατηρήστε ότι ο constructor δεν εκτελεί άλλη λειτουργία εδώ, οπότε το σώμα της συνάρτησης είναι κενό (υπάρχουν μόνο τα { }).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Γιατί να μην γράψουμε το εξής;</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">Test</span><span class="o">::</span><span class="n">Test</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span><span class="kt">int</span> <span class="n">b</span><span class="p">,</span><span class="kt">int</span> <span class="n">c</span><span class="p">)</span><span class="o">:</span> <span class="p">{</span>
+  <span class="n">i</span> <span class="o">=</span> <span class="n">a</span><span class="p">;</span>
+  <span class="n">j</span> <span class="o">=</span> <span class="n">b</span><span class="p">;</span>
+  <span class="n">k</span> <span class="o">=</span> <span class="n">c</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p class="last">Αν και συντακτικά αυτό είναι σωστό, οι &quot;έμπειροι&quot; προγραμματιστές προτιμούν την πρώτη μορφή. Αν τα i, j και k δεν είναι μεταβλητές native τύπου, τότε η δεύτερη μορφή δεν είναι το ίδιο αποδοτική με την πρώτη.</p>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>Προσπέλαση μελών ενός αντικειμένου<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>Μέσα στον κώδικα των συναρτήσεων της κλάσης μπορούμε να αναφερθούμε στις μεταβλητές με το όνομά τους:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="n">i</span> <span class="o">=</span> <span class="n">j</span><span class="o">+</span><span class="n">k</span><span class="o">+</span><span class="mi">99</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>ενώ έξω από αυτές (π.χ. στο main()) χρησιμοποιούμε το .</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">Test</span> <span class="n">tob</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">tob</span><span class="p">.</span><span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+  <span class="c1">//cout &lt;&lt; tob.j &lt;&lt; endl;   ERROR! protected member</span>
+  <span class="c1">//cout &lt;&lt; tob.k &lt;&lt; endl;   ERROR! private member</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Παρατηρήστε ότι ο κώδικας που δεν ανήκει σε συναρτήσεις της κλάσης δεν μπορεί να προσπελάσει τα private και protected μέλη!</p>
+<p>Η &quot;καλή πρακτική&quot; στον αντικειμενοστρεφή προγραμματισμό θέλει να δηλώνονται οι μεταβλητές μιας κλάσης ως private και να παρέχονται συναρτήσεις public της κλάσης για την προσπέλασή τους (&quot;getters&quot; για την επιστροφή των τιμών των private μεταβλητών και &quot;setters&quot; για την ανάθεση τιμών σε αυτές). Έτσι απομονώνουμε από τον έξω κόσμο τις εσωτερικές λεπτομέρειες υλοποίησης μιας κλάσης και επιτρέπουμε μόνο ελεγχόμενη πρόσβαση στις μεταβλητές της.</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="cp">#include &lt;iostream&gt;</span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Test</span> <span class="p">{</span>
+<span class="k">private</span><span class="o">:</span>
+  <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+<span class="k">public</span><span class="o">:</span>
+  <span class="n">Test</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
+  <span class="kt">int</span> <span class="n">get_i</span><span class="p">();</span>
+<span class="p">};</span>
+
+<span class="n">Test</span><span class="o">::</span><span class="n">Test</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">)</span><span class="o">:</span> <span class="n">i</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="p">{</span>
+
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">Test</span><span class="o">::</span><span class="n">get_i</span><span class="p">()</span> <span class="p">{</span>  <span class="c1">// getter</span>
+  <span class="k">return</span> <span class="n">i</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">Test</span> <span class="n">tobj</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">tobj</span><span class="p">.</span><span class="n">get_i</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Σε περιπτώσεις <strong>πολύ απλών</strong> συναρτήσεων όπως η get_i(), μπορούμε να ορίσουμε τον κώδικα της συνάρτησης <strong>μέσα στη δήλωση της κλάσης</strong> ως εξής:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Test</span> <span class="p">{</span>
+<span class="k">private</span><span class="o">:</span>
+  <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+<span class="k">public</span><span class="o">:</span>
+  <span class="n">Test</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
+  <span class="kt">int</span> <span class="n">get_i</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">i</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p class="last">Στην περίπτωση αυτή πρόκειται για συνάρτηση <strong>inline</strong>: ζητάμε από τον μεταγλωττιστή να μην δημιουργήσει κώδικα για τη συνάρτηση get_i() αλλά σε κάθε σημείο που καλείται η get_i() να τοποθετεί κατευθείαν τον κώδικα της (<strong>χωρίς πραγματική κλήση της συνάρτησης!</strong>). Γενικότερα, οι συναρτήσεις inline είναι διφορούμενης χρησιμότητας: μπορούν να βελτιώσουν την απόδοση ή να την μειώσουν. Απαιτείται πείρα για να αναγνωριστεί πότε πρέπει να χρησιμοποιηθούν, συνεπώς <strong>αποφύγετε τη χρήση τους σε κάθε περίπτωση εκτός από το απλό { return something; }</strong> του παραδείγματος!</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="module2.html" title="Ενότητα 4-2"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../unit3/module2.html" title="Ενότητα 3-2"
+             >previous</a> |</li>
+        <li><a href="../index.html">C++ Lectures v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, mistral.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+    </div>
+  </body>
+</html>

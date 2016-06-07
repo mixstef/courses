@@ -1,0 +1,327 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Ενότητα 2-1 &mdash; Internet Programming Lectures v1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Internet Programming Lectures v1.0 documentation" href="../index.html" />
+    <link rel="next" title="Ενότητα 2-2" href="module2.html" />
+    <link rel="prev" title="Ενότητα 1-2" href="../unit1/module2.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="module2.html" title="Ενότητα 2-2"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../unit1/module2.html" title="Ενότητα 1-2"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Internet Programming Lectures v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>Ενότητα 2-1<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="web-page-scraping">
+<h2>Web page scraping<a class="headerlink" href="#web-page-scraping" title="Permalink to this headline">¶</a></h2>
+<p>Στο Διαδίκτυο υπάρχει μεγάλη ποσότητα πληροφορίας &#8216;εγκλωβισμένη&#8217; μέσα σε ιστοσελίδες. Οι ιστοσελίδες είναι φτιαγμένες για ανάγνωση από τον άνθρωπο κι όχι από ένα πρόγραμμα. Πολλές φορές όμως προκύπτει η ανάγκη για &#8216;μηχανική&#8217; ανάγνωση των περιεχομένων ενός web site και η μετατροπή τους σε δομές πιο εύκολα επεξεργάσιμες από τον υπολογιστή. Η &#8216;μηχανική&#8217; εξαγωγή της πληροφορίας ονομάζεται web(page) scraping.</p>
+<p>Η διαδικασία του web scraping δεν είναι εύκολη:</p>
+<blockquote>
+<ul class="simple">
+<li>Πρέπει να βρεθεί ένα (επαναλαμβανόμενο) σχέδιο στην HTML μιας σελίδας που να επιτρέπει τον εντοπισμό της αρχής και του τέλους των κομματιών πληροφορίας που θέλουμε.</li>
+<li>Το σχέδιο αυτό είναι μοναδικό. Για κάθε άλλη ιστοσελίδα, πρέπει να βρεθεί νέο σχέδιο.</li>
+<li>Αν η σχεδίαση της ιστοσελίδας αλλάξει, πρέπει να αλλάξει και το σχέδιο (άρα και το πρόγραμμα) εξαγωγής δεδομένων.</li>
+<li>Προσοχή στους &#8216;Όρους Χρήσης&#8217; του κάθε site: σε κάποια από αυτά, η μηχανική εξαγωγή πληροφορίας <strong>δεν επιτρέπεται</strong>.</li>
+</ul>
+</blockquote>
+<p>Παρ&#8217;όλα τα προηγούμενα, πρέπει να πούμε ότι το web scraping είναι πολλές φορές αναγκαίο! Στην Python έχουμε διάφορους τρόπους στη διαθεσή μας για να υλοποιήσουμε το web scraping, όπως θα δούμε στη συνέχεια.</p>
+</div>
+<div class="section" id="string">
+<h2>Εξαγωγή πληροφορίας με μεθόδους string<a class="headerlink" href="#string" title="Permalink to this headline">¶</a></h2>
+<p>Η κύρια μέθοδος string  που μπορούμε να χρησιμοποιήσουμε είναι η <tt class="docutils literal"><span class="pre">find()</span></tt>, η οποία επιστρέφει το σημείο (index) που βρίσκεται ένα string μέσα σε κάποιο άλλο, ή -1 αν δεν υπάρχει.</p>
+<ul class="simple">
+<li>Παράδειγμα εύρεσης string μέσα σε άλλο string:</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s">&#39;abcdefghijk&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">i</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;def&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">i</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">i</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;dxf&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">i</span>
+<span class="go">-1</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Η find() δέχεται και δεύτερο προαιρετικό όρισμα που καθορίζει από πιο σημείο θα αρχίσει η έρευνα:</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s">&#39;abcdabcd&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">i</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;abc&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">i</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">i</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;abc&#39;</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">i</span>
+<span class="go">4</span>
+</pre></div>
+</div>
+<p>Η γενική μεθοδολογία είναι η ακόλουθη:</p>
+<ul class="simple">
+<li>Εντοπίζουμε strings που βρίσκονται πριν και μετά την πληροφορία που θέλουμε να εξάγουμε.<ul>
+<li><strong>Προσοχή!</strong> Τα strings αυτά πορέπει να μην υπάρχουν σε άλλες -άσχετες- θέσεις!</li>
+</ul>
+</li>
+<li>Με τη <tt class="docutils literal"><span class="pre">find()</span></tt> βρίσκουμε δείκτες στην αρχή και το τέλος της πληροφορίας που μας ενδιαφέρει.</li>
+<li>Εξάγουμε την πληροφορία με slicing.</li>
+<li>Επαναλαμβάνουμε τη διαδικασία μέχρι να ανακτήσουμε όλη την πληροφορία της σελίδας.</li>
+</ul>
+<div class="section" id="id2">
+<h3>Παράδειγμα<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>Από το site του μεταπτυχιακού (<a class="reference external" href="http://di.ionio.gr/msc/">http://di.ionio.gr/msc/</a>) θέλουμε να εξάγουμε τους τίτλους και τα links των &#8216;νέων/ανακοινώσεων&#8217;. Μια προσεκτική ανάγνωση της HTML δείχνει το σημείο που μας ενδιαφέρει:</p>
+<div class="highlight-html"><div class="highlight"><pre>                                        <span class="nt">&lt;h3&gt;</span>Νέα/Ανακοινώσεις<span class="nt">&lt;/h3&gt;</span>
+
+                                        <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;latestnews-hilite8&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">&quot;latestnews-hilite8&quot;</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;/msc/news/1-announcements/45-2010-02-26-10-35-44.html&quot;</span> <span class="na">class=</span><span class="s">&quot;latestnews-hilite8&quot;</span><span class="nt">&gt;</span>
+                        Παράταση δηλώσεων μαθημάτων επιλογής Π.Μ.Σ<span class="nt">&lt;/a&gt;</span>
+
+        <span class="nt">&lt;/li&gt;</span>
+        <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">&quot;latestnews-hilite8&quot;</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;/msc/news/1-announcements/42--2009-2010.html&quot;</span> <span class="na">class=</span><span class="s">&quot;latestnews-hilite8&quot;</span><span class="nt">&gt;</span>
+                        ΟΡΘΗ ΕΠΑΝΑΛΗΨΗ: Δηλώσεις επιλεγομένων μαθημάτων ΠΜΣ εαρινού εξαμήνου ακαδ. έτους 2009-2010<span class="nt">&lt;/a&gt;</span>
+        <span class="nt">&lt;/li&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+</pre></div>
+</div>
+<p>To string <tt class="docutils literal"><span class="pre">&lt;li</span> <span class="pre">class=&quot;latestnews-hilite8&quot;&gt;</span></tt> είναι αυτό που μας οδηγεί σε κάθε ανακοίνωση.</p>
+<blockquote>
+<ul class="simple">
+<li>Προσοχή! Το  <tt class="docutils literal"><span class="pre">hilite8</span></tt> ή το <tt class="docutils literal"><span class="pre">latestnews-hilite8</span></tt> δεν αρκεί! (γιατί;)</li>
+</ul>
+</blockquote>
+<p>Στη συνέχεια μπορούμε να εντοπίσουμε την έναρξη του link με το <tt class="docutils literal"><span class="pre">&lt;a</span> <span class="pre">href=&quot;</span></tt>, το τέλος του link  με το <tt class="docutils literal"><span class="pre">&quot;</span></tt> που έπεται, την έναρξη του τίτλου με το πρώτο <tt class="docutils literal"><span class="pre">&gt;</span></tt> που θα βρεθεί αμέσως μετά και το τέλος με το <tt class="docutils literal"><span class="pre">&lt;</span></tt>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#!/usr/bin/python</span>
+<span class="c"># -*- coding: UTF-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">urllib</span>
+
+<span class="c"># acquire page</span>
+<span class="n">page</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://di.ionio.gr/msc/&quot;</span><span class="p">)</span>
+<span class="n">pagetext</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">page</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="c"># locate last news - done by string search here - not re</span>
+<span class="n">i</span> <span class="o">=</span> <span class="n">pagetext</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;&lt;li class=&quot;latestnews-hilite8&quot;&gt;&#39;</span><span class="p">)</span>
+<span class="k">while</span> <span class="n">i</span><span class="o">!=-</span><span class="mi">1</span><span class="p">:</span>
+	<span class="n">i</span> <span class="o">+=</span> <span class="mi">31</span>		<span class="c"># skip found item</span>
+	<span class="n">j</span> <span class="o">=</span> <span class="n">pagetext</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;&lt;a href=&#39;</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+	<span class="k">if</span> <span class="n">j</span><span class="o">==-</span><span class="mi">1</span><span class="p">:</span> <span class="k">break</span>		<span class="c"># should not happen</span>
+	<span class="n">i</span> <span class="o">=</span> <span class="n">pagetext</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;&quot;&#39;</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="mi">9</span><span class="p">)</span>
+	<span class="k">if</span> <span class="n">i</span><span class="o">==-</span><span class="mi">1</span><span class="p">:</span> <span class="k">break</span>		<span class="c"># should not happen</span>
+	<span class="n">url</span> <span class="o">=</span> <span class="n">pagetext</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">9</span><span class="p">:</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+	<span class="n">j</span> <span class="o">=</span> <span class="n">pagetext</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;&gt;&#39;</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+	<span class="k">if</span> <span class="n">j</span><span class="o">==-</span><span class="mi">1</span><span class="p">:</span> <span class="k">break</span>		<span class="c"># should not happen</span>
+	<span class="n">i</span> <span class="o">=</span> <span class="n">pagetext</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;&lt;&#39;</span><span class="p">,</span><span class="n">j</span><span class="p">)</span>
+	<span class="k">if</span> <span class="n">i</span><span class="o">==-</span><span class="mi">1</span><span class="p">:</span> <span class="k">break</span>		<span class="c"># should not happen</span>
+	<span class="n">title</span> <span class="o">=</span> <span class="n">pagetext</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+	<span class="k">print</span> <span class="s">&quot;</span><span class="si">%s</span><span class="se">\n</span><span class="s">[</span><span class="si">%s</span><span class="s">]</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">title</span><span class="p">,</span><span class="n">url</span><span class="p">)</span>
+	<span class="n">i</span> <span class="o">=</span> <span class="n">pagetext</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;&lt;li class=&quot;latestnews-hilite8&quot;&gt;&#39;</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Σχόλια στον προηγούμενο κώδικα:</p>
+<ul class="simple">
+<li>Διαβάζουμε όλη την ιστοσελίδα &#8216;με τη μία&#8217; σε ένα string.</li>
+<li>H <tt class="docutils literal"><span class="pre">find()</span></tt> χρησιμοποιείται επαναληπτικά μεταβάλλοντας το 2ο όρισμα (αλλάζοντας κάθε φορά τη θέση έναρξης αναζήτησης). Έτσι, τα <tt class="docutils literal"><span class="pre">i</span></tt> και <tt class="docutils literal"><span class="pre">j</span></tt> προχωρούν σταδιακά προς το τέλος της ιστοσελίδας.</li>
+<li>Η μέθοδος <tt class="docutils literal"><span class="pre">strip()</span></tt> αφαιρεί από την αρχή και το τέλος ενός string χαρακτήρες space, newline, tab κλπ.</li>
+<li>Η print τυπώνει ένα string που παράγεται με τη χρήση του τελεστή μορφοποίησης <tt class="docutils literal"><span class="pre">%</span></tt><ul>
+<li>Ο τελεστής αυτός έχει αριστερά ένα string με οδηγίες μορφοποίησης και δεξιά ένα tuple (δομή σαν τη λίστα, αλλά immutable) με τα δεδομένα προς εκτύπωση.</li>
+<li>Σε αντίθεση με τη C, στο 99% των περιπτώσεων το μόνο formatting option που χρειάζεται είναι το <tt class="docutils literal"><span class="pre">%s</span></tt> που μετατρέπει οτιδήποτε σε string.</li>
+</ul>
+</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">title</span> <span class="o">=</span> <span class="s">&#39;a title&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url</span> <span class="o">=</span> <span class="s">&#39;http://a.url&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="s">&quot;</span><span class="si">%s</span><span class="se">\n</span><span class="s">[</span><span class="si">%s</span><span class="s">]&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">title</span><span class="p">,</span><span class="n">url</span><span class="p">)</span>
+<span class="go">a title</span>
+<span class="go">[http://a.url]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>Θέματα κωδικοποίησης σετ χαρακτήρων<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>Με τη διαδικασία του web scraping επεξεργαζόμαστε κείμενο, το οποίο μπορεί να βρίσκεται σε διάφορες κωδικοποιήσεις χαρακτήρων και όχι π.χ. στη μοντέρνα utf-8 κωδικοποίηση που χρησιμοποιεί πλέον ο υπολογιστής μας. Πώς αντιμετωπίζουμε την κατάσταση αυτή;</p>
+<ul class="simple">
+<li>Κατά τη λήψη του κειμένου το μετατρέπουμε σε Unicode (wide χαρακτήρες, η υλοποίηση εξαρτάται από γλώσσα και ΛΣ).</li>
+<li>Ολη η επεξεργασία γίνεται στους χαρακτήρες Unicode.</li>
+<li>Κατά την εκτύπωση μετατρέπουμε σε utf-8.</li>
+</ul>
+<div class="section" id="python">
+<h3>Τι παρέχει η Python<a class="headerlink" href="#python" title="Permalink to this headline">¶</a></h3>
+<p>H Python διαθέτει 2 είδη strings:</p>
+<ul>
+<li><p class="first">Τα κοινά <strong>strings</strong> που έχουμε δει ως τώρα, τα οποία μπορούν να θεωρηθούν απλές ακολουθίες από bytes. Αν και μπορεί να αποθηκευτεί σε αυτά κείμενο σε οποιαδήποτε κωδικοποίηση, οι μέθοδοι των string <strong>δεν θα δουλέψουν σωστά όταν ένας χαρακτήρας αποτελείται από 2 ή περισσότερα bytes!</strong></p>
+<blockquote>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s">&#39;123δοκιμή&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="go">15</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">s</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">s</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+<span class="go">�</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">print</span> <span class="n">c</span>
+<span class="gp">...</span>
+<span class="go">1</span>
+<span class="go">2</span>
+<span class="go">3</span>
+
+<span class="go">�</span>
+
+<span class="go">�</span>
+
+<span class="go">�</span>
+
+<span class="go">�</span>
+
+<span class="go">�</span>
+
+<span class="go">�</span>
+</pre></div>
+</div>
+<p>Για να καταλάβετε γιατί το μέγεθος του s είναι 15 (!) ή γιατί δεν τυπώνονται οι χαρακτήρες όπως θα περίμενε κανείς, σκεφτείτε ότι στην εξ&#8217;ορισμού κωδικοποίηση utf-8 ένας ελληνικός χαρακτήρας καταλαμβάνει 2 bytes.</p>
+</blockquote>
+</li>
+<li><p class="first"><strong>Unicode strings</strong> όπου, σε αντίθεση με τα κοινά strings, κάθε θέση περιέχει έναν ολόκληρο χαρακτήρα, όσα bytes κι αν καταλαμβάνει αυτός.</p>
+<blockquote>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">us</span> <span class="o">=</span> <span class="s">u&#39;123δοκιμή&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">us</span><span class="p">)</span>
+<span class="go">9</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">us</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+<span class="go">ο</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">us</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+<span class="go">κ</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">us</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">print</span> <span class="n">c</span>
+<span class="gp">...</span>
+<span class="go">1</span>
+<span class="go">2</span>
+<span class="go">3</span>
+<span class="go">δ</span>
+<span class="go">ο</span>
+<span class="go">κ</span>
+<span class="go">ι</span>
+<span class="go">μ</span>
+<span class="go">ή</span>
+</pre></div>
+</div>
+<p>Παρατηρήστε πώς το <tt class="docutils literal"><span class="pre">u'</span> <span class="pre">...</span> <span class="pre">'</span></tt> ορίζει μια σταθερά unicode string.</p>
+</blockquote>
+</li>
+</ul>
+<p>Μπορούμε να μετατρέψουμε το ένα είδος string στο άλλο και αντίστροφα.</p>
+<ul>
+<li><p class="first">Για μετατροπή από unicode string σε απλό string</p>
+<blockquote>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">us</span> <span class="o">=</span> <span class="s">u&#39;123δοκιμή&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">us</span>
+<span class="go">u&#39;123\u03b4\u03bf\u03ba\u03b9\u03bc\u03ae&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">us</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span>
+<span class="go">&#39;123\xce\xb4\xce\xbf\xce\xba\xce\xb9\xce\xbc\xce\xae&#39;</span>
+</pre></div>
+</div>
+<p>Η εκτύπωση των περιεχομένων των us και s σε &#8216;debug mode&#8217; (χωρίς το print) δείχνει πώς το unicode string μετατρέπεται σε κωδικοποίηση UTF-8.</p>
+</blockquote>
+</li>
+<li><p class="first">Αντίστροφα, για τη μετατροπή απλού string σε unicode string (<strong>με τη σημαντική διαφορά ότι εδώ πρέπει να ξέρουμε εκ των προτέρων την κωδικοποίηση του απλού string</strong>)</p>
+<blockquote>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s">&#39;123δοκιμή&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span>
+<span class="go">&#39;123\xce\xb4\xce\xbf\xce\xba\xce\xb9\xce\xbc\xce\xae&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">us</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">us</span>
+<span class="go">u&#39;123\u03b4\u03bf\u03ba\u03b9\u03bc\u03ae&#39;</span>
+</pre></div>
+</div>
+<p>Παρατηρήστε ότι αν η κωδικοποίηση του <tt class="docutils literal"><span class="pre">s</span></tt> δεν ήταν UTF-8, η κλήση της decode θα αποτύγχανε!</p>
+</blockquote>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>Παράδειγμα: μετατροπή μεταξύ σετ χαρακτήρων<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>Υποθέστε ότι θα δουλέψετε στην ιστοσελίδα <a class="reference external" href="http://www.meteo.gr/cf.asp?city_id=5">http://www.meteo.gr/cf.asp?city_id=5</a>. Μια γρήγορη ματιά στον κώδικα HTML σας πείθει ότι δεν πρόκειται για περιεχόμενο σε UTF-8:</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=iso-8859-7&quot;</span><span class="nt">&gt;</span>
+</pre></div>
+</div>
+<p>Θέλετε να επεξεργαστείτε το περιεχόμενο σε Unicode και να τυπώσετε αποτελέσματα σε UTF-8.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#!/usr/bin/python</span>
+<span class="c"># -*- coding: UTF-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">urllib</span>
+
+<span class="n">page</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://www.meteo.gr/cf.asp?city_id=5&quot;</span><span class="p">)</span>
+<span class="c"># read and convert to unicode</span>
+<span class="n">pagetext</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&quot;iso8859_7&quot;</span><span class="p">)</span> 
+<span class="n">page</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="c"># additional work on unicode can be done here, like for example</span>
+<span class="n">outstr</span> <span class="o">=</span> <span class="n">pagetext</span><span class="p">[</span><span class="mi">100</span><span class="p">:</span><span class="mi">230</span><span class="p">]</span>
+
+<span class="c"># print after converting to UTF-8 that our console supports</span>
+<span class="k">print</span> <span class="n">outstr</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&quot;utf_8&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="module2.html" title="Ενότητα 2-2"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../unit1/module2.html" title="Ενότητα 1-2"
+             >previous</a> |</li>
+        <li><a href="../index.html">Internet Programming Lectures v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2011, mistral.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.6.
+    </div>
+  </body>
+</html>

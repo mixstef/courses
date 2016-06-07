@@ -1,0 +1,58 @@
+Ενότητα 2-4
+==============
+
+Απλός χειρισμός δεδομένων XML
+------------------------------------
+
+Πολλές διαδικτυακές εφαρμογές ανταλλάσσουν δεδομένα σε μορφή XML. Εάν λάβουμε τέτοιου τύπου δεδομένα, μπορούμε να τα επεξεργαστούμε χρησιμοποιώντας parsers δύο κατηγοριών:
+
+* DOM(-like) parsers: μετατρέπουν το αρχείο XML σε μια δενδρική δομή, την οποία στη συνέχεια μπορούμε να διασχίσουμε αναζητώντας τα σημεία που μας ενδιαφέρουν. 
+* SAX parsers: εδώ κατά την ανάλυση του αρχείου, από την αρχή προς το τέλος, δημιουργούνται γεγονότα (events) κατά το άνοιγμα ή το κλείσιμο των tags, κατά την εμφάνιση του περιεχόμενου κειμένου στους κόμβους κ.ο.κ. Εμείς πρέπει να γράψουμε τον αντίστοιχο κώδικα που θα καλείται στην εμφάνιση των events αυτών (event handlers).
+
+Η πρώτη κατηγορία parsers μπορεί να χρησιμοποιηθεί όταν ξέρουμε το μέγεθος του αρχείου που θα λάβουμε και είναι (σχετικά) περιορισμένο. Για αρχεία άγνωστου μεγέθους ή αρχεία που έρχονται τμηματικά, η δεύτερη κατηγορία είναι πιο ενδεδειγμένη.
+
+Στο παράδειγμά μας, λαμβάνουμε μια βιβλιογραφική εγγραφή για ένα δεδομένο ISBN. Το ζητούμενο είναι να αναγνωρίσουμε σε ποια θεματική κατηγορία ανήκει το αντικείμενο με το ISBN αυτό. Η εγγραφή είναι μικρή σε μέγεθος και ζητάμε κάτι συγκεκριμένο, οπότε μπορούμε να χρησιμοποιήσουμε έναν ελαφρύ DOM-like parser που περιλαμβάνεται στη στάνταρ βιβλιοθήκη της Python: το ElementTree module  
+
+..	code-block:: python
+                        
+	import xml.etree.ElementTree as ET
+	
+Το module ElementTree διαθέτει τη συνάρτηση ``parse(fileobj)``, η οποία μετατρέπει το περιεχόμενο ενός αρχείου σε δενδρική δομή:
+
+..	code-block:: python
+                        
+	# let's build an elementtree element now
+	tree = ET.parse(page)
+
+Στη συνέχεια μπορούμε να αναζητήσουμε ορισμένους κόμβους στο δέντρο, δίνοντας το μονοπάτι (path) προς τους κόμβους αυτούς, ξεκινώντας από τη ρίζα.
+
+* Η ρίζα δεν περιλαμβάνεται στο μονοπάτι.
+* Αν έχετε namespaces,  τότε το μονοπάτι είναι της μορφής ``'{namespace1}nodename1/{namespace2}nodename2/...'``
+
+..	code-block:: python
+                        
+	# mark our namespaces for clarity
+	NS = "{http://www.loc.gov/MARC21/slim}"	# the default namespace
+	ZSNS = "{http://www.loc.gov/zing/srw/}"
+
+	# find all nodes in the path zs:records/zs:record/zs:recordData/record/datafield under root 
+	# NOTE: root tag is not listed in path as it is represented by 'tree' variable.
+	elm = tree.findall(ZSNS+"records/"+ZSNS+"record/"+ZSNS+"recordData/"+NS+"record/"+NS+"datafield")
+	
+Η ``findall()`` επιστρέφει μια λίστα κόμβων που ταιριάζουν στο μονοπάτι αναζήτησης. Στη συνέχεια διασχίζουμε τη λίστα αυτή, αναζητώντας κόμβους που έχουν την τιμή ``650`` ("θεματική περιοχή") στην ιδιότητα (attribute) ``tag``. Για κάθε τέτοιο κόμβο παίρνουμε όλα τα παιδιά του ``subfield`` και τυπώνουμε το περιεχόμενο κείμενό τους:
+
+..	code-block:: python
+                        
+	# iterate searching for specific attribute and print
+	# text of 'subfield' nodes under found elements
+	for e in elm:
+		if e.attrib['tag']=='650':
+			e2 = e.findall(NS+"subfield")
+			for itm in e2:
+				print itm.text
+
+Το συνολικό πρόγραμμα έχει ως εξής:
+
+.. literalinclude:: elementtree-tests.py
+   :language: python
+ 

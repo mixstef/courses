@@ -1,0 +1,325 @@
+Ενότητα 4-2
+==============
+
+TCP - Πρόβλημα #1: Πότε τελειώνουν τα δεδομένα;
+---------------------------------------------------
+Για να δείξουμε το πρόβλημα χρησιμοποιούμε τον :ref:`απλοϊκό TCP server <tcp-simplistic-server>` με την προσθήκη της ``recvcount`` για την παρακολούθηση του συνολικού αριθμού bytes που λάβαμε από το ``connectionsock`` :
+
+.. comment: following code based on tcp-simplistic-server-hugedata.py
+
+..	code-block:: python
+
+	import socket
+
+	# create a stream socket to listen for incoming connections
+	listensock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+
+	# Bind server socket to an arbitrary non-privileged port number.
+	# Here host is '', meaning INADDR_ANY (any interface)
+	listensock.bind(('',50007))	
+
+	# declare that we listen for incoming connection requests on this socket
+	listensock.listen(1)	
+
+	# run until manually killed, listensock will be garbage collected
+	while True:
+		# We accept connections on listensocket, blocking if none present.
+		connectionsock,addr = listensock.accept()
+
+		print "server: accepted connection from %s" % repr(addr)
+
+		recvcount = 0
+		while True:
+
+			data = connectionsock.recv(1024)	# blocking call! 
+		
+			if not data:	# equivalent to: if data=='' . Will happen if orher part does a 'properly shutdown'
+				break
+		
+			recvlen = len(data)
+			recvcount += recvlen
+			print "server: from %s received data with len %s (total=%s)" % (repr(addr),recvlen,recvcount)
+		
+			# echo back received data
+			connectionsock.send(data)	
+		
+		# termination of connection, shutdown connection socket (server part)
+		print "server: shutting down connection to client %s after receiving %s bytes " % (repr(addr),recvcount)
+		connectionsock.close()
+
+Από την πλευρά του client χρησιμοποιούμε το εξής πρόγραμμα που στέλνει 100.000 bytes (25.000 φορές το string 'test'):
+
+.. comment: following code based on tcp-simplistic-client-hugedata-wrong1.py
+
+..	code-block:: python
+
+	import socket
+	import sys
+
+	# check if an addr is given as argument
+	host = 'localhost'
+	if len(sys.argv)>1: host = sys.argv[1] 
+
+	# the server addr to connect
+	serveraddr = (host,50007)
+
+	# create the client socket object
+	clientsock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+
+	# connect to listening server socket
+	clientsock.connect(serveraddr)	
+	print "client: connected to %s " % repr(serveraddr)
+
+
+	tosend = raw_input("client: press enter to send 100000 bytes>")
+
+	tosend = "test"*25000
+	sendlen = len(tosend)
+	print "client: going to send to server %s data of %s bytes" % (repr(serveraddr),sendlen)
+
+	# send string
+	clientsock.send(tosend)	
+	
+	# get echo reply - here we assume (unrealistically) that echo data will arrive in one call to recv
+	data = clientsock.recv(1024)
+	
+	print "client: from %s received data=%s" % (repr(serveraddr),data)
+
+	# close socket - signal server that we are done!
+	print "client: shutting down connection to server %s" % repr(serveraddr)
+	clientsock.close()
+
+Το αποτέλεσμα; Ο server λαμβάνει μέρος των δεδομένων, στέλνει κάτι στον client αλλά τερματίζει με το εξής σφάλμα: ::
+
+   socket.error: [Errno 104] Connection reset by peer
+
+Γιατί συμβαίνει αυτό; Με τα πρώτα δεδομένα που λαμβάνει πίσω ο client (μόλις επιστρέψει η ``clientsock.recv()``), η σύνδεση κλείνει με το ``clientsock.close()``. Ο server διαμαρτύρεται ότι δεν μπορεί να στείλει πλέον τα υπόλοιπα δεδομένα!
+
+Προσπαθώντας να λάβουμε στον client όλα τα δεδομένα, αντί για το ``data = clientsock.recv(1024)`` βάζουμε το εξής (ο υπόλοιπος κώδικας του client δεν αλλάζει):
+
+.. comment: following code based on tcp-simplistic-client-hugedata-wrong2.py
+
+..	code-block:: python
+
+	# get echo reply - we loop here, because reply will come in more than one recv() calls
+	recvcount = 0
+	while True:
+		data = clientsock.recv(1024)
+		if not data: break	
+		recvlen = len(data)
+		recvcount += recvlen
+		print "client: from %s received data with len %s (total=%s)" % (repr(serveraddr),recvlen,recvcount)
+
+Το αποτέλεσμα είναι ακόμα χειρότερο: τόσο ο client όσο και ο server 'κολλάνε'! Γιατί συμβαίνει αυτό;
+
+* Η ``send()`` του client στέλνει **όλα** τα δεδομένα. Στη συνέχεια, ο client μπαίνει στο loop της ``recv()``.
+
+* Ο server στο δικό του loop διαβάζει **όλα** τα δεδομένα με τη ``recv()`` και τα επιστρέφει με την ``send()``. Η τελευταία κλήση της ``recv()`` θα μπλοκάρει τον server, αφού δεν υπάρχουν νέα δεδομένα και η σύνδεση είναι ακόμα ανοιχτή.
+
+* Ο client στο δικό του loop θα λάβει **όλα** τα δεδομένα με τη ``recv()``. Η τελευταία κλήση της ``recv()`` θα μπλοκάρει τον client, αφού δεν υπάρχουν νέα δεδομένα και η σύνδεση είναι ακόμα ανοιχτή.
+ 
+* Deadlock!
+
+.. note::
+   Εδώ πρέπει να αποσαφηνιστεί η διαφορά μεταξύ πακέτων στο δίκτυο και επιστρεφόμενων bytes από την ``recv()``. Με τις υπάρχουσες τεχνολογίες ένα διαδικτυακό πακέτο δεδομένων έχει μέγιστο μέγεθος περίπου 1460 bytes. Το μέγεθος αυτό **δεν σχετίζεται** με τον αριθμό bytes που επιστρέφει η recv(): **μπορεί να επιστρέψει μισό πακέτο ή πολλαπλά πακέτα μαζί**. Ο σωστός προγραμματιστής δεν κάνει τέτοιες υποθέσεις. 
+   
+Μισο-κλείνοντας τη σύνδεση
+----------------------------
+Στο τελευταίο παράδειγμα ο client και ο server περιμένει ο ένας τον άλλον να κλείσει τη σύνδεση, αυτό όμως δεν συμβαίνει ποτέ γιατί έτσι και τα δύο μέρη θα έχαναν τη δυνατότητα λήψης των υπόλοιπων δεδομένων.
+
+Μια λύση είναι ένα από τα δύο μέρη να μισο-κλείσει (half-close) τη σύνδεση, δηλώνοντας ότι
+
+* δεν θα στείλει άλλα δεδομένα
+* αλλά μπορεί να δεχτεί δεδομένα.
+
+Αυτό επιτυγχάνεται στο πρόγραμμα του client με την ``clientsock.shutdown(socket.SHUT_WR)``, η οποία ειδοποιεί το σύστημα ότι δεν θα γράψει άλλα δεδομένα στο clientsock, ενώ μπορεί ακόμα να λάβει. Αυτό θα επιτρέψει στην ``recv()`` της άλλης πλευράς να επιστρέψει χωρίς δεδομένα (άρα θα εκτελεστεί το break του loop λήψης).
+
+Το πρόγραμμα του client έχει τώρα ως εξής (ο server δεν αλλάζει):
+
+.. comment: following code based on tcp-simplistic-client-hugedata.py
+
+..	code-block:: python
+ 
+	import socket
+	import sys
+
+	# check if an addr is given as argument
+	host = 'localhost'
+	if len(sys.argv)>1: host = sys.argv[1] 
+
+	# the server addr to connect
+	serveraddr = (host,50007)
+
+	# create the client socket object
+	clientsock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+
+	# connect to listening server socket
+	clientsock.connect(serveraddr)	
+	print "client: connected to %s " % repr(serveraddr)
+
+	tosend = raw_input("client: press enter to send 100000 bytes>")
+
+	tosend = "test"*25000
+	sendlen = len(tosend)
+	print "client: going to send to server %s data of %s bytes" % (repr(serveraddr),sendlen)
+
+	# send string
+	clientsock.send(tosend)	
+
+	clientsock.shutdown(socket.SHUT_WR)	# half-close socket: tell server we are finished sending but allow for reception
+	
+	# get echo reply - we loop here, because reply will come in more than one recv() calls
+	recvcount = 0
+	while True:
+		data = clientsock.recv(1024)
+		if not data: break	
+		recvlen = len(data)
+		recvcount += recvlen
+		print "client: from %s received data with len %s (total=%s)" % (repr(serveraddr),recvlen,recvcount)
+
+	# close socket - signal server that we are done!
+	print "client: shutting down connection to server %s after sending %s and receiving %s bytes" % (repr(serveraddr),sendlen,recvcount)
+	clientsock.close()
+
+
+
+
+Έλεγχος μέσω του format των δεδομένων
+----------------------------------------
+Η προηγούμενη μέθοδος με το ``shutdown(socket.SHUT_WR)`` μπορεί να χρησιμοποιηθεί αν ο client στέλνει **άπαξ** την αίτησή του μέσω της σύνδεσης. Σε πολλά διαδικτυακά προωτόκολλα όμως απαιτείται η διακίνηση διαδοχικών αιτήσεων μέσα από την ίδια σύνδεση. Είναι φανερό ότι το μισο-κλείσιμο της σύνδεσης δεν μπορεί να εφαρμοστεί εδώ.
+
+Η εναλλακτική λύση είναι 
+
+* είτε η **ένδειξη του μεγέθους** να περνά **μέσα** στο πακέτο δεδομένων (όπως συμβαίνει π.χ. με το HTTP)
+
+* είτε η **μορφή** των δεδομένων να υποδηλώνει το τέλος τους (όπως π.χ. στο instant messaging XMPP, όπου τα δεδομένα είναι σε μορφή XML)   
+
+Στο παρακάτω παράδειγμα ο client προσθέται στην αρχή των δεδομένων την έδειξη του μήκους σε μορφή string και ένα κενό (space):
+
+.. comment: following code based on tcp-simplistic-client-bytecount.py
+
+.. _tcp-client-bytecount:
+
+..	code-block:: python
+
+	import socket
+	import sys
+
+	# check if an addr is given as argument
+	host = 'localhost'
+	if len(sys.argv)>1: host = sys.argv[1] 
+
+	# ask user how many bytes to send
+	bytestosend = int(raw_input("client: how many data bytes to send?>"))
+	if bytestosend>0 and bytestosend<=100000:
+
+		# prepare the testmsg
+		tosend = str(bytestosend)+" "+"a"*bytestosend
+	
+		# the server addr to connect
+		serveraddr = (host,50007)
+
+		# create the client socket object
+		clientsock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+
+		# connect to listening server socket
+		clientsock.connect(serveraddr)	
+		print "client: connected to %s " % repr(serveraddr)
+
+		sendlen = len(tosend)
+		print "client: going to send to server %s data of %s bytes" % (repr(serveraddr),sendlen)
+
+		# send string
+		clientsock.send(tosend)	
+	
+		# get echo reply - we loop here, because reply will come in more than one recv() calls
+		recvcount = 0
+		while True:
+			data = clientsock.recv(1024)
+			if not data: break	
+			recvlen = len(data)
+			recvcount += recvlen
+			print "client: from %s received data with len %s (total=%s)" % (repr(serveraddr),recvlen,recvcount)
+
+		# close socket - server has already closed its own socket
+		print "client: shutting down connection to server %s after sending %s and receiving %s bytes" % (repr(serveraddr),sendlen,recvcount)
+		clientsock.close()
+
+Παρατηρήστε ότι η μορφή του loop λήψης με την ``recv()`` φανερώνει ότι περιμένουμε από τον server να αναλάβει τη διακοπή της σύνδεσης.
+
+Ο αντίστοιχος server έχει ως εξής:
+
+.. comment: following code based on tcp-simplistic-server-bytecount.py
+
+..	code-block:: python
+
+	import socket
+
+	# create a stream socket to listen for incoming connections
+	listensock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+
+	# Bind server socket to an arbitrary non-privileged port number.
+	listensock.bind(('',50007))	# NOTE: tuple argument!
+
+	# declare that we listen for incoming connection requests on this socket
+	listensock.listen(1)	
+
+	# run until manually killed, listensock will be garbage collected
+	while True:
+		# We accept connections on listensocket, blocking if none present.
+		connectionsock,addr = listensock.accept()
+
+		print "server: accepted connection from %s" % repr(addr)
+
+		totalrecv = 0	# total bytes received
+		prefix = ''
+		contentlength = 0
+		totalsent = 0	# total bytes sent back
+		while True:
+
+			data = connectionsock.recv(1024)	# blocking call!
+		
+			recvlen = len(data)
+			totalrecv += recvlen
+			print "server: from %s received data with len %s (total=%s)" % (repr(addr),recvlen,totalrecv)
+		
+			if contentlength==0:	# we still are in the process of extracting content length
+				i = data.find(' ')
+				if i==-1:	# space not found, accumulate prefix
+					prefix += data	# NOTE: we don't do a security check on accumulated length... 
+				else:
+					prefix += data[:i]
+					contentlength = int(prefix)	# NOTE: we also don't check the validity of content length...
+					print "server: content length=%s" % contentlength
+					data = data[i+1:]	# skip space too
+		
+			if contentlength!=0:	# may have changed in last if clause
+				
+				# echo back received data
+				connectionsock.send(data)	
+			
+				sendlen = len(data)
+				totalsent += sendlen
+				print "server: to %s echoed data with len %s (total=%s)" % (repr(addr),sendlen,totalsent)
+			
+				if totalsent==contentlength: break	# echoed the specified number of data bytes, init shutdown
+		
+		# termination of connection, shutdown connection socket (server part)
+		print "server: shutting down connection to client %s after receiving %s bytes " % (repr(addr),totalrecv)
+		connectionsock.close()
+
+
+
+Μία πολύ σημαντική παρατήρηση
+--------------------------------
+..που αξίζει να κλείσει την ενότητα. Τα προηγούμενα έδειξαν πόσο δύσκολος είναι ο χειρισμός δεδομένων κατά την αποστολή και λήψη με custom format πακέτα. Οι σημερινοί προγραμματιστές δεν έχουν την πολυτέλεια του χρόνου για τη δημιουργία νέων μορφών πακέτων και πρωτοκόλλων: από έναν προγραμματιστή π.χ. του Google ή του Yahoo! μπορεί να ζητηθεί να έχει έτοιμη μια εφαρμογή μέσα σε μέρες!
+
+Είναι φανερό ότι αυτό που χρειάζεται είναι 
+
+* ένα ήδη γνωστό, ευρέως χρησιμοποιούμενο και πρότυπο πρωτόκολλο για την ανταλλαγή διαδικτυακών δεδομένων.
+* Ένα πρωτόκολλο υλοποιημένο σε όσο το δυνατόν περισσότερες γλώσσες προγραμματισμού με έτοιμες βιβλιοθήκες.
+* Ένα πρωτοκόλλο που επιτρέπει στον προγραμματιστή να επικεντρωθεί στα ίδια τα δεδομένα, όχι στο πώς θα τα μεταφέρει.
+
+Υπάρχει τέτοιο πρωτόκολλο; Φυσικά, και το χρησιμοποιούμε όλοι κάθε μέρα: είναι το HTTP!
+
+   

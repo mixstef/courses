@@ -1,0 +1,150 @@
+Ενότητα 5-2
+===============
+
+Non-blocking sockets με το framework Twisted
+-----------------------------------------------
+Το ολοκληρωμένο open source framework `Twisted <http://twistedmatrix.com>`_ είναι υλοποιημένο σε Python και επιτρέπει την ανάπτυξη διαδικτυακών εφαρμογών μεγάλης κλίμακας. Πρέπει να εγκατασταθεί ξεχωριστά από την Python και αποτελείται από παρα πολλές βιβλιοθήκες. Στα παραδείγματα που ακολουθούν παρουσιάζεται ένα ελάχιστο μέρος των δυνατοτήτων του framework! Η γενική ιδέα είναι ότι το framework αναλαμβάνει σε ένα loop ("reactor") να παρακολουθεί όλες τις πηγές εισόδου-εξόδου και όταν υπάρχουν δεδομένα να καλεί τις συναρτήσεις του χρήστη.
+
+Στο παράδειγμα που ακολουθεί υλοποιούμε τον ίδιο απλοϊκό TCP echo server. Προσέξτε τα imports, εδώ δεν χρησιμοποιούμε τα πάντα από το twisted!
+
+.. comment: following code based on twisted-echo-server.py
+
+..	code-block:: python
+
+	from twisted.internet.protocol import Protocol,Factory
+	from twisted.application import service,internet	
+
+Αρχικά γράφουμε την κλάση ``Echo`` (απόγονο του ``Protocol`` του twisted) που θα δημιουργεί αντικείμενα χειρισμού των εισερχόμενων αιτήσεων. Η έξοδος του print θα εμφανιστεί στο log που κρατάει το framework:
+
+
+..	code-block:: python
+
+	class Echo(Protocol):
+		""" a class implementing the echo protocol """
+	
+		def dataReceived(self,data):
+			""" called whenever data is received. May fire on partial or multiple msg reception """
+			
+			# debug only - print in log the received data
+			print "Received %s bytes :%s" % (len(data),data)
+		
+			# echo data back to client
+			self.transport.write(data)	# transport wraps physical connection details
+							# like a TCP based transport
+
+
+Στη συνέχεια, στο κυρίως πρόγραμμα, δημιουργούμε ένα αντικείμενο τύπου ``Factory``, το οποίο σε κάθε αίτηση δημιουργεί το αντικείμενο χειρισμού (τύπου ``Echo``). 
+
+..	code-block:: python
+
+	# create the Factory object that will generate protοcol objects
+	factory = Factory()
+	factory.protocol = Echo		# factory.protocol will be used to build actual protocol objects
+
+Αμέσως μετά, δημιουργούμε το αντικείμενο ``application`` που αντιπροσωπεύει την εφαρμογή μας. **Προσοχή!** Επειδή θα χρησιμοποιήσουμε ειδικό πρόγραμμα εκτέλεσης της εφαρμογής που παρέχει το twisted framework, **η μεταβλητή πρέπει να λέγεται ακριβώς application**!  
+
+..	code-block:: python
+
+	# create an object that represents our application
+	# object must be called exactly 'application' to use the twistd launcher!
+	application = service.Application("echo")
+	
+Εκτός από την εφαρμογή, πρέπει να δημιουργήσουμε και την "υπηρεσία" echo (σε ποιο port ακούει, με ποιο factory φτιάχνει αντικείμενα χειρισμού) και να τη συνδέσουμε με την εφαρμογή μας:
+
+..	code-block:: python
+
+	# create the echo service that our application will offer
+	echo_service = internet.TCPServer(50007,factory)
+	# add the echo service to our application object
+	echo_service.setServiceParent(application)
+
+Για να ξεκινήσουμε τον server μας (έστω ότι το αρχείο λέγεται twisted-echo-server.py) σε debugging mode (το log φαίνεται στην κονσόλα, Ctrl-C για διακοπή) δίνουμε: ::
+
+  twistd -ny twisted-echo-server.py
+  
+Ενώ για κανονική λειτουργία στο background (ως daemon) παραλείπουμε το -n : ::
+
+  twistd -y twisted-echo-server.py
+
+Στα παρακάτω παραδείγματα συνδυάζουμε το Twisted framework με τις λύσεις για τη μεταφορά μη τετριμμένου όγκου δεδομένων χρησιμοποιώντας την ένδειξη μεγέθους των δεδομένων. 
+
+Bonus υλικό: Twisted και ένδειξη μεγέθους
+---------------------------------------------
+Στο παράδειγμα που ακολουθεί, συνδυάζουμε τον :ref:`client που προσθέτει την ένδειξη μεγέθους <tcp-client-bytecount>` στα δεδομένα που στέλνει με την εξής παραλλαγή του echo server του Twisted:
+
+ 
+.. comment: following code based on twisted-echo-bytecount-server.py
+
+..	code-block:: python
+
+	from twisted.internet.protocol import Protocol,Factory
+	from twisted.application import service,internet
+
+
+	class EchoCount(Protocol):
+		""" a class implementing the echo protocol """
+	
+		def __init__(self):
+			""" per protocol object initializations """
+			# base class Protocol has no __init__ to call
+
+			# prefix holding string of msg length
+			self.prefix = ''
+			# expected content length, 0 means not extracted yet
+			self.contentlength = 0
+			# count of bytes received until now
+			self.recvcount = 0
+			# count of data bytes (without header) received (and echoed)
+			self.datalen = 0 
+			  
+	
+		def dataReceived(self,data):
+			""" called whenever data is received. May fire on partial or multiple msg reception """
+
+			recvlen = len(data)
+			self.recvcount += recvlen
+			print "received data with len %s (total received=%s)" % (recvlen,self.recvcount)
+		
+			if self.contentlength==0:	# we still are in the process of extracting content length
+				i = data.find(' ')
+				if i==-1:	# space not found, accumulate prefix
+					self.prefix += data	# NOTE: we don't do a security check on accumulated length...
+					return	# don't send anything back 
+			
+				self.prefix += data[:i]
+				self.contentlength = int(self.prefix)	# NOTE: we also don't check the validity of content length...
+				print "extracted content length=%s" % self.contentlength
+				
+				data = data[i+1:]	# skip space too
+		
+				
+			# echo back received data
+			self.transport.write(data)	
+			
+			sendlen = len(data)
+			self.datalen += sendlen		# real data length until now (without bytecount header)
+			print "echoed data with len %s (total sent=%s)" % (sendlen,self.datalen)
+			
+			if self.datalen==self.contentlength:	# echoed the specified number of data bytes, shutdown connection
+				self.transport.loseConnection()
+
+
+	
+
+	# main program part
+
+	# create the Factory object that will generate protcol objects
+	factory = Factory()
+	factory.protocol = EchoCount		# factory.protocol will be used to build actual protocol objects
+
+	# create an object that represents our application
+	# object must be called exactly 'application' to use the twistd launcher!
+	application = service.Application("echo")
+
+	# create the echo service that our application will offer
+	echo_service = internet.TCPServer(50007,factory)
+	# add the echo service to our application object
+	echo_service.setServiceParent(application)
+
+
+

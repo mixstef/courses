@@ -1,0 +1,176 @@
+Ενότητα 3-2
+===============
+
+UDP Multicasting
+-------------------
+Όπως είναι γνωστό, multicasting είναι η δυνατότητα παράδοσης ενός πακέτου δεδομένουν σε μια ομάδα παραληπτών. Αν και δεν γνώρισε ιδιαίτερη ανάπτυξη στο ευρύτερο διαδίκτυο, το multicasting χρησιμοποιείται εντός τοπικών δικτύων, κυρίως για ανακάλυψη υπηρεσιών (service discovery) μεταξύ τοπικά συνδεδεμένων υπολογιστών ή για συντονισμό συσκευών όπως οι routers. Το κλασσικό IP multicasting μπορεί να υλοποιηθεί μόνο μέσω του πρωτοκόλλου UDP.
+
+Η υλοποίηση ενός multicasting UDP server ή client δεν διαφέρει από τα παραδείγματα της προηγούμενης ενότητας. Απλά, στα αντικείμενα socket προσδίδονται κάποια πρόσθετα χαρακτηριστικά μέσω της μεθόδου ``setsockopt()``. Η μέθοδος αυτή δέχεται 3 ορίσματα:
+
+1. Το επίπεδο πρωτοκόλλων στο οποίο ανήκει το χαρακτηριστικό που αλλάζουμε.
+
+2. Το όνομα του χαρακτηριστικού που αλλάζουμε.
+
+3. Τη νέα τιμή του χαρακτηριστικού (το είδος της τιμής εξαρτάται από το κάθε χαρακτηριστικό).
+
+Ένα multicasting group παραληπτών προσδιορίζεται από μια ειδικού τύπου διεύθυνση IP (από την "Class D" περιοχή: 224.x.x.x έως 239.x.x.x). Στα παραδείγματα που ακολουθούν χρησιμοποιείται η διεύθυνση ``224.1.1.1``.
+
+.. note::
+   Σε αντίθεση με όλα τα άλλα διαδικτυακά παραδείγματα, τα οποία μπορούν να εκτελεστούν και χωρίς ενεργή δικτυακή σύνδεση (μέσω του localhost), το multicasting απαιτεί δικτυακή σύνδεση: με το localhost μόνο, η διαδικτυακή βιβλιοθήκη συστήματος θα διαμαρτυρηθεί ότι δεν έχει τρόπο να δρομολογήσει τα πακέτα προς το 224.1.1.1 των παραδειγμάτων! 
+
+Multicasting UDP client
+--------------------------
+Ο κώδικας ενός απλού UDP client έχει ως εξής:
+
+.. comment: following code based on udp-mcast-client.py
+
+..	code-block:: python
+
+	import socket
+
+
+	# create the client socket object - no difference from 'server' socket!
+	sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+
+	# specify ttl for multicast packet (1 by default)
+	#sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL,2)
+
+	# By putting 0 here, msg will not be sent to own host's receiver! (1 is default)
+	#sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_LOOP, 0)
+
+	# send a msg to multicast group
+	sock.sendto("who's there?", ('224.1.1.1', 50008))
+
+	# close socket
+	sock.close()
+
+Παρατηρήστε ότι στον client **δεν αλλάζει απολύτως τίποτα!!** Η διεύθυνση αποστολής είναι η ``224.1.1.1``.
+
+Προαιρετικά, μέσω του ``setsockopt()`` μπορούμε να ρυθμίσουμε 2 χαρακτηριστικά του socket (σε σχόλιο στον κώδικα):
+
+* Το IP_MULTICAST_TTL καθορίζει πόσους δρομολογητές θα διασχίσει το multicast πακέτο μας (αν υποθέσουμε ότι οι δρομολογητές είναι διατεθειμένοι να το προωθήσουν!). Η εξ'ορισμού τιμή είναι 1.
+
+* Το IP_MULTICAST_LOOP καθορίζει αν τα multicast δεδομένα θα επιστρέψουν και σε εμάς που τα στέλνουμε (true(1)/false(0), εξ'ορισμού true).
+
+Multicasting UDP server
+--------------------------
+Ο αντίστοιχος κώδικας του απλού UDP server:
+
+.. comment: following code based on udp-mcast-server.py
+
+..	code-block:: python
+
+	import socket
+
+	# create a datagram socket
+	sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+
+	# this option of socket layer indicates we want to reuse socket (typical for multicasting apps)
+	sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
+	# bind receiver socket to an arbitrary non-privileged port.
+	# Here host is '', meaning INADDR_ANY (any interface)
+	sock.bind(('',50008))	# NOTE: tuple argument!
+
+	# add membership to multicast ip 224.1.1.1 - must provide our interface address, too
+	sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP,socket.inet_aton('224.1.1.1') + socket.inet_aton(str(socket.INADDR_ANY)))
+
+	# run until manually killed, serversock will be garbage collected
+	while True:
+
+		requestdata,addr = sock.recvfrom(1024)	
+
+		print "server: from %s received multicast data=%s" % (repr(addr),requestdata)
+
+Παρατηρήστε ότι:
+
+* Η **σημαντική** αλλαγή γίνεται με το ``IP_ADD_MEMBERSHIP``. Με την κλήση αυτή της ``setsockopt()``, το server socket προστίθεται ως παραλήπτης στο group του ``224.1.1.1``. Η αλλαγή αυτή προκαλεί μια σειρά 'παρασκηνιακές' ενέργειες του συστήματος, όπως την αποστολή μηνύματος στο τοπικό δίκτυο προς κάθε ενδιαφερόμενο mutlicast-enabled router, ότι ο υπολογιστής μας είναι αποδέκτης πακέτων προς το ``224.1.1.1`` (κάτι που θα πρακτικά αγνοείται σε συνήθη τοπικά δίκτυα..).
+
+  * Το τρίτο όρισμα της ``setsockopt`` προσδιορίζει όχι μόνο το group ``224.1.1.1``, αλλά και το interface του δικού μας υπολογιστή απ'όπου θέλουμε να λαμβάνουμε τα multicast πακέτα. Επειδή το όρισμα αυτό πρέπει να έχει μια ειδική μορφή για να προωθηθεί στην υποκείμενη C συνάρτηση setsockopt του συστήματος, προκύπτει αυτή η 'άκομψη' έκφραση: 
+
+    ::
+    
+      socket.inet_aton('224.1.1.1') + socket.inet_aton(str(socket.INADDR_ANY))
+
+* Το ``SO_REUSEADDR`` είναι προαιρετικό αλλά πολύ συνηθισμένο σε multicast εφαρμογές. Γενικά έχει πολλές χρήσεις, στο UDP multicasting όμως επιτρέπει σε πολλές εφαρμογές 'server', στον ίδιο υπολογιστή, να δέχονται ταυτόχρονα τα ίδια multicast πακέτα.
+
+
+
+Απλή "ανακάλυψη υπηρεσίας"
+---------------------------
+Για να δείξουμε ότι το ίδιο multicasting socket μπορεί να χρησιμοποιηθεί για την αποστολή κανονικών (unicast) πακέτων, τροποποιούμε ελαφρά τον server και τον client: ο server με τη λήψη του multicast μηνύματος απαντάει με unicast στον αποστολέα. Δείτε το ως ένα απλό παράδειγμα "ανακάλυψης υπηρεσίας" (service discovery), όπου ο client μαθαίνει "τι υπάρχει εκεί έξω".
+
+Ο κώδικας του server:
+
+.. comment: following code based on udp-discover-server.py
+
+..	code-block:: python
+
+	import socket
+
+	# create a datagram socket
+	sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+
+	# this option of socket layer indicates we want to reuse socket (typical for multicasting apps)
+	sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
+	# bind receiver socket to an arbitrary non-privileged port.
+	# Here host is '', meaning INADDR_ANY (any interface)
+	sock.bind(('',50008))	# NOTE: tuple argument!
+
+	# add membership to multicast ip 224.1.1.1 - must provide our interface address, too (ANY)
+	sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP,socket.inet_aton('224.1.1.1') + socket.inet_aton(str(socket.INADDR_ANY)))
+
+
+	# run until manually killed, try-finally closes socket after user interruption
+	try:
+		while True:
+
+			requestdata,addr = sock.recvfrom(1024)	
+
+			print "server: from %s received multicast data=%s" % (repr(addr),requestdata)
+
+			# reply with unicast msg via same socket
+			sock.sendto("Me!",addr)
+		
+
+	finally:
+		sock.close()
+
+Η δομή ``try..finally`` μας επιτρέπει να κλείσουμε ρητά το server socket, όταν ο χρήστης διακόψει από το πληκτρολόγιο την εκτέλεση του server (οποιδήποτε σφάλμα ή διακοπή συμβεί στο try block, η Python εγγυάται ότι θα εκτελεστεί το finally block).
+
+Στη συνέχεια δίνεται ο κώδικας του client. Παρατηρήστε ότι ορίζουμε ένα timeout, μέσα στο οποίο υποθέτουμε ότι θα έρθουν τυχόν απαντήσεις στα multicast μηνύματά μας:
+
+.. comment: following code based on udp-discover-client.py
+
+..	code-block:: python
+
+	import socket
+
+	# create the client socket object - no difference from 'server' socket!
+	sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+
+	# specify ttl for multicast packet (1 by default)
+	#sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL,2)
+
+	# By putting 0 here, msg will not be sent to own host's receiver! (1 is default)
+	#sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_LOOP, 0)
+
+	# send a msg to multicast group
+	sock.sendto("who's there?", ('224.1.1.1', 50008))
+
+	sock.settimeout(3)
+	# wait for responses, to be manually killed or timeout in 3 sec
+	try:
+		while True:
+			requestdata,addr = sock.recvfrom(1024)	
+
+			print "client: from %s received unicast data=%s" % (repr(addr),requestdata)
+
+	except socket.timeout:
+		pass
+
+	finally:
+		# close socket
+		sock.close()
+

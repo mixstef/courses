@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Ενότητα 5-1 &mdash; C++ Lectures v1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="C++ Lectures v1.0 documentation" href="../index.html" />
+    <link rel="next" title="Ενότητα 5-2" href="module2.html" />
+    <link rel="prev" title="Ενότητα 4-2" href="../unit4/module2.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="module2.html" title="Ενότητα 5-2"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../unit4/module2.html" title="Ενότητα 4-2"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">C++ Lectures v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>Ενότητα 5-1<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="header-file">
+<h2>Αρχείο επικεφαλίδων (header file)<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h2>
+<p>Για να χρησιμοποιήσουμε την κλάση <tt class="docutils literal"><span class="pre">Employee</span></tt> της προηγούμενης ενότητας αρκεί να ξέρουμε:</p>
+<ul class="simple">
+<li>Τη δήλωση της κλάσης.</li>
+<li>Τον κώδικα των συναρτήσεων inline (αν υπάρχουν).</li>
+</ul>
+<p><strong>Δεν απαιτείται η γνώση των λεπτομερειών υλοποίησης (ορισμός) των κανονικών συναρτήσεων της κλάσης.</strong></p>
+<p>Η πληροφορία αυτή μπαίνει σε ξεχωριστό αρχείο επικεφαλίδων (έστω ότι το ονομάζουμε <tt class="docutils literal"><span class="pre">employee.h</span></tt>):</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="cp">#ifndef EMPLOYEE_H__</span>
+<span class="cp">#define EMPLOYEE_H__</span>
+
+<span class="cp">#include &lt;iostream&gt;</span>
+<span class="cp">#include &lt;string&gt;</span>
+
+<span class="k">class</span> <span class="nc">Employee</span> <span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">firstname</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">lastname</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">age</span><span class="p">;</span>
+  <span class="kt">double</span> <span class="n">salary</span><span class="p">;</span>
+<span class="k">public</span><span class="o">:</span>
+  <span class="n">Employee</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">fs</span><span class="p">,</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">ls</span><span class="p">,</span><span class="kt">int</span> <span class="n">ag</span><span class="p">,</span><span class="kt">double</span> <span class="n">sal</span><span class="p">);</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">get_firstname</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">firstname</span><span class="p">;</span> <span class="p">}</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">get_lastname</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">lastname</span><span class="p">;</span> <span class="p">}</span>
+  <span class="kt">int</span> <span class="n">get_age</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">age</span><span class="p">;</span> <span class="p">}</span>
+  <span class="kt">double</span> <span class="n">get_salary</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">salary</span><span class="p">;</span> <span class="p">}</span> 
+
+  <span class="k">friend</span> <span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="n">stream</span><span class="p">,</span><span class="k">const</span> <span class="n">Employee</span> <span class="o">&amp;</span><span class="n">empl</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="cp">#endif</span>
+</pre></div>
+</div>
+<p><strong>Παρατηρήσεις</strong></p>
+<ul>
+<li><p class="first">Το αρχείο αυτό θα ενσωματωθεί όπου χρειάζεται μέσω της οδηγίας <tt class="docutils literal"><span class="pre">#include</span></tt>:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="cp">#include &quot;employee.h&quot;</span>
+</pre></div>
+</div>
+<p>Ο μεταγλωττιστής θα αντικαταστήσει την παραπάνω γραμμή με το κείμενο από το <tt class="docutils literal"><span class="pre">employee.h</span></tt>.</p>
+</li>
+<li><p class="first">Τα παρακάτω χρησιμοποιούνται για την αποφυγή περιπτώσεων πολλαπλών include του ίδιου αρχείου (include guards):</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="cp">#ifndef EMPLOYEE_H__</span>
+<span class="cp">#define EMPLOYEE_H__</span>
+
+<span class="c1">// ...περιεχόμενο...</span>
+
+<span class="cp">#endif</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Δεν είναι σωστό να περιλάβουμε μέσα στο αρχείο επικεφαλίδων το <tt class="docutils literal"><span class="pre">using</span> <span class="pre">namespace</span> <span class="pre">std;</span></tt> εφόσον θα ισχύει και <strong>μετά</strong> το τέλος του αρχείου (δηλαδή <strong>και</strong> στο αρχείο που ενσωματώνει το <tt class="docutils literal"><span class="pre">employee.h</span></tt>, μετά το <tt class="docutils literal"><span class="pre">#include</span> <span class="pre">&quot;employee.h&quot;</span></tt>). Συνεπώς είμαστε υποχρεωμένοι να προσθέσουμε ρητά το <tt class="docutils literal"><span class="pre">std::</span></tt> όπου χρειάζεται.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="main">
+<h2>Αρχείο που περιέχει τη main()<a class="headerlink" href="#main" title="Permalink to this headline">¶</a></h2>
+<p>Το αρχείο της main() (<tt class="docutils literal"><span class="pre">employeemain.cpp</span></tt>) τώρα γίνεται:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="cp">#include &lt;iostream&gt;</span>
+
+<span class="cp">#include &quot;employee.h&quot;</span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="n">Employee</span> <span class="n">empl</span><span class="p">(</span><span class="s">&quot;John&quot;</span><span class="p">,</span><span class="s">&quot;Doe&quot;</span><span class="p">,</span><span class="mi">34</span><span class="p">,</span><span class="mf">12.98</span><span class="p">);</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">empl</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Αυτό το αρχείο μπορεί να μεταγλωττιστεί, <strong>όχι όμως και να παραχθεί εκτελέσιμος κώδικας</strong> (δεν υπάρχει ο ορισμός του constructor ούτε το πώς υλοποιείται το &lt;&lt; για την κλάση Employee!):</p>
+<div class="highlight-python"><pre>g++ -Wall -c employeemain.cpp</pre>
+</div>
+<p>Αυτό που θα παραχθεί είναι ο κώδικας-αντικείμενο (object code) από τον πηγαίο κώδικα του <tt class="docutils literal"><span class="pre">employeemain.cpp</span></tt>. Το αρχείο object-code, εφόσον δεν ορίζεται αλλιώς, θα λέγεται <tt class="docutils literal"><span class="pre">employeemain.o</span></tt>.</p>
+</div>
+<div class="section" id="implementation-file">
+<h2>Αρχείο υλοποίησης (implementation file)<a class="headerlink" href="#implementation-file" title="Permalink to this headline">¶</a></h2>
+<p>Περιέχει τον κώδικα υλοποίησης των συναρτήσεων της κλάσης Employee (<tt class="docutils literal"><span class="pre">employee.cpp</span></tt>).</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="cp">#include &lt;iostream&gt;</span>
+<span class="cp">#include &lt;string&gt;</span>
+
+<span class="cp">#include &quot;employee.h&quot;</span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+
+<span class="n">Employee</span><span class="o">::</span><span class="n">Employee</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span> <span class="o">&amp;</span><span class="n">fs</span><span class="p">,</span><span class="k">const</span> <span class="n">string</span> <span class="o">&amp;</span><span class="n">ls</span><span class="p">,</span><span class="kt">int</span> <span class="n">ag</span><span class="p">,</span><span class="kt">double</span> <span class="n">sal</span><span class="p">)</span><span class="o">:</span> <span class="n">firstname</span><span class="p">(</span><span class="n">fs</span><span class="p">),</span><span class="n">lastname</span><span class="p">(</span><span class="n">ls</span><span class="p">),</span><span class="n">age</span><span class="p">(</span><span class="n">ag</span><span class="p">),</span><span class="n">salary</span><span class="p">(</span><span class="n">sal</span><span class="p">)</span> <span class="p">{</span>
+
+<span class="p">}</span>
+
+<span class="n">ostream</span> <span class="o">&amp;</span><span class="k">operator</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="n">ostream</span> <span class="o">&amp;</span><span class="n">stream</span><span class="p">,</span><span class="k">const</span> <span class="n">Employee</span> <span class="o">&amp;</span><span class="n">empl</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">stream</span> <span class="o">&lt;&lt;</span> <span class="n">empl</span><span class="p">.</span><span class="n">lastname</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">empl</span><span class="p">.</span><span class="n">firstname</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; (&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">empl</span><span class="p">.</span><span class="n">age</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;):&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">empl</span><span class="p">.</span><span class="n">salary</span><span class="p">;</span>
+  <span class="k">return</span> <span class="n">stream</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Παρατηρήσεις</strong></p>
+<ul>
+<li><p class="first">Και το αρχείο υλοποίησης ενσωματώνει το <tt class="docutils literal"><span class="pre">employee.h</span></tt>.</p>
+</li>
+<li><p class="first">Αν υπήρχαν static μεταβλητές-μέλη της κλάσης, θα έπρεπε να οριστούν εδώ.</p>
+</li>
+<li><p class="first">Το αρχείο υλοποίησης μπορεί να μεταγλωττιστεί επίσης ξεχωριστά (το αρχείο object-code θα λέγεται <tt class="docutils literal"><span class="pre">employee.o</span></tt>):</p>
+<div class="highlight-python"><pre>g++ -Wall -c employee.cpp</pre>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h2>Παραγωγή εκτελέσιμου κώδικα<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Από τα <tt class="docutils literal"><span class="pre">employee.o</span></tt> και <tt class="docutils literal"><span class="pre">employeemain.o</span></tt>, το τελικό εκτελέσιμο αρχείο θα ονομάζεται <tt class="docutils literal"><span class="pre">employee</span></tt>:</p>
+<div class="highlight-python"><pre>g++ employee.o employeemain.o -o employee</pre>
+</div>
+<p>Η διαδικασία της επι μέρους μεταγλώττισης και παρακολούθησης των αρχείων που αλλάζουν είναι επίπονη. Τα ολοκληρωμένα περιβάλλοντα ανάπτυξης (IDEs) το κάνουν αυτόματα ενώ εδώ μπορούμε να χρησιμοποιήσουμε το πρόγραμμα <strong>make</strong>. Αυτό παίρνει ως είσοδο ένα αρχείο με οδηγίες (ποιος είναι ο στόχος και ποιες οι αλληλοεξαρτήσεις μεταξύ αρχείων), όπως το επόμενο (έστω <tt class="docutils literal"><span class="pre">employee.make</span></tt>):</p>
+<div class="highlight-make"><div class="highlight"><pre><span class="nf">employee </span><span class="o">:</span> <span class="m">employee.o employeemain.o</span>
+	g++ employee.o employeemain.o -o employee
+
+<span class="nf">employee.o </span><span class="o">:</span> <span class="m">employee.cpp employee.h</span>
+	g++ -Wall -c employee.cpp
+
+<span class="nf">employeemain.o </span><span class="o">:</span> <span class="m">employeemain.cpp employee.h</span>
+	g++ -Wall -c employeemain.cpp
+</pre></div>
+</div>
+<p>Συνοπτικά, το αρχείο αυτό λέει ότι:</p>
+<ul>
+<li><p class="first">Ο κύριος στόχος <tt class="docutils literal"><span class="pre">employee</span></tt> εξαρτάται απο δύο υπο-στόχους (<tt class="docutils literal"><span class="pre">employee.o</span></tt> και <tt class="docutils literal"><span class="pre">employeemain.o</span></tt>), ενώ η εντολή που πρέπει να εκτελεστεί για τη δημιουργία του στόχου είναι η <tt class="docutils literal"><span class="pre">g++</span> <span class="pre">employee.o</span> <span class="pre">employeemain.o</span> <span class="pre">-o</span> <span class="pre">employee</span></tt>.</p>
+</li>
+<li><p class="first">Αντίστοιχα ορίζεται για κάθε έναν από τους υπο-στόχους οι εξαρτήσεις τους και ο τρόπος δημιουργίας τους.</p>
+</li>
+<li><p class="first">Με την πληροφορία αυτή, το make, ανάλογα με τα αρχεία κώδικα που έχουν αλλάξει, ξέρει ποιους στόχους πρέπει να επικαιροποιήσει.</p>
+</li>
+<li><p class="first">Αυτό γίνεται ως εξής:</p>
+<div class="highlight-python"><pre>make -f employee.make</pre>
+</div>
+<p>και το αποτέλεσμα θα είναι ένα πάντοτε ενημερωμένο εκτελέσιμο <tt class="docutils literal"><span class="pre">employee</span></tt>.</p>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><strong>Προσοχή!</strong> η γραμμή της εντολής πρέπει να αρχίζει με ένα (και μόνο) χαρακτήρα TAB, χωρίς άλλα κενά!</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="module2.html" title="Ενότητα 5-2"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../unit4/module2.html" title="Ενότητα 4-2"
+             >previous</a> |</li>
+        <li><a href="../index.html">C++ Lectures v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, mistral.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+    </div>
+  </body>
+</html>

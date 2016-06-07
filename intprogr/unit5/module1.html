@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Ενότητα 5-1 &mdash; Internet Programming Lectures v1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Internet Programming Lectures v1.0 documentation" href="../index.html" />
+    <link rel="next" title="Ενότητα 5-2" href="module2.html" />
+    <link rel="prev" title="Ενότητα 4-2" href="../unit4/module2.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="module2.html" title="Ενότητα 5-2"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../unit4/module2.html" title="Ενότητα 4-2"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Internet Programming Lectures v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>Ενότητα 5-1<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="tcp-2-clients">
+<h2>TCP - Πρόβλημα #2: Πόσοι clients ταυτόχρονα;<a class="headerlink" href="#tcp-2-clients" title="Permalink to this headline">¶</a></h2>
+<p>Στο παράδειγμα του <a class="reference external" href="../unit4/module1.html#tcp-simplistic-server"><em>απλοϊκού TCP server</em></a> ο αριθμός των συνδέσεων που μπορούμε να εξυπηρετήσουμε ταυτόχρονα είναι 1. Για να φανεί αυτό χρησιμοποιούμε τον εξής απλό client, ο οποίος στέλνει μικρά πακέτα αλλά δεν κλείνει τη σύνδεση παρά μόνο αν το ζητήσει ο χρήστης:</p>
+<div class="highlight-python" id="tcp-simplistic-client2"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">socket</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="c"># check if an addr is given as argument</span>
+<span class="n">host</span> <span class="o">=</span> <span class="s">&#39;localhost&#39;</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span> <span class="n">host</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c"># the server addr to connect</span>
+<span class="n">serveraddr</span> <span class="o">=</span> <span class="p">(</span><span class="n">host</span><span class="p">,</span><span class="mi">50007</span><span class="p">)</span>
+
+<span class="c"># create the client socket object</span>
+<span class="n">clientsock</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span><span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+
+<span class="c"># connect to listening server socket</span>
+<span class="n">clientsock</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">serveraddr</span><span class="p">)</span>  <span class="c"># this will raise an exception if a problem exists</span>
+<span class="k">print</span> <span class="s">&quot;client: connected to </span><span class="si">%s</span><span class="s"> &quot;</span> <span class="o">%</span> <span class="nb">repr</span><span class="p">(</span><span class="n">serveraddr</span><span class="p">)</span>
+
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="c"># get a series of msgs from user</span>
+        <span class="n">tosend</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">&quot;client: enter string to send&gt;&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tosend</span><span class="o">==</span><span class="s">&#39;&#39;</span><span class="p">:</span> <span class="k">break</span>
+
+        <span class="c"># send string</span>
+        <span class="n">clientsock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">tosend</span><span class="p">)</span> <span class="c"># theoretically this could send part of msg only...see sendall() method</span>
+
+        <span class="c"># get echo reply - here we assume (unrealistically) that echo data will arrive in one call to recv</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">clientsock</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+
+        <span class="k">print</span> <span class="s">&quot;client: from </span><span class="si">%s</span><span class="s"> received data=</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">serveraddr</span><span class="p">),</span><span class="n">data</span><span class="p">)</span>
+
+<span class="c"># close socket - signal server that we are done!</span>
+<span class="k">print</span> <span class="s">&quot;client: shutting down connection to server </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="nb">repr</span><span class="p">(</span><span class="n">serveraddr</span><span class="p">)</span>
+<span class="n">clientsock</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Αν δοκιμάσουμε να τρέξουμε δύο η περισσότερους clients ταυτόχρονα, βλέπουμε ότι μόνο ο πρώτος γίνεται accept()-ed. Οι υπόλοιποι συνδέονται μεν, αλλά δεν μπορούν να στείλουν δεδομένα παρά μόνο αφού τερματιστεί η σύνδεση με τον πρώτο (φυσικά, με τη σειρά που έκαναν την αίτηση).</p>
+<p>Η ταυτόχρονη εξυπηρέτηση συνδέσεων σε έναν server είναι αναγκαία στα πραγματικά προγράμματα. Αυτό μπορεί να γίνει</p>
+<ul class="simple">
+<li>είτε με τη δημιουργία ξεχωριστών threads (ή processes) για τον χειρισμό κάθε μίας σύνδεσης</li>
+<li>είτε με τη χρήση non-blocking sockets και περιοδικό έλεγχο (polling) αν υπάρχουν δεδομένα λήψης.</li>
+</ul>
+<p>Στην πρώτη περίπτωση (threads) η λύση είναι κατάλληλη για την ταυτόχρονη υποστήριξη μικρού αριθμού clients: η δημιουργία και η αποδέσμευση threads (κι ακόμα χειρότερα, processes) είναι δαπανηρή λειτουργία. Επίσης, σε ένα σύστημα ο αριθμός των threads που μπορούν να υπάρχουν ταυτόχρονα είναι πεπερασμένος.</p>
+<p>Η δεύτερη λύση (non-blocking sockets) είναι επεκτάσιμη σε μεγάλο αριθμό clients. Από την άλλη πλευρά, είναι δύσκολη η συγγραφή servers με τη μέθοδο αυτή.</p>
+<p>Η Python υποστηρίζει στην standard βιβλιοθήκη της και τις δύο επιλογές σε χαμηλό επίπεδο (modules: threading, select κ.ά.), στα παραδείγματα που ακολουθούν όμως θα χρησιμοποιήσουμε λύσεις υψηλότερου επιπέδου (frameworks).</p>
+</div>
+<div class="section" id="threads-module-socketserver">
+<h2>Πολλαπλά threads με το module SocketServer<a class="headerlink" href="#threads-module-socketserver" title="Permalink to this headline">¶</a></h2>
+<p>Το SocketServer είναι μέρος της standard βιβλιοθήκης της Python και επιτρέπει την κατασκευή απλών servers με πολλαπλά threads ή processes.</p>
+<p>Υποθέστε ότι θέλουμε να κατασκευάσουμε τον απλοϊκό TCP server που υλοποιεί την υπηρεσία echo. Όπως και στο αρχικό παράδειγμα, θεωρούμε (μη ρεαλιστικά!) ότι τα δεδομένα είναι λίγα bytes ανά αίτηση.</p>
+<p>Αρχικά, δημιουργούμε μια κλάση <tt class="docutils literal"><span class="pre">EchoRequestHandler</span></tt>, η οποία είναι υποκλάση της <tt class="docutils literal"><span class="pre">SocketServer.BaseRequestHandler</span></tt> που μας παρέχει η βιβλιοθήκη. Στην νέα κλάση μπορούμε να επαναπροσδιορίσουμε τις μεθόδους <tt class="docutils literal"><span class="pre">handle</span></tt> (εξυπηρέτηση αίτησης), <tt class="docutils literal"><span class="pre">setup</span></tt> (αρχικοποιήσεις) και <tt class="docutils literal"><span class="pre">finish</span></tt> (ενέργειες cleanup):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">socket</span>
+<span class="kn">import</span> <span class="nn">SocketServer</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+
+<span class="k">class</span> <span class="nc">EchoRequestHandler</span><span class="p">(</span><span class="n">SocketServer</span><span class="o">.</span><span class="n">BaseRequestHandler</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Class to handle incoming echo requests. This can be viewed as the</span>
+<span class="sd">        application protocol implementer class. &quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+                <span class="sd">&quot;&quot;&quot; servicing requests of clients &quot;&quot;&quot;</span>
+
+                <span class="n">cur_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">currentThread</span><span class="p">()</span> <span class="c"># for debugging purposes</span>
+
+                <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+
+                        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>  <span class="c"># self.request for TCP is a socket object</span>
+
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span> <span class="k">break</span>
+
+                        <span class="k">print</span> <span class="s">&quot;server@</span><span class="si">%s</span><span class="s">: received from </span><span class="si">%s</span><span class="s"> data </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">cur_thread</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">client_address</span><span class="p">,</span><span class="n">data</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="c"># echo data back to client</span>
+
+
+        <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+                <span class="sd">&quot;&quot;&quot; performs any init actions before handle(). Here for debugging only &quot;&quot;&quot;</span>
+
+                <span class="n">cur_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">currentThread</span><span class="p">()</span>
+                <span class="k">print</span> <span class="s">&quot;server@</span><span class="si">%s</span><span class="s">: accepted connection by </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">cur_thread</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">client_address</span><span class="p">)</span>
+
+
+        <span class="k">def</span> <span class="nf">finish</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+                <span class="sd">&quot;&quot;&quot; performs any cleanup actions after handle(). Here for debugging only &quot;&quot;&quot;</span>
+
+                <span class="n">cur_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">currentThread</span><span class="p">()</span>
+                <span class="k">print</span> <span class="s">&quot;server@</span><span class="si">%s</span><span class="s">: terminating connection to </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">cur_thread</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">client_address</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Στη συνέχεια κατασκευάζουμε την κλάση <tt class="docutils literal"><span class="pre">ThreadedTCPServer</span></tt> κληρονομώντας τις κλάσεις βάσης <tt class="docutils literal"><span class="pre">SocketServer.ThreadingMixIn</span></tt> και <tt class="docutils literal"><span class="pre">SocketServer.TCPServer</span></tt>. Δεν απαιτείται η προσθήκη νέων μεθόδων στην κλάση αυτή:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">ThreadedTCPServer</span><span class="p">(</span><span class="n">SocketServer</span><span class="o">.</span><span class="n">ThreadingMixIn</span><span class="p">,</span><span class="n">SocketServer</span><span class="o">.</span><span class="n">TCPServer</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; defines a threaded TCPServer class &quot;&quot;&quot;</span>
+        <span class="k">pass</span>    <span class="c"># nothing more is needed, we&#39;ll create our server from this mixin class</span>
+</pre></div>
+</div>
+<p>Τέλος, στο κυρίως πρόγραμμα, κατασκευάζουμε το αντικείμενο <tt class="docutils literal"><span class="pre">server</span></tt> από την κλάση <tt class="docutils literal"><span class="pre">ThreadedTCPServer</span></tt>. Τα ορίσματα δημιουργίας περιγράφουν τη διεύθυνση που &#8216;ακούει&#8217; ο server και την κλάση απ&#8217;την οποία θα δημιουργηθούν τα αντικείμενα χειρισμού των αιτήσεων:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># create the server object</span>
+<span class="n">server</span> <span class="o">=</span> <span class="n">ThreadedTCPServer</span><span class="p">((</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="mi">50007</span><span class="p">),</span> <span class="n">EchoRequestHandler</span><span class="p">)</span>
+
+<span class="c"># serve for ever incoming requests</span>
+<span class="k">try</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;server: starting&quot;</span>
+        <span class="n">server</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">Keyborad Interrupt detected&quot;</span>
+<span class="k">finally</span><span class="p">:</span>
+        <span class="n">server</span><span class="o">.</span><span class="n">server_close</span><span class="p">()</span>
+        <span class="k">print</span> <span class="s">&quot;server: shut down&quot;</span>
+</pre></div>
+</div>
+<p>Μπορούμε να δοκιμάσουμε με πολλαπλούς <a class="reference internal" href="#tcp-simplistic-client2"><em>clients</em></a> για να διαπιστώσουμε ότι σε κάθε νέα αίτηση δημιουργείται ένα ανεξάρτητο thread στον server για να χειριστεί την αίτηση αυτή.</p>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="module2.html" title="Ενότητα 5-2"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../unit4/module2.html" title="Ενότητα 4-2"
+             >previous</a> |</li>
+        <li><a href="../index.html">Internet Programming Lectures v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2011, mistral.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.6.
+    </div>
+  </body>
+</html>

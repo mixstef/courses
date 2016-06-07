@@ -1,0 +1,164 @@
+Ενότητα 4-1
+===============
+
+Στην ενότητα αυτή παρουσιάζονται διάφορες υλοποιήσεις TCP clients και TCP servers. Το πρωτόκολλο TCP είναι σημαντικά πολυπλοκότερο από το UDP. Έτσι, εμφανίζονται σοβαρά προβλήματα σε μια απλοϊκή μη-ρεαλιστική υλοποίηση:
+
+* **Πότε τελειώνουν τα δεδομένα;** Όσο διαρκεί η σύνδεση TCP, τα δύο μέρη δεν είναι εύκολο να γνωρίζουν πότε τελειώνουν τα δεδομένα που λαμβάνουν.
+
+* **Πόσοι clients ταυτόχρονα;** Ένας TCP server μπορεί να εξυπηρετεί ταυτόχρονα πολλούς clients, απαιτείται όμως η βοήθεια του λειτουργικού συστήματος για αυτό.  
+
+
+Τα προβλήματα αυτά μελετάμε στη συνέχεια.
+
+
+Απλοϊκός TCP server και TCP client
+------------------------------------
+Ο κώδικας που ακολουθεί δείχνει τη βασική διαδικασία δημιουργίας 'σύνδεσης' (connection) μεταξύ TCP client και TCP server. Ο server επιστρέφει τα δεδομένα που στέλνει ο client (echo service). Σε αντίθεση με το UDP, εδώ η διαδικασία πρέπει να περάσει από ορισμένα στάδια:
+
+1. Ο server δημιουργεί ένα socket τύπου SOCK_STREAM με την ``socket()`` (``listensock`` στον κώδικα που ακολουθεί).
+
+2. Το ``listensock`` 'δένεται' σε μια τοπική διεύθυνση/port με την ``bind()``.
+
+3. Η προθυμία να δεχτούμε εισερχόμενες αιτήσεις για σύνδεση στο ``listensock`` δηλώνεται με την ``listen()``.
+
+  * Η ``listen()`` δεν είναι blocking συνάρτηση! Δεν κάνει η ίδια την αποδοχή των συνδέσεων.
+  * Η ``listen()`` δέχεται ως όρισμα την περίφημη παράμετρο **backlog**.
+  
+  .. note::
+  
+     Η περιγραφή του **backlog** στα εγχειρίδια είναι τουλάχιστον ασαφής. Επιπλέον έχει αλλάξει έννοια με το πέρασμα του χρόνου σε διάφορες υλοποιήσεις των δικτυακών βιβλιοθηκών. Η αφαλέστερη περιγραφή είναι ότι αποτελεί υπόδειξη (hint) προς το λειτουργικό σύστημα για το μέγεθος των ουρών αναμονής των αιτήσεων σύνδεσης. Στα εκπαιδευτικά παραδείγματα χρησιμοποιείται η τιμή 1 ενώ σε πραγματικές εφαρμογές με πολές συνδέσεις θα έπρεπε να έχει μεγαλύτερο μέγεθος. Σε κάθε περίπτωση το λειτουργικό σύστημα έχει μια  μέγιστη τιμή για το backlog. **Μην χρησιμποιείτε την τιμή 0!** Δεν σημαίνει 'default' σε όλα τα λειτουργικά συστήματα!
+
+4. Οι αιτήσεις σύνδεσης γίνονται αποδεκτές από τη συνάρτηση ``accept()`` (blocking συνάρτηση).
+
+  * Η ``accept()`` επιστρέφει ένα **νέο** socket (``connectionsock`` στο παράδειγμα που ακολουθεί) μέσω του οποίου θα γίνει η ανταλλαγή των δεδομένων. 
+
+5. Στη συνέχεια ο server μπορεί να ανταλλάξει δεδομένα μέσω του connectionsock με τη βοήθεια των ``recv()`` και ``send()``.
+
+  * Η ``recv()`` δέχεται ως όρισμα τον μέγιστο αριθμό bytes που μπορεί να επιστρέψει.
+  
+  .. note::
+     
+     Οι ``send()`` και ``recv()`` είναι (στην εξ'ορισμού συμπεριφορά) blocking συναρτήσεις:
+  
+     * Η ``send()`` (κανονικά) δεν θα επιστρέψει αν δεν στείλει όλα τα δεδομένα.
+     * Η ``recv()`` δεν θα επιστρέψει παρά μόνον α)όταν ληφθεί ένας αριθμός δεδομένων (μικρότερος ή ίσος του ορίσματός της) ή β) όταν το πρωτόκολλο γνωρίζει οριστικά ότι δεν πρόκειται να ληφθούν άλλα δεδομένα.  
+
+
+Ο κώδικας του απλοϊκού echo TCP server
+-------------------------------------------
+Βασικός κώδικας, χωρίς έλεγχο λαθών. Παρατηρήστε ότι η ανταλλαγή δεδομένων γίνεται μέσω του ``connectionsock``, όχι μέσω του ``listensock``. 
+
+.. _tcp-simplistic-server:
+
+.. comment: following code based on tcp-simplistic-server.py
+
+..	code-block:: python
+   
+	import socket
+
+	# Create a stream socket to listen for incoming connections
+	listensock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+
+	# Bind server socket to an arbitrary non-privileged port number. 
+	# Host is '' (INADDR_ANY, any interface)
+	listensock.bind(('',50007))	# NOTE: tuple argument!
+
+	# Listen for incoming connection requests on this socket
+	listensock.listen(1)	
+
+	# Run until manually interrupted, listensock will be garbage collected
+	while True:
+		# Accept connections on listensocket, blocking if none present.
+		# 1st arg returned is the connection socket through which the actual data transfer will happen.
+		# 2nd arg returned is the addr of the other part in connection.
+		connectionsock,addr = listensock.accept()
+
+		print "server: accepted connection from %s" % repr(addr)
+
+		while True:
+
+			data = connectionsock.recv(1024)	# blocking call! 1024 is max bytes to receive
+		
+			if not data:	# equivalent to: if data=='' . Will happen if orher part does a 'properly shutdown'
+				break
+		
+			print "server: from %s received data=%s" % (repr(addr),data)
+		
+			# echo back received data
+			connectionsock.send(data)
+		
+		# Terminate connection, shutdown connection socket (server part)
+		print "server: shutting down connection to client %s" % repr(addr)
+		connectionsock.close()
+		
+.. note::
+   Η μέθοδος send() θεωρητικά μπορεί να επιστρέψει χωρίς να έχει στείλει όλα τα δεδομένα. Τυπικά η εφαρμογή μας πρέπει να ελέγχει πόσα bytes έχουν σταλεί (η τιμή αυτή επιστρέφεται από την send) και να επαναλαμβάνει την κλήση της send() μέχρι να σταλούν όλα. Εναλλακτικά, η python διαθέτει τη μέθοδο sendall() που επιστρέφει μόνο όταν στείλει όλα τα δεδομένα. Στην τρέχουσα ενότητα θεωρούμε ότι η send πάντα στέλνει το σύνολο των δεδομένων, μια πιο προσεκτική υλοποίηση όμως θα έπρεπε να χρησιμοποιεί τη sendall().
+
+..	note::
+	Παρατηρήστε πώς διακόπτεται το εσωτερικό while:
+	
+	..	code-block:: python
+	   
+
+		while True:
+
+			data = connectionsock.recv(1024)	
+		
+			if not data:	# equivalent to: if data=='' .
+				break
+
+	Το break θα εκτελεστεί μόνο όταν η recv επιστρέψει χωρίς δεδομένα. Αυτό θα συμβεί μόνον όταν το άλλο μέρος (peer) κλείσει το socket!  
+	
+	
+Ο κώδικας του απλοϊκού echo TCP client
+------------------------------------------
+Από την πλευρά του, ο TCP client:
+
+1. Δημιουργεί ένα socket τύπου SOCK_STREAM με την ``socket()``.
+
+2. Προσπαθεί να συνδεθεί στη γνωστή διεύθυνση του server με την ``connect()``.
+
+3. Στη συνέχεια ανταλλάσσει δεδομένα με την ``send()`` και ``recv()``. 
+
+.. _tcp-simplistic-client:
+
+.. comment: following code based on tcp-simplistic-client.py
+
+..	code-block:: python
+ 
+	import socket
+	import sys
+
+	# check if an addr is given as argument
+	host = 'localhost'
+	if len(sys.argv)>1: host = sys.argv[1] 
+
+	# the server addr to connect
+	serveraddr = (host,50007)
+
+	# create the client socket object
+	clientsock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+
+	# connect to listening server socket
+	clientsock.connect(serveraddr)	# this will raise an exception if a problem exists
+	print "client: connected to %s " % repr(serveraddr)
+
+
+	# get a msg from user
+	tosend = raw_input("client: enter string to send>")
+
+	# send string
+	clientsock.send(tosend)
+	
+	# get echo reply - here we assume (unrealistically) that echo data will arrive in one call to recv
+	data = clientsock.recv(1024)
+	
+	print "client: from %s received data=%s" % (repr(serveraddr),data)
+
+	# close socket - signal server that we are done!
+	print "client: shutting down connection to server %s" % repr(serveraddr)
+	clientsock.close()
+
+Ο κώδικας που δόθηκε στην ενότητα αυτή **φαίνεται** να λειτουργεί σωστά. Όπως όμως θα δούμε στη συνέχεια, λειτουργεί μόνο **κατά τύχη**!
+
+

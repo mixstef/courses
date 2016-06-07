@@ -1,0 +1,306 @@
+Ενότητα 6-1
+=============
+
+Εφαρμογές Web Server με το framework Twisted 
+-----------------------------------------------
+Με το Twisted framework μπορούμε πολύ εύκολα να κατασκευάσουμε εφαρμογές web server. Προσέξτε όμως ότι η χρήση του Twisted **δεν είναι η περισσότερο ενδεδειγμένη** όταν:
+
+* Θέλουμε να επιστρέφουμε μόνο στατικά αρχεία.
+
+* Θέλουμε να επιστρέφουμε δεδομένα σε μορφή ιστοσελίδων, μέσω κάποιου template.
+
+Αν και τα παραπάνω μπορούν να υλοποιηθούν μέσω του Twisted, είναι προτιμότερο να χρησιμοποιήσουμε π.χ. στην πρώτη περίπτωση έναν κλασσικό web server όπως ο Apache, ενώ στη δεύτερη να χρησιμοποιήσουμε κάποιο templating engine σε PHP, Ruby κ.ο.κ.
+ 
+Ένας web server στο Twisted εξυπηρετεί καλύτερα εξειδικευμένες εφαρμογές που ανταλλάσσουν δεδομένα μέσω του πρωτοκόλλου HTTP.
+
+Απλός web server
+^^^^^^^^^^^^^^^^^^^ 
+
+Στο παράδειγμα που ακολουθεί, ο web server που κατασκευάζεται επιστρέφει μια δοκιμαστική ιστοσελίδα στο path "/page":
+
+.. comment: following code based on twisted-simple-web-server.py
+
+..	code-block:: python
+
+	from twisted.application import internet,service
+	from twisted.web import server,resource
+
+	# definitions of resources
+	class Root(resource.Resource):	# the root resource class
+		isLeaf = False
+
+	class Page(resource.Resource):	# the sample page resource class
+		isLeaf = True
+		
+		def render_GET(self,request):
+			""" called to handle a GET request. 
+			'request' is an object of type twisted.web.http.Request.
+			The returned string will be sent as reply to client. """
+		
+			return '<html><head><title>A Sample Page</title></head><body>Sample content</body><html>'
+	
+			# end of reply 
+		
+		
+
+	# main program part
+
+	# build the resources tree
+	root = Root()			# the "/" resource
+	root.putChild("page",Page())	# the "/data" resource
+
+	# here we connect a "Site" (subclass of "twistewd.web.http.HTTPFactory") to a "resource"
+	site = server.Site(root)
+
+	# create an object that represents our application
+	# object must be called exactly 'application' to use the twistd launcher!
+	application = service.Application("simple-web-server")
+
+	# create the echo service that our application will offer
+	web_echo_service = internet.TCPServer(50007,site)
+	# add the web echo service to our application object
+	web_echo_service.setServiceParent(application)
+
+Μπορούμε να δοκιμάσουμε τον server με έναν απλό web client σε Python (θεωρώντας ότι ο client και ο server τρέχουν στον ίδιο υπολογιστή):
+
+.. comment: following code based on simple-web-client.py
+
+..	code-block:: python
+
+	import urllib
+
+	page = urllib.urlopen("http://localhost:50007/page")
+	text = page.read()
+	page.close()
+
+	print text
+	
+Μπορούμε επίσης να δούμε τα επιστρεφόμενα δεδομένα σε έναν web browser, πλοηγούμενοι στη διεύθυνση URL ``http://localhost:50007/page`` ή να χρησιμοποιήσουμε τα command-line εργαλεία ``wget`` ή ``curl``: ::
+
+	wget -q -O - http://localhost:50007/page
+
+	curl http://localhost:50007/page
+
+
+Εξυπηρετώντας στατικό περιεχόμενο
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Συνήθως χρειάζεται να εξυπηρετούμε **και** στατικό περιεχόμενο μέσω του web server μας. Αυτό στο Twisted γίνεται ως εξής:
+
+.. comment: following code twisted-simple-web-server-with-static.py
+
+..	code-block:: python
+
+	from twisted.application import internet,service
+	from twisted.web import server,resource
+	from twisted.web.static import File
+
+	# definitions of resources
+	class Root(resource.Resource):	# the root resource class
+		isLeaf = False
+
+	class Page(resource.Resource):	# the sample page resource class
+		isLeaf = True
+		
+		def render_GET(self,request):
+			""" called to handle a GET request. 
+			'request' is an object of type twisted.web.http.Request.
+			The returned string will be sent as reply to client. """
+		
+			return '<html><head><title>A Sample Page</title></head><body>Sample content</body><html>'
+	
+			# end of reply 
+		
+		
+
+	# main program part
+
+	# build the resources tree
+	root = Root()			# the "/" resource
+	root.putChild("page",Page())	# the "/data" resource
+	root.putChild("content",File("staticfolder"))	# the "/content" static files resource
+
+	# here we connect a "Site" (subclass of "twistewd.web.http.HTTPFactory") to a "resource"
+	site = server.Site(root)
+
+	# create an object that represents our application
+	# object must be called exactly 'application' to use the twistd launcher!
+	application = service.Application("simple-web-server")
+
+	# create the echo service that our application will offer
+	web_echo_service = internet.TCPServer(50007,site)
+	# add the web echo service to our application object
+	web_echo_service.setServiceParent(application)
+
+
+Στο προηγούμενο παράδειγμα υποθέτουμε ότι στον φάκελο εκτέλεσης του server υπάρχει υποφάκελος ``staticfolder``, ο οποίος περιέχει ιστοσελίδες, εικόνες ή αλλο στατικό περιεχόμενο. Αυτά θα είναι διαθέσιμα στο path ``/content/όνομα-αρχείου``. 
+
+Παράμετροι από φόρμες
+-----------------------
+Προφανώς, η χρησιμότητα ενός προγράμματος web server είναι πολύ μικρή αν δεν μπορεί να δεχτεί παραμέτρους κατά την αίτηση. Πριν δούμε όμως πώς χειριζόμαστε τέτοιες αιτήσεις, ας δούμε πώς στέλνονται οι παράμετροι από την πλευρά του client.
+
+Μέσω της μεθόδου GET
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Ένα παράδειγμα σε Python:
+
+.. comment: following code simple-web-client-get-params.py
+
+..	code-block:: python
+
+	import urllib
+
+	# params sent to server
+	params = { 'a':23,'b':'testαβγδ','c':'+&=' }
+
+	# create appropriate params string
+	paramstr = urllib.urlencode(params)
+
+
+	page = urllib.urlopen("http://localhost:50007/page?"+paramstr)
+	text = page.read()
+	page.close()
+
+	print text
+	
+Μπορούμε να επιτύχουμε το ίδιο μέσω του κατάλληλου URL σε έναν browser, εφόσον οι παράμετροι κωδικοποιούνται στο URL. Προσέξτε ότι στην περίπτωση αυτή θα πρέπει εσείς να φροντίσετε για το σωστό url-encoding.
+
+Μέσω της μεθόδου POST
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Το αντίστοιχο παράδειγμα σε Python:
+
+.. comment: following code simple-web-client-post-params.py
+
+..	code-block:: python
+
+	import urllib
+
+	# params sent to server
+	params = { 'a':23,'b':'testαβγδ','c':'+&=' }
+
+	# create appropriate params string
+	paramstr = urllib.urlencode(params)
+
+
+	page = urllib.urlopen("http://localhost:50007/page",paramstr)
+	text = page.read()
+	page.close()
+
+	print text
+	
+Μπορούμε να στείλουμε POST παραμέτρους με το ``wget`` ή το ``curl``. Προσέξτε όμως ότι το ``wget`` δεν φροντίζει το url-encoding: ::
+
+	wget -q -O - --post-data "a=1&b=3" http://localhost:50007/page
+	
+	curl --data "a=1&b=3" http://localhost:50007/page
+	
+	curl --data-urlencode 'a=&' --data b=3 http://localhost:50007/page
+	
+Υποδοχή παραμέτρων στον server
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Στον server η αντιμετώπιση είναι η ίδια, τόσο στην περίπτωση του GET όσο στην περίπτωση του POST. Απλά δημιουργούμε τις αντίστοιχες μεθόδους ``render_GET`` και ``render_POST``:
+
+.. comment: following code twisted-simple-web-server-form-params.py
+
+..	code-block:: python
+
+	def render_GET(self,request):
+		""" called to handle a GET request. """
+		
+		# specify a non-html reply content type
+		request.setHeader('Content-type','text/plain')
+		
+		# request.args is a dict of the form { 'key1':['value1'],'key2':['value2','value2a']..}
+		retstr = 'You have sent me these GET params:\n'
+		for k,vl in request.args.items():
+			retstr += k+':\t\t'
+			for v in vl:
+				retstr += v+' '
+			retstr += '\n'
+			
+		return retstr
+	
+		
+	def render_POST(self,request):
+		""" called to handle a POST request. """
+		
+		# specify a non-html reply content type
+		request.setHeader('Content-type','text/plain')
+		
+		# request.args is a dict of the form { 'key1':['value1'],'key2':['value2','value2a']..}
+		retstr = 'You have sent me these POST params:\n'
+		for k,vl in request.args.items():
+			retstr += k+':\t\t'
+			for v in vl:
+				retstr += v+' '
+			retstr += '\n'
+			
+		return retstr
+	
+
+Παρατηρήστε ότι και στις δύο περιπτώσεις οι παράμετροι που στάλθηκαν κατά την αίτηση περιλαμβάνονται σε ένα dict-like αντικείμενο της αίτησης, το ``request.args``. Αυτό έχει τη μορφή: ::
+
+	{ 'key1':['value1'],'key2':['value2','value2a']..}
+	
+επιτρέποντας την εμφάνιση του ίδιου key στην αίτηση περισσότερο από μία φορά.
+
+.. note::
+
+   Στο προηγούμενο παράδειγμα αλλάζουμε τον τύπο των επιστρεφόμενων δεδομένων σε text/plain για να μπορούμε να δούμε το αποτέλεσμα και μέσα από έναν web browser, χωρίς να νοιαζόμαστε για τη μορφοποίηση σε HTML των δεδομένων (όταν δεν ορίζεται ρητά ο τύπος των επιστρεφόμενων δεδομένων, το Twisted δηλώνει τη μορφή HTML). Η αλλαγή επιστρεφόμενου τύπου γίνεται με το:
+   
+   ..	code-block:: python
+   
+	# specify a non-html reply content type
+	request.setHeader('Content-type','text/plain')
+
+Διαπραγμάτευση επιστρεφόμενου τύπου δεδομένων
+-----------------------------------------------  
+Συχνά ο application web server επιστρέφει διαφορετικό τύπο δεδομένων, ανάλογα με την αίτηση του client. Ο τελευταίος μπορεί να ζητήσει έναν ειδικό τύπο για τα δεδομένα που θα επιστραφούν -εφόσον το υποστηρίζει ο server (content negotiation). Για την αίτηση αυτή υπάρχει η εξής επικεφαλίδα στο HTTP (π.χ. όταν ζητείται επιστροφή περιεχομένου XML): ::
+
+  Accept:text/xml
+  
+Ας δούμε αρχικά πώς μπορούμε να στείλουμε αίτηση για εναλλακτικό περιεχόμενο από την πλευρά του client, χρησιμοποιώντας την πιο εξελιγμένη βιβλιοθήκη ``urllib2``:
+
+.. comment: following code simple-web-client-content-negotiation.py
+
+..	code-block:: python
+
+	import urllib2
+
+	req = urllib2.Request("http://localhost:50007/page")
+	req.add_header('Accept','text/plain')
+	page = urllib2.urlopen(req)
+	text = page.read()
+	page.close()
+
+	print text
+	
+Επίσης μπορούμε να πετύχουμε το ίδιο αποτέλεσμα ως εξής: ::
+
+	wget -q -O - --header="Accept:text/plain" http://localhost:50007/page
+
+	curl -H "Accept:text/plain" http://localhost:50007/page
+	
+Στην πλευρά του server, χρησιμοποιούμε το αντικείμενο ``request.received_headers`` για να εξετάσουμε αν υπάρχει αίτηση εναλλακτικού περιεχομένου. Παρατηρήστε ότι **πρέπει να απαντάμε σε κάθε περίπτωση**, ακόμα κι όταν δεν παρέχουμε τη μορφή που ζητείται ή όταν δεν ζητείται κάποια μορφή περιεχομένου!
+
+
+.. comment: following code twisted-simple-web-server-content-negotiation.py
+
+..	code-block:: python
+
+	def render_GET(self,request):
+		""" called to handle a GET request """
+		
+		
+		# request.received_headers is a dict with headers of request.
+		if 'accept' in request.received_headers:	# NOTE: header name gets lowercased!
+			reqtype = request.received_headers['accept']
+			if reqtype=='text/plain':
+				return 'A Sample Page.\nSample content\n'
+			else:	# if not supported, return html
+				return '<html><head><title>A Sample Page</title></head><body>Sample content</body><html>'
+			
+		else:	# if no content type requested, return html 
+			return '<html><head><title>A Sample Page</title></head><body>Sample content</body><html>'
+
+.. note::
+
+   Σε νεώτερες εκδόσεις του Twisted το ``request.received_headers`` αντικαθίσταται από το αντικείμενο ``request.requestHeaders``, το οποίο διαθέτει μεθόδους όπως ``getRawHeaders('Accept')`` και ``hasHeader('Accept')``. Πάντως, διατηρείται η συμβατότητα και με τον κώδικα που χρησιμοποιεί το ``request.received_headers``.

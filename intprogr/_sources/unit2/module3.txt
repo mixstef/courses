@@ -1,0 +1,96 @@
+Ενότητα 2-3
+==============
+
+.. _rexp-extract-weather:
+
+Web page scraping με regular expressions
+---------------------------------------------
+
+Στο παράδειγμα που ακολουθεί θέλουμε να εξάγουμε την πληροφορία πρόβλεψης καιρού από site, όπου η πληροφορία που μας ενδιαφέρει έχει τη μορφή διαδοχικών γραμμών <tr> πίνακα HTML με εναλλασσόμενο style ``TRstyle0`` και ``TRstyle1`` :
+
+..	code-block:: html
+                        
+	<tr class="TRstyle1">
+	<td class="TabG"><span class="DatesG">Κυριακή</span><span class="HeadG">16/05/2010<span></td>
+	<td class="TabG">21:00</td>
+	<td class="TabG"><img src="db_graphics/18UTC_s.gif"></td>
+	<!--Temperature start--><td class="TabGB">18 &deg;C</td>
+	<!--end temperature -->
+	<td class="TabG">61%</td>
+	<td class="TabG">6 Μποφόρ Δ</td>
+	<td class="TabG"><img src="db_graphics/WindDirectionD.gif"></td>
+	<td class="TabG"><img src="db_graphics/ws3.gif"></td>
+	<td class="TabG">ΒΡΟΧΗ</td>
+	<td class="TabG"><img src="db_graphics/HeavyRain.gif"></td>
+	</tr>
+                                        										
+Σύμφωνα με τις προηγούμενες ενότητες, αρχικά ανακτούμε την πλήρη ιστοσελίδα σε ένα string, με τη βοήθεια του module ``urllib``:
+
+..	code-block:: python
+
+	page = urllib.urlopen("page.url")
+	pagetext = page.read().decode("iso8859_7")
+	page.close()
+
+Παρατηρήστε ότι η σελίδα είναι σε κωδικοποίηση ISO 8859-7, την οποία μετατρέπουμε σε unicode.
+
+Στη συνέχεια χρησιμοποιούμε την RE ``<tr class="TRstyle[01]">(.+?)</tr>`` για να εξάγουμε τα σημεία των προβλέψεων. Παρατηρήστε ότι προβλέπουμε για τις εναλλαγές του TRstyle με το ``[01]``, καθώς και τη χρήση του μη άπληστου ``+?`` για την επιλογή του περιεχομένου (αλλιώς η πρώτη επιλογή θα περιελάμβανε τα πάντα μέχρι το τελευταίο </tr> της ιστοσελίδας!): 
+
+..	code-block:: python
+
+	restr = r'<tr class="TRstyle[01]">(.+?)</tr>'
+	rexp = re.compile(restr,re.DOTALL)
+	m = rexp.findall(pagetext)
+
+Η findall() θα επιστρέψει μια λίστα ``m`` με κείμενο που περιλαμβάνεται μεταξύ των <tr class="TRstyle.."> και </tr> (άλλα όχι και τα ίδια τα <tr> και </tr> tags).
+
+Αμέσως μετά, για κάθε ένα στοιχείο της λίστας ``m``, εξάγουμε με τον ίδιο τρόπο το κείμενο μεταξύ <td> και </td>. Παρατηρήστε ότι με το ``<td[^>]+>`` επιλέγουμε όλα τα <td> tags, χωρίς να μας απασχολούν τα attributes που περιέχουν αυτά:
+
+..	code-block:: python
+
+	restr2 = r'<td[^>]+>(.+?)</td>'
+	rexp2 = re.compile(restr2,re.DOTALL)
+
+	for item in m:
+		m2 = rexp2.findall(item)
+		
+Το ``m2`` σε κάθε επανάληψη είναι επίσης λίστα, η οποία περιέχει για παράδειγμα τα παρακάτω strings: ::
+
+	<span class="DatesG">Κυριακή</span><span class="HeadG">16/05/2010</span>
+	15:00
+	<img src="db_graphics/12UTC_s.gif">
+	19 &deg;C
+	56%
+	7 Μποφόρ ΝΔ
+	<img src="db_graphics/WindDirectionND.gif">
+	<img src="db_graphics/ws4.gif">
+	ΒΡΟΧΗ
+	<img src="db_graphics/HeavyRain.gif">
+
+Προφανώς ενδιαφερόμαστε για τα στοιχεία 0 (ημέρα/ημερομηνία), 1 (ώρα), 3 (θερμοκρασία), 4 (υγρασία), 5 (άνεμος), 8 (καιρός). Όλα εκτός από το m2[0] είναι έτοιμα για χρήση. Το m2[0] μπορούμε να το επεξεργαστούμε πάλι με τη εξής R.E. (δημιουργούμε το rexp3 πριν το for):
+
+..	code-block:: python
+
+	restr3 = r'<span[^>]+>(.+?)</span>'
+	rexp3 = re.compile(restr3,re.DOTALL)
+
+Τελικά, ο κώδικας του for έχει τη μορφή:
+
+..	code-block:: python
+
+	for item in m:
+		m2 = rexp2.findall(item)
+		day,date = rexp3.findall(m2[0])
+		time = m2[1]
+		grad = m2[3].replace(u"&deg;",unichr(176))
+		humid = m2[4]
+		wind = m2[5]
+		sky = m2[8]
+		outstr = "%s %s %s %s %s %s %s " % (day,date,time,grad,humid,wind,sky)
+		print outstr.encode("utf_8")
+		
+Όπως φαίνεται στον κώδικα, για εμφάνιση στην κονσόλα μετατρέπουμε το κείμενο από unicode σε UTF-8. Επίσης, μετατρέπουμε το ``&deg;`` στο σωστό σύμβολο ``°C``.
+
+.. note::
+
+   **Μία τελευταία παρατήρηση**: κατά τη διαδικασία του web page scraping, προσπαθούμε να εντοπίσουμε ένα σταθερό σχήμα που οριοθετεί την πληροφορία που μας ενδιαφέρει. Αν το σχήμα αυτό αλλάξει, θα πρέπει να τροποποιήσουμε και το πρόγραμμά μας. Προσοχή σε σχήματα που δεν εμφανίζονται συχνά: στο site του παραδείγματος υπάρχει περίπτωση να εμφανιστεί επιπρόσθετη πληροφορία "αισθητής θερμοκρασίας". Η πληροφορία αυτή ανατρέπει το σχεδιασμό μας και απαιτεί διορθώσεις στον κώδικα που είδαμε προηγουμένως.

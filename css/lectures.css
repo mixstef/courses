@@ -1,0 +1,151 @@
+/* generic margin and padding "neutralizer" */
+* { margin:0; padding:0; } 
+
+/* set initial values for body */
+body {
+  font-family: arial,helvetica,geneva,sans-serif;	/* font settings */
+  font-size: 100%;				/* for em sizing */
+  /*margin: 1em 1em 1em 1em; */
+  background-color: #ffffff;
+}
+
+div#toptitle {
+  background-image: url(banner.gif);
+  background-repeat: no-repeat;
+  height: 120px;
+  padding-left: 180px;
+  padding-top: 30px;
+  border-bottom: solid #800000 2px;
+  overflow: hidden;
+  background-color: #7880A8;
+}
+
+div#toptitle h2 {
+  color: #C0D0E8;
+}
+
+div#toptitle h4 {
+  color: #800000;
+}
+
+div#toptitle h5 {
+  font-size: 100%;
+  color: #ffffff;
+}
+
+div#maincontainer {
+  position: relative;	/* make it the reference of nested absolute elements */ 
+}
+
+div#navigation {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 160px;	/* 180 -10 -10 margins! */
+  padding: 10px;
+  font-size: 90%;
+}
+
+div#navigation ul {
+  list-style-type: none;
+  /* text-indent: 0.5em;  */
+  margin: 0.5em;
+}
+
+div#navigation li {
+  border-bottom: dotted 1px #800000;
+  padding: 0.3em;
+}
+/*
+div#navigation li:first-child {
+  border-top: dotted 1px #800000;
+}
+*/
+
+div#navigation a {
+  text-decoration: none;
+  color: #800000;
+}
+
+div#navigation a:hover {
+  color: #505880;
+}
+
+div#content{
+  margin-left: 180px;
+  max-width: 700px;
+  padding-top: 0.5em;
+  font-size: 90%
+}
+
+.contentbin {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  border-bottom: dotted 1px #800000;
+  line-height: 1.2em;
+}
+
+.contentbin b {
+  color: #505880;
+}
+
+.contentbin p {
+  padding-bottom: 0.5em;
+}
+
+.contentbin ul {
+  text-indent: 0.2em;
+  margin-left: 1.5em;
+}
+
+.contentbin li {
+  padding-bottom: 0.7em;
+}
+
+.contentbin a {
+  text-decoration: none;
+  color: #800000;
+}
+
+.contentbin a:hover {
+  color: #505880;
+}
+
+.contentbin h4 {
+  color: #505880;
+  padding-bottom: 0.7em;
+}
+
+#breadcrumbs {
+  padding-left: 1.2em;
+  padding-bottom: 1.2em;
+  font-size: 90% 
+}
+
+#breadcrumbs h4 {
+  display: none;
+}
+
+#breadcrumbs ul {
+  display: inline;
+}
+
+#breadcrumbs li {
+  display: inline;
+}
+
+#breadcrumbs a {
+  text-decoration: none;
+  color: #800000;
+}
+
+#breadcrumbs a:hover {
+  color: #505880;
+}
+
+#breadcrumbs ul ul li{
+ background-image: url(breadcrumbs-arrow.png);
+ background-repeat: no-repeat;
+ background-position: left;
+ padding-left: 20px;	/* keep space for arrow image */
+}

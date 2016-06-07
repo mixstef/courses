@@ -1,0 +1,359 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Ενότητα 4-2 &mdash; Internet Programming Lectures v1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Internet Programming Lectures v1.0 documentation" href="../index.html" />
+    <link rel="next" title="Ενότητα 5-1" href="../unit5/module1.html" />
+    <link rel="prev" title="Ενότητα 4-1" href="module1.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../unit5/module1.html" title="Ενότητα 5-1"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="module1.html" title="Ενότητα 4-1"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Internet Programming Lectures v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>Ενότητα 4-2<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="tcp-1">
+<h2>TCP - Πρόβλημα #1: Πότε τελειώνουν τα δεδομένα;<a class="headerlink" href="#tcp-1" title="Permalink to this headline">¶</a></h2>
+<p>Για να δείξουμε το πρόβλημα χρησιμοποιούμε τον <a class="reference external" href="module1.html#tcp-simplistic-server"><em>απλοϊκό TCP server</em></a> με την προσθήκη της <tt class="docutils literal"><span class="pre">recvcount</span></tt> για την παρακολούθηση του συνολικού αριθμού bytes που λάβαμε από το <tt class="docutils literal"><span class="pre">connectionsock</span></tt> :</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">socket</span>
+
+<span class="c"># create a stream socket to listen for incoming connections</span>
+<span class="n">listensock</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span><span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+
+<span class="c"># Bind server socket to an arbitrary non-privileged port number.</span>
+<span class="c"># Here host is &#39;&#39;, meaning INADDR_ANY (any interface)</span>
+<span class="n">listensock</span><span class="o">.</span><span class="n">bind</span><span class="p">((</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="mi">50007</span><span class="p">))</span>
+
+<span class="c"># declare that we listen for incoming connection requests on this socket</span>
+<span class="n">listensock</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c"># run until manually killed, listensock will be garbage collected</span>
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="c"># We accept connections on listensocket, blocking if none present.</span>
+        <span class="n">connectionsock</span><span class="p">,</span><span class="n">addr</span> <span class="o">=</span> <span class="n">listensock</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+
+        <span class="k">print</span> <span class="s">&quot;server: accepted connection from </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="nb">repr</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span>
+
+        <span class="n">recvcount</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+
+                <span class="n">data</span> <span class="o">=</span> <span class="n">connectionsock</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>        <span class="c"># blocking call!</span>
+
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span>    <span class="c"># equivalent to: if data==&#39;&#39; . Will happen if orher part does a &#39;properly shutdown&#39;</span>
+                        <span class="k">break</span>
+
+                <span class="n">recvlen</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+                <span class="n">recvcount</span> <span class="o">+=</span> <span class="n">recvlen</span>
+                <span class="k">print</span> <span class="s">&quot;server: from </span><span class="si">%s</span><span class="s"> received data with len </span><span class="si">%s</span><span class="s"> (total=</span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">addr</span><span class="p">),</span><span class="n">recvlen</span><span class="p">,</span><span class="n">recvcount</span><span class="p">)</span>
+
+                <span class="c"># echo back received data</span>
+                <span class="n">connectionsock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="c"># termination of connection, shutdown connection socket (server part)</span>
+        <span class="k">print</span> <span class="s">&quot;server: shutting down connection to client </span><span class="si">%s</span><span class="s"> after receiving </span><span class="si">%s</span><span class="s"> bytes &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">addr</span><span class="p">),</span><span class="n">recvcount</span><span class="p">)</span>
+        <span class="n">connectionsock</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Από την πλευρά του client χρησιμοποιούμε το εξής πρόγραμμα που στέλνει 100.000 bytes (25.000 φορές το string &#8216;test&#8217;):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">socket</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="c"># check if an addr is given as argument</span>
+<span class="n">host</span> <span class="o">=</span> <span class="s">&#39;localhost&#39;</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span> <span class="n">host</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c"># the server addr to connect</span>
+<span class="n">serveraddr</span> <span class="o">=</span> <span class="p">(</span><span class="n">host</span><span class="p">,</span><span class="mi">50007</span><span class="p">)</span>
+
+<span class="c"># create the client socket object</span>
+<span class="n">clientsock</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span><span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+
+<span class="c"># connect to listening server socket</span>
+<span class="n">clientsock</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">serveraddr</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">&quot;client: connected to </span><span class="si">%s</span><span class="s"> &quot;</span> <span class="o">%</span> <span class="nb">repr</span><span class="p">(</span><span class="n">serveraddr</span><span class="p">)</span>
+
+
+<span class="n">tosend</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">&quot;client: press enter to send 100000 bytes&gt;&quot;</span><span class="p">)</span>
+
+<span class="n">tosend</span> <span class="o">=</span> <span class="s">&quot;test&quot;</span><span class="o">*</span><span class="mi">25000</span>
+<span class="n">sendlen</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tosend</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">&quot;client: going to send to server </span><span class="si">%s</span><span class="s"> data of </span><span class="si">%s</span><span class="s"> bytes&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">serveraddr</span><span class="p">),</span><span class="n">sendlen</span><span class="p">)</span>
+
+<span class="c"># send string</span>
+<span class="n">clientsock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">tosend</span><span class="p">)</span>
+
+<span class="c"># get echo reply - here we assume (unrealistically) that echo data will arrive in one call to recv</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">clientsock</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="s">&quot;client: from </span><span class="si">%s</span><span class="s"> received data=</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">serveraddr</span><span class="p">),</span><span class="n">data</span><span class="p">)</span>
+
+<span class="c"># close socket - signal server that we are done!</span>
+<span class="k">print</span> <span class="s">&quot;client: shutting down connection to server </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="nb">repr</span><span class="p">(</span><span class="n">serveraddr</span><span class="p">)</span>
+<span class="n">clientsock</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Το αποτέλεσμα; Ο server λαμβάνει μέρος των δεδομένων, στέλνει κάτι στον client αλλά τερματίζει με το εξής σφάλμα:</p>
+<div class="highlight-python"><pre>socket.error: [Errno 104] Connection reset by peer</pre>
+</div>
+<p>Γιατί συμβαίνει αυτό; Με τα πρώτα δεδομένα που λαμβάνει πίσω ο client (μόλις επιστρέψει η <tt class="docutils literal"><span class="pre">clientsock.recv()</span></tt>), η σύνδεση κλείνει με το <tt class="docutils literal"><span class="pre">clientsock.close()</span></tt>. Ο server διαμαρτύρεται ότι δεν μπορεί να στείλει πλέον τα υπόλοιπα δεδομένα!</p>
+<p>Προσπαθώντας να λάβουμε στον client όλα τα δεδομένα, αντί για το <tt class="docutils literal"><span class="pre">data</span> <span class="pre">=</span> <span class="pre">clientsock.recv(1024)</span></tt> βάζουμε το εξής (ο υπόλοιπος κώδικας του client δεν αλλάζει):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># get echo reply - we loop here, because reply will come in more than one recv() calls</span>
+<span class="n">recvcount</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">clientsock</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span> <span class="k">break</span>
+        <span class="n">recvlen</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">recvcount</span> <span class="o">+=</span> <span class="n">recvlen</span>
+        <span class="k">print</span> <span class="s">&quot;client: from </span><span class="si">%s</span><span class="s"> received data with len </span><span class="si">%s</span><span class="s"> (total=</span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">serveraddr</span><span class="p">),</span><span class="n">recvlen</span><span class="p">,</span><span class="n">recvcount</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Το αποτέλεσμα είναι ακόμα χειρότερο: τόσο ο client όσο και ο server &#8216;κολλάνε&#8217;! Γιατί συμβαίνει αυτό;</p>
+<ul class="simple">
+<li>Η <tt class="docutils literal"><span class="pre">send()</span></tt> του client στέλνει <strong>όλα</strong> τα δεδομένα. Στη συνέχεια, ο client μπαίνει στο loop της <tt class="docutils literal"><span class="pre">recv()</span></tt>.</li>
+<li>Ο server στο δικό του loop διαβάζει <strong>όλα</strong> τα δεδομένα με τη <tt class="docutils literal"><span class="pre">recv()</span></tt> και τα επιστρέφει με την <tt class="docutils literal"><span class="pre">send()</span></tt>. Η τελευταία κλήση της <tt class="docutils literal"><span class="pre">recv()</span></tt> θα μπλοκάρει τον server, αφού δεν υπάρχουν νέα δεδομένα και η σύνδεση είναι ακόμα ανοιχτή.</li>
+<li>Ο client στο δικό του loop θα λάβει <strong>όλα</strong> τα δεδομένα με τη <tt class="docutils literal"><span class="pre">recv()</span></tt>. Η τελευταία κλήση της <tt class="docutils literal"><span class="pre">recv()</span></tt> θα μπλοκάρει τον client, αφού δεν υπάρχουν νέα δεδομένα και η σύνδεση είναι ακόμα ανοιχτή.</li>
+<li>Deadlock!</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Εδώ πρέπει να αποσαφηνιστεί η διαφορά μεταξύ πακέτων στο δίκτυο και επιστρεφόμενων bytes από την <tt class="docutils literal"><span class="pre">recv()</span></tt>. Με τις υπάρχουσες τεχνολογίες ένα διαδικτυακό πακέτο δεδομένων έχει μέγιστο μέγεθος περίπου 1460 bytes. Το μέγεθος αυτό <strong>δεν σχετίζεται</strong> με τον αριθμό bytes που επιστρέφει η recv(): <strong>μπορεί να επιστρέψει μισό πακέτο ή πολλαπλά πακέτα μαζί</strong>. Ο σωστός προγραμματιστής δεν κάνει τέτοιες υποθέσεις.</p>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>Μισο-κλείνοντας τη σύνδεση<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Στο τελευταίο παράδειγμα ο client και ο server περιμένει ο ένας τον άλλον να κλείσει τη σύνδεση, αυτό όμως δεν συμβαίνει ποτέ γιατί έτσι και τα δύο μέρη θα έχαναν τη δυνατότητα λήψης των υπόλοιπων δεδομένων.</p>
+<p>Μια λύση είναι ένα από τα δύο μέρη να μισο-κλείσει (half-close) τη σύνδεση, δηλώνοντας ότι</p>
+<ul class="simple">
+<li>δεν θα στείλει άλλα δεδομένα</li>
+<li>αλλά μπορεί να δεχτεί δεδομένα.</li>
+</ul>
+<p>Αυτό επιτυγχάνεται στο πρόγραμμα του client με την <tt class="docutils literal"><span class="pre">clientsock.shutdown(socket.SHUT_WR)</span></tt>, η οποία ειδοποιεί το σύστημα ότι δεν θα γράψει άλλα δεδομένα στο clientsock, ενώ μπορεί ακόμα να λάβει. Αυτό θα επιτρέψει στην <tt class="docutils literal"><span class="pre">recv()</span></tt> της άλλης πλευράς να επιστρέψει χωρίς δεδομένα (άρα θα εκτελεστεί το break του loop λήψης).</p>
+<p>Το πρόγραμμα του client έχει τώρα ως εξής (ο server δεν αλλάζει):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">socket</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="c"># check if an addr is given as argument</span>
+<span class="n">host</span> <span class="o">=</span> <span class="s">&#39;localhost&#39;</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span> <span class="n">host</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c"># the server addr to connect</span>
+<span class="n">serveraddr</span> <span class="o">=</span> <span class="p">(</span><span class="n">host</span><span class="p">,</span><span class="mi">50007</span><span class="p">)</span>
+
+<span class="c"># create the client socket object</span>
+<span class="n">clientsock</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span><span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+
+<span class="c"># connect to listening server socket</span>
+<span class="n">clientsock</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">serveraddr</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">&quot;client: connected to </span><span class="si">%s</span><span class="s"> &quot;</span> <span class="o">%</span> <span class="nb">repr</span><span class="p">(</span><span class="n">serveraddr</span><span class="p">)</span>
+
+<span class="n">tosend</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">&quot;client: press enter to send 100000 bytes&gt;&quot;</span><span class="p">)</span>
+
+<span class="n">tosend</span> <span class="o">=</span> <span class="s">&quot;test&quot;</span><span class="o">*</span><span class="mi">25000</span>
+<span class="n">sendlen</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tosend</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">&quot;client: going to send to server </span><span class="si">%s</span><span class="s"> data of </span><span class="si">%s</span><span class="s"> bytes&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">serveraddr</span><span class="p">),</span><span class="n">sendlen</span><span class="p">)</span>
+
+<span class="c"># send string</span>
+<span class="n">clientsock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">tosend</span><span class="p">)</span>
+
+<span class="n">clientsock</span><span class="o">.</span><span class="n">shutdown</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">SHUT_WR</span><span class="p">)</span>     <span class="c"># half-close socket: tell server we are finished sending but allow for reception</span>
+
+<span class="c"># get echo reply - we loop here, because reply will come in more than one recv() calls</span>
+<span class="n">recvcount</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">clientsock</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span> <span class="k">break</span>
+        <span class="n">recvlen</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">recvcount</span> <span class="o">+=</span> <span class="n">recvlen</span>
+        <span class="k">print</span> <span class="s">&quot;client: from </span><span class="si">%s</span><span class="s"> received data with len </span><span class="si">%s</span><span class="s"> (total=</span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">serveraddr</span><span class="p">),</span><span class="n">recvlen</span><span class="p">,</span><span class="n">recvcount</span><span class="p">)</span>
+
+<span class="c"># close socket - signal server that we are done!</span>
+<span class="k">print</span> <span class="s">&quot;client: shutting down connection to server </span><span class="si">%s</span><span class="s"> after sending </span><span class="si">%s</span><span class="s"> and receiving </span><span class="si">%s</span><span class="s"> bytes&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">serveraddr</span><span class="p">),</span><span class="n">sendlen</span><span class="p">,</span><span class="n">recvcount</span><span class="p">)</span>
+<span class="n">clientsock</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="format">
+<h2>Έλεγχος μέσω του format των δεδομένων<a class="headerlink" href="#format" title="Permalink to this headline">¶</a></h2>
+<p>Η προηγούμενη μέθοδος με το <tt class="docutils literal"><span class="pre">shutdown(socket.SHUT_WR)</span></tt> μπορεί να χρησιμοποιηθεί αν ο client στέλνει <strong>άπαξ</strong> την αίτησή του μέσω της σύνδεσης. Σε πολλά διαδικτυακά προωτόκολλα όμως απαιτείται η διακίνηση διαδοχικών αιτήσεων μέσα από την ίδια σύνδεση. Είναι φανερό ότι το μισο-κλείσιμο της σύνδεσης δεν μπορεί να εφαρμοστεί εδώ.</p>
+<p>Η εναλλακτική λύση είναι</p>
+<ul class="simple">
+<li>είτε η <strong>ένδειξη του μεγέθους</strong> να περνά <strong>μέσα</strong> στο πακέτο δεδομένων (όπως συμβαίνει π.χ. με το HTTP)</li>
+<li>είτε η <strong>μορφή</strong> των δεδομένων να υποδηλώνει το τέλος τους (όπως π.χ. στο instant messaging XMPP, όπου τα δεδομένα είναι σε μορφή XML)</li>
+</ul>
+<p>Στο παρακάτω παράδειγμα ο client προσθέται στην αρχή των δεδομένων την έδειξη του μήκους σε μορφή string και ένα κενό (space):</p>
+<div class="highlight-python" id="tcp-client-bytecount"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">socket</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="c"># check if an addr is given as argument</span>
+<span class="n">host</span> <span class="o">=</span> <span class="s">&#39;localhost&#39;</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span> <span class="n">host</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c"># ask user how many bytes to send</span>
+<span class="n">bytestosend</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">raw_input</span><span class="p">(</span><span class="s">&quot;client: how many data bytes to send?&gt;&quot;</span><span class="p">))</span>
+<span class="k">if</span> <span class="n">bytestosend</span><span class="o">&gt;</span><span class="mi">0</span> <span class="ow">and</span> <span class="n">bytestosend</span><span class="o">&lt;=</span><span class="mi">100000</span><span class="p">:</span>
+
+        <span class="c"># prepare the testmsg</span>
+        <span class="n">tosend</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">bytestosend</span><span class="p">)</span><span class="o">+</span><span class="s">&quot; &quot;</span><span class="o">+</span><span class="s">&quot;a&quot;</span><span class="o">*</span><span class="n">bytestosend</span>
+
+        <span class="c"># the server addr to connect</span>
+        <span class="n">serveraddr</span> <span class="o">=</span> <span class="p">(</span><span class="n">host</span><span class="p">,</span><span class="mi">50007</span><span class="p">)</span>
+
+        <span class="c"># create the client socket object</span>
+        <span class="n">clientsock</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span><span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+
+        <span class="c"># connect to listening server socket</span>
+        <span class="n">clientsock</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">serveraddr</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s">&quot;client: connected to </span><span class="si">%s</span><span class="s"> &quot;</span> <span class="o">%</span> <span class="nb">repr</span><span class="p">(</span><span class="n">serveraddr</span><span class="p">)</span>
+
+        <span class="n">sendlen</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tosend</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s">&quot;client: going to send to server </span><span class="si">%s</span><span class="s"> data of </span><span class="si">%s</span><span class="s"> bytes&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">serveraddr</span><span class="p">),</span><span class="n">sendlen</span><span class="p">)</span>
+
+        <span class="c"># send string</span>
+        <span class="n">clientsock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">tosend</span><span class="p">)</span>
+
+        <span class="c"># get echo reply - we loop here, because reply will come in more than one recv() calls</span>
+        <span class="n">recvcount</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">clientsock</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span> <span class="k">break</span>
+                <span class="n">recvlen</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+                <span class="n">recvcount</span> <span class="o">+=</span> <span class="n">recvlen</span>
+                <span class="k">print</span> <span class="s">&quot;client: from </span><span class="si">%s</span><span class="s"> received data with len </span><span class="si">%s</span><span class="s"> (total=</span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">serveraddr</span><span class="p">),</span><span class="n">recvlen</span><span class="p">,</span><span class="n">recvcount</span><span class="p">)</span>
+
+        <span class="c"># close socket - server has already closed its own socket</span>
+        <span class="k">print</span> <span class="s">&quot;client: shutting down connection to server </span><span class="si">%s</span><span class="s"> after sending </span><span class="si">%s</span><span class="s"> and receiving </span><span class="si">%s</span><span class="s"> bytes&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">serveraddr</span><span class="p">),</span><span class="n">sendlen</span><span class="p">,</span><span class="n">recvcount</span><span class="p">)</span>
+        <span class="n">clientsock</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Παρατηρήστε ότι η μορφή του loop λήψης με την <tt class="docutils literal"><span class="pre">recv()</span></tt> φανερώνει ότι περιμένουμε από τον server να αναλάβει τη διακοπή της σύνδεσης.</p>
+<p>Ο αντίστοιχος server έχει ως εξής:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">socket</span>
+
+<span class="c"># create a stream socket to listen for incoming connections</span>
+<span class="n">listensock</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span><span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+
+<span class="c"># Bind server socket to an arbitrary non-privileged port number.</span>
+<span class="n">listensock</span><span class="o">.</span><span class="n">bind</span><span class="p">((</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="mi">50007</span><span class="p">))</span>     <span class="c"># NOTE: tuple argument!</span>
+
+<span class="c"># declare that we listen for incoming connection requests on this socket</span>
+<span class="n">listensock</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c"># run until manually killed, listensock will be garbage collected</span>
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="c"># We accept connections on listensocket, blocking if none present.</span>
+        <span class="n">connectionsock</span><span class="p">,</span><span class="n">addr</span> <span class="o">=</span> <span class="n">listensock</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+
+        <span class="k">print</span> <span class="s">&quot;server: accepted connection from </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="nb">repr</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span>
+
+        <span class="n">totalrecv</span> <span class="o">=</span> <span class="mi">0</span>   <span class="c"># total bytes received</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="n">contentlength</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">totalsent</span> <span class="o">=</span> <span class="mi">0</span>   <span class="c"># total bytes sent back</span>
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+
+                <span class="n">data</span> <span class="o">=</span> <span class="n">connectionsock</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>        <span class="c"># blocking call!</span>
+
+                <span class="n">recvlen</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+                <span class="n">totalrecv</span> <span class="o">+=</span> <span class="n">recvlen</span>
+                <span class="k">print</span> <span class="s">&quot;server: from </span><span class="si">%s</span><span class="s"> received data with len </span><span class="si">%s</span><span class="s"> (total=</span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">addr</span><span class="p">),</span><span class="n">recvlen</span><span class="p">,</span><span class="n">totalrecv</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">contentlength</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>    <span class="c"># we still are in the process of extracting content length</span>
+                        <span class="n">i</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">i</span><span class="o">==-</span><span class="mi">1</span><span class="p">:</span>       <span class="c"># space not found, accumulate prefix</span>
+                                <span class="n">prefix</span> <span class="o">+=</span> <span class="n">data</span>  <span class="c"># NOTE: we don&#39;t do a security check on accumulated length...</span>
+                        <span class="k">else</span><span class="p">:</span>
+                                <span class="n">prefix</span> <span class="o">+=</span> <span class="n">data</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span>
+                                <span class="n">contentlength</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span>     <span class="c"># NOTE: we also don&#39;t check the validity of content length...</span>
+                                <span class="k">print</span> <span class="s">&quot;server: content length=</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">contentlength</span>
+                                <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>       <span class="c"># skip space too</span>
+
+                <span class="k">if</span> <span class="n">contentlength</span><span class="o">!=</span><span class="mi">0</span><span class="p">:</span>    <span class="c"># may have changed in last if clause</span>
+
+                        <span class="c"># echo back received data</span>
+                        <span class="n">connectionsock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+                        <span class="n">sendlen</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+                        <span class="n">totalsent</span> <span class="o">+=</span> <span class="n">sendlen</span>
+                        <span class="k">print</span> <span class="s">&quot;server: to </span><span class="si">%s</span><span class="s"> echoed data with len </span><span class="si">%s</span><span class="s"> (total=</span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">addr</span><span class="p">),</span><span class="n">sendlen</span><span class="p">,</span><span class="n">totalsent</span><span class="p">)</span>
+
+                        <span class="k">if</span> <span class="n">totalsent</span><span class="o">==</span><span class="n">contentlength</span><span class="p">:</span> <span class="k">break</span>      <span class="c"># echoed the specified number of data bytes, init shutdown</span>
+
+        <span class="c"># termination of connection, shutdown connection socket (server part)</span>
+        <span class="k">print</span> <span class="s">&quot;server: shutting down connection to client </span><span class="si">%s</span><span class="s"> after receiving </span><span class="si">%s</span><span class="s"> bytes &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">addr</span><span class="p">),</span><span class="n">totalrecv</span><span class="p">)</span>
+        <span class="n">connectionsock</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>Μία πολύ σημαντική παρατήρηση<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>..που αξίζει να κλείσει την ενότητα. Τα προηγούμενα έδειξαν πόσο δύσκολος είναι ο χειρισμός δεδομένων κατά την αποστολή και λήψη με custom format πακέτα. Οι σημερινοί προγραμματιστές δεν έχουν την πολυτέλεια του χρόνου για τη δημιουργία νέων μορφών πακέτων και πρωτοκόλλων: από έναν προγραμματιστή π.χ. του Google ή του Yahoo! μπορεί να ζητηθεί να έχει έτοιμη μια εφαρμογή μέσα σε μέρες!</p>
+<p>Είναι φανερό ότι αυτό που χρειάζεται είναι</p>
+<ul class="simple">
+<li>ένα ήδη γνωστό, ευρέως χρησιμοποιούμενο και πρότυπο πρωτόκολλο για την ανταλλαγή διαδικτυακών δεδομένων.</li>
+<li>Ένα πρωτόκολλο υλοποιημένο σε όσο το δυνατόν περισσότερες γλώσσες προγραμματισμού με έτοιμες βιβλιοθήκες.</li>
+<li>Ένα πρωτοκόλλο που επιτρέπει στον προγραμματιστή να επικεντρωθεί στα ίδια τα δεδομένα, όχι στο πώς θα τα μεταφέρει.</li>
+</ul>
+<p>Υπάρχει τέτοιο πρωτόκολλο; Φυσικά, και το χρησιμοποιούμε όλοι κάθε μέρα: είναι το HTTP!</p>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../unit5/module1.html" title="Ενότητα 5-1"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="module1.html" title="Ενότητα 4-1"
+             >previous</a> |</li>
+        <li><a href="../index.html">Internet Programming Lectures v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2011, mistral.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.6.
+    </div>
+  </body>
+</html>

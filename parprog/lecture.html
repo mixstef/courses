@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" href="../css/normalize.css">
+    <link rel="stylesheet" href="../css/lectures3.css">
+    <title>Παράλληλος Προγραμματισμός</title>
+  </head>
+
+  <body>
+    <div id="wrapper">
+
+    <header>
+    <img src="../img/banner.gif" alt="">
+    <div>
+      <h4>Τμήμα Πληροφορικής - Ιόνιο Πανεπιστήμιο</h4>
+      <h2>Παράλληλος Προγραμματισμός</h2>
+      <h4>Εαρινό εξάμηνο 2015-16</h4>
+      <h5>Διδάσκων: Μ.Στεφανιδάκης</h5>    
+    </div>
+    </header>
+
+    <nav>
+        <ul>
+          <li><a href="index.html">Παρουσίαση Μαθήματος</a></li>
+          <li>Υλικό Μαθήματος</li>
+          <li><a href="../index.html">(Άλλα Μαθήματα)</a></li>          
+        </ul>
+
+    </nav>
+
+    <div id="content">
+
+<!--
+      <div class="contentbin">
+        <h4>Εξέταση Ιουνίου 2015</h4>
+          <a href="apallaktikes.pdf">Ποιοι απαλλάσσονται</a>
+      </div>
+-->
+      
+      <div class="contentbin">
+        <h4>Ενότητα #1</h4>
+        Η ιεραρχία μνήμης (κύρια και κρυφές μνήμες) και η επίδραση στην απόδοση.
+        <ul>
+          <li>Υπόδειγμα κώδικα: <a href="https://gist.github.com/mixstef/8a0492ae838f3799c919#file-triad1-c">triad1.c</a>.</li>
+        </ul>
+      </div>
+
+
+      <div class="contentbin">
+        <h4>Εργασία&nbsp;#1</h4>
+        <ul>
+          <li>Υπόδειγμα κώδικα για την εργασία: <a href="https://gist.github.com/mixstef/223d9c9a90f8305acf53">matrix1.c</a>.</li>
+          <li><a href="assignment1.pdf">Εκφώνηση Εργασίας</a><br><strong><del>Παράδοση: 8/3/2016</del> <ins>(έληξε)</ins></strong></li>
+        </ul>
+      </div>
+
+
+      <div class="contentbin">
+        <h4>Ενότητα #2</h4>
+        Προγραμματισμός με εντολές SSE (Streaming SIMD Extensions).
+        <ul>
+          <li>Παράδειγμα χρήσης SSE: <a href="https://gist.github.com/mixstef/504e7fd7c512542f7705#file-sse-instrs-c">sse-instrs.c</a>.</li>
+          <li>Float Triad benchmark <a href="https://gist.github.com/mixstef/504e7fd7c512542f7705#file-float-triad-sse-c">με SSE</a> (vs <a href="https://gist.github.com/mixstef/504e7fd7c512542f7705#file-float-triad-normal-c">χωρίς SSE</a>).</li>
+          
+        </ul>
+
+      </div>
+
+
+      <div class="contentbin">
+        <h4>Ενότητα #3</h4>
+        Προγραμματισμός με POSIX Threads (pthreads).
+        <ul>
+          <li>Παράδειγμα χρήσης pthreads: <a href="https://gist.github.com/mixstef/1442404f2e9f3f2c3e19">vectoradd-pthreads.c</a>.</li>
+          <li>Παράδειγμα χρήσης pthreads: <a href="https://gist.github.com/mixstef/68f9353c8a72be8ae69e">πολλαπλασιασμός πινάκων</a>.</li>
+          <li>Δομές συγχρονισμού pthreads: <a href="https://gist.github.com/mixstef/966be631a5d2601c4264">mutexes, conditional variables, barriers</a>.</li>
+          
+        </ul>
+
+      </div>
+
+      <div class="contentbin">
+        <h4>Εργασία&nbsp;#2</h4>
+        <ul>
+          <li><a href="assignment2.pdf">Εκφώνηση Εργασίας</a><br><strong>Παράδοση: 20/4/2016</strong></li>
+        </ul>
+      </div>
+
+      <div class="contentbin">
+        <h4>Ενότητα #4</h4>
+        Προγραμματισμός με το OpenMP.
+        <ul>
+          <li>Παραδείγματα χρήσης OpenMP: <a href="https://gist.github.com/mixstef/e4e9ba564efc797e4e16">πρόσθεση vectors και πολλαπλασιασμός πινάκων</a>.</li>
+          <li>Δείτε επίσης: <a href="http://openmp.org/mp-documents/OMP_Exercises.zip">το παράδειγμα με τον υπολογισμό του π</a> (/OMP_Exercises/solutions/pi_loop.c) και <a href="http://openmp.org/mp-documents/OpenMP_Examples_4.0.1.pdf">τον αριθμό Fibonacci</a> (σελ.53).</li>
+        </ul>
+
+      </div>
+
+      <div class="contentbin">
+        <h4>Ενότητα #5</h4>
+        Intel Threading Building Blocks (TBB).
+        <ul>
+          <li>TBB: <a href="https://gist.github.com/mixstef/6285ecfd5e0d69e5250380a90bf855d4">δοκιμαστικό φορτίο</a>.</li>
+          <li>TBB: <a href="https://gist.github.com/mixstef/8fa3308958c18b70497b39a209c48385">πρόσθεση vectors</a>.</li>
+          <li>TBB: <a href="https://gist.github.com/mixstef/4d4bd52b2078f95276a4ee4c6964357e">πολλαπλασιασμός πινάκων</a>.</li>
+          
+        </ul>
+
+      </div>
+
+
+      <div class="contentbin">
+        <h4>Ενότητα #6</h4>
+        CUDA.
+        <ul>
+          <li>Μην ξεχάσετε στο jupyterhub: <pre>%env LD_LIBRARY_PATH=/usr/local/nvidia/lib:/usr/local/nvidia/lib64</pre></li>
+          <li><a href="template.cu">Template</a></li>
+        </ul>
+
+      </div>
+
+    </div>
+
+    </div>
+  </body>
+</html>

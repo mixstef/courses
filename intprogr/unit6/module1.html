@@ -1,0 +1,338 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Ενότητα 6-1 &mdash; Internet Programming Lectures v1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Internet Programming Lectures v1.0 documentation" href="../index.html" />
+    <link rel="next" title="Ενότητα 6-2" href="module2.html" />
+    <link rel="prev" title="Ενότητα 5-2" href="../unit5/module2.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="module2.html" title="Ενότητα 6-2"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../unit5/module2.html" title="Ενότητα 5-2"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Internet Programming Lectures v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>Ενότητα 6-1<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="web-server-framework-twisted">
+<h2>Εφαρμογές Web Server με το framework Twisted<a class="headerlink" href="#web-server-framework-twisted" title="Permalink to this headline">¶</a></h2>
+<p>Με το Twisted framework μπορούμε πολύ εύκολα να κατασκευάσουμε εφαρμογές web server. Προσέξτε όμως ότι η χρήση του Twisted <strong>δεν είναι η περισσότερο ενδεδειγμένη</strong> όταν:</p>
+<ul class="simple">
+<li>Θέλουμε να επιστρέφουμε μόνο στατικά αρχεία.</li>
+<li>Θέλουμε να επιστρέφουμε δεδομένα σε μορφή ιστοσελίδων, μέσω κάποιου template.</li>
+</ul>
+<p>Αν και τα παραπάνω μπορούν να υλοποιηθούν μέσω του Twisted, είναι προτιμότερο να χρησιμοποιήσουμε π.χ. στην πρώτη περίπτωση έναν κλασσικό web server όπως ο Apache, ενώ στη δεύτερη να χρησιμοποιήσουμε κάποιο templating engine σε PHP, Ruby κ.ο.κ.</p>
+<p>Ένας web server στο Twisted εξυπηρετεί καλύτερα εξειδικευμένες εφαρμογές που ανταλλάσσουν δεδομένα μέσω του πρωτοκόλλου HTTP.</p>
+<div class="section" id="web-server">
+<h3>Απλός web server<a class="headerlink" href="#web-server" title="Permalink to this headline">¶</a></h3>
+<p>Στο παράδειγμα που ακολουθεί, ο web server που κατασκευάζεται επιστρέφει μια δοκιμαστική ιστοσελίδα στο path &#8220;/page&#8221;:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">twisted.application</span> <span class="kn">import</span> <span class="n">internet</span><span class="p">,</span><span class="n">service</span>
+<span class="kn">from</span> <span class="nn">twisted.web</span> <span class="kn">import</span> <span class="n">server</span><span class="p">,</span><span class="n">resource</span>
+
+<span class="c"># definitions of resources</span>
+<span class="k">class</span> <span class="nc">Root</span><span class="p">(</span><span class="n">resource</span><span class="o">.</span><span class="n">Resource</span><span class="p">):</span>  <span class="c"># the root resource class</span>
+        <span class="n">isLeaf</span> <span class="o">=</span> <span class="bp">False</span>
+
+<span class="k">class</span> <span class="nc">Page</span><span class="p">(</span><span class="n">resource</span><span class="o">.</span><span class="n">Resource</span><span class="p">):</span>  <span class="c"># the sample page resource class</span>
+        <span class="n">isLeaf</span> <span class="o">=</span> <span class="bp">True</span>
+
+        <span class="k">def</span> <span class="nf">render_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">request</span><span class="p">):</span>
+                <span class="sd">&quot;&quot;&quot; called to handle a GET request.</span>
+<span class="sd">                &#39;request&#39; is an object of type twisted.web.http.Request.</span>
+<span class="sd">                The returned string will be sent as reply to client. &quot;&quot;&quot;</span>
+
+                <span class="k">return</span> <span class="s">&#39;&lt;html&gt;&lt;head&gt;&lt;title&gt;A Sample Page&lt;/title&gt;&lt;/head&gt;&lt;body&gt;Sample content&lt;/body&gt;&lt;html&gt;&#39;</span>
+
+                <span class="c"># end of reply</span>
+
+
+
+<span class="c"># main program part</span>
+
+<span class="c"># build the resources tree</span>
+<span class="n">root</span> <span class="o">=</span> <span class="n">Root</span><span class="p">()</span>                   <span class="c"># the &quot;/&quot; resource</span>
+<span class="n">root</span><span class="o">.</span><span class="n">putChild</span><span class="p">(</span><span class="s">&quot;page&quot;</span><span class="p">,</span><span class="n">Page</span><span class="p">())</span>    <span class="c"># the &quot;/data&quot; resource</span>
+
+<span class="c"># here we connect a &quot;Site&quot; (subclass of &quot;twistewd.web.http.HTTPFactory&quot;) to a &quot;resource&quot;</span>
+<span class="n">site</span> <span class="o">=</span> <span class="n">server</span><span class="o">.</span><span class="n">Site</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+
+<span class="c"># create an object that represents our application</span>
+<span class="c"># object must be called exactly &#39;application&#39; to use the twistd launcher!</span>
+<span class="n">application</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s">&quot;simple-web-server&quot;</span><span class="p">)</span>
+
+<span class="c"># create the echo service that our application will offer</span>
+<span class="n">web_echo_service</span> <span class="o">=</span> <span class="n">internet</span><span class="o">.</span><span class="n">TCPServer</span><span class="p">(</span><span class="mi">50007</span><span class="p">,</span><span class="n">site</span><span class="p">)</span>
+<span class="c"># add the web echo service to our application object</span>
+<span class="n">web_echo_service</span><span class="o">.</span><span class="n">setServiceParent</span><span class="p">(</span><span class="n">application</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Μπορούμε να δοκιμάσουμε τον server με έναν απλό web client σε Python (θεωρώντας ότι ο client και ο server τρέχουν στον ίδιο υπολογιστή):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">urllib</span>
+
+<span class="n">page</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://localhost:50007/page&quot;</span><span class="p">)</span>
+<span class="n">text</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">page</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="k">print</span> <span class="n">text</span>
+</pre></div>
+</div>
+<p>Μπορούμε επίσης να δούμε τα επιστρεφόμενα δεδομένα σε έναν web browser, πλοηγούμενοι στη διεύθυνση URL <tt class="docutils literal"><span class="pre">http://localhost:50007/page</span></tt> ή να χρησιμοποιήσουμε τα command-line εργαλεία <tt class="docutils literal"><span class="pre">wget</span></tt> ή <tt class="docutils literal"><span class="pre">curl</span></tt>:</p>
+<div class="highlight-python"><pre>wget -q -O - http://localhost:50007/page
+
+curl http://localhost:50007/page</pre>
+</div>
+</div>
+<div class="section" id="id2">
+<h3>Εξυπηρετώντας στατικό περιεχόμενο<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>Συνήθως χρειάζεται να εξυπηρετούμε <strong>και</strong> στατικό περιεχόμενο μέσω του web server μας. Αυτό στο Twisted γίνεται ως εξής:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">twisted.application</span> <span class="kn">import</span> <span class="n">internet</span><span class="p">,</span><span class="n">service</span>
+<span class="kn">from</span> <span class="nn">twisted.web</span> <span class="kn">import</span> <span class="n">server</span><span class="p">,</span><span class="n">resource</span>
+<span class="kn">from</span> <span class="nn">twisted.web.static</span> <span class="kn">import</span> <span class="n">File</span>
+
+<span class="c"># definitions of resources</span>
+<span class="k">class</span> <span class="nc">Root</span><span class="p">(</span><span class="n">resource</span><span class="o">.</span><span class="n">Resource</span><span class="p">):</span>  <span class="c"># the root resource class</span>
+        <span class="n">isLeaf</span> <span class="o">=</span> <span class="bp">False</span>
+
+<span class="k">class</span> <span class="nc">Page</span><span class="p">(</span><span class="n">resource</span><span class="o">.</span><span class="n">Resource</span><span class="p">):</span>  <span class="c"># the sample page resource class</span>
+        <span class="n">isLeaf</span> <span class="o">=</span> <span class="bp">True</span>
+
+        <span class="k">def</span> <span class="nf">render_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">request</span><span class="p">):</span>
+                <span class="sd">&quot;&quot;&quot; called to handle a GET request.</span>
+<span class="sd">                &#39;request&#39; is an object of type twisted.web.http.Request.</span>
+<span class="sd">                The returned string will be sent as reply to client. &quot;&quot;&quot;</span>
+
+                <span class="k">return</span> <span class="s">&#39;&lt;html&gt;&lt;head&gt;&lt;title&gt;A Sample Page&lt;/title&gt;&lt;/head&gt;&lt;body&gt;Sample content&lt;/body&gt;&lt;html&gt;&#39;</span>
+
+                <span class="c"># end of reply</span>
+
+
+
+<span class="c"># main program part</span>
+
+<span class="c"># build the resources tree</span>
+<span class="n">root</span> <span class="o">=</span> <span class="n">Root</span><span class="p">()</span>                   <span class="c"># the &quot;/&quot; resource</span>
+<span class="n">root</span><span class="o">.</span><span class="n">putChild</span><span class="p">(</span><span class="s">&quot;page&quot;</span><span class="p">,</span><span class="n">Page</span><span class="p">())</span>    <span class="c"># the &quot;/data&quot; resource</span>
+<span class="n">root</span><span class="o">.</span><span class="n">putChild</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span><span class="n">File</span><span class="p">(</span><span class="s">&quot;staticfolder&quot;</span><span class="p">))</span>   <span class="c"># the &quot;/content&quot; static files resource</span>
+
+<span class="c"># here we connect a &quot;Site&quot; (subclass of &quot;twistewd.web.http.HTTPFactory&quot;) to a &quot;resource&quot;</span>
+<span class="n">site</span> <span class="o">=</span> <span class="n">server</span><span class="o">.</span><span class="n">Site</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+
+<span class="c"># create an object that represents our application</span>
+<span class="c"># object must be called exactly &#39;application&#39; to use the twistd launcher!</span>
+<span class="n">application</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">Application</span><span class="p">(</span><span class="s">&quot;simple-web-server&quot;</span><span class="p">)</span>
+
+<span class="c"># create the echo service that our application will offer</span>
+<span class="n">web_echo_service</span> <span class="o">=</span> <span class="n">internet</span><span class="o">.</span><span class="n">TCPServer</span><span class="p">(</span><span class="mi">50007</span><span class="p">,</span><span class="n">site</span><span class="p">)</span>
+<span class="c"># add the web echo service to our application object</span>
+<span class="n">web_echo_service</span><span class="o">.</span><span class="n">setServiceParent</span><span class="p">(</span><span class="n">application</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Στο προηγούμενο παράδειγμα υποθέτουμε ότι στον φάκελο εκτέλεσης του server υπάρχει υποφάκελος <tt class="docutils literal"><span class="pre">staticfolder</span></tt>, ο οποίος περιέχει ιστοσελίδες, εικόνες ή αλλο στατικό περιεχόμενο. Αυτά θα είναι διαθέσιμα στο path <tt class="docutils literal"><span class="pre">/content/όνομα-αρχείου</span></tt>.</p>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>Παράμετροι από φόρμες<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>Προφανώς, η χρησιμότητα ενός προγράμματος web server είναι πολύ μικρή αν δεν μπορεί να δεχτεί παραμέτρους κατά την αίτηση. Πριν δούμε όμως πώς χειριζόμαστε τέτοιες αιτήσεις, ας δούμε πώς στέλνονται οι παράμετροι από την πλευρά του client.</p>
+<div class="section" id="get">
+<h3>Μέσω της μεθόδου GET<a class="headerlink" href="#get" title="Permalink to this headline">¶</a></h3>
+<p>Ένα παράδειγμα σε Python:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">urllib</span>
+
+<span class="c"># params sent to server</span>
+<span class="n">params</span> <span class="o">=</span> <span class="p">{</span> <span class="s">&#39;a&#39;</span><span class="p">:</span><span class="mi">23</span><span class="p">,</span><span class="s">&#39;b&#39;</span><span class="p">:</span><span class="s">&#39;testαβγδ&#39;</span><span class="p">,</span><span class="s">&#39;c&#39;</span><span class="p">:</span><span class="s">&#39;+&amp;=&#39;</span> <span class="p">}</span>
+
+<span class="c"># create appropriate params string</span>
+<span class="n">paramstr</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlencode</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+
+
+<span class="n">page</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://localhost:50007/page?&quot;</span><span class="o">+</span><span class="n">paramstr</span><span class="p">)</span>
+<span class="n">text</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">page</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="k">print</span> <span class="n">text</span>
+</pre></div>
+</div>
+<p>Μπορούμε να επιτύχουμε το ίδιο μέσω του κατάλληλου URL σε έναν browser, εφόσον οι παράμετροι κωδικοποιούνται στο URL. Προσέξτε ότι στην περίπτωση αυτή θα πρέπει εσείς να φροντίσετε για το σωστό url-encoding.</p>
+</div>
+<div class="section" id="post">
+<h3>Μέσω της μεθόδου POST<a class="headerlink" href="#post" title="Permalink to this headline">¶</a></h3>
+<p>Το αντίστοιχο παράδειγμα σε Python:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">urllib</span>
+
+<span class="c"># params sent to server</span>
+<span class="n">params</span> <span class="o">=</span> <span class="p">{</span> <span class="s">&#39;a&#39;</span><span class="p">:</span><span class="mi">23</span><span class="p">,</span><span class="s">&#39;b&#39;</span><span class="p">:</span><span class="s">&#39;testαβγδ&#39;</span><span class="p">,</span><span class="s">&#39;c&#39;</span><span class="p">:</span><span class="s">&#39;+&amp;=&#39;</span> <span class="p">}</span>
+
+<span class="c"># create appropriate params string</span>
+<span class="n">paramstr</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlencode</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+
+
+<span class="n">page</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://localhost:50007/page&quot;</span><span class="p">,</span><span class="n">paramstr</span><span class="p">)</span>
+<span class="n">text</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">page</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="k">print</span> <span class="n">text</span>
+</pre></div>
+</div>
+<p>Μπορούμε να στείλουμε POST παραμέτρους με το <tt class="docutils literal"><span class="pre">wget</span></tt> ή το <tt class="docutils literal"><span class="pre">curl</span></tt>. Προσέξτε όμως ότι το <tt class="docutils literal"><span class="pre">wget</span></tt> δεν φροντίζει το url-encoding:</p>
+<div class="highlight-python"><pre>wget -q -O - --post-data "a=1&amp;b=3" http://localhost:50007/page
+
+curl --data "a=1&amp;b=3" http://localhost:50007/page
+
+curl --data-urlencode 'a=&amp;' --data b=3 http://localhost:50007/page</pre>
+</div>
+</div>
+<div class="section" id="server">
+<h3>Υποδοχή παραμέτρων στον server<a class="headerlink" href="#server" title="Permalink to this headline">¶</a></h3>
+<p>Στον server η αντιμετώπιση είναι η ίδια, τόσο στην περίπτωση του GET όσο στην περίπτωση του POST. Απλά δημιουργούμε τις αντίστοιχες μεθόδους <tt class="docutils literal"><span class="pre">render_GET</span></tt> και <tt class="docutils literal"><span class="pre">render_POST</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">render_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">request</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; called to handle a GET request. &quot;&quot;&quot;</span>
+
+        <span class="c"># specify a non-html reply content type</span>
+        <span class="n">request</span><span class="o">.</span><span class="n">setHeader</span><span class="p">(</span><span class="s">&#39;Content-type&#39;</span><span class="p">,</span><span class="s">&#39;text/plain&#39;</span><span class="p">)</span>
+
+        <span class="c"># request.args is a dict of the form { &#39;key1&#39;:[&#39;value1&#39;],&#39;key2&#39;:[&#39;value2&#39;,&#39;value2a&#39;]..}</span>
+        <span class="n">retstr</span> <span class="o">=</span> <span class="s">&#39;You have sent me these GET params:</span><span class="se">\n</span><span class="s">&#39;</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">vl</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">retstr</span> <span class="o">+=</span> <span class="n">k</span><span class="o">+</span><span class="s">&#39;:</span><span class="se">\t\t</span><span class="s">&#39;</span>
+                <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vl</span><span class="p">:</span>
+                        <span class="n">retstr</span> <span class="o">+=</span> <span class="n">v</span><span class="o">+</span><span class="s">&#39; &#39;</span>
+                <span class="n">retstr</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+
+        <span class="k">return</span> <span class="n">retstr</span>
+
+
+<span class="k">def</span> <span class="nf">render_POST</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">request</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; called to handle a POST request. &quot;&quot;&quot;</span>
+
+        <span class="c"># specify a non-html reply content type</span>
+        <span class="n">request</span><span class="o">.</span><span class="n">setHeader</span><span class="p">(</span><span class="s">&#39;Content-type&#39;</span><span class="p">,</span><span class="s">&#39;text/plain&#39;</span><span class="p">)</span>
+
+        <span class="c"># request.args is a dict of the form { &#39;key1&#39;:[&#39;value1&#39;],&#39;key2&#39;:[&#39;value2&#39;,&#39;value2a&#39;]..}</span>
+        <span class="n">retstr</span> <span class="o">=</span> <span class="s">&#39;You have sent me these POST params:</span><span class="se">\n</span><span class="s">&#39;</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">vl</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">retstr</span> <span class="o">+=</span> <span class="n">k</span><span class="o">+</span><span class="s">&#39;:</span><span class="se">\t\t</span><span class="s">&#39;</span>
+                <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vl</span><span class="p">:</span>
+                        <span class="n">retstr</span> <span class="o">+=</span> <span class="n">v</span><span class="o">+</span><span class="s">&#39; &#39;</span>
+                <span class="n">retstr</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+
+        <span class="k">return</span> <span class="n">retstr</span>
+</pre></div>
+</div>
+<p>Παρατηρήστε ότι και στις δύο περιπτώσεις οι παράμετροι που στάλθηκαν κατά την αίτηση περιλαμβάνονται σε ένα dict-like αντικείμενο της αίτησης, το <tt class="docutils literal"><span class="pre">request.args</span></tt>. Αυτό έχει τη μορφή:</p>
+<div class="highlight-python"><pre>{ 'key1':['value1'],'key2':['value2','value2a']..}</pre>
+</div>
+<p>επιτρέποντας την εμφάνιση του ίδιου key στην αίτηση περισσότερο από μία φορά.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Στο προηγούμενο παράδειγμα αλλάζουμε τον τύπο των επιστρεφόμενων δεδομένων σε text/plain για να μπορούμε να δούμε το αποτέλεσμα και μέσα από έναν web browser, χωρίς να νοιαζόμαστε για τη μορφοποίηση σε HTML των δεδομένων (όταν δεν ορίζεται ρητά ο τύπος των επιστρεφόμενων δεδομένων, το Twisted δηλώνει τη μορφή HTML). Η αλλαγή επιστρεφόμενου τύπου γίνεται με το:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="c"># specify a non-html reply content type</span>
+<span class="n">request</span><span class="o">.</span><span class="n">setHeader</span><span class="p">(</span><span class="s">&#39;Content-type&#39;</span><span class="p">,</span><span class="s">&#39;text/plain&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>Διαπραγμάτευση επιστρεφόμενου τύπου δεδομένων<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>Συχνά ο application web server επιστρέφει διαφορετικό τύπο δεδομένων, ανάλογα με την αίτηση του client. Ο τελευταίος μπορεί να ζητήσει έναν ειδικό τύπο για τα δεδομένα που θα επιστραφούν -εφόσον το υποστηρίζει ο server (content negotiation). Για την αίτηση αυτή υπάρχει η εξής επικεφαλίδα στο HTTP (π.χ. όταν ζητείται επιστροφή περιεχομένου XML):</p>
+<div class="highlight-python"><pre>Accept:text/xml</pre>
+</div>
+<p>Ας δούμε αρχικά πώς μπορούμε να στείλουμε αίτηση για εναλλακτικό περιεχόμενο από την πλευρά του client, χρησιμοποιώντας την πιο εξελιγμένη βιβλιοθήκη <tt class="docutils literal"><span class="pre">urllib2</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">urllib2</span>
+
+<span class="n">req</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="s">&quot;http://localhost:50007/page&quot;</span><span class="p">)</span>
+<span class="n">req</span><span class="o">.</span><span class="n">add_header</span><span class="p">(</span><span class="s">&#39;Accept&#39;</span><span class="p">,</span><span class="s">&#39;text/plain&#39;</span><span class="p">)</span>
+<span class="n">page</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+<span class="n">text</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">page</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="k">print</span> <span class="n">text</span>
+</pre></div>
+</div>
+<p>Επίσης μπορούμε να πετύχουμε το ίδιο αποτέλεσμα ως εξής:</p>
+<div class="highlight-python"><pre>wget -q -O - --header="Accept:text/plain" http://localhost:50007/page
+
+curl -H "Accept:text/plain" http://localhost:50007/page</pre>
+</div>
+<p>Στην πλευρά του server, χρησιμοποιούμε το αντικείμενο <tt class="docutils literal"><span class="pre">request.received_headers</span></tt> για να εξετάσουμε αν υπάρχει αίτηση εναλλακτικού περιεχομένου. Παρατηρήστε ότι <strong>πρέπει να απαντάμε σε κάθε περίπτωση</strong>, ακόμα κι όταν δεν παρέχουμε τη μορφή που ζητείται ή όταν δεν ζητείται κάποια μορφή περιεχομένου!</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">render_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">request</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; called to handle a GET request &quot;&quot;&quot;</span>
+
+
+        <span class="c"># request.received_headers is a dict with headers of request.</span>
+        <span class="k">if</span> <span class="s">&#39;accept&#39;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">received_headers</span><span class="p">:</span>        <span class="c"># NOTE: header name gets lowercased!</span>
+                <span class="n">reqtype</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">received_headers</span><span class="p">[</span><span class="s">&#39;accept&#39;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">reqtype</span><span class="o">==</span><span class="s">&#39;text/plain&#39;</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="s">&#39;A Sample Page.</span><span class="se">\n</span><span class="s">Sample content</span><span class="se">\n</span><span class="s">&#39;</span>
+                <span class="k">else</span><span class="p">:</span>   <span class="c"># if not supported, return html</span>
+                        <span class="k">return</span> <span class="s">&#39;&lt;html&gt;&lt;head&gt;&lt;title&gt;A Sample Page&lt;/title&gt;&lt;/head&gt;&lt;body&gt;Sample content&lt;/body&gt;&lt;html&gt;&#39;</span>
+
+        <span class="k">else</span><span class="p">:</span>   <span class="c"># if no content type requested, return html</span>
+                <span class="k">return</span> <span class="s">&#39;&lt;html&gt;&lt;head&gt;&lt;title&gt;A Sample Page&lt;/title&gt;&lt;/head&gt;&lt;body&gt;Sample content&lt;/body&gt;&lt;html&gt;&#39;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Σε νεώτερες εκδόσεις του Twisted το <tt class="docutils literal"><span class="pre">request.received_headers</span></tt> αντικαθίσταται από το αντικείμενο <tt class="docutils literal"><span class="pre">request.requestHeaders</span></tt>, το οποίο διαθέτει μεθόδους όπως <tt class="docutils literal"><span class="pre">getRawHeaders('Accept')</span></tt> και <tt class="docutils literal"><span class="pre">hasHeader('Accept')</span></tt>. Πάντως, διατηρείται η συμβατότητα και με τον κώδικα που χρησιμοποιεί το <tt class="docutils literal"><span class="pre">request.received_headers</span></tt>.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="module2.html" title="Ενότητα 6-2"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../unit5/module2.html" title="Ενότητα 5-2"
+             >previous</a> |</li>
+        <li><a href="../index.html">Internet Programming Lectures v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2011, mistral.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.6.
+    </div>
+  </body>
+</html>

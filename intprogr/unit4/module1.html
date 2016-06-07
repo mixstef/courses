@@ -1,0 +1,228 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Ενότητα 4-1 &mdash; Internet Programming Lectures v1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Internet Programming Lectures v1.0 documentation" href="../index.html" />
+    <link rel="next" title="Ενότητα 4-2" href="module2.html" />
+    <link rel="prev" title="Ενότητα 3-2" href="../unit3/module2.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="module2.html" title="Ενότητα 4-2"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../unit3/module2.html" title="Ενότητα 3-2"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Internet Programming Lectures v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>Ενότητα 4-1<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>Στην ενότητα αυτή παρουσιάζονται διάφορες υλοποιήσεις TCP clients και TCP servers. Το πρωτόκολλο TCP είναι σημαντικά πολυπλοκότερο από το UDP. Έτσι, εμφανίζονται σοβαρά προβλήματα σε μια απλοϊκή μη-ρεαλιστική υλοποίηση:</p>
+<ul class="simple">
+<li><strong>Πότε τελειώνουν τα δεδομένα;</strong> Όσο διαρκεί η σύνδεση TCP, τα δύο μέρη δεν είναι εύκολο να γνωρίζουν πότε τελειώνουν τα δεδομένα που λαμβάνουν.</li>
+<li><strong>Πόσοι clients ταυτόχρονα;</strong> Ένας TCP server μπορεί να εξυπηρετεί ταυτόχρονα πολλούς clients, απαιτείται όμως η βοήθεια του λειτουργικού συστήματος για αυτό.</li>
+</ul>
+<p>Τα προβλήματα αυτά μελετάμε στη συνέχεια.</p>
+<div class="section" id="tcp-server-tcp-client">
+<h2>Απλοϊκός TCP server και TCP client<a class="headerlink" href="#tcp-server-tcp-client" title="Permalink to this headline">¶</a></h2>
+<p>Ο κώδικας που ακολουθεί δείχνει τη βασική διαδικασία δημιουργίας &#8216;σύνδεσης&#8217; (connection) μεταξύ TCP client και TCP server. Ο server επιστρέφει τα δεδομένα που στέλνει ο client (echo service). Σε αντίθεση με το UDP, εδώ η διαδικασία πρέπει να περάσει από ορισμένα στάδια:</p>
+<ol class="arabic simple">
+<li>Ο server δημιουργεί ένα socket τύπου SOCK_STREAM με την <tt class="docutils literal"><span class="pre">socket()</span></tt> (<tt class="docutils literal"><span class="pre">listensock</span></tt> στον κώδικα που ακολουθεί).</li>
+<li>Το <tt class="docutils literal"><span class="pre">listensock</span></tt> &#8216;δένεται&#8217; σε μια τοπική διεύθυνση/port με την <tt class="docutils literal"><span class="pre">bind()</span></tt>.</li>
+<li>Η προθυμία να δεχτούμε εισερχόμενες αιτήσεις για σύνδεση στο <tt class="docutils literal"><span class="pre">listensock</span></tt> δηλώνεται με την <tt class="docutils literal"><span class="pre">listen()</span></tt>.</li>
+</ol>
+<blockquote>
+<ul class="simple">
+<li>Η <tt class="docutils literal"><span class="pre">listen()</span></tt> δεν είναι blocking συνάρτηση! Δεν κάνει η ίδια την αποδοχή των συνδέσεων.</li>
+<li>Η <tt class="docutils literal"><span class="pre">listen()</span></tt> δέχεται ως όρισμα την περίφημη παράμετρο <strong>backlog</strong>.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Η περιγραφή του <strong>backlog</strong> στα εγχειρίδια είναι τουλάχιστον ασαφής. Επιπλέον έχει αλλάξει έννοια με το πέρασμα του χρόνου σε διάφορες υλοποιήσεις των δικτυακών βιβλιοθηκών. Η αφαλέστερη περιγραφή είναι ότι αποτελεί υπόδειξη (hint) προς το λειτουργικό σύστημα για το μέγεθος των ουρών αναμονής των αιτήσεων σύνδεσης. Στα εκπαιδευτικά παραδείγματα χρησιμοποιείται η τιμή 1 ενώ σε πραγματικές εφαρμογές με πολές συνδέσεις θα έπρεπε να έχει μεγαλύτερο μέγεθος. Σε κάθε περίπτωση το λειτουργικό σύστημα έχει μια  μέγιστη τιμή για το backlog. <strong>Μην χρησιμποιείτε την τιμή 0!</strong> Δεν σημαίνει &#8216;default&#8217; σε όλα τα λειτουργικά συστήματα!</p>
+</div>
+</blockquote>
+<ol class="arabic simple" start="4">
+<li>Οι αιτήσεις σύνδεσης γίνονται αποδεκτές από τη συνάρτηση <tt class="docutils literal"><span class="pre">accept()</span></tt> (blocking συνάρτηση).</li>
+</ol>
+<blockquote>
+<ul class="simple">
+<li>Η <tt class="docutils literal"><span class="pre">accept()</span></tt> επιστρέφει ένα <strong>νέο</strong> socket (<tt class="docutils literal"><span class="pre">connectionsock</span></tt> στο παράδειγμα που ακολουθεί) μέσω του οποίου θα γίνει η ανταλλαγή των δεδομένων.</li>
+</ul>
+</blockquote>
+<ol class="arabic simple" start="5">
+<li>Στη συνέχεια ο server μπορεί να ανταλλάξει δεδομένα μέσω του connectionsock με τη βοήθεια των <tt class="docutils literal"><span class="pre">recv()</span></tt> και <tt class="docutils literal"><span class="pre">send()</span></tt>.</li>
+</ol>
+<blockquote>
+<ul class="simple">
+<li>Η <tt class="docutils literal"><span class="pre">recv()</span></tt> δέχεται ως όρισμα τον μέγιστο αριθμό bytes που μπορεί να επιστρέψει.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Οι <tt class="docutils literal"><span class="pre">send()</span></tt> και <tt class="docutils literal"><span class="pre">recv()</span></tt> είναι (στην εξ&#8217;ορισμού συμπεριφορά) blocking συναρτήσεις:</p>
+<ul class="last simple">
+<li>Η <tt class="docutils literal"><span class="pre">send()</span></tt> (κανονικά) δεν θα επιστρέψει αν δεν στείλει όλα τα δεδομένα.</li>
+<li>Η <tt class="docutils literal"><span class="pre">recv()</span></tt> δεν θα επιστρέψει παρά μόνον α)όταν ληφθεί ένας αριθμός δεδομένων (μικρότερος ή ίσος του ορίσματός της) ή β) όταν το πρωτόκολλο γνωρίζει οριστικά ότι δεν πρόκειται να ληφθούν άλλα δεδομένα.</li>
+</ul>
+</div>
+</blockquote>
+</div>
+<div class="section" id="echo-tcp-server">
+<h2>Ο κώδικας του απλοϊκού echo TCP server<a class="headerlink" href="#echo-tcp-server" title="Permalink to this headline">¶</a></h2>
+<p>Βασικός κώδικας, χωρίς έλεγχο λαθών. Παρατηρήστε ότι η ανταλλαγή δεδομένων γίνεται μέσω του <tt class="docutils literal"><span class="pre">connectionsock</span></tt>, όχι μέσω του <tt class="docutils literal"><span class="pre">listensock</span></tt>.</p>
+<span class="target" id="tcp-simplistic-server"></span><div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">socket</span>
+
+<span class="c"># Create a stream socket to listen for incoming connections</span>
+<span class="n">listensock</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span><span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+
+<span class="c"># Bind server socket to an arbitrary non-privileged port number.</span>
+<span class="c"># Host is &#39;&#39; (INADDR_ANY, any interface)</span>
+<span class="n">listensock</span><span class="o">.</span><span class="n">bind</span><span class="p">((</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="mi">50007</span><span class="p">))</span>     <span class="c"># NOTE: tuple argument!</span>
+
+<span class="c"># Listen for incoming connection requests on this socket</span>
+<span class="n">listensock</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c"># Run until manually interrupted, listensock will be garbage collected</span>
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="c"># Accept connections on listensocket, blocking if none present.</span>
+        <span class="c"># 1st arg returned is the connection socket through which the actual data transfer will happen.</span>
+        <span class="c"># 2nd arg returned is the addr of the other part in connection.</span>
+        <span class="n">connectionsock</span><span class="p">,</span><span class="n">addr</span> <span class="o">=</span> <span class="n">listensock</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+
+        <span class="k">print</span> <span class="s">&quot;server: accepted connection from </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="nb">repr</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span>
+
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+
+                <span class="n">data</span> <span class="o">=</span> <span class="n">connectionsock</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>        <span class="c"># blocking call! 1024 is max bytes to receive</span>
+
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span>    <span class="c"># equivalent to: if data==&#39;&#39; . Will happen if orher part does a &#39;properly shutdown&#39;</span>
+                        <span class="k">break</span>
+
+                <span class="k">print</span> <span class="s">&quot;server: from </span><span class="si">%s</span><span class="s"> received data=</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">addr</span><span class="p">),</span><span class="n">data</span><span class="p">)</span>
+
+                <span class="c"># echo back received data</span>
+                <span class="n">connectionsock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="c"># Terminate connection, shutdown connection socket (server part)</span>
+        <span class="k">print</span> <span class="s">&quot;server: shutting down connection to client </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="nb">repr</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span>
+        <span class="n">connectionsock</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Η μέθοδος send() θεωρητικά μπορεί να επιστρέψει χωρίς να έχει στείλει όλα τα δεδομένα. Τυπικά η εφαρμογή μας πρέπει να ελέγχει πόσα bytes έχουν σταλεί (η τιμή αυτή επιστρέφεται από την send) και να επαναλαμβάνει την κλήση της send() μέχρι να σταλούν όλα. Εναλλακτικά, η python διαθέτει τη μέθοδο sendall() που επιστρέφει μόνο όταν στείλει όλα τα δεδομένα. Στην τρέχουσα ενότητα θεωρούμε ότι η send πάντα στέλνει το σύνολο των δεδομένων, μια πιο προσεκτική υλοποίηση όμως θα έπρεπε να χρησιμοποιεί τη sendall().</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Παρατηρήστε πώς διακόπτεται το εσωτερικό while:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="n">connectionsock</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span>    <span class="c"># equivalent to: if data==&#39;&#39; .</span>
+                <span class="k">break</span>
+</pre></div>
+</div>
+<p class="last">Το break θα εκτελεστεί μόνο όταν η recv επιστρέψει χωρίς δεδομένα. Αυτό θα συμβεί μόνον όταν το άλλο μέρος (peer) κλείσει το socket!</p>
+</div>
+</div>
+<div class="section" id="echo-tcp-client">
+<h2>Ο κώδικας του απλοϊκού echo TCP client<a class="headerlink" href="#echo-tcp-client" title="Permalink to this headline">¶</a></h2>
+<p>Από την πλευρά του, ο TCP client:</p>
+<ol class="arabic simple">
+<li>Δημιουργεί ένα socket τύπου SOCK_STREAM με την <tt class="docutils literal"><span class="pre">socket()</span></tt>.</li>
+<li>Προσπαθεί να συνδεθεί στη γνωστή διεύθυνση του server με την <tt class="docutils literal"><span class="pre">connect()</span></tt>.</li>
+<li>Στη συνέχεια ανταλλάσσει δεδομένα με την <tt class="docutils literal"><span class="pre">send()</span></tt> και <tt class="docutils literal"><span class="pre">recv()</span></tt>.</li>
+</ol>
+<span class="target" id="tcp-simplistic-client"></span><div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">socket</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="c"># check if an addr is given as argument</span>
+<span class="n">host</span> <span class="o">=</span> <span class="s">&#39;localhost&#39;</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span> <span class="n">host</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c"># the server addr to connect</span>
+<span class="n">serveraddr</span> <span class="o">=</span> <span class="p">(</span><span class="n">host</span><span class="p">,</span><span class="mi">50007</span><span class="p">)</span>
+
+<span class="c"># create the client socket object</span>
+<span class="n">clientsock</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span><span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+
+<span class="c"># connect to listening server socket</span>
+<span class="n">clientsock</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">serveraddr</span><span class="p">)</span>  <span class="c"># this will raise an exception if a problem exists</span>
+<span class="k">print</span> <span class="s">&quot;client: connected to </span><span class="si">%s</span><span class="s"> &quot;</span> <span class="o">%</span> <span class="nb">repr</span><span class="p">(</span><span class="n">serveraddr</span><span class="p">)</span>
+
+
+<span class="c"># get a msg from user</span>
+<span class="n">tosend</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">&quot;client: enter string to send&gt;&quot;</span><span class="p">)</span>
+
+<span class="c"># send string</span>
+<span class="n">clientsock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">tosend</span><span class="p">)</span>
+
+<span class="c"># get echo reply - here we assume (unrealistically) that echo data will arrive in one call to recv</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">clientsock</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="s">&quot;client: from </span><span class="si">%s</span><span class="s"> received data=</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">serveraddr</span><span class="p">),</span><span class="n">data</span><span class="p">)</span>
+
+<span class="c"># close socket - signal server that we are done!</span>
+<span class="k">print</span> <span class="s">&quot;client: shutting down connection to server </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="nb">repr</span><span class="p">(</span><span class="n">serveraddr</span><span class="p">)</span>
+<span class="n">clientsock</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Ο κώδικας που δόθηκε στην ενότητα αυτή <strong>φαίνεται</strong> να λειτουργεί σωστά. Όπως όμως θα δούμε στη συνέχεια, λειτουργεί μόνο <strong>κατά τύχη</strong>!</p>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="module2.html" title="Ενότητα 4-2"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../unit3/module2.html" title="Ενότητα 3-2"
+             >previous</a> |</li>
+        <li><a href="../index.html">Internet Programming Lectures v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2011, mistral.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.6.
+    </div>
+  </body>
+</html>

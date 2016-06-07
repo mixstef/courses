@@ -1,0 +1,137 @@
+Ενότητα 5-1
+=============
+
+TCP - Πρόβλημα #2: Πόσοι clients ταυτόχρονα;
+-----------------------------------------------
+Στο παράδειγμα του :ref:`απλοϊκού TCP server <tcp-simplistic-server>` ο αριθμός των συνδέσεων που μπορούμε να εξυπηρετήσουμε ταυτόχρονα είναι 1. Για να φανεί αυτό χρησιμοποιούμε τον εξής απλό client, ο οποίος στέλνει μικρά πακέτα αλλά δεν κλείνει τη σύνδεση παρά μόνο αν το ζητήσει ο χρήστης:
+
+.. comment: following code based on tcp-simplistic-client2.py
+
+.. _tcp-simplistic-client2:
+
+..	code-block:: python
+
+	import socket
+	import sys
+
+	# check if an addr is given as argument
+	host = 'localhost'
+	if len(sys.argv)>1: host = sys.argv[1] 
+
+	# the server addr to connect
+	serveraddr = (host,50007)
+
+	# create the client socket object
+	clientsock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+
+	# connect to listening server socket
+	clientsock.connect(serveraddr)	# this will raise an exception if a problem exists
+	print "client: connected to %s " % repr(serveraddr)
+
+	while True:
+		# get a series of msgs from user
+		tosend = raw_input("client: enter string to send>")
+		if tosend=='': break
+
+		# send string
+		clientsock.send(tosend)	# theoretically this could send part of msg only...see sendall() method
+	
+		# get echo reply - here we assume (unrealistically) that echo data will arrive in one call to recv
+		data = clientsock.recv(1024)
+	
+		print "client: from %s received data=%s" % (repr(serveraddr),data)
+
+	# close socket - signal server that we are done!
+	print "client: shutting down connection to server %s" % repr(serveraddr)
+	clientsock.close()
+ 
+Αν δοκιμάσουμε να τρέξουμε δύο η περισσότερους clients ταυτόχρονα, βλέπουμε ότι μόνο ο πρώτος γίνεται accept()-ed. Οι υπόλοιποι συνδέονται μεν, αλλά δεν μπορούν να στείλουν δεδομένα παρά μόνο αφού τερματιστεί η σύνδεση με τον πρώτο (φυσικά, με τη σειρά που έκαναν την αίτηση).
+
+Η ταυτόχρονη εξυπηρέτηση συνδέσεων σε έναν server είναι αναγκαία στα πραγματικά προγράμματα. Αυτό μπορεί να γίνει
+
+* είτε με τη δημιουργία ξεχωριστών threads (ή processes) για τον χειρισμό κάθε μίας σύνδεσης
+
+* είτε με τη χρήση non-blocking sockets και περιοδικό έλεγχο (polling) αν υπάρχουν δεδομένα λήψης.
+
+Στην πρώτη περίπτωση (threads) η λύση είναι κατάλληλη για την ταυτόχρονη υποστήριξη μικρού αριθμού clients: η δημιουργία και η αποδέσμευση threads (κι ακόμα χειρότερα, processes) είναι δαπανηρή λειτουργία. Επίσης, σε ένα σύστημα ο αριθμός των threads που μπορούν να υπάρχουν ταυτόχρονα είναι πεπερασμένος.
+
+Η δεύτερη λύση (non-blocking sockets) είναι επεκτάσιμη σε μεγάλο αριθμό clients. Από την άλλη πλευρά, είναι δύσκολη η συγγραφή servers με τη μέθοδο αυτή.
+
+Η Python υποστηρίζει στην standard βιβλιοθήκη της και τις δύο επιλογές σε χαμηλό επίπεδο (modules: threading, select κ.ά.), στα παραδείγματα που ακολουθούν όμως θα χρησιμοποιήσουμε λύσεις υψηλότερου επιπέδου (frameworks).
+
+Πολλαπλά threads με το module SocketServer
+----------------------------------------------
+Το SocketServer είναι μέρος της standard βιβλιοθήκης της Python και επιτρέπει την κατασκευή απλών servers με πολλαπλά threads ή processes.
+
+Υποθέστε ότι θέλουμε να κατασκευάσουμε τον απλοϊκό TCP server που υλοποιεί την υπηρεσία echo. Όπως και στο αρχικό παράδειγμα, θεωρούμε (μη ρεαλιστικά!) ότι τα δεδομένα είναι λίγα bytes ανά αίτηση.
+
+Αρχικά, δημιουργούμε μια κλάση ``EchoRequestHandler``, η οποία είναι υποκλάση της ``SocketServer.BaseRequestHandler`` που μας παρέχει η βιβλιοθήκη. Στην νέα κλάση μπορούμε να επαναπροσδιορίσουμε τις μεθόδους ``handle`` (εξυπηρέτηση αίτησης), ``setup`` (αρχικοποιήσεις) και ``finish`` (ενέργειες cleanup):
+
+.. comment: following code based on socketserver.py
+
+..	code-block:: python
+
+	import socket
+	import SocketServer
+	import threading
+
+	class EchoRequestHandler(SocketServer.BaseRequestHandler):
+		""" Class to handle incoming echo requests. This can be viewed as the
+		application protocol implementer class. """
+	
+		def handle(self):
+			""" servicing requests of clients """
+		
+			cur_thread = threading.currentThread() # for debugging purposes
+		
+			while True:
+					
+				data = self.request.recv(1024)	# self.request for TCP is a socket object
+		
+				if not data: break
+		
+				print "server@%s: received from %s data %s" % (cur_thread.name,self.client_address,data)
+				self.request.send(data)	# echo data back to client
+
+	
+		def setup(self):
+			""" performs any init actions before handle(). Here for debugging only """
+
+			cur_thread = threading.currentThread() 
+			print "server@%s: accepted connection by %s" % (cur_thread.name,self.client_address)
+		
+
+		def finish(self):
+			""" performs any cleanup actions after handle(). Here for debugging only """
+
+			cur_thread = threading.currentThread() 		
+			print "server@%s: terminating connection to %s" % (cur_thread.name,self.client_address)
+
+Στη συνέχεια κατασκευάζουμε την κλάση ``ThreadedTCPServer`` κληρονομώντας τις κλάσεις βάσης ``SocketServer.ThreadingMixIn`` και ``SocketServer.TCPServer``. Δεν απαιτείται η προσθήκη νέων μεθόδων στην κλάση αυτή:
+
+..	code-block:: python
+
+	class ThreadedTCPServer(SocketServer.ThreadingMixIn,SocketServer.TCPServer):
+		""" defines a threaded TCPServer class """
+		pass	# nothing more is needed, we'll create our server from this mixin class
+
+Τέλος, στο κυρίως πρόγραμμα, κατασκευάζουμε το αντικείμενο ``server`` από την κλάση ``ThreadedTCPServer``. Τα ορίσματα δημιουργίας περιγράφουν τη διεύθυνση που 'ακούει' ο server και την κλάση απ'την οποία θα δημιουργηθούν τα αντικείμενα χειρισμού των αιτήσεων:
+
+..	code-block:: python
+
+	# create the server object
+	server = ThreadedTCPServer(('',50007), EchoRequestHandler)
+
+	# serve for ever incoming requests
+	try:
+		print "server: starting"
+		server.serve_forever()
+	except KeyboardInterrupt:
+		print "\nKeyborad Interrupt detected"
+	finally:
+		server.server_close()	
+		print "server: shut down"
+	
+Μπορούμε να δοκιμάσουμε με πολλαπλούς :ref:`clients <tcp-simplistic-client2>` για να διαπιστώσουμε ότι σε κάθε νέα αίτηση δημιουργείται ένα ανεξάρτητο thread στον server για να χειριστεί την αίτηση αυτή.
+
+

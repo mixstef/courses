@@ -1,0 +1,277 @@
+Ενότητα 5-2
+==============
+Εδώ επεκτείνουμε την κλάση ``Employee`` από τις προηγούμενες ενότητες.
+
+Χειρισμός σφαλμάτων (Exceptions)
+-----------------------------------
+Όλες οι μοντέρνες γλώσσες προγραμματισμού έχουν έναν ειδικό τρόπο να αντιμετωπίζουν τα σφάλματα κατά την εκτέλεση: τα λεγόμενα ``exceptions``. Η γενική ιδέα είναι:
+
+* Σε κάποιο σημείο του κώδικα, η εκτέλεση μπορεί να "ρίξει" (throw) ή να "υψώσει" (raise) μια ένδειξη σφάλματος (exception).
+* Αμέσως η εκτέλεση σταματά και αρχίζει η επιστροφή "προς τα έξω" (καλούσες συναρτήσεις). Δεν εκτελείται πουθενά άλλος κώδικας των συναρτήσεων, απλά εξετάζεται αν κάπου "πιάνεται" (catch) η κατάσταση σφάλματος.
+* Αν ναι, εκτελείται ο κώδικας του "πιασίματος".
+* Αν όχι, μετακινούμαστε στην καλούσα συνάρτηση και επαναλαμβάνουμε.
+* Όταν φτάσουμε στο επίπεδο του main() χωρίς να βρεθεί "πιάσιμο", τότε το πρόγραμμά μας διακόπτεται.
+
+Η χρήση των exceptions διαχωρίζει την αναγνώριση του σφάλματος (στη συνάρτηση που συμβαίνει) από την αντίδραση στο σφάλμα (στον κώδικα του χρήστη που χρησιμοποιεί τη συνάρτηση όπου έγινε το σφάλμα). 
+
+Στην κλάση Employee μπορούμε να αντιμετωπίσουμε με exception την περίπτωση κατασκευής αντικειμένου με άκυρα πεδία, όπως στο επόμενο (το firstname είναι κενό και το age και salary αρνητικά!):
+
+.. code-block:: c++
+
+   Employee empl("","Doe",-21,-88.0);
+   
+Τροποποιούμε τον κώδικα της Employee (``employee.h`` και ``employee.cpp``),
+
+* προσθέτοντας μια private συνάρτηση ``check()`` που επιστρέφει true αν οι μεταβλητές μέλη έχουν σωστή τιμή
+* τροποποιώντας τον constructor της Employee έτσι ώστε να καλεί την check() και, αν η επιστρεφόμενη τιμή είναι false, να ρίχνει ένα exception τύπου **runtime_error** (γενικού τύπου exception, ορίζεται από τη C++, πρέπει να προσθέσετε στα includes του ``employee.cpp`` το ``#include <stdexcept>``):
+
+.. code-block:: c++
+
+   Employee::Employee(const string &fs,const string &ls,int ag,double sal): firstname(fs),lastname(ls),age(ag),salary(sal) {
+     if (!check()) throw runtime_error("Invalid argumements in Employee object initialization!");
+   }
+
+   bool Employee::check() {
+     return (!firstname.empty() && !lastname.empty() && age>0 && salary>=0.0);
+   }
+   
+Αν εκτελεστεί τώρα η εξής main():
+
+.. code-block:: c++
+
+   int main() {
+
+     Employee empl("","Doe",-21,-88.0);
+     cout << empl << endl;
+
+     return 0;
+   }
+   
+τότε, εφόσον δεν "πιάνεται" πουθενά το exception, το πρόγραμμά μας θα διακοπεί με μια ένδειξη σφάλματος: ::
+
+   terminate called after throwing an instance of 'std::runtime_error'
+     what():  Invalid argumements in Employee object initialization!
+   Aborted
+
+Αν θέλαμε να πιάσουμε το exception θα γράφαμε το main() κάπως έτσι:
+
+.. code-block:: c++
+
+   int main() {
+
+     try {
+       Employee empl("","Doe",-21,-88.0);
+       cout << empl << endl;
+     }
+     catch (runtime_error &e) {
+       cerr << "oops! runtime error with message: " << e.what() << endl;
+       return 1;
+     }
+  
+     return 0;
+   }
+
+ή και έτσι:
+
+.. code-block:: c++
+
+   int main()
+   try {
+     Employee empl("","Doe",-21,-88.0);
+     cout << empl << endl;
+     return 0;
+   }
+   catch (runtime_error &e) {
+     cerr << "oops! runtime error with message: " << e.what() << endl;
+     return 1;
+   }
+
+όπου ``cerr`` είναι το αντίστοιχο του ``cout`` για μηνύματα σφάλματος.
+
+Υπερφόρτωση τελεστών (operator overloading)
+---------------------------------------------
+Την χρησιμοποιήσαμε ήδη για να ορίσουμε το ``<<`` (inserter) για την κλάση Employee.
+Γενικότερα,για να (επανα)προσδιορίσουμε τη λειτουργία τελεστή # (όπου # οποιοσδήποτε τελεστής όπως +, - κλπ) μεταξύ δύο αντικειμένων κλάσεων Α και Β στην έκφραση ``Α # Β``
+
+* Μέθοδος 1: προσθέτουμε συνάρτηση-μέλος της Α στη μορφή ``operator#(B)``.
+* Μέθοδος 2: προσθέτουμε συνάρτηση στη μορφή ``operator#(A,B)``.
+
+  * Με τον 2ο τρόπο, η συνάρτηση είναι συνήθως **friend** για να μπορεί να προσπελάσει τα private μέλη της κλάσης.
+  
+Στην περίπτωση του ``cout << employee_obj``, αριστερά βρίσκεται το cout, συνεπώς δεν μπορούμε να χρησιμοποιήσουμε τη μέθοδο 1, να προσθέσουμε δηλαδή μια συνάρτηση-μέλος στην κλάση Employee.
+
+Με τη μέθοδο 2, η συνάρτηση (friend της κλάσης Employee) ορίζεται:
+
+.. code-block:: c++
+   
+   ostream &operator<<(ostream &stream,const Employee &empl);
+   
+Η συνάρτηση επιστρέφει το ίδιο το 1ο όρισμα  (stream εξόδου), για να μπορούμε να γράφουμε
+
+.. code-block:: c++
+   
+   cout << empl1 << empl2 << endl; // same as ((cout<<empl1)<<empl2)<<endl;
+   
+Με την ίδια μέθοδο μπορούμε να υπερφορτώσουμε τον τελεστή >> (extractor) για την κλάση Employee:
+
+.. code-block:: c++
+   
+   istream &operator>>(istream &stream,Employee &empl) {
+     string firstname,lastname;
+     int age;
+     double salary; 
+     stream >> firstname >> lastname >> age >> salary;
+     if (!stream) return stream;	// input stream not good, return here 
+     empl = Employee(firstname,lastname,age,salary);	// will throw exception with invalid data!
+  
+     return stream;  
+   }
+   
+Παρατηρήστε ότι:
+
+* Διαβάζουμε πρώτα σε προσωρινές μεταβλητές. Αν το stream εισόδου είναι σε σφάλμα επιστρέφουμε αμέσως (ο χρήστης πρέπει να το ανιχνεύσει και να πράξει ανάλογα). Αλλιώς, προσπαθούμε να κατασκευάσουμε ένα αντικείμενο Employee. Αν οι τιμές είναι άκυρες, ο constructor θα προκαλέσει exception.
+
+* Σε αντίθεση με τον τελεστή <<, εδώ η δεύτερη παράμετρος ``Employee &empl`` δεν είναι const για να μπορούμε να αναθέσουμε σε αυτή τις τιμές που διαβάστηκαν.
+
+* Η συνάρτηση πρέπει να δηλωθεί στο ``employee.h``, στη συγκεκριμένη περίπτωση μάλιστα δεν είναι απραίτητο να είναι friend της Employee.
+
+Μπορούμε να δοκιμάσουμε το extraction με το εξής main():
+
+.. code-block:: c++
+   
+   int main() {
+     Employee empl("a","b",1,0.0);
+  
+     try {
+       if (!(cin>>empl)){
+         cout << "input stream error" << endl;
+       }
+       else {
+         cout << empl << endl;
+       }
+     }
+     catch(runtime_error &e) {
+       cout << "invalid input given" << endl;
+     }
+  
+     return 0;
+   }
+ 
+Default constructor
+-------------------------
+Τι είναι όμως στο προηγούμενο main() αυτό το ``Employee empl("a","b",1,0.0);``; Γιατί δεν μπορούμε απλά να δηλώσουμε ένα αντικείμενο τύπου Employee ως εξής;
+
+.. code-block:: c++
+   
+   int main() {
+     Employee empl;
+
+Η απάντηση είναι απλή: γιατί δεν υπάρχει constructor χωρίς ορίσματα (default constructor) στην κλάση Employee!
+
+Η C++ επιμένει στη χρήση constructors για την αρχικοποίηση των νεοδημιουργούμενων αντικειμένων. Η χρήση μη αρχικοποιημένων αντικειμένων συνήθως έχει άσχημη κατάληξη, έτσι η C++ δεν το επιτρέπει.
+
+.. note::
+   Δυστυχώς η C++ έχει κληρονομήσει από την πρόγονο C ένα κακό χαρακτηριστικό: οι τοπικές μεταβλητές και μεταβλητές κλάσεων native τύπου (int, char κλπ) **δεν αρχικοποιούνται αυτόματα**! Έτσι πάντα **πρέπει** να το κάνουμε εμείς στον κωδικά μας.
+   
+Ας ορίσουμε έναν default constructor για την κλάση Employee, ο οποίος θα αρχικοποιεί τις native τύπου μεταβλητές της κλάσης:
+
+Στο ``employee.h`` προσθέτουμε:
+
+.. code-block:: c++
+   
+   public:
+     Employee();
+
+Στο ``employee.cpp`` προσθέτουμε:
+
+.. code-block:: c++
+   
+   Employee::Employee(): age(0),salary(0.0) {
+
+   }
+
+.. note::
+   Για χάρη του παραδείγματος επιτρέπουμε στον default constructor να δώσει άκυρη τιμή στο age (0). Αν γράφαμε πραγματική εφαρμογή ίσως να ήταν απαραίτητη μια διαφορετική προσέγγιση.
+   
+Με τις πιο πάνω μετατροπές, η main() για την εισαγωγή πολλαπλών εγγραφών Employee θα μπορούσε να είναι:
+
+.. code-block:: c++
+   
+   #include <iostream>
+   #include <stdexcept>
+
+   #include "employee.h"
+
+   using namespace std;
+
+   int main() {
+     Employee empl;
+  
+     // read employee records until EOF or other error
+     while (true) {
+       try {
+         if (!(cin>>empl)){
+           break;	// input stream error - exit while loop
+         }
+         else {
+           // do something with valid record here
+           cout << empl << endl;
+         }
+       }
+       catch(runtime_error &e) {
+         // do nothing - skip invalid record 
+       }
+     }
+  
+     return 0;
+   }
+
+Διαβάζοντας από αρχείο (formatted input)
+------------------------------------------
+Με τη C++ είναι πολύ εύκολο να διαβάσουμε δεδομένα από αρχείο αντί του πληκτρολογίου, με ελάχιστες αλλαγές στο προηγούμενο πρόγραμμα. Υποθέστε ότι έχουμε το ακόλουθο αρχείο κειμένου (``records.txt``) με εγγραφές Employee: ::
+
+   Aser Ngiorth		34	23.45
+   Niash Ria		28	47.58
+   Berfi Nee		66	55.11
+   Kaf Net		21	31.60
+   Noia Den		36	50.93
+   Lirthar Set		44	37.07
+   
+Συνδέουμε το αρχείο αυτό με ένα stream εισόδου (τύπου ``ifstream``). Στα includes σας προσθέστε
+
+.. code-block:: c++
+   
+   #include <fstream>
+   
+Στον κώδικα της main() δημιουργούμε ένα αντικείμενο ``ifstream`` και το συνδέουμε με το αρχείο ``records.txt``.
+
+.. code-block:: c++
+   
+   ifstream ifs("records.txt");
+   
+Η πιο πάνω εντολή προσπαθεί να ανοίξει το αρχείο για είσοδο. Επειδή αυτό μπορεί να αποτύχει για διάφορους λόγους, **πάντοτε** ελέγχουμε την επιτυχία του ανοίγματος αμέσως μετά:
+
+.. code-block:: c++
+   
+   if (!ifs) {	// file open error
+     cout << "cannot open input file!" << endl;
+     return 1;
+   } 
+
+Στη συνέχεια μπορούμε να διαβάσουμε από το ``ifs`` όπως ακριβώς διαβάζαμε το ``cin``:
+
+.. code-block:: c++
+   
+   if (!(ifs>>empl)){
+   
+Όταν λήγει ο χρόνος ζωής του ``ifs`` (όταν τελειώνει η main()), το αρχείο κλείνει αυτόματα. Συνηθίζεται όμως να κλείνουμε το αρχείο ρητά όταν ολοκληρώσουμε την ανάγνωση από αυτό:
+
+.. code-block:: c++
+   
+   ifs.close();
+   
+Συνολικά ο κώδικας του ``employeemain.cpp`` θα είναι τώρα:
+
+.. literalinclude:: employee2/employeemain.cpp
+   :language: c++
+

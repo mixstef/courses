@@ -1,0 +1,170 @@
+/* NOTE: normalize.css is included before this */ 
+/* set initial values for body */
+body {
+  font-family: arial,helvetica,geneva,sans-serif;	/* font settings */
+  font-size: 100%;				/* for em sizing */
+  background-color: #ffffff;
+}
+
+/* set all-enclosing wrapper (context for all others) */
+#wrapper {
+  width: 100%; 
+}
+
+header {
+  width: 100%;
+  border-bottom: solid #800000 2px;
+  background-color: #7880A8;  
+}
+
+  /* the header clearfix */
+header:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* the logo image */
+header img {
+  float:left;
+}
+
+header div {
+  width: 65%;	/* we need a width, in order to float correctly */
+  float: left;
+  padding-top: 20px;	/* align with logo image top space */
+}
+
+header div * { margin:0; padding:0; } 
+
+header div h2 {
+  color: #C0D0E8;
+}
+
+header div h4 {
+  color: #800000;
+}
+
+header div h5 {
+  color: #ffffff;
+}
+
+
+nav {
+  width: 20%;
+  padding: 10px;
+  font-size: 90%;
+  float: left;
+}
+
+nav ul {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0.5em;
+}
+
+nav li {
+  border-bottom: dotted 1px #800000;
+  padding: 0.3em;
+}
+
+nav a {
+  text-decoration: none;
+  color: #800000;
+}
+
+nav a:hover {
+  color: #505880;
+}
+
+
+#content {
+  width: 75%;
+  padding-top: 0.5em;
+  font-size: 90%;
+  float: left;
+}
+
+
+.contentbin {
+  border-bottom: dotted 1px #800000;
+  line-height: 1.2em;
+  padding: 4px;
+}
+
+.contentbin b {
+  color: #505880;
+}
+
+.contentbin ul {
+  text-indent: 0.2em;
+  margin-left: 0.5em;
+  padding-left: 1.5em;
+}
+
+
+
+.contentbin a {
+  text-decoration: none;
+  color: #800000;
+}
+
+.contentbin a:hover {
+  color: #505880;
+}
+
+.contentbin h4 {
+  color: #505880;
+  margin: 0;
+  padding: 0;
+}
+
+@media screen and (max-width: 768px) {
+
+
+
+header img {
+  display: none;
+}
+
+header div {
+  width: 96%;
+  float: none;
+  padding: 6px;
+  text-align: center;
+}
+
+nav {
+  float: none;
+  width: 96%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
+}
+
+nav ul {
+  width: 100%;
+  border-bottom: dotted 1px #800000;
+  margin: 0;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+nav li {
+  display: inline-block;
+  border-style: none;
+}
+
+#content {
+  float: none;
+  width: 96%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.contentbin ul {
+  padding-left: 0.5em;
+}
+
+
+}

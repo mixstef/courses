@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Ενότητα 2-4 &mdash; Internet Programming Lectures v1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Internet Programming Lectures v1.0 documentation" href="../index.html" />
+    <link rel="next" title="Ενότητα 3-1" href="../unit3/module1.html" />
+    <link rel="prev" title="Ενότητα 2-3" href="module3.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../unit3/module1.html" title="Ενότητα 3-1"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="module3.html" title="Ενότητα 2-3"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Internet Programming Lectures v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>Ενότητα 2-4<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="xml">
+<h2>Απλός χειρισμός δεδομένων XML<a class="headerlink" href="#xml" title="Permalink to this headline">¶</a></h2>
+<p>Πολλές διαδικτυακές εφαρμογές ανταλλάσσουν δεδομένα σε μορφή XML. Εάν λάβουμε τέτοιου τύπου δεδομένα, μπορούμε να τα επεξεργαστούμε χρησιμοποιώντας parsers δύο κατηγοριών:</p>
+<ul class="simple">
+<li>DOM(-like) parsers: μετατρέπουν το αρχείο XML σε μια δενδρική δομή, την οποία στη συνέχεια μπορούμε να διασχίσουμε αναζητώντας τα σημεία που μας ενδιαφέρουν.</li>
+<li>SAX parsers: εδώ κατά την ανάλυση του αρχείου, από την αρχή προς το τέλος, δημιουργούνται γεγονότα (events) κατά το άνοιγμα ή το κλείσιμο των tags, κατά την εμφάνιση του περιεχόμενου κειμένου στους κόμβους κ.ο.κ. Εμείς πρέπει να γράψουμε τον αντίστοιχο κώδικα που θα καλείται στην εμφάνιση των events αυτών (event handlers).</li>
+</ul>
+<p>Η πρώτη κατηγορία parsers μπορεί να χρησιμοποιηθεί όταν ξέρουμε το μέγεθος του αρχείου που θα λάβουμε και είναι (σχετικά) περιορισμένο. Για αρχεία άγνωστου μεγέθους ή αρχεία που έρχονται τμηματικά, η δεύτερη κατηγορία είναι πιο ενδεδειγμένη.</p>
+<p>Στο παράδειγμά μας, λαμβάνουμε μια βιβλιογραφική εγγραφή για ένα δεδομένο ISBN. Το ζητούμενο είναι να αναγνωρίσουμε σε ποια θεματική κατηγορία ανήκει το αντικείμενο με το ISBN αυτό. Η εγγραφή είναι μικρή σε μέγεθος και ζητάμε κάτι συγκεκριμένο, οπότε μπορούμε να χρησιμοποιήσουμε έναν ελαφρύ DOM-like parser που περιλαμβάνεται στη στάνταρ βιβλιοθήκη της Python: το ElementTree module</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">xml.etree.ElementTree</span> <span class="kn">as</span> <span class="nn">ET</span>
+</pre></div>
+</div>
+<p>Το module ElementTree διαθέτει τη συνάρτηση <tt class="docutils literal"><span class="pre">parse(fileobj)</span></tt>, η οποία μετατρέπει το περιεχόμενο ενός αρχείου σε δενδρική δομή:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># let&#39;s build an elementtree element now</span>
+<span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Στη συνέχεια μπορούμε να αναζητήσουμε ορισμένους κόμβους στο δέντρο, δίνοντας το μονοπάτι (path) προς τους κόμβους αυτούς, ξεκινώντας από τη ρίζα.</p>
+<ul class="simple">
+<li>Η ρίζα δεν περιλαμβάνεται στο μονοπάτι.</li>
+<li>Αν έχετε namespaces,  τότε το μονοπάτι είναι της μορφής <tt class="docutils literal"><span class="pre">'{namespace1}nodename1/{namespace2}nodename2/...'</span></tt></li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># mark our namespaces for clarity</span>
+<span class="n">NS</span> <span class="o">=</span> <span class="s">&quot;{http://www.loc.gov/MARC21/slim}&quot;</span> <span class="c"># the default namespace</span>
+<span class="n">ZSNS</span> <span class="o">=</span> <span class="s">&quot;{http://www.loc.gov/zing/srw/}&quot;</span>
+
+<span class="c"># find all nodes in the path zs:records/zs:record/zs:recordData/record/datafield under root</span>
+<span class="c"># NOTE: root tag is not listed in path as it is represented by &#39;tree&#39; variable.</span>
+<span class="n">elm</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">ZSNS</span><span class="o">+</span><span class="s">&quot;records/&quot;</span><span class="o">+</span><span class="n">ZSNS</span><span class="o">+</span><span class="s">&quot;record/&quot;</span><span class="o">+</span><span class="n">ZSNS</span><span class="o">+</span><span class="s">&quot;recordData/&quot;</span><span class="o">+</span><span class="n">NS</span><span class="o">+</span><span class="s">&quot;record/&quot;</span><span class="o">+</span><span class="n">NS</span><span class="o">+</span><span class="s">&quot;datafield&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Η <tt class="docutils literal"><span class="pre">findall()</span></tt> επιστρέφει μια λίστα κόμβων που ταιριάζουν στο μονοπάτι αναζήτησης. Στη συνέχεια διασχίζουμε τη λίστα αυτή, αναζητώντας κόμβους που έχουν την τιμή <tt class="docutils literal"><span class="pre">650</span></tt> (&#8220;θεματική περιοχή&#8221;) στην ιδιότητα (attribute) <tt class="docutils literal"><span class="pre">tag</span></tt>. Για κάθε τέτοιο κόμβο παίρνουμε όλα τα παιδιά του <tt class="docutils literal"><span class="pre">subfield</span></tt> και τυπώνουμε το περιεχόμενο κείμενό τους:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># iterate searching for specific attribute and print</span>
+<span class="c"># text of &#39;subfield&#39; nodes under found elements</span>
+<span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">elm</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;tag&#39;</span><span class="p">]</span><span class="o">==</span><span class="s">&#39;650&#39;</span><span class="p">:</span>
+                <span class="n">e2</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">NS</span><span class="o">+</span><span class="s">&quot;subfield&quot;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">itm</span> <span class="ow">in</span> <span class="n">e2</span><span class="p">:</span>
+                        <span class="k">print</span> <span class="n">itm</span><span class="o">.</span><span class="n">text</span>
+</pre></div>
+</div>
+<p>Το συνολικό πρόγραμμα έχει ως εξής:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#!/usr/bin/python</span>
+<span class="c"># -*- coding: utf-8 -*-</span>
+
+
+<span class="sd">&quot;&quot;&quot; testing the elementtree module on LOC SRU data &quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">xml.etree.ElementTree</span> <span class="kn">as</span> <span class="nn">ET</span>
+
+<span class="kn">import</span> <span class="nn">urllib</span>	<span class="c"># used for web retrieval</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">isbn</span> <span class="o">=</span> <span class="s">&#39;0596100469&#39;</span>	<span class="c"># sample isbn if none given</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
+	<span class="n">isbn</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;-&#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+
+
+<span class="c"># let&#39;s get a record from loc sru, with a specific isbn</span>
+<span class="n">page</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://z3950.loc.gov:7090/voyager?version=1.1&amp;&quot;</span>
+		      <span class="s">&quot;operation=searchRetrieve&amp;query=bath.isbn=&quot;</span><span class="o">+</span><span class="n">isbn</span><span class="o">+</span><span class="s">&quot;&amp;maximumRecords=1&quot;</span><span class="p">)</span>
+		       
+<span class="c"># let&#39;s build an elementtree element now</span>
+<span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
+
+<span class="n">page</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="c"># mark our namespaces for clarity</span>
+<span class="n">NS</span> <span class="o">=</span> <span class="s">&quot;{http://www.loc.gov/MARC21/slim}&quot;</span>	<span class="c"># the default namespace</span>
+<span class="n">ZSNS</span> <span class="o">=</span> <span class="s">&quot;{http://www.loc.gov/zing/srw/}&quot;</span>
+
+<span class="c"># find all nodes in the path zs:records/zs:record/zs:recordData/record/datafield under root </span>
+<span class="c"># NOTE: root tag is not listed in path as it is represented by &#39;tree&#39; variable.</span>
+<span class="n">elm</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">ZSNS</span><span class="o">+</span><span class="s">&quot;records/&quot;</span><span class="o">+</span><span class="n">ZSNS</span><span class="o">+</span><span class="s">&quot;record/&quot;</span><span class="o">+</span><span class="n">ZSNS</span><span class="o">+</span><span class="s">&quot;recordData/&quot;</span><span class="o">+</span><span class="n">NS</span><span class="o">+</span><span class="s">&quot;record/&quot;</span><span class="o">+</span><span class="n">NS</span><span class="o">+</span><span class="s">&quot;datafield&quot;</span><span class="p">)</span>
+		    
+<span class="c"># iterate searching for specific attribute and print</span>
+<span class="c"># text of &#39;subfield&#39; nodes under found elements</span>
+<span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">elm</span><span class="p">:</span>
+	<span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;tag&#39;</span><span class="p">]</span><span class="o">==</span><span class="s">&#39;650&#39;</span><span class="p">:</span>
+		<span class="n">e2</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">NS</span><span class="o">+</span><span class="s">&quot;subfield&quot;</span><span class="p">)</span>
+		<span class="k">for</span> <span class="n">itm</span> <span class="ow">in</span> <span class="n">e2</span><span class="p">:</span>
+			<span class="k">print</span> <span class="n">itm</span><span class="o">.</span><span class="n">text</span>
+			
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../unit3/module1.html" title="Ενότητα 3-1"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="module3.html" title="Ενότητα 2-3"
+             >previous</a> |</li>
+        <li><a href="../index.html">Internet Programming Lectures v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2011, mistral.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.6.
+    </div>
+  </body>
+</html>

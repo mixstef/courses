@@ -1,0 +1,97 @@
+
+Ενότητα 2-1
+============
+
+Native data types: char, int, double [και bool]
+-----------------------------------------------
+* Τι διαφέρουν από τους σύνθετους τύπους:
+
+  * Άμεση απεικόνιση σε τύπους δεδομένων που υποστηρίζει το υλικό.
+  
+    .. note::
+       Ο τύπος bool αντιμετωπίζεται ως ειδική περίπτωση από τη C++ για αύξηση της αποδοτικότητας κατά την αποθήκευση και χειρισμό. 
+  
+  * Δεν είναι κλάσεις και δεν έχουν μεθόδους (methods) ή ιδιότητες (properties).
+  
+* Τι μπορούμε να κάνουμε με αυτά
+  
+  * δήλωση+αρχικοποίηση, ανάθεση τιμής (στα αριστερά του =), λήψη τιμής (στα δεξιά του =)
+  
+    .. code-block:: c++
+  
+       int i = 7;		// define + init
+       char c1,c2;	// definition
+       bool b = true;	// true is a keyword, same is false
+       double d;
+     
+       d = 12.34;
+       c2 = 'x';
+       c1 = c2;
+      
+
+Αυτόματες μετατροπές (Implicit conversions)
+---------------------------------------------
+
+* Ασφαλείς ([bool->]char->int->double) και μη ασφαλείς μετατροπές.
+* Παράδειγμα: εισαγωγή, ανάθεση σε διαφορετικό τύπο και εκτύπωση.
+
+.. literalinclude:: implicitconversions.cpp
+   :language: c++
+   :linenos:
+
+.. note::
+   Ο μεταγλωττιστής μπορεί να προειδοποιήσει για μη ασφαλείς μετατροπές αν το ζητήσουμε με την επιλογή **-Wconversion**::
+   
+     g++ -Wall -Wconversion implicitconversions.cpp -o implicitconversions
+     implicitconversions.cpp: In function ‘int main()’:
+     implicitconversions.cpp:28: warning: conversion to ‘char’ from ‘int’ may alter its value
+     implicitconversions.cpp:35: warning: conversion to ‘char’ from ‘double’ may alter its value
+     implicitconversions.cpp:36: warning: conversion to ‘int’ from ‘double’ may alter its value
+
+   
+Τελεστές (Operators)
+---------------------- 
+* Διαφορετική λειτουργία ανά τύπο δεδομένων!
+
+* Προτεραιότητα (precedence), προσεταιριστικότητα (associativity).
+  
+  * Γενικά ακολουθούνται οι κανόνες που ξέρουμε από τα μαθηματικά.
+  * Συνοπτικός πίνακας: http://www.cppreference.com/wiki/operator_precedence
+  
+  .. code-block:: c++
+      
+     cout << a << b << c;
+     ((cout << a) << b) << cc;	// ισοδύναμο με προηγούμενο
+         
+  .. code-block:: c++
+       
+     // ΠΡΟΣΟΧΗ! Στο επόμενο ΔΕΝ πρέπει να υποθέσουμε ότι το (a+b) 
+     // θα υπολογιστεί πριν το (c-f) ή το αντίστροφο
+     v = (a+b)*(c-f)
+       
+* Ο τελεστής ++       
+
+  Παράδειγμα χρήσης:       
+  
+  .. literalinclude:: prepostincr.cpp
+     :language: c++
+      
+  Παραδοσιακή συμβουλή στην περίπτωση που ο τελεστής ++ χρησιμοποιείται μόνο για αύξηση (χωρίς ανάθεση) - αν και οι σύγχρονοι μεταγλωττιστές είναι αρκετά έξυπνοι να διαλέξουν την αποδοτικότερη μορφή, όπως και να το γράψουμε:
+       
+  .. code-block:: c++
+            
+     ++p;	// προτιμήστε αυτή τη μορφή του ++ για να αυξήσετε κατά 1 το p
+     		// είναι αποδοτικότερη, ιδίως όταν το p είναι σύνθετο αντικείμενο
+     		
+     p++;	// σε σχέση με τη μορφή αυτή
+     
+        
+Παράδειγμα: calculator 
+-----------------------
+
+(θεωρούμε ότι ο χρήστης θα εισάγει ΣΩΣΤΑ δεδομένα!)  
+
+.. literalinclude:: simplecalc.cpp
+   :language: c++
+  
+

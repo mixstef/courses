@@ -1,0 +1,344 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Ενότητα 3-2 &mdash; C++ Lectures v1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="C++ Lectures v1.0 documentation" href="../index.html" />
+    <link rel="next" title="Ενότητα 4-1" href="../unit4/module1.html" />
+    <link rel="prev" title="Ενότητα 3-1" href="module1.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../unit4/module1.html" title="Ενότητα 4-1"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="module1.html" title="Ενότητα 3-1"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">C++ Lectures v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>Ενότητα 3-2<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>Πώς και τι περνά ως όρισμα σε μια συνάρτηση<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Στην εξ'ορισμού λειτουργία η C++ περνά τις παραμέτρους στις συναρτήσεις <em>by value</em>: τα δεδομένα εισόδου κατά την κλήση της συνάρτησης <strong>αντιγράφονται</strong> στις παραμέτρους εισόδου. Τα αντίγραφα αυτά είναι τελείως ξεχωριστά, έτσι ο κώδικας της συνάρτησης <strong>δεν μπορεί να αλλάξει τιμή στα πρωτότυπα αντικείμενα</strong>:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="cp">#include &lt;iostream&gt;</span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="n">testfunc</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span>
+  
+  <span class="n">testfunc</span><span class="p">(</span><span class="n">k</span><span class="p">);</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">k</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span> <span class="c1">// will print 7</span>
+  
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">testfunc</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+  <span class="o">++</span><span class="n">i</span><span class="p">;</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>	<span class="c1">// will print 8</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Με το πέρασμα παραμέτρων <em>by value</em> κάθε συνάρτηση έχει τις τοπικές (local) μεταβλητές της και τις παραμέτρους εισόδου (formal parameters) αποκλειστικά ιδιωτικές.</li>
+<li>Οι μεταβλητές αυτές έχουν διάρκεια ζωής όση η συνάρτηση που τις περιέχει.</li>
+<li>Καμία άλλη συνάρτηση δεν μπορεί να μεταβάλει τις τιμές των μεταβλητών αυτών.</li>
+</ul>
+<p>Πώς θα μπορέσει μία συνάρτηση να αλλάξει τιμή σε εξωτερικές μεταβλητές;</p>
+</div>
+<div class="section" id="by-reference">
+<h2>Πέρασμα παραμέτρων by reference<a class="headerlink" href="#by-reference" title="Permalink to this headline">¶</a></h2>
+<p>Με τη μέθοδο περάσματος των παραμέτρων σε μια συνάρτηση <em>by reference</em>, τα ορίσματα εισόδου <strong>δεν αντιγράφονται</strong>. Αντιθέτως, αυτό που περνά στη συνάρτηση είναι μια &quot;αναφορά&quot; στην πρωτότυπη μεταβλητή. Μέσω της αναφοράς αυτής η συνάρτηση μπορεί να θέσει νέες τιμές στο πρωτότυπο (εξωτερικό) αντικείμενο.</p>
+<p>Η C++ διαθέτει έναν πολύ εύκολο μηχανισμό (<strong>references</strong>) για τον σκοπό αυτόν!</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="cp">#include &lt;iostream&gt;</span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="n">testfunc</span><span class="p">(</span><span class="kt">int</span><span class="o">&amp;</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span>
+  
+  <span class="n">testfunc</span><span class="p">(</span><span class="n">k</span><span class="p">);</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">k</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span> <span class="c1">// will print 8</span>
+  
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">testfunc</span><span class="p">(</span><span class="kt">int</span> <span class="o">&amp;</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+  <span class="o">++</span><span class="n">i</span><span class="p">;</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>	<span class="c1">// will print 8</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul>
+<li><p class="first">Η δήλωση του reference χρησιμοποιεί το &amp;:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="kt">int</span> <span class="o">&amp;</span><span class="n">i</span>
+
+<span class="c1">//Μπορείτε να γράψετε επίσης:</span>
+
+<span class="kt">int</span><span class="o">&amp;</span> <span class="n">i</span>     <span class="c1">// Ισοδύναμο με προηγούμενο. Είνα θέμα στυλ ποιο θα διαλέξετε.</span>
+           <span class="c1">// Και τα δύο είναι σωστά για τον μεταγλωττιστή!</span>
+</pre></div>
+</div>
+<p>Αυτό σημαίνει ότι το i είναι reference σε μεταβλητή τύπου int.</p>
+</li>
+<li><p class="first">Δεν μπορούμε να αλλάξουμε την τιμή του reference. Γράφοντας π.χ. ++i επενεργούμε στη μεταβλητή που &quot;δείχνει&quot; το i κι όχι στο i καθεαυτό.</p>
+</li>
+<li><p class="first">Ένα reference μπορεί να δημιουργηθεί και με άλλον τρόπο εκτός από το πέρασμα σε συνάρτηση, δεν θα το καλύψουμε όμως εδώ.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="by-value-by-reference">
+<h2>By value ή by reference;<a class="headerlink" href="#by-value-by-reference" title="Permalink to this headline">¶</a></h2>
+<p>Πρακτικοί κανόνες, αν δεν συντρέχει ειδικός λόγος πρέπει να ακολουθούνται:</p>
+<ul class="simple">
+<li><strong>Τα ορίσματα είναι απλού τύπου (bool, char, int, double)</strong><ul>
+<li>Μπορείτε να περάσετε τις παραμέτρους by value.</li>
+<li>Αν θέλετε να αλλάξετε την τιμή της εξωτερικής μεταβλητής (πάντα απλού τύπου), μπορείτε να επιστρέφετε τη νέα τιμή όταν τελειώνει η συνάρτηση.</li>
+</ul>
+</li>
+<li><strong>Τα ορίσματα είναι σύνθετου τύπου (αντικείμενα κλάσεων ορισμένων από τη C++ ή δικών σας κλάσεων)</strong><ul>
+<li>Πρέπει να περάσετε τις παραμέτρους <strong>οπωσδήποτε</strong> by reference<ul>
+<li><em>Αν περάσετε τις παραμέτρους by value, θα συμβούν δαπανηρές αντιγραφές ή, ακόμα χειρότερα, σφάλματα εκτέλεσης (περισσότερα για αυτό σε επόμενα).</em></li>
+</ul>
+</li>
+<li>Το πέρασμα by reference επιτρέπει τη μεταβολή των πρωτότυπων αντικειμένων.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="const-references">
+<h2>Const references<a class="headerlink" href="#const-references" title="Permalink to this headline">¶</a></h2>
+<p>Σημειώνοντας μια αναφορά ως <strong>const</strong> δηλώνουμε ότι η πρωτότυπη μεταβλητή είναι read-only για τον κώδικα της συνάρτησης. Εάν προσπαθήσουμε μέσα στη συνάρτηση να τροποποιήσουμε τη μεταβλητή στην οποία &quot;δείχνει&quot; η αναφορά, Θα προκληθεί σφάλμα μεταγλώττισης!</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="cp">#include &lt;iostream&gt;</span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="n">testfunc</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span><span class="o">&amp;</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span>
+  
+  <span class="n">testfunc</span><span class="p">(</span><span class="n">k</span><span class="p">);</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">k</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+  
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">testfunc</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// ++i; ERROR! trying to modify read-only reference</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Προσοχή!! Μερικές φορές είναι απαραίτητο να δηλώσουμε ένα όρισμα συνάρτησης ως const reference!!</strong>
+Παρατηρήστε τι συμβαίνει στον επόμενο κώδικα:</p>
+<div class="highlight-c++"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35</pre></div></td><td class="code"><div class="highlight"><pre><span class="c1">// testing passing args in functions by C++ references</span>
+<span class="c1">// and const references</span>
+
+<span class="cp">#include &lt;iostream&gt;</span>
+<span class="cp">#include &lt;string&gt;</span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="n">testfunc1</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span> <span class="o">&amp;</span><span class="p">);</span>
+<span class="kt">void</span> <span class="n">testfunc2</span><span class="p">(</span><span class="n">string</span> <span class="o">&amp;</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">string</span> <span class="n">testr</span> <span class="o">=</span> <span class="s">&quot;hello world!&quot;</span><span class="p">;</span>
+
+  <span class="n">testfunc1</span><span class="p">(</span><span class="n">testr</span><span class="p">);</span>	<span class="c1">// ok</span>
+  
+  <span class="n">testfunc1</span><span class="p">(</span><span class="s">&quot;hello world v2!&quot;</span><span class="p">);</span>	<span class="c1">// ok</span>
+  
+  <span class="n">testfunc2</span><span class="p">(</span><span class="n">testr</span><span class="p">);</span>	<span class="c1">// ok</span>
+  
+  <span class="c1">//testfunc2(&quot;hello world v2!&quot;);	// COMPILER ERROR!</span>
+  
+  <span class="c1">// to do last call a temp obj must be created - of type const char*</span>
+  <span class="c1">// which cannot be used to create a non-const reference!!!</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">testfunc1</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span> <span class="o">&amp;</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">s</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">testfunc2</span><span class="p">(</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">s</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Το πρόβλημα εμφανίζεται στην κλήση της συνάρτησης testfunc2() στη γραμμή 21:</p>
+<ul class="simple">
+<li>Στη συνάρτηση περνά μια σταθερή συμβολοσειρά &quot;hello world v2!&quot;.</li>
+<li>Για να δημιουργήσει ο μεταγλωττιστής το reference που απαιτείται ως όρισμα εισόδου, θα κατασκευαστεί ένα <strong>προσωρινό αντικείμενο</strong> με τιμή &quot;hello world v2!&quot;.</li>
+<li>Το αντικείμενο αυτό δεν μπορεί να το χειριστεί ο προγραμματιστής (&quot;δεν έχει όνομα&quot;), συνεπώς θα είναι δηλωμένο αυτόματα ως <strong>const</strong> (read-only).</li>
+<li>H C++  όμως <strong>επιμένει</strong> να δημιουργεί const references από const αντικείμενα.</li>
+<li>Συνεπώς η αναφορά που θα δείχνει στο προσωρινό &quot;hello world v2!&quot; θα είναι const και δεν θα ταιριάζει με το όρισμα που δέχεται η testfunc2() (reference αλλά όχι const).</li>
+</ul>
+</div>
+<div class="section" id="scope">
+<h2>Εμβέλεια (Scope)<a class="headerlink" href="#scope" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Οι τοπικές μεταβλητές και οι παράμετροι της συνάρτησης ζούν όσο η συνάρτηση που τις περικλείει.</li>
+<li>Μέσα σε μια συνάρτηση μπορούμε να ανοίξουμε μπλοκ με {} και να δηλώσουμε νέες τοπικές μεταβλητές.<ul>
+<li>Αυτές έχουν εμβέλεια μόνο μέσα στο μπλοκ που τις περιέχει.</li>
+<li>Όταν η εκτέλεση βγει από το μπλοκ, οι μεταβλητές αυτές θα καταστραφούν.</li>
+<li>Αν σε οποιοδήποτε σημείο του κώδικα υπάρχει ίδιο όνομα μεταβλητής στο εσωτερικό μπλοκ και σε άλλα που το περιβάλλουν, υπερισχύει η μεταβλητή στο πιο εσωτερικό μπλοκ.</li>
+</ul>
+</li>
+</ul>
+<p>Παραδείγματα:</p>
+<div class="highlight-c++"><div class="highlight"><pre><span class="c1">// small demonstration of various scope effects</span>
+
+<span class="cp">#include &lt;iostream&gt;</span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="c1">// prototype of a test function</span>
+<span class="kt">void</span> <span class="n">testfunc</span><span class="p">();</span>
+
+<span class="c1">// a global declaration</span>
+<span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">55</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">j</span><span class="o">+</span><span class="mi">7</span><span class="p">;</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;(A) i=&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>		<span class="c1">// will print i=62</span>
+  
+  <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span>	<span class="c1">// j as local becomes active here!</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;(B) j=&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">j</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>	<span class="c1">// will print j=8</span>
+  
+  <span class="n">testfunc</span><span class="p">();</span>
+  
+  <span class="c1">// int j = 3; ERROR! re-declaration</span>
+  
+  <span class="c1">// a dummy block</span>
+  <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="n">i</span> <span class="o">+=</span> <span class="n">j</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;(C) i=&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>	<span class="c1">// will print i=61</span>
+  <span class="p">}</span>
+  
+  <span class="n">i</span> <span class="o">+=</span> <span class="n">j</span><span class="p">;</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;(D) i=&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>	<span class="c1">// will print i=69</span>
+  
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">testfunc</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;(E) j=&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">j</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>	<span class="c1">// the global j, will print j=55</span>
+  
+  <span class="c1">// cout &lt;&lt; &quot;i=&quot; &lt;&lt; i &lt;&lt; endl;	// ERROR: i not known in testfunc</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Οι καθολικές (global) μεταβλητές -κληρονομιά της C- έχουν εμβέλεια παντού στο αρχείο, αρκεί να μην επικαλύπτονται από τοπικές μεταβλητές με το ίδιο όνομα. Η χρήση τους παραβιάζει τις αρχές του αντικειμενοστρεφούς προγραμματισμού, γι'αυτό καλό είναι να μην χρησιμοποιούνται!</p>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>Τι επιστρέφει μια συνάρτηση<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Μεταβλητές τύπου native.</li>
+<li>Αντικείμενα κλάσεων, με αντιγραφή σε προσωρινό αντικείμενο.</li>
+<li>Αναφορές (references) αλλά προσοχή: πρέπει το αντικείμενο που αυτές &quot;δείχνουν&quot; να ζεί και μετά το τέλος της συνάρτησης!</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../unit4/module1.html" title="Ενότητα 4-1"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="module1.html" title="Ενότητα 3-1"
+             >previous</a> |</li>
+        <li><a href="../index.html">C++ Lectures v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, mistral.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,281 @@
+Ενότητα 6-1
+============
+
+Εισαγωγή στη βιβλιοθήκη STL
+-------------------------------
+
+Ένα πολύ σημαντικό τμήμα των standard βιβλιοθηκών της C++ είναι η βιβλιοθήκη STL (Standard Template Library). Αυτή βασίζεται στα templates: τον τρόπο της C++ να περιγράφει γενικό (generic) κώδικα που ενεργεί πάνω σε κάθε τύπο δεδομένων, αντί μόνο σε έναν (αντί π.χ. μόνο πάνω σε int).  
+
+Η συγγραφή κώδικα με templates είναι πολύπλοκη, το ίδιο και η μεταγλώττισή του. Ευτυχώς, **η χρήση** βιβλιοθηκών με templates είναι πολύ εύκολη, όπως θα φανεί στη συνέχεια!
+
+Τα βασικά μέρη της βιβλιοθήκης STL είναι:
+
+* **STL Containers:** δομές δεδομένων για την αποθήκευση και διαχείριση δεδομένων του χρήστη. Τα δεδομένα μπορούν να είναι οποιουδήποτε τύπου, native ή user-defined. 
+
+* **STL Iterators:** "δείχνουν" σε κάποιο στοιχείο αποθηκευμένο σε container και επιτρέπουν τον χειρισμό του.
+
+* **STL Algorithms:** κοινές λειτουργίες όπως αναζήτηση, ταξινόμηση κ.ά. σε containers. Οι λειτουργίες αυτές είναι ανεξάρτητες από το είδος του container, γιατί χρησιμοποιούν iterators.
+
+..	note::
+	Λεπτομέρειες θα δούμε στη συνέχεια, προς το παρόν σημειώνεται ότι: η βιβλιοθήκη STL έχει σχεδιαστεί και υλοποιηθεί από ειδικούς, έτσι ώστε να επιτυγχάνει τη βέλτιστη απόδοση. Πάντοτε πρέπει να τη χρησιμοποιούμε αντί να γράφουμε εκ νέου τον δικό μας κώδικα για λειτουργίες που παρέχει ήδη η STL.
+
+
+STL Vectors: Οδηγίες Χρήσης
+------------------------------
+δύο είναι οι βασικές κατηγορίες STL containers:
+
+* **Ακολουθιακά containers**, μια αλληλουχία αντικειμένων (όπως ένας πίνακας, μια λίστα, μια ουρά..).
+* **Προσεταιριστικά containers**, μια διατεταγμένη αντιστοιχία ζευγαριών <Κλειδί-Τιμή> (όπως ένα λεξικό).
+
+Τα vectors είναι τα πιο απλά και περισσότερο χρησιμοποιούμενα ακολουθιακά containers: Μονοδιάστατοι πίνακες για την αποθήκευση αντικειμένων σε σειρά με δυναμικό μέγεθος, διαχειριζόμενο από τη βιβλιοθήκη STL. Ο χρήστης δεν ασχολείται με το μέγεθος ένος vector, αυτό προσαρμόζετια αυτόματα για να χωρά τα αντικείμενα που εισάγει ο χρήστης.
+
+Για να χρησιμοποιήσουμε τα vectors πρέπει να προσθέσουμε στα includes:
+
+.. code-block:: c++
+
+   #include <vector>
+   
+Στη συνέχεια μπορούμε να ορίσουμε μια μεταβλητή vector όπως συνήθως (προσέξτε τον τρόπο που δηλώνουμε ότι θέλουμε ένα vector που να περιέχει int):
+
+.. code-block:: c++
+
+   vector<int> vi;	// an empty vector
+   if (vi.empty()) cout << "vector is empty" << endl;
+   cout << "size=" << vi.size() << " and capacity=" << vi.capacity() << endl;
+
+Παρατηρήσεις:
+
+* Όλες οι μεταβλητές τύπου STL container αρχικοποιούνται από τον constructor τους. Στο προηγούμενο παράδειγμα, το vi είναι empty αλλά αρχικοποιημένο.
+* Η συνάρτηση-μέλος empty() επιστρέφει true αν το vector είναι άδειο.
+* Η συνάρτηση-μέλος size() επιστρέφει το πλήθος των στοιχείων στο vector τη στιγμή αυτή.
+* Η συνάρτηση-μέλος capacity() επιστρέφει το πλήθος των στοιχείων που χωράνε στο vector τη στιγμή αυτή (το vector θα "αναμορφωθεί" αυτόματα για να χωρέσει πρόσθετα στοιχεία).
+
+Μπορούμε επίσης να αρχικοποιήσουμε το vector με έναν αριθμό στοιχείων:
+
+.. code-block:: c++
+
+   vector<double> vd1(10,0.23);	// 10 items, 0.23 each
+   vector<double> vd2(10);	// 10 items, of "double()" value (that is, 0)
+   vector<double> vd3 = vd2;	// copy constructor
+
+Στη δεύτερη περίπτωση, καλείται ο default constructor για την αρχικοποίηση κάθε στοιχείου του vector, αν το στοιχείο είναι τύπου native (άρα δεν έχει constructor) τότε η αρχικοποίηση είναι στην τιμή 0. Στην τρίτη περίπτωση δημιουργείται ένα νέο vector αντιγράφοντας τα στοιχεία ενός προϋπάρχοντος.
+
+Πολλές φορές ξέρουμε ότι θα χρειαστούμε έναν πίνακα Ν στοιχείων (π.χ. Ν=1000) αλλά δεν θέλουμε αρχικοποίηση. Τότε είναι πιο αποδοτικό να ορίσουμε ένα empty vector και να υποδείξουμε ότι θα πρέπει να χωρά Ν στοιχεία. Αυτό εμποδίζει τις χρονοβόρες αυτόματες αλλαγές μεγέθους του vector:
+
+.. code-block:: c++
+
+   vector<int> vi;	// an empty vector
+   vi.reserve(1000);
+
+Τα vectors είναι πολύ αποδοτικά στην τυχαία προσπέλαση του i-οστού στοιχείου και την προσθήκη νέου στοιχείου στο τέλος του vector (αν θέλετε αποδοτικές εισαγωγές-διαγραφές πρέπει να χρησιμοποιήσετε άλλον τύπο container!). Η εισαγωγή στο τέλος γίνεται ως εξής:
+
+.. code-block:: c++
+
+   vector<int> vi;	
+
+   vi.push_back(3);
+   vi.push_back(13);
+   vi.push_back(23);
+
+Η προσπέλαση γίνεται με τον τελεστή [] για ανάγνωση και εγγραφή:
+
+.. code-block:: c++
+
+   cout << vi[0];
+   vi[1] = 7;
+
+..	note::   
+	**ΠΡΟΣΟΧΗ!!!** Ο τελεστής [] **δεν ελέγχει** αν προσπαθείτε να διαβάσετε ή να γράψετε πέρα από το τρέχον μέγιστο στοιχείο του vector! Αυτό φυσικά θα είναι μάλλον καταστροφικό για το προγραμμά σας.. Αν φοβάστε ότι κάτι τέτοιο μπορεί να συμβεί, χρησιμοποιήστε τη συνάρτηση-μέλος at(i), η οποία "ρίχνει" ένα exception αν το i είναι εκτός των ορίων του vector. Τόσο το [i] όσο και το at(i) επιστρέφουν μια αναφορά (reference) στο i-οστό στοιχείο του vector.
+ 
+Με τη βοήθεια του [] μπορείτε να τυπώσετε τα περιεχόμενα του vector ως εξής (η μέθοδος αυτή δεν συνηθίζεται όμως! Για μια πιο "επαγγελματική" μέθοδο δείτε στα επόμενα):
+
+.. code-block:: c++
+
+   // cycle trough vector via index
+   for (unsigned int i=0; i<vd1.size(); ++i) {
+     cout << vd1[i] << " ";
+   }
+   cout << endl;
+ 
+Η "επαγγελματική" μέθοδος χρησιμοποιεί iterators:
+
+.. code-block:: c++
+
+   vector<double> vd2(10,0.23);	// 10 items, 0.23 each
+
+   // cycle through vector via iterator
+   for (vector<double>::iterator vdp=vd2.begin(); vdp!=vd2.end(); ++vdp) {
+     cout << *vdp << " ";
+   }
+   cout << endl;
+
+Παρατηρήσεις:
+
+* Ο iterator πρέπει να έχει τον αντίστοιχο τύπο με το vector: εδώ είναι ``vector<double>::iterator``.
+
+  * Μια const παραλλαγή (``vector<double>::const_iterator``) επιτρέπει την ανάγνωση αλλά όχι και την εγγραφή ενός στοιχείου.
+  
+* Το στοιχείο που "δείχνει" ο iterator προσπελαύνεται μέσω του τελεστή *
+
+* Η συνάρτηση-μέλος begin() επιστρέφει έναν iterator στο πρώτο στοιχείο του vector.
+* Η συνάρτηση-μέλος end() επιστρέφει έναν iterator **αμέσως μετά το τελευταίο** στοιχείο του vector.
+
+  .. note::
+     **Ποτέ!!** δεν προσπελαύνουμε το στοιχείο που δείχνει το end(), παρά μόνο έως το προηγούμενο από αυτό!
+     
+* Η αύξηση του iterator κατά 1 (++vdp) έχει ως συνέπεια ο iterator να δείχνει στο επόμενο στοιχείο του vector.
+
+Vectors: Αναζήτηση και Ταξινόμηση
+-----------------------------------
+Η αναζήτηση και ταξινόμηση vectors μπορεί να γίνει μέσω των αντίστοιχων STL Algorithms. Προσθέσετε στα includes σας:
+
+.. code-block:: c++
+
+   #include <algorithm>
+   
+Η αναζήτηση γίνεται μέσω του αλγορίθμου ``find``:
+
+.. code-block:: c++
+
+   // init vector via a range
+   int tmpi[] = { 7,6,1,2,9,0,4,6,7,8 };
+   vector<int> vi2(tmpi,tmpi+10);	// REMEMBER! it's [first,last) 
+ 
+   // finding things into vectors (via STL algorithm find() - include <algorithm>!)
+   vector<int>::iterator vip = find(vi2.begin(),vi2.end(),23);
+   if (vip==vi2.end()) cout << "not found!" << endl;
+   else cout << "found!" << endl;
+
+* Ο τύπος δεδομένων που φυλάσσεται στο vector πρέπει αν υποστηρίζει τον τελεστή =
+* Στον αλγόριθμο δίνουμε την αρχή και το τέλος της έρευνας (iterators).
+* Αν το στοιχείο βρεθεί, επιστρέφεται ένας iterator σε αυτό. 
+* Αν όχι, επιστρέφεται ο iterator του end().
+
+Η ταξινόμηση γίνεται ομοίως εύκολα μέσω του αλγορίθμου ``sort``:
+
+.. code-block:: c++
+
+   // sort a vector (via STL algorithm sort() - needs randomaccess iterators and vector has them)
+   // this modifies vector in-place!
+   sort(vi2.begin(),vi2.end());	// use < to sort, ordering of identical items is undefined
+
+* Η ταξινόμηση γίνεται εξ'ορισμού με τον τελεστή < (σε αύξουσα σειρά), ο τελεστής αυτός πρέπει να έχει οριστεί για τον τύπο δεδομένων που περιέχει το vector.
+* Ο αλγόριθμος sort απαιτεί **random access iterators** (iterators που μπορούν να δείξουν σε τυχαία θέση i του container - οι iterators του vector είναι τέτοιοι, δεν ισχύει όμως αυτό για κάποια άλλα containers!).
+
+Τι μπορεί να γίνει αν δεν θέλουμε αύξουσα ταξινόμηση; Δημιουργούμε τη δική μας συνάρτηση (ή ένα αντικείμενο-συνάρτηση - για αυτό όμως δεν θα μιλήσουμε εδώ!) σύγκρισης δύο στοιχείων και το τροφοδοτούμε στο sort, όπως στο επόμενο παράδειγμα φθίνουσας ταξινόμησης:
+
+.. code-block:: c++
+
+   // function used for custom (descending) sorting
+   bool mycmp(int a,int b) {
+     return a>b;
+   }
+
+.. code-block:: c++
+
+   sort(vi2.begin(),vi2.end(),mycmp);	// use custom function that provides > sorting 
+
+
+Παράδειγμα με STL Vector: Employees
+-------------------------------------
+Σκοπεύουμε να ταξινομήσουμε εγγραφές τύπου Employee σε ένα vector, συνεπώς πρέπει να ορίσουμε τον τελεστή < για την κλάση Employee. Αυτό γίνεται στη συνέχεια, ορίζοντας τον τελεστή ως μέλος της κλάσης Employee (σε αντίθεση με τα << και >> που ήταν friends της κλάσης).
+
+Δηλώνουμε τον τελεστή < στον ορισμό της κλάσης Employee (στο employee.h):
+
+.. code-block:: c++
+
+   bool operator<(const Employee &empl2) const;
+
+Παρατηρήστε τη διπλή χρήση του ``const`` στη δήλωση της συνάρτησης: την πρώτη φορά δεσμευόμαστε ότι δεν θα τροποποιήσουμε το όρισμα empl2, ενώ τη δεύτερη φορά δεσμευόμαστε ότι η συνάρτηση δεν τροποποιεί το αντικείμενο για το οποίο καλείται η συνάρτηση (this).
+
+Στη συνέχεια, ορίζουμε τη συνάρτηση του τελεστή στο employee.cpp:
+
+..	code-block:: c++
+
+	bool Employee::operator<(const Employee &empl2) const {
+	  if (lastname<empl2.lastname) return true;
+	  if (lastname>empl2.lastname) return false;
+	  // lastnames are equal here
+	  if (firstname<empl2.firstname) return true;
+	  if (firstname>empl2.firstname) return false;
+	  // lastnames and firstnames are equal here
+	  if (age<empl2.age) return true;
+	  if (age>empl2.age) return false;
+	  // lastnames, firstnames and ages are equal here
+	  if (salary<empl2.salary) return true;
+	  return false;	// empl2 salary is greater or equal  
+	}
+
+Η σύγκριση συγκρίνει πρώτα το lastname, μετά το firstname, μετά το  age και τέλος το salary.
+
+Στη συνάρτηση main() (employeemain.cpp) διαβάζουμε τις εγγραφές από το αρχείο records.txt όπως στην πορηγούμενη ενότητα και τοποθετούμε τις νέες εγγραφές σε ένα vector.
+
+..	code-block:: c++
+
+	vector<Employee> ve;	// create a new empty vector for Employee objects
+
+	// create input file object and open it
+	ifstream ifs("records.txt");	
+	if (!ifs) {	// file open error
+	  cout << "cannot open input file!" << endl;
+	  return;
+	} 
+
+	Employee empl;
+	    
+	// read employee records until EOF or other error
+	while (true) {
+	  try {
+	    if (!(ifs>>empl)){
+	      break;	// input stream error - exit while loop
+	    }
+	    else {
+	      // store valid record into vector
+	      ve.push_back(empl);
+	    }
+	  }
+	  catch(runtime_error &e) {
+	    // do nothing - skip invalid record 
+	  }
+	}
+
+	// NOTE: no actual need to close file - destructor will do it if we don't
+	ifs.close();
+
+.. note::
+   Όταν τοποθετούμε ένα αντικείμενο στο vector (και σε κάθε STL container), αυτό που πραγματικά αποθηκεύεται είναι ένα **αντίγραφο** του αντικειμένου!
+
+Στη συνέχεια μπορούμε να ταξινομήσουμε τις εγγραφές με τον τελεστή <
+
+.. code-block:: c++
+
+    // sort records - this needs the < operator to be defined for Employee class
+    sort(ve.begin(),ve.end());
+
+Εναλλακτικά μπορούμε να δημιουργήσουμε τις δκές μας συναρτήσεις ταξινόμησης, όπως εδώ (αύξουσα, κατά ηλικία):
+
+.. code-block:: c++
+
+   bool cmp_employees_by_age(const Employee &e1,const Employee &e2) {
+     return e1.get_age() < e2.get_age();
+   }
+
+ή εδώ (φθίνουσα, κατά μισθό):
+
+.. code-block:: c++
+
+   bool cmp_employees_by_salary_descending(const Employee &e1,const Employee &e2) {
+     return e1.get_salary() > e2.get_salary();
+   }
+
+τις οποίες συναρτήσεις μπορούμε να τροφορδοτήσουμε στην sort():
+
+.. code-block:: c++
+
+   // sort records - this time by age of employees
+   sort(ve.begin(),ve.end(),cmp_employees_by_age);
+  
+   // sort records - this time by salary of employees and descending!
+   sort(ve.begin(),ve.end(),cmp_employees_by_salary_descending);
+  
+

@@ -1,0 +1,12 @@
+
+body { 
+  font-family: verdana,arial,sans-serif;	
+  font-size: 100%;				
+  margin: 1em 2em; 				
+}
+
+
+
+dt { font-weight: bold; border: #404040 1px solid; background-color: #FFFF80; }
+
+dd { margin-bottom: 1em; }

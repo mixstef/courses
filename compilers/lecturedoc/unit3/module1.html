@@ -1,0 +1,481 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Ενότητα 3-1 &mdash; Compiler Lecture Notes 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Compiler Lecture Notes 1.0 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">Compiler Lecture Notes 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>Ενότητα 3-1<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="regular-expressions">
+<h2>Regular expressions<a class="headerlink" href="#regular-expressions" title="Permalink to this headline">¶</a></h2>
+<p>Regular expressions (&#8216;κανονικές εκφράσεις&#8217;) είναι ένα ισχυρό εργαλείο που προέρχεται από τη θεωρία των τυπικών γλωσσών (formal languages), το οποίο επιτρέπει την ευέλικτη αναζήτηση και &#8216;ταίριασμα&#8217; (matching) κειμένου σύμφωνα με μια προδιαγραφή (matching pattern).</p>
+<p>Μπορούμε να φανταστούμε την προδιαγραφή αυτή ως μία μίνι-γλώσσα, η οποία χρησιμοποιείται για τη συγκρότηση μιας μηχανής ταιριάσματος (matching engine). Η μηχανή επεξεργάζεται το κείμενο εισόδου σύμφωνα με τις οδηγίες της προδιαγραφής και επιστρέφει</p>
+<ul class="simple">
+<li>αν υπάρχει ταίριασμα (αληθές/ψευδές)</li>
+<li>σε ποια σημεία (θέση στο κείμενο)</li>
+<li>ποιο κομμάτι του κειμένου ταίριαξε με την προδιαγραφή</li>
+<li>επίσης, η μηχανή μπορεί να αντικαταστήσει τα κομμάτια που ταίριαξαν, με άλλο κείμενο, αν αυτό ζητηθεί</li>
+</ul>
+<p>Μια προδιαγραφή regular expression μπορεί να αποτελείται από άλλες μικρότερες ή από ένα σύνολο εναλλακτικών υπο-προδιαγραφών. Οι προδιαγραφές απαρτίζονται από χαρακτήρες: είτε απλοί χαρακτήρες όπως το <tt class="docutils literal"><span class="pre">a</span></tt> που ταιριάζει μόνο το γράμμα a, είτε ειδικοί χαρακτήρες ελέγχου, όπως η τελεία <tt class="docutils literal"><span class="pre">.</span></tt> που ταιριάζει (σχεδόν) οποιοδήποτε γράμμα.</p>
+<p>Η προδιαγραφή περνά από μια διαδικασία &#8216;μεταγλώττισης&#8217; (compilation) και κατασκευάζεται ένα σύνολο οδηγιών για τη μηχανή ταιριάσματος. Η βασική μηχανή είναι γραμμένη συνήθως σε C και πολύ γρήγορη σε εκτέλεση.</p>
+<p>Υπάρχουν δύο τύποι μηχανών:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://en.wikipedia.org/wiki/Deterministic_finite_automaton">DFA</a>, όπου η απόδοση εξαρτάται μόνο από το μέγεθος του κειμένου εισόδου (κι όχι από την πολυπλοκότητα της προδιαγραφής της regular expression). Πολύ γρήγορη μηχανή που για κάθε χαρακτήρα εισόδου παρακολουθεί ταυτόχρονα όλες τις πιθανές θέσεις ταιριάσματος (χρησιμοποιώντας διαφορετική κατάσταση για κάθε συνδυασμό ταιριάσματος). Δεν διαθέτει όμως πρόσθετα χαρακτηριστικά (θα δούμε αργότερα ποια), τα οποία είναι χρήσιμα στον προγραμματισμό.</li>
+<li><a class="reference external" href="http://en.wikipedia.org/wiki/Nondeterministic_finite_state_machine">NFA</a>, αργότερη μηχανή ταιριάσματος, δοκιμάζει διαδοχικά τις εναλλακτικές προδιαγραφές της regular expression αρχίζοντας από την αρχή του κειμένου εισόδου μέχρι να βρει ένα επιτυχές ταίριασμα. Παρέχει ενδιαφέροντα πρόσθετα εργαλεία, αλλά απαιτείται προσοχή στον τρόπο κατασκευής της προδιαγραφής: η απόδοση εξαρτάται από το πώς είναι γραμμένη. Σχεδόν όλες οι γλώσσες προγραμματισμού υλοποιούν NFA μηχανές για regular expressions.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Η χρήση των regular expressions είναι δύσκολη για τους μη πεπειραμένους και πρέπει να γίνεται με προσοχή. Εξετάστε αν μπορείτε να λύσετε το πρόβλημά σας με πιο απλόν τρόπο πριν καταφύγετε στη λύση των regular expressions (RE).</p>
+<div class="last highlight-python"><div class="highlight"><pre>Some people, when confronted with a problem, think &#39;I know, I&#39;ll use
+regular expressions.&#39; Now they have two problems.
+         -- Jamie Zawinski, alt.religion.emacs (08/12/1997)
+</pre></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Πολλά από τα παραδείγματα που ακολουθούν βασίζοντια σε υλικό από το βιβλίο &#8220;Mastering Regular Expressions&#8221;, 2nd ed., Jeffrey E.F. Friedl, O&#8217;Reilly Media, July 2002.</p>
+</div>
+</div>
+<div class="section" id="python-regular-expressions">
+<h2>Python και regular expressions<a class="headerlink" href="#python-regular-expressions" title="Permalink to this headline">¶</a></h2>
+<p>Στην Python η υλοποίηση των regular expressions είναι αντικειμενοστρεφής.</p>
+<ul>
+<li><p class="first">Η υποστήριξη των regular expressions υπάρχει ενσωματωμένη στη γλώσσα, στο module <tt class="docutils literal"><span class="pre">re</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">re</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Ξεκινάμε με την προδιαγραφή εκφρασμένη σε ένα string:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">restr</span> <span class="o">=</span> <span class="s">r&#39;([-+]?[0-9]+(\.[0-9]*)?)\s*([CF])&#39;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Το string <tt class="docutils literal"><span class="pre">restr</span></tt> του παραδείγματος περιγράφει μια regular expression που ταιριάζει βαθμούς θερμοκρασίας, με προαιρετικό πρόσημο, ακέραιο και προαιρετικό δεκαδικό μέρος, πιθανά κενά και μετά τα γράμματα C ή F. Μην ανησυχείτε αν δεν την καταλαβαίνετε ακόμα!</p>
+<p>Παρατηρήστε πώς γράφεται το regular expression: η σταθερά string δίνεται ως <tt class="docutils literal"><span class="pre">r'</span> <span class="pre">....</span> <span class="pre">'</span></tt>, κάτι που συμβολίζει ένα <strong>raw string</strong>. Δεν σχετίζεται ειδικά με τα regular expressions, απλά βολεύει στην περίπτωσή μας:</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>Η Python σε σταθερές string αντικαθιστά όπως και η C τα <tt class="docutils literal"><span class="pre">\n</span></tt>, <tt class="docutils literal"><span class="pre">\t</span></tt> κλπ με τον αντίστοιχο χαρακτήρα newline, tab, κ.ο.κ.</li>
+<li>Σε raw σταθερά string όμως, η αντικατάσταση αυτή δε γίνεται: το <tt class="docutils literal"><span class="pre">r'\n'</span></tt> είναι πάντα 2 χαρακτήρες, το <tt class="docutils literal"><span class="pre">\</span></tt> και το <tt class="docutils literal"><span class="pre">n</span></tt>.</li>
+<li>Οι regular expressions χρησιμοποιούν πολύ τον μηχανισμό \χαρακτήρα, έτσι πρέπει να πούμε στην Python να μην προχωρήσει σε μετατροπές.</li>
+</ul>
+</div></blockquote>
+</div>
+</li>
+<li><p class="first">Στη συνέχεια κατασκευάζουμε το αντικείμενο regular expression, το οποίο μπορούμε να θεωρήσουμε ως τη μηχανή ταιριάσματος. Είναι το αντικείμενο που μας παρέχει τις μεθόδους αναζήτησης και αντικατάστασης σύμφωνα με την προδιαγραφή του RE.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">restr</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Το  <tt class="docutils literal"><span class="pre">rexp</span></tt> του παραδείγματος συμβολίζει το αντικείμενο-RE και συνήθως κατασκευάζεται άπαξ, στην αρχή του προγράμματος. Στη συνέχεια, μπορούμε να το χρησιμοποιήσουμε όσες φορές θέλουμε για να ταιριάξουμε κείμενο.</p>
+</div>
+</li>
+</ul>
+<p>Στις επόμενες παραγράφους αναφέρονται <strong>μερικά μόνο</strong> από τα εργαλεία της Python για regular expressions. Για την πλήρη περιγραφή του module re, δείτε στο <a class="reference external" href="https://docs.python.org/3/library/re.html">https://docs.python.org/3/library/re.html</a>.</p>
+</div>
+<div class="section" id="id2">
+<h2>Συνήθεις προδιαγραφές για regular expressions<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>που αναγνωρίζονται από την Python είναι:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="89%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>abc</td>
+<td>ταιριάζει ακριβώς το γράμμα a, ακολουθούμενο από το b και μετά το c</td>
+</tr>
+<tr class="row-even"><td>a|b</td>
+<td>είτε το a, είτε το b</td>
+</tr>
+<tr class="row-odd"><td>[abc]</td>
+<td>character class: ένα από τα a, b ή c (ΠΡΟΣΟΧΗ: ΕΝΑΣ ΧΑΡΑΚΤΗΡΑΣ ΜΟΝΟ)</td>
+</tr>
+<tr class="row-even"><td>[a-zA-Z]</td>
+<td>όπως προηγουμένως, αλλά σε ένα πεδίο τιμών, από a έως και  z και από A έως και Z</td>
+</tr>
+<tr class="row-odd"><td>[^ab]</td>
+<td>ένας οποιοσδήποτε χαρακτήρας, <strong>εκτός από</strong> a ή b</td>
+</tr>
+<tr class="row-even"><td>$</td>
+<td>ταιριάζει στο τέλος του string (ρυθμίζεται να ταιριάζει και στο τέλος κάθε γραμμής του string)</td>
+</tr>
+<tr class="row-odd"><td>^</td>
+<td>ταιριάζει στην αρχή του string (ρυθμίζεται να ταιριάζει και στην αρχή κάθε γραμμής του string)</td>
+</tr>
+<tr class="row-even"><td>.</td>
+<td>ένας οποιοσδήποτε χαρακτήρας εκτός από newline (ρυθμίζεται να ταιριάζει και το newline)</td>
+</tr>
+<tr class="row-odd"><td>*</td>
+<td>0 ή περισσότερες φορές ο χαρακτήρας που προηγείται</td>
+</tr>
+<tr class="row-even"><td>+</td>
+<td>1 ή περισσότερες φορές ο χαρακτήρας που προηγείται</td>
+</tr>
+<tr class="row-odd"><td>?</td>
+<td>0 ή 1 φορά ο χαρακτήρας που προηγείται</td>
+</tr>
+<tr class="row-even"><td>{n} {m,n}</td>
+<td>n φορές / από n έως m φορές ο χαρακτήρας που προηγείται</td>
+</tr>
+<tr class="row-odd"><td>\b</td>
+<td>ταιριάζει στην αρχή και στο τέλος μιας λέξης</td>
+</tr>
+<tr class="row-even"><td>\w \W</td>
+<td>οποιοσδήποτε αλφαριθμητικός / μη αλφαριθμητικός χαρακτήρας</td>
+</tr>
+<tr class="row-odd"><td>\s \S</td>
+<td>οποιοσδήποτε whitespace / μη whitespace χαρακτήρας</td>
+</tr>
+<tr class="row-even"><td>*? +? ??</td>
+<td>μη άπληστες (non-greedy) μορφές των *, + και ? (μόνο σε NFA, βλ. πιο κάτω)</td>
+</tr>
+<tr class="row-odd"><td>()</td>
+<td>group ομαδοποίησης τμημάτων μιας RE, συγκρατούν και το κείμενο που ταιριάζει στο τμήμα (NFA μόνο)</td>
+</tr>
+<tr class="row-even"><td>\1 \2 κλπ</td>
+<td>μέσα στη RE αντικαθίστανται από το τι έχει ταιριάξει ως τώρα στο αντίστοιχο group (NFA μόνο)</td>
+</tr>
+</tbody>
+</table>
+<p>Με βάση τα πιο πάνω μπορούμε να συντάξουμε σύνθετες προδιαγραφές, όπως εκείνη του παραδείγματος με τη θερμοκρασία.</p>
+</div>
+<div class="section" id="regular-expression">
+<h2>Μέθοδοι του αντικειμένου regular expression<a class="headerlink" href="#regular-expression" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="search">
+<h3>Η μέθοδος search()<a class="headerlink" href="#search" title="Permalink to this headline">¶</a></h3>
+<p>Η κύρια μέθοδος είναι η <tt class="docutils literal"><span class="pre">search()</span></tt> που παίρνει ως όρισμα ένα string και αναζητά ταιριάσματα <strong>οπουδήποτε</strong> μέσα στο string. Με το πρώτο ταίριασμα που θα βρεθεί, επιστρέφει ένα <strong>match object</strong> με τις πληροφορίες του ταιριάσματος. Αν δεν βρεθεί κανένα ταίριασμα, επιστρέφεται το κενό αντικείμενο (None).</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">re</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">restr</span> <span class="o">=</span> <span class="s">r&#39;([-+]?[0-9]+(\.[0-9]*)?)\s*([CF])&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">restr</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">&#39;abcd12.23&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="go">None</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">&#39;abcd12.23 F&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="go">&lt;_sre.SRE_Match object; span=(4, 11), match=&#39;12.23 F&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">&#39;12.23 F&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">&#39;12.23&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">&#39;.23&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">&#39;F&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
+<span class="go">(&#39;12.23&#39;, &#39;.23&#39;, &#39;F&#39;)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Τι είναι τα <strong>groups</strong>; Στην προδιαγραφή της RE, οι παρενθέσεις παίζουν ειδικό ρόλο, ομαδοποιώντας υποσύνολα της RE. Επιπλέον, η μηχανή θυμάται τι ταίριαξε σε κάθε group.</p>
+<blockquote>
+<div><ul>
+<li><p class="first"><strong>Το group(0) συμβολίζει όλο το κείμενο που ταίριαξε</strong>.</p>
+</li>
+<li><p class="first">Για κάθε παρένθεση που ανοίγει -μετρώντας από τα αριστερά- ορίζονται και τα άλλα groups.:</p>
+<div class="highlight-python"><div class="highlight"><pre>([-+]?[0-9]+(\.[0-9]*)?)\s*([CF])
+^           ^              ^
+1           2              3
+|----------------------|
+            |--------|     |----|
+</pre></div>
+</div>
+</li>
+</ul>
+</div></blockquote>
+<p>Αν ένα σετ παρενθέσεων έχει μπει μόνο για την εξυπηρέτηση του <tt class="docutils literal"><span class="pre">*</span></tt>, <tt class="docutils literal"><span class="pre">+</span></tt>, <tt class="docutils literal"><span class="pre">?</span></tt> κλπ και δεν θέλουμε τη συγκράτηση της τιμής του group, μπορούμε να χρησιμοποιήσουμε το <tt class="docutils literal"><span class="pre">(?:...)</span></tt>. Δείτε εδώ τη διαφορά από το προηγούμενο. Πόσα groups υπάρχουν τώρα;</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">re</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">restr</span> <span class="o">=</span> <span class="s">r&#39;([-+]?[0-9]+(?:\.[0-9]*)?)\s*([CF])&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">restr</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">&#39;abcd12.23 F&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
+<span class="go">(&#39;12.23&#39;, &#39;F&#39;)</span>
+</pre></div>
+</div>
+</div>
+<ul>
+<li><p class="first">Παράδειγμα: βρείτε τη γάτα στην αρχή ή στο τέλος ενός string:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;^cat&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">&#39;I see a cat&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="go">None</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">&#39;category&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="go">&lt;_sre.SRE_Match object; span=(0, 3), match=&#39;cat&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">&#39;cat&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;cat$&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">&#39;in category&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="go">None</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">&#39;black cat&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">m</span>
+<span class="go">&lt;_sre.SRE_Match object; span=(6, 9), match=&#39;cat&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">m</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s">&#39;found!&#39;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">found!</span>
+</pre></div>
+</div>
+<p>Για να ταιριάξουμε ένα άδειο string, θα μπορούσαμε (θεωρητικά -δεν χρειάζεται στην πράξη!) να χρησιμοποιήσουμε το <tt class="docutils literal"><span class="pre">'^$'</span></tt>.</p>
+</li>
+<li><p class="first">Παράδειγμα: κλάσεις χαρακτήρων με το <tt class="docutils literal"><span class="pre">[]</span></tt>. Θυμηθείτε ότι μέσα στην κλάση, οι χαρακτήρες ελέγχου χάνουν τον ειδικό τους χαρακτήρα και το <tt class="docutils literal"><span class="pre">^</span></tt> σημαίνει κάτι διαφορετικό!</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;gr[ae]y&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">&#39;a gray cat&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">m</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s">&#39;found!&#39;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">found!</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">&#39;a grey cat&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">m</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s">&#39;found!&#39;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">found!</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Παράδειγμα: Βρείτε a που δεν ακολουθείται από b</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;a[^b]&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">&#39;ab&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="go">None</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">&#39;acb&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="go">&lt;_sre.SRE_Match object; span=(0, 2), match=&#39;ac&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="go">ac</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">&#39;ba&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="go">None</span>
+</pre></div>
+</div>
+<p>Στο τελευταίο παράδειγμα βλέπουμε ότι ενώ το a δεν πρέπει να ακολουθείται από b, <strong>πρέπει όμως να ακολουθείται από κάτι άλλο</strong>!</p>
+</li>
+<li><p class="first">Παράδειγμα: Βρείτε το gray ή grey με εναλλαγή (alternation): 2 σωστοί και ένας λάθος τρόπος</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;gray|grey&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">&#39;a gray cat&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">m</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s">&#39;found!&#39;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">found!</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;gr(a|e)y&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">&#39;a gray cat&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">m</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s">&#39;found!&#39;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">found!</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;gra|ey&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">&#39;a gray cat&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="go">&lt;_sre.SRE_Match object; span=(2, 5), match=&#39;gra&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="go">gra</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">&#39;a grey cat&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="go">&lt;_sre.SRE_Match object; span=(4, 6), match=&#39;ey&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="go">ey</span>
+</pre></div>
+</div>
+<p>Στο τελευταίο παράδειγμα έχουμε ταίριασμα, δεν είναι όμως αυτό που θέλουμε! <strong>Η χρήση των παρενθέσεων είναι αναγκαία για το σωστό ταίριασμα</strong>!</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><strong>Προσοχή!</strong> Η εναλλαγή στις μηχανές NFA, όταν ταιριάζουν δύο ή περισσότερες επιλογές, επιστρέφει την <strong>πρώτη, από αριστερά προς τα δεξιά</strong> κι όχι τη μεγαλύτερη σε μήκος!!</p>
+</div>
+</li>
+<li><p class="first">Παράδειγμα: Γιατί πρέπει να προσέχουμε όταν γειτονεύουν <tt class="docutils literal"><span class="pre">*</span></tt>, <tt class="docutils literal"><span class="pre">+</span></tt> και <tt class="docutils literal"><span class="pre">.</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">restr</span> <span class="o">=</span> <span class="s">r&#39;^.*([0-9]+)&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">restr</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">&#39;Copyright 2003&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">&#39;Copyright 2003&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">&#39;3&#39;</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>Γιατί δεν μπήκε όλο το <tt class="docutils literal"><span class="pre">2003</span></tt> μέσα στο group(1); Το <tt class="docutils literal"><span class="pre">*</span></tt> είναι άπληστο και καταναλώνει όλο το string. Στη συνέχεια αποδεσμεύει  το <tt class="docutils literal"><span class="pre">3</span></tt> για να επιτρέψει και στο <tt class="docutils literal"><span class="pre">+</span></tt> να πετύχει ταίριασμα. Η διαδικασία σταματά εδώ και ποτέ δεν δίνεται η ευκαιρία στο <tt class="docutils literal"><span class="pre">+</span></tt> να ταιριάξει όλο το <tt class="docutils literal"><span class="pre">2003</span></tt>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Η παράθεση πολλαπλών <tt class="docutils literal"><span class="pre">*</span></tt> και <tt class="docutils literal"><span class="pre">+</span></tt> <strong>σε συνδυασμό με το ``.``</strong> οδηγεί σχεδόν πάνοτε σε λάθος. Από την αποτυχία ταιριάσματος αυτού που θέλει ο χρήστης μέχρι την αποτυχία της ίδιας της μηχανής αναζήτησης! Έτσι, <strong>πρέπει πάντα να αποφεύγεται</strong>.</p>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="match">
+<h3>Η μέθοδος match()<a class="headerlink" href="#match" title="Permalink to this headline">¶</a></h3>
+<p>Η μέθοδος <tt class="docutils literal"><span class="pre">match()</span></tt> λειτουργεί ακριβώς όπως η <tt class="docutils literal"><span class="pre">search()</span></tt>, με τη διαφορά ότι προσπαθεί να βρεί ταίριασμα <strong>μόνο από την αρχή</strong> του string (κι όχι οπουδήποτε μέσα στο string όπως η search).</p>
+</div>
+<div class="section" id="finditer">
+<h3>Η μέθοδος finditer()<a class="headerlink" href="#finditer" title="Permalink to this headline">¶</a></h3>
+<p>Δέχεται ως όρισμα ένα string και επιστρέφει ένα αντικείμενο iterator, το οποίο δίνει διαδοχικά όλα τα match objects για όλα τα σημεία ταιριάσματος μέσα στο string.</p>
+<ul>
+<li><p class="first">Παράδειγμα: χρήση της τελείας <tt class="docutils literal"><span class="pre">.</span></tt> για να ταιριάξουμε οτιδήποτε (εκτός από newline! Για να ταιριάξετε και το newline στο re.compile() προσθέστε το επιπλέον όρισμα <tt class="docutils literal"><span class="pre">re.DOTALL</span></tt>)</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;a.c&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mi</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="s">&#39;ab abc acc axc afc acb a</span><span class="se">\n</span><span class="s">c avc&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">mi</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="gp">...</span>
+<span class="go">abc</span>
+<span class="go">acc</span>
+<span class="go">axc</span>
+<span class="go">afc</span>
+<span class="go">avc</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Παράδειγμα: color ή colour?</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;colou?r&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mi</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="s">&#39;some write colour instead of color&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">mi</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="gp">...</span>
+<span class="go">colour</span>
+<span class="go">color</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Παράδειγμα: Εύρεση λέξεων που αντιπροσωπεύουν &#8220;σωστή&#8221; ώρα σε 24ωρο format</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;\b([01]?[0-9]|2[0-3]):[0-5][0-9]\b&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mi</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="s">&#39;4:24 3:56  25:02 12:45 9:62&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">mi</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="gp">...</span>
+<span class="go">4:24</span>
+<span class="go">3:56</span>
+<span class="go">12:45</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="findall">
+<h3>Η μέθοδος findall()<a class="headerlink" href="#findall" title="Permalink to this headline">¶</a></h3>
+<p>Επιστρέφει όλα τα ταιριάσματα, αλλά <strong>ΠΡΟΣΟΧΗ!!</strong> Η επιστρεφόμενη τιμή δεν μοιάζει με εκείνες των προηγούμενων μεθόδων:</p>
+<ul>
+<li><p class="first">Αν <strong>δεν υπάρχουν</strong> groups στην RE, επιστρέφει απλά μια λίστα με τα strings που ταίριαξαν.</p>
+</li>
+<li><p class="first">Αν <strong>υπάρχουν</strong> groups, επιστρέφει μόνο αυτά κι όχι το πλήρες ταίριασμα (δηλ. δεν σας δίνει το group(0)).</p>
+<ul class="simple">
+<li>Οταν τα groups είναι περισσότερα από ένα στην RE, κάθε στοιχείο της επιστρεφόμενης λίστας είναι ένα tuple με όλες τις τιμές των groups για το συγκεκριμένο ταίριασμα.</li>
+</ul>
+</li>
+<li><p class="first">Παράδειγμα: Ταίριασμα ονομάτων μεταβλητών:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;\b[a-zA-z_][a-zA-Z0-9_]*\b&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;var1 1var _var&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l</span>
+<span class="go">[&#39;var1&#39;, &#39;_var&#39;]</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Παράδειγμα: Ταίριασμα κειμένου μέσα σε &#8221;..&#8221;</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;&quot;[^&quot;]*&quot;&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;&quot;RE&quot; is a &quot;better&quot; name for &quot;regular expressions&quot;&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l</span>
+<span class="go">[&#39;&quot;RE&quot;&#39;, &#39;&quot;better&quot;&#39;, &#39;&quot;regular expressions&quot;&#39;]</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Παράδειγμα: Λέξεις 5 κεφαλαίων από Α ώς Ζ (αγγλικά)</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;\b[A-Z]{5}\b&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;ABCDE aEFGHI AB ABCDEFGHIJ NNNNN&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l</span>
+<span class="go">[&#39;ABCDE&#39;, &#39;NNNNN&#39;]</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Παράδειγμα: Βρείτε τις ετικέτες σε κώδικα HTML. Ένας <strong>λάθος</strong> (λόγω απληστίας του <tt class="docutils literal"><span class="pre">+</span></tt> που προσπαθεί να ταιριάξει όσο το δυνατόν περισσότερο κείμενο) και 2 σωστοί τρόποι (με κλάση χαρακτήρων και τη μη άπληστη μορφή του <tt class="docutils literal"><span class="pre">+?</span></tt>)</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;&lt;.+&gt;&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;this &lt;b&gt;is&lt;/b&gt; a &lt;em&gt;HTML&lt;/em&gt; text&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l</span>
+<span class="go">[&#39;&lt;b&gt;is&lt;/b&gt; a &lt;em&gt;HTML&lt;/em&gt;&#39;]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;&lt;[^&gt;]+&gt;&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;this &lt;b&gt;is&lt;/b&gt; a &lt;em&gt;HTML&lt;/em&gt; text&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l</span>
+<span class="go">[&#39;&lt;b&gt;&#39;, &#39;&lt;/b&gt;&#39;, &#39;&lt;em&gt;&#39;, &#39;&lt;/em&gt;&#39;]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;&lt;.+?&gt;&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;this &lt;b&gt;is&lt;/b&gt; a &lt;em&gt;HTML&lt;/em&gt; text&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l</span>
+<span class="go">[&#39;&lt;b&gt;&#39;, &#39;&lt;/b&gt;&#39;, &#39;&lt;em&gt;&#39;, &#39;&lt;/em&gt;&#39;]</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="sub">
+<h3>Η μέθοδος sub()<a class="headerlink" href="#sub" title="Permalink to this headline">¶</a></h3>
+<p>Δέχεται ως πρώτο όρισμα ένα string αντικατάστασης και ως δεύτερο ένα string αναζήτησης. Επιστρέφει ένα νέο string, όπου όλα τα σημεία του string αναζήτησης που ταιριάζουν με την RE έχουν αντικατασταθεί από το string αντικατάστασης.</p>
+<ul>
+<li><p class="first">Παράδειγμα: απαλοιφή διπλών ίδιων συνεχόμενων λέξεων από ένα string (προσέξτε ότι το backreference \1 απαιτεί το 1ο όρισμα της sub να είναι raw string!)</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;\b([a-z]+)\s+\1\b&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">r&#39;\1&#39;</span><span class="p">,</span><span class="s">&#39;This this is a a known fact.&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span>
+<span class="go">&#39;This is a known fact.&#39;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">Compiler Lecture Notes 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2016, mistral.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

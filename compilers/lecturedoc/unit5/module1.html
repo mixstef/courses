@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Ad hoc parsing (μόνο με το plex) &mdash; Compiler Lecture Notes 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Compiler Lecture Notes 1.0 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">Compiler Lecture Notes 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="ad-hoc-parsing-plex">
+<h1>Ad hoc parsing (μόνο με το plex)<a class="headerlink" href="#ad-hoc-parsing-plex" title="Permalink to this headline">¶</a></h1>
+<p>Ένας scanner σπάνια χρησιμοποιείται μόνος του. Συνήθως αποτελεί μέρος ενός μεγαλύτερου προγράμματος συντακτικής ανάλυσης (parser). Ο parser χρησιμοποιεί επαναληπτικά τον scanner για να εξάγει το επόμενο σύμβολο από το αρχείο εισόδου.</p>
+<p>Στη συνέχεια θα δούμε έναν ad-hoc parser, ο οποίος χρησιμοποιεί το plex για τη διαδικασία της λεκτικής ανάλυσης. Το ζητούμενο είναι η δημιουργία ενός απλού προγράμματος που θα υπολογίζει εκφράσεις του τύπου:</p>
+<ul class="simple">
+<li>id = id (ή number) + (ή -) id (ή number), π.χ.<ul>
+<li>a = b + 0.25</li>
+<li>c = a - b</li>
+</ul>
+</li>
+<li>print id, π.χ.<ul>
+<li>print a</li>
+</ul>
+</li>
+</ul>
+<p>Όπως θα φανεί στα επόμενα, η ad-hoc αυτή λύση δεν είναι κομψή και έχει πολύ περιορισμένη εκφραστική δύναμη!</p>
+<div class="section" id="python">
+<h2>Python και κλάσεις<a class="headerlink" href="#python" title="Permalink to this headline">¶</a></h2>
+<p>Η Python είναι αντικειμενοστρεφής γλώσσα και το κύριο εργαλείο για αυτό είναι οι κλάσεις. Οι κλάσεις ορίζονται ως εξής:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Test</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; a class without parent &quot;&quot;&quot;</span>
+
+        <span class="c"># put class code here</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Test2</span><span class="p">(</span><span class="n">Parent</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; a class having as parent the class Parent &quot;&quot;&quot;</span>
+
+        <span class="c"># put class code here</span>
+</pre></div>
+</div>
+<p>Για να δημιουργήσουμε αντικείμενα μιας κλάσης χρησιμοποιούμε τη σύνταξη:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">testobj</span> <span class="o">=</span> <span class="n">Test</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Οι συναρτήσεις μέσα στις κλάσεις ονομάζονται <strong>μέθοδοι</strong> και εφαρμόζονται πάνω στα αντικείμενα των κλάσεων. Οι μέθοδοι δηλώνονται με πρώτη παράμετρο το <tt class="docutils literal"><span class="pre">self</span></tt> που συμβολίζει το ίδιο το αντικείμενο. Το self χρησιμοποιείται για να αναφερθούμε σε μεταβλητές και μεθόδους του αντικειμένου της κλάσης. <strong>Προσοχή!</strong> Το όρισμα self το παρέχει κατά την κλήση της μεθόδου η Python, έτσι δεν πρέπει να το δώσουμε εμείς:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Test</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; a test class &quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">testmethod</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span>
+
+        <span class="k">def</span> <span class="nf">testmethod2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">testmethod</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Η συνάρτηση <tt class="docutils literal"><span class="pre">__init__()</span></tt> έχει ειδικό ρόλο: καλείται κατά την αρχικοποίηση ενός αντικειμένου και μπορεί να δεχτεί αρχικές παραμέτρους για το νέο αντικείμενο:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Test</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; a test class &quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">__init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">size</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">size</span>
+
+
+        <span class="k">def</span> <span class="nf">getsize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span>
+
+<span class="c"># elsewhere in program</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">Test</span><span class="p">(</span><span class="mi">34</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">getsize</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>Θα πρέπει να σημειωθεί ότι στην Python δεν υπάρχει η έννοια των ιδιωτικών (private) μεταβλητών: τα μέλη και οι συναρτήσεις μιας κλάσης μπορούν να προσπελαστούν από οποιοδήποτε σημείο του προγράμματος.</p>
+</div>
+<div class="section" id="ad-hoc-parsing">
+<h2>Ad hoc parsing: το βασικό πρόγραμμα<a class="headerlink" href="#ad-hoc-parsing" title="Permalink to this headline">¶</a></h2>
+<p>Χρησιμοποιώντας αυτές τις (πολύ απλές) γνώσεις για τις κλάσεις, μπορούμε να γράψουμε το πρόγραμμα για το ad-hoc parsing. Η κλάση <cite>MyParser</cite> χρησιμοποιεί τις εξής μεθόδους:</p>
+<ul>
+<li><p class="first"><tt class="docutils literal"><span class="pre">create_scanner(self,fp)</span></tt>: δημιουργεί ένα αντικείμενο plex scanner για το αρχείο εισόδου fp. Τα σύμβολα που αναγνωρίζονται είναι:</p>
+<ul class="simple">
+<li>number (σταθερές float στη μορφή xx.yy, .yy και xx.)</li>
+<li>οperator (+ - =)</li>
+<li>keyword (&#8220;print&#8221;)</li>
+<li>name (variable ids)</li>
+</ul>
+<p>Επιπλέον, θα πρέπει να αγνοούνται τα space, newline, tab και οτιδήποτε μεταξύ {... } (σχόλια).</p>
+<p>Η συνάρτηση επιστρέφει το αντικείμενο scanner για να χρησιμοποιηθεί στα άλλα σημεία του προγράμματος.</p>
+</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">create_scanner</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">fp</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot; Creates a plex scanner for a particular grammar</span>
+<span class="sd">        to operate on file object fp. &quot;&quot;&quot;</span>
+
+        <span class="c"># define some pattern constructs</span>
+        <span class="n">letter</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Range</span><span class="p">(</span><span class="s">&quot;AZaz&quot;</span><span class="p">)</span>
+        <span class="n">digit</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Range</span><span class="p">(</span><span class="s">&quot;09&quot;</span><span class="p">)</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">letter</span> <span class="o">+</span> <span class="n">plex</span><span class="o">.</span><span class="n">Rep</span><span class="p">(</span><span class="n">letter</span> <span class="o">|</span> <span class="n">digit</span><span class="p">)</span>
+
+        <span class="c"># both following are needed for *correct* matching of all forms of floats!</span>
+        <span class="c"># matches xx and xx.yy and xx.</span>
+        <span class="n">number1</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Rep1</span><span class="p">(</span><span class="n">digit</span><span class="p">)</span> <span class="o">+</span> <span class="n">plex</span><span class="o">.</span><span class="n">Opt</span><span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s">&quot;.&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">plex</span><span class="o">.</span><span class="n">Rep</span><span class="p">(</span><span class="n">digit</span><span class="p">))</span>
+        <span class="c"># matches .yy</span>
+        <span class="n">number2</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s">&quot;.&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">plex</span><span class="o">.</span><span class="n">Rep1</span><span class="p">(</span><span class="n">digit</span><span class="p">)</span>
+        <span class="n">number</span> <span class="o">=</span> <span class="n">number1</span> <span class="o">|</span> <span class="n">number2</span>      <span class="c"># combination of alternatives</span>
+
+        <span class="n">space</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Any</span><span class="p">(</span><span class="s">&quot; </span><span class="se">\t\n</span><span class="s">&quot;</span><span class="p">)</span>
+        <span class="n">comment</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s">&quot;{&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">plex</span><span class="o">.</span><span class="n">Rep</span><span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">AnyBut</span><span class="p">(</span><span class="s">&quot;}&quot;</span><span class="p">))</span> <span class="o">+</span> <span class="n">plex</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s">&quot;}&quot;</span><span class="p">)</span>
+        <span class="n">keyword</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">NoCase</span><span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s">&quot;print&quot;</span><span class="p">))</span>
+        <span class="n">operator</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Any</span><span class="p">(</span><span class="s">&quot;+-=&quot;</span><span class="p">)</span>
+
+        <span class="c"># the scanner lexicon - constructor argument is a list of (pattern,action ) tuples</span>
+        <span class="n">lexicon</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Lexicon</span><span class="p">([</span>
+                <span class="p">(</span><span class="n">number</span><span class="p">,</span><span class="s">&quot;NUMBER&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">operator</span><span class="p">,</span><span class="n">plex</span><span class="o">.</span><span class="n">TEXT</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">keyword</span><span class="p">,</span><span class="n">plex</span><span class="o">.</span><span class="n">TEXT</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">space</span><span class="o">|</span><span class="n">comment</span><span class="p">,</span><span class="n">plex</span><span class="o">.</span><span class="n">IGNORE</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s">&quot;ID&quot;</span><span class="p">)</span>
+                <span class="p">])</span>
+
+        <span class="c"># create and store the scanner object</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scanner</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Scanner</span><span class="p">(</span><span class="n">lexicon</span><span class="p">,</span><span class="n">fp</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">next_token(self)</span></tt>: διαβάζει το επόμενο σύμβολο από τον scanner και επιστρέφει το ζεύγος <tt class="docutils literal"><span class="pre">(next-token,matched-text)</span></tt>. Στο τέλος επιστρέφεται το ζεύγος <tt class="docutils literal"><span class="pre">(None,'')</span></tt>.</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">next_token</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot; Returns tuple (next_token,matched-text).</span>
+<span class="sd">            Scanner errors are expected to be handled in outer code.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scanner</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">parse(self,fp)</span></tt>: η κύρια συνάρτηση του προγράμματος, εδώ χωρίς λειτουργικότητα (η εκτέλεση των εντολών θα προστεθεί αργότερα):</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">fp</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot; Creates scanner for input file object fp</span>
+<span class="sd">        and executes the parse logic code. &quot;&quot;&quot;</span>
+
+        <span class="c"># create the plex scanner for fp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_scanner</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span>
+
+        <span class="c"># parse file</span>
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+
+                <span class="n">token</span><span class="p">,</span><span class="n">matched</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">next_token</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">token</span><span class="p">:</span> <span class="k">break</span>     <span class="c"># end of text found</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ad-hoc-parsing-user-defined-exceptions">
+<h2>Ad hoc parsing: προσθέτωντας user-defined exceptions<a class="headerlink" href="#ad-hoc-parsing-user-defined-exceptions" title="Permalink to this headline">¶</a></h2>
+<p>Περνώντας στην υλοποίηση των πράξεων, καλύπτουμε δύο ακόμα πιθανότητες σφαλμάτων εκτός από εκείνα του λεκτικού αναλυτή:</p>
+<ul class="simple">
+<li>parse errors: σφάλματα που προκαλούνται από συντακτικά λάθη. Τα tokens έχουν αναγνωριστεί σωστά, αλλά βρίσκονται σε λάθος θέση.</li>
+<li>run errors: σφάλματα που προκαλούνται κατά την εκτέλεση, όταν δηλαδή προσπαθούμε να διαβάσουμε τιμές από μεταβλητές που δεν έχουν τεθεί ακόμα σε κάποια τιμή.</li>
+</ul>
+<p>Στην Python μπορούμε να ορίσουμε τις δικές μας κλάσεις σφαλμάτων που κληρονομούν τη συμπεριφορά των γενικών σφαλμάτων της γλώσσας:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">ParseError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; A user defined exception class, to describe parse errors. &quot;&quot;&quot;</span>
+        <span class="k">pass</span>    <span class="c"># we don&#39;t need to override anything here!</span>
+
+
+<span class="k">class</span> <span class="nc">RunError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; A user defined exception class, to describe runtime errors. &quot;&quot;&quot;</span>
+        <span class="k">pass</span>    <span class="c"># we don&#39;t need to override anything here!</span>
+</pre></div>
+</div>
+<p>Στο σημείο του προγράμματος που εντοπίζουμε ένα λάθος, μπορούμε να προκαλέσουμε (raise) το αντίστοιχο σφάλμα:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">raise</span> <span class="n">ParseError</span><span class="p">(</span><span class="s">&quot;identifier expected after PRINT&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Στη συνέχεια αφήνουμε το κυρίως πρόγραμμα να χειριστεί όλα τα είδη λαθών:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># create the parser object</span>
+<span class="n">parser</span> <span class="o">=</span> <span class="n">MyParser</span><span class="p">()</span>
+
+<span class="c"># open file for parsing</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;ad-hoc-parsing.txt&quot;</span><span class="p">,</span><span class="s">&quot;r&quot;</span><span class="p">)</span>
+
+<span class="c"># parse file and execute instructions</span>
+<span class="k">try</span><span class="p">:</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span>
+
+<span class="k">except</span> <span class="n">plex</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">PlexError</span><span class="p">:</span>
+        <span class="n">_</span><span class="p">,</span><span class="n">lineno</span><span class="p">,</span><span class="n">charno</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">get_position</span><span class="p">()</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Scanner Error: at line {} char {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lineno</span><span class="p">,</span><span class="n">charno</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="k">except</span> <span class="n">ParseError</span> <span class="k">as</span> <span class="n">perr</span><span class="p">:</span>
+        <span class="n">_</span><span class="p">,</span><span class="n">lineno</span><span class="p">,</span><span class="n">charno</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">get_position</span><span class="p">()</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Parser Error: {} at line {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">perr</span><span class="p">,</span><span class="n">lineno</span><span class="p">))</span>
+
+<span class="k">except</span> <span class="n">RunError</span> <span class="k">as</span> <span class="n">rerr</span><span class="p">:</span>
+        <span class="n">_</span><span class="p">,</span><span class="n">lineno</span><span class="p">,</span><span class="n">charno</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">get_position</span><span class="p">()</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Runtime Error: {} at line {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rerr</span><span class="p">,</span><span class="n">lineno</span><span class="p">))</span>
+
+<span class="k">finally</span><span class="p">:</span>
+        <span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>      <span class="c"># close file, no matter what happens in parse()</span>
+</pre></div>
+</div>
+<p>Προσθέτωντας τη λειτουργικότητα της εκτέλεσης πράξεων, έχουμε το <a class="reference external" href="https://gist.github.com/mixstef/5878f6bd0070fe163c12">συνολικό πρόγραμμα</a>.</p>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">Compiler Lecture Notes 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2016, mistral.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

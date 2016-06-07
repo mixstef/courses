@@ -1,0 +1,116 @@
+Ενότητα 3-1
+===============
+Ξεκινάμε την παρουσίαση του προγραμματισμού σε χαμηλό επίπεδο (sockets) με το πρωτόκολλο UDP. Αυτό γίνεται γιατί το UDP, αν και δεν εγγυάται τη μετάδοση των δεδομένων μας, έχει ορισμένα χαρακτηριστικά που διευκολύνουν τον προγραμματισμό διαδικτυακών εφαρμογών:
+
+* Δεν υπάρχει η έννοια της σύνδεσης (connection) σε αντίθεση με το TCP. Έτσι δεν απαιτείται η χρήση threads για εξυπηρέτηση πολλαπλών clients.
+
+* Ένα πακέτο δεδομένων UDP αυτο-περιορίζει (self-delimits) τα δεδομένα του. Όταν το λάβετε ξέρετε ότι τα δεδομένα που σας έστειλαν είναι αυτά και μόνον αυτά: ούτε λιγότερα, ούτε περισσότερα! Σε επόμενα θα δούμε ότι στο TCP τα πράγματα δεν είναι τόσο απλά.
+
+
+Python και Sockets
+-------------------
+Χρησιμοποιούμε το ``socket`` module της standard βιβλιοθήκης. Αυτό δεν είναι παρά ένα περιτύλιγμα των κλασσικών διαδικτυακών βιβλιοθηκών συστήματος σε C. Συνεπώς μπορούμε να ανατρέξουμε και στα αντίστοιχα εγχειρίδια, εάν η τεκμηρίωση του module δεν μας καλύπτει.
+
+Χωρίς να αναφερθούμε στη θεωρία των διαδικτυακών πρωτοκόλλων (θεωρούμε ότι γνωρίζουμε τα βασικά!), παραθέτουμε μια σειρά εννοιών που είναι σχετικές τόσο με το UDP, όσο και με το TCP:
+
+* **Διευθύνσεις:** αποτελούνται από δύο μέρη,
+
+  * τη διεύθυνση IP (πολλές φορές ονομάζεται "host" ή "interface", εφόσον αντιστοιχεί μια διεύθυνση ανά δικτυακή σύνδεση του υπολογιστή)
+  * τον αριθμό port. Εάν το πρόγραμμά μας παίζει τον ρόλο του 'server' πρέπει να 'δεθεί' (bind) σε γνωστό port για να ξέρουν οι clients πού θα συνδεθούν. Τυπικά μια εφαρμογή χωρίς δικαιώματα superuser μπορεί να δεθεί μόνο σε ports > 1023.
+  
+  Οι διευθύνσεις στην Python είναι **πάντα** μια πλειάδα (tuple) με δύο μέρη: ``(IP address,port)``.
+  
+    * Το IP address είναι πάντα τύπου string και το port αριθμός.
+  
+    * Η ειδική διεύθυνση IP "INADDR_ANY" (οποιαδήποτε IP address) συμβολίζεται με το κενό string ``''``.
+    
+    * Η ειδική διεύθυνση ``'localhost'`` (127.0.0.1) διακινεί πακέτα μέσα στον υπολογιστή μας, χωρίς έξοδο στο διαδίκτυο.
+    
+* **Μέγιστος αριθμός λαμβανόμενων δεδομένων**: όλες οι συναρτήσεις λήψης για το UDP ή το TCP, δέχονται ως παράμετρο ``bufsize`` τον μέγιστο αριθμό δεδομένων που μπορούν να επιστρέψουν.
+
+  * Αυτό **δεν σημαίνει** ότι η συνάρτηση λήψης θα επιστρέψει μόνον αφού εμφανιστούν ``bufsize`` bytes δεδομένων! Μπορεί να επιστρέψει και με λιγότερα δεδομένα.
+  
+  * Αν τα δεδομένα που έχουν φτάσει είναι περισσότερα από ``bufsize`` bytes, η συνάρτηση λήψης θα επιστρέψει ακριβώς ``bufsize`` bytes. Θα πρέπει να επαναλάβουμε την κλήση της συνάρτησης και για τα υπόλοιπα.
+  
+  .. note::
+     Συνήθως χρησιμοποιούμε ως ``bufsize`` έναν αριθμό δύναμη του 2, μεταξύ των 1024 και 4096. Αν και κάποια στιγμή θα μπούμε στον πειρασμό να χρησιμοποιήσουμε μεγαλύτερα νούμερα, δεν υπάρχει πρακτικό όφελος.
+     
+     ::
+
+        For best match with hardware and network realities, the value of bufsize
+        should be a relatively small power of 2, for example, 4096.
+        		-- Python Standard Libray Documentation, socket module.
+
+* **Δημιουργία sockets**: Χρησιμοποιούμε τη μέθοδο ``socket.socket()`` για τη δημιουργία αντικειμένων socket. Η μέθοδος δέχεται διάφορες παραμέτρους, όπως:
+
+  * Socket family: στα παραδείγματά μας είναι πάντα AF_INET  (internet socket, IPv4).
+  
+  * Socket type: στα παραδείγματά μας SOCK_DGRAM (για UDP) και SOCK_STREAM (για TCP).
+  
+  
+* **'Δέσιμο' με διεύθυνση λήψης**: μετά τη δημιουργία του, ένα socket είναι 'unbound'. Για να 'δεθεί' με συγκεκριμένη διεύθυνση χρησιμοποιούμε τη μέθοδο ``bind()``. Αυτό χρειάζεται μόνο για τα sockets των εφαρμογών server.
+
+* **Κλείσιμο socket**: Η σωστή τακτική είναι να χρησιμοποιούμε ρητά τη μέθοδο ``close()``. H Python πάντως θα κλείσει αυτόματα οποιαδήποτε socket είναι ανοικτά κατά τον τερματισμό του προγράμματος.
+
+
+Απλός UDP server και client
+------------------------------
+Στο παράδειγμα που ακολουθεί, παρουσιάζεται ο κώδικας για έναν απλό UDP server:
+
+.. comment: following code based on udp-server1.py
+
+..	code-block:: python
+
+	import socket
+
+	# create a datagram socket 
+	serversock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+
+	# Bind server socket to an arbitrary non-privileged port number.
+	# Here host is '', meaning INADDR_ANY (any interface)
+	serversock.bind(('',50007))	# NOTE: tuple argument!
+
+	# run until manually killed, serversock will be garbage collected
+	while True:
+
+		requestdata,addr = serversock.recvfrom(1024)	# max read at once 1024 bytes - blocking call!!
+								
+		print "server: from %s received data=%s" % (repr(addr),requestdata)
+
+Ο αντίστοιχος UDP client:
+
+.. comment: following code based on udp-client1.py
+
+..	code-block:: python
+
+	import socket
+	import sys
+
+	# check if an addr is given as argument
+	host = 'localhost'
+	if len(sys.argv)>1: host = sys.argv[1] 
+
+	# create the client socket object - no difference from 'server' socket!
+	clientsock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+
+	while True:
+		# get a series of msgs from user
+		tosend = raw_input("client: enter string to send>")
+		if tosend=='': break
+
+		# send string
+		clientsock.sendto(tosend,(host,50007))
+	
+
+	# close socket
+	clientsock.close()
+
+Παρατηρήσεις
+^^^^^^^^^^^^^^
+
+* Στο UDP χρησιμοποιούμε τη συνάρτηση λήψης ``recvfrom``, η οποία επιστρέφει, εκτός από τα δεδομένα, τη διεύθυνση (IP,port) του αποστολέα. Με βάση αυτή τη διεύθυνση μπορούμε να απαντήσουμε, εάν αυτό είναι επιθυμητό.
+
+* Στο UDP χρησιμοποιούμε τη συνάρτηση αποστολής ``sendto``, η οποία δέχεται ως ορίσματα τα δεδομένα αποστολής (πρέπει να χωράνε σε ένα πακέτο UDP) και τη διεύθυνση (IP,port) προορισμού.
+
+* Στο UDP τα client και server μέρη είναι **απολύτως ισοδύναμα** (κάτι που δεν συμβαίνει με το TCP). Απλά 'δένουμε' το socket του server σε γνωστή διεύθυνση για να ξέρουν οι clients πού θα συνδεθούν.
+ 

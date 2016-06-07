@@ -1,0 +1,113 @@
+Ενότητα 4-2
+==============
+
+Στατικές μεταβλητές-μέλη κλάσης
+---------------------------------
+Κάθε αντικείμενο μιας κλάσης διαθέτει τις δικές του μεταβλητές, οι οποίες είναι εντελώς διαφορετικές από εκείνες κάθε άλλου αντικειμένου της ίδιας κλάσης. Σε ορισμένες περιπτώσεις όμως είναι βολικό να έχουμε **μία και μοναδική** μεταβλητή **για όλα τα αντικείμενα** της κλάσης. Η μεταβλητή αυτή εννοιολογικά "ανήκει στην κλάση". Αυτό επιτυγχάνεται δηλώνοντας μια μεταβλητή μέλος ως static, όπως η μεταβλητή k της κλάσης Test του παραδείγματος:
+
+.. literalinclude:: teststaticmembervar.cpp
+   :language: c++
+
+Παρατηρήστε ότι:
+
+* Η μεταβλητή static δηλώνεται μέσα στην κλάση.
+* Ορίζεται και αρχικοποιείται ξεχωριστά.
+* Μπορείτε να την προσπελάσετε (αν είναι public φυσικά) έξω από την κλάση ως object.varname ή Class::varname.
+
+Κληρονομικότητα - βασικές οδηγίες
+------------------------------------
+Στη C++ μια κλάση μπορεί να οριστεί ως απόγονος μιας κλάσης-βάσης, όπως η Child ως προς την Test:
+
+.. code-block:: c++
+
+   class Test {
+   public:
+     int pbi;
+     Test(int,int,int);
+   protected:
+     int pri;
+   private:
+     int pvi;  
+   };
+
+   class Child: public Test {
+   public:
+     Child(int,int,int);	// used for the benefit of Test constructor
+     void printSth();
+  };
+
+* Όταν δημιουργείται ένα αντικείμενο της κλάσης Child, κληρονομεί όλα τα μέλη της κλάσης Test.
+* Ο κώδικας του Child μπορεί να προσπελάσει τα public και protected μέλη της Test, **όχι όμως και τα private**.
+* H C++ στη δημιουργία του αντικειμένου Child θα καλέσει πρώτα τον constructor της Test και μετά του Child.
+
+Παρόλο που το Child του παραδείγματος δεν έχει μεταβλητές μέλη, χρειάζεται έναν constructor για να προμηθεύει τιμές στον constructor της Test! Το πέρασμα των παραμέτρων στον constructor της κλάσης βάσης Test γίνεται παρόμοια με την αρχικοποίηση των μεταβλητών.  
+
+.. code-block:: c++
+
+   Test::Test(int i,int j,int k): pbi(i),pri(j),pvi(k) {
+   
+   }
+
+   Child::Child(int i,int j,int k): Test(i,j,k) { // pass parameters to base constructor
+   
+   }
+
+Στη δήλωση class Child: public Test η λέξη κλειδί public μπορεί να αντικατασταθεί με τα protected και private, καθορίζοντας πώς οι τρίτοι (όχι η Child!) θα βλέπουν τα μέλη της Child.
+
+* Η δήλωση class Child: public Test σημαίνει ότι τα public (protected)  μέλη της Test θα είναι public (protected) στην Child. 
+* Η δήλωση class Child: protected Test σημαίνει ότι τα public (protected)  μέλη της Test θα είναι protected (protected) στην Child. 
+* Η δήλωση class Child: private Test σημαίνει ότι τα public (protected)  μέλη της Test θα είναι private (private) στην Child. 
+
+.. note::
+   Στις απλές περιπτώσεις αρκεί το public, όπως στο class Child: public Test.
+   
+Ένα απλό παράδειγμα
+---------------------------
+Για τη χρήση αντικειμένων κλάσης ως "εγγραφές" (records) με τα στοιχεία εργαζομένων (employees).
+
+(:download:`πηγαίος κώδικας<simpleclass0.cpp>`)
+
+.. literalinclude:: simpleclass0.cpp
+   :language: c++
+
+Στο παράδειγμα αυτό:
+
+* Ο constructor δηλώνεται ως
+
+  .. code-block:: c++
+
+     Employee(const string &fs,const string &ls,int ag,double sal);
+   
+  .. note::
+     Στον κώδικα του constructor δεν ελέγχονται οι παράμετροι εισόδου: τίποτα δεν εμποδίζει το age να είναι 0 ή το salary αρνητικό. Αυτό δεν είναι επιτρεπτό σε μια κανονική εφαρμογή!
+      
+* Παρέχονται getters για την προσπέλαση των private μεταβλητών firstname, lastname, age και salary
+
+  .. code-block:: c++
+
+     string get_firstname() { return firstname; }
+     string get_lastname() { return lastname; }
+     int get_age() { return age; }
+     double get_salary() { return salary; } 
+
+* Μέσω της υπερφόρτωσης του τελεστή << 
+
+  .. code-block:: c++
+
+     ostream &operator<<(ostream &stream,const Employee &empl) {
+       // function must be declared friend of Employee for the following to work!
+       stream << empl.firstname << " " << empl.lastname << "," << empl.age << "->" << empl.salary;
+       return stream;	// this must be returned, in order to work with concatenated <<
+     }
+     
+  μπορούμε να γράψουμε:
+
+  .. code-block:: c++
+
+     cout << empl << endl;
+     
+  .. note::
+     Η υπερφόρτωση τελεστών δεν έχει αναφερθεί ακόμα, προς το παρόν παρατηρήστε πώς υλοποιείται μέσω συνάρτησης **friend** της κλάσης Employee (συνάρτηση που δεν ανήκει στην κλάση κι όμως έχει δικαίωμα προσπέλασης ακόμα και στα private μέλη της κλάσης).  
+     
+Για κάθε μη τετριμμένο παράδειγμα κώδικα με κλάσεις, η σωστή υλοποίηση πρέπει να τοποθετεί τη δήλωση και τον κώδικα της κλάσης **σε ξεχωριστά από το main() αρχεία**. Με την τεχνική αυτή θα ασχοληθούμε στη συνέχεια.
+

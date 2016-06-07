@@ -1,0 +1,221 @@
+Ad hoc parsing (μόνο με το plex)
+==================================
+Ένας scanner σπάνια χρησιμοποιείται μόνος του. Συνήθως αποτελεί μέρος ενός μεγαλύτερου προγράμματος συντακτικής ανάλυσης (parser). Ο parser χρησιμοποιεί επαναληπτικά τον scanner για να εξάγει το επόμενο σύμβολο από το αρχείο εισόδου.
+
+Στη συνέχεια θα δούμε έναν ad-hoc parser, ο οποίος χρησιμοποιεί το plex για τη διαδικασία της λεκτικής ανάλυσης. Το ζητούμενο είναι η δημιουργία ενός απλού προγράμματος που θα υπολογίζει εκφράσεις του τύπου:
+
+* id = id (ή number) + (ή -) id (ή number), π.χ.
+
+  * a = b + 0.25
+  * c = a - b
+  
+* print id, π.χ.
+
+  * print a
+     
+Όπως θα φανεί στα επόμενα, η ad-hoc αυτή λύση δεν είναι κομψή και έχει πολύ περιορισμένη εκφραστική δύναμη! 
+
+Python και κλάσεις
+----------------------
+Η Python είναι αντικειμενοστρεφής γλώσσα και το κύριο εργαλείο για αυτό είναι οι κλάσεις. Οι κλάσεις ορίζονται ως εξής:
+
+..	code-block:: python
+     
+	class Test:
+		""" a class without parent """
+		
+		# put class code here
+
+
+..	code-block:: python
+     
+	class Test2(Parent):
+		""" a class having as parent the class Parent """
+		
+		# put class code here
+
+Για να δημιουργήσουμε αντικείμενα μιας κλάσης χρησιμοποιούμε τη σύνταξη:
+
+..	code-block:: python
+     
+	testobj = Test()
+
+Οι συναρτήσεις μέσα στις κλάσεις ονομάζονται **μέθοδοι** και εφαρμόζονται πάνω στα αντικείμενα των κλάσεων. Οι μέθοδοι δηλώνονται με πρώτη παράμετρο το ``self`` που συμβολίζει το ίδιο το αντικείμενο. Το self χρησιμοποιείται για να αναφερθούμε σε μεταβλητές και μεθόδους του αντικειμένου της κλάσης. **Προσοχή!** Το όρισμα self το παρέχει κατά την κλήση της μεθόδου η Python, έτσι δεν πρέπει να το δώσουμε εμείς:
+
+..	code-block:: python
+     
+	class Test:
+		""" a test class """
+		
+		def testmethod(self,a,b):
+			self.t = a+b
+ 			
+		def testmethod2(self):
+			self.testmethod(3,4) 
+
+
+Η συνάρτηση ``__init__()`` έχει ειδικό ρόλο: καλείται κατά την αρχικοποίηση ενός αντικειμένου και μπορεί να δεχτεί αρχικές παραμέτρους για το νέο αντικείμενο:
+
+..	code-block:: python
+     
+	class Test:
+		""" a test class """
+
+		def __init(self,size):
+			self.size = size
+			
+		
+		def getsize(self):
+			return self.size
+			
+	# elsewhere in program
+	t = Test(34)
+	print(t.getsize())
+		
+Θα πρέπει να σημειωθεί ότι στην Python δεν υπάρχει η έννοια των ιδιωτικών (private) μεταβλητών: τα μέλη και οι συναρτήσεις μιας κλάσης μπορούν να προσπελαστούν από οποιοδήποτε σημείο του προγράμματος.
+
+
+Ad hoc parsing: το βασικό πρόγραμμα
+---------------------------------------
+Χρησιμοποιώντας αυτές τις (πολύ απλές) γνώσεις για τις κλάσεις, μπορούμε να γράψουμε το πρόγραμμα για το ad-hoc parsing. Η κλάση `MyParser` χρησιμοποιεί τις εξής μεθόδους:
+
+* ``create_scanner(self,fp)``: δημιουργεί ένα αντικείμενο plex scanner για το αρχείο εισόδου fp. Τα σύμβολα που αναγνωρίζονται είναι:
+
+  * number (σταθερές float στη μορφή xx.yy, .yy και xx.)
+  * οperator (+ - =)
+  * keyword ("print")
+  * name (variable ids)
+  
+  Επιπλέον, θα πρέπει να αγνοούνται τα space, newline, tab και οτιδήποτε μεταξύ {... } (σχόλια).
+  
+  Η συνάρτηση επιστρέφει το αντικείμενο scanner για να χρησιμοποιηθεί στα άλλα σημεία του προγράμματος.
+
+..	code-block:: python
+     
+	def create_scanner(self,fp):
+	
+		""" Creates a plex scanner for a particular grammar 
+		to operate on file object fp. """
+
+		# define some pattern constructs
+		letter = plex.Range("AZaz")
+		digit = plex.Range("09")
+		name = letter + plex.Rep(letter | digit)
+
+		# both following are needed for *correct* matching of all forms of floats!
+		# matches xx and xx.yy and xx. 
+		number1 = plex.Rep1(digit) + plex.Opt(plex.Str(".") + plex.Rep(digit))
+		# matches .yy 
+		number2 = plex.Str(".") + plex.Rep1(digit)
+		number = number1 | number2	# combination of alternatives
+
+		space = plex.Any(" \t\n")
+		comment = plex.Str("{") + plex.Rep(plex.AnyBut("}")) + plex.Str("}")
+		keyword = plex.NoCase(plex.Str("print"))
+		operator = plex.Any("+-=")
+
+		# the scanner lexicon - constructor argument is a list of (pattern,action ) tuples
+		lexicon = plex.Lexicon([
+			(number,"NUMBER"),
+			(operator,plex.TEXT),
+			(keyword,plex.TEXT),
+			(space|comment,plex.IGNORE),
+			(name, "ID")
+			])
+
+		# create and store the scanner object
+		self.scanner = plex.Scanner(lexicon,fp)
+  
+
+* ``next_token(self)``: διαβάζει το επόμενο σύμβολο από τον scanner και επιστρέφει το ζεύγος ``(next-token,matched-text)``. Στο τέλος επιστρέφεται το ζεύγος ``(None,'')``.
+
+..	code-block:: python
+     
+	def next_token(self):
+	
+		""" Returns tuple (next_token,matched-text).
+		    Scanner errors are expected to be handled in outer code."""
+		
+		return self.scanner.read()	
+
+
+* ``parse(self,fp)``: η κύρια συνάρτηση του προγράμματος, εδώ χωρίς λειτουργικότητα (η εκτέλεση των εντολών θα προστεθεί αργότερα):
+
+..	code-block:: python
+     
+	def parse(self,fp):
+	
+		""" Creates scanner for input file object fp
+		and executes the parse logic code. """
+		
+		# create the plex scanner for fp
+		self.create_scanner(fp)
+		
+		# parse file		 
+		while True:
+		
+			token,matched = self.next_token()
+	
+			if not token: break	# end of text found
+
+
+Ad hoc parsing: προσθέτωντας user-defined exceptions
+---------------------------------------------------------
+Περνώντας στην υλοποίηση των πράξεων, καλύπτουμε δύο ακόμα πιθανότητες σφαλμάτων εκτός από εκείνα του λεκτικού αναλυτή:
+
+* parse errors: σφάλματα που προκαλούνται από συντακτικά λάθη. Τα tokens έχουν αναγνωριστεί σωστά, αλλά βρίσκονται σε λάθος θέση.
+* run errors: σφάλματα που προκαλούνται κατά την εκτέλεση, όταν δηλαδή προσπαθούμε να διαβάσουμε τιμές από μεταβλητές που δεν έχουν τεθεί ακόμα σε κάποια τιμή.
+
+Στην Python μπορούμε να ορίσουμε τις δικές μας κλάσεις σφαλμάτων που κληρονομούν τη συμπεριφορά των γενικών σφαλμάτων της γλώσσας:
+
+..	code-block:: python
+     
+	class ParseError(Exception):
+		""" A user defined exception class, to describe parse errors. """
+		pass	# we don't need to override anything here!
+
+
+	class RunError(Exception):
+		""" A user defined exception class, to describe runtime errors. """
+		pass	# we don't need to override anything here!
+
+Στο σημείο του προγράμματος που εντοπίζουμε ένα λάθος, μπορούμε να προκαλέσουμε (raise) το αντίστοιχο σφάλμα:
+
+..	code-block:: python
+     
+	raise ParseError("identifier expected after PRINT") 
+
+Στη συνέχεια αφήνουμε το κυρίως πρόγραμμα να χειριστεί όλα τα είδη λαθών:
+
+..	code-block:: python
+     
+	# create the parser object
+	parser = MyParser()
+
+	# open file for parsing
+	fp = open("ad-hoc-parsing.txt","r")
+
+	# parse file and execute instructions
+	try:
+		parser.parse(fp)
+	
+	except plex.errors.PlexError:
+		_,lineno,charno = parser.get_position()	
+		print("Scanner Error: at line {} char {}".format(lineno,charno+1))
+	
+	except ParseError as perr:
+		_,lineno,charno = parser.get_position()	
+		print("Parser Error: {} at line {}".format(perr,lineno))
+
+	except RunError as rerr:
+		_,lineno,charno = parser.get_position()	
+		print("Runtime Error: {} at line {}".format(rerr,lineno))
+	
+	finally:
+		fp.close()	# close file, no matter what happens in parse()
+
+
+Προσθέτωντας τη λειτουργικότητα της εκτέλεσης πράξεων, έχουμε το `συνολικό πρόγραμμα <https://gist.github.com/mixstef/5878f6bd0070fe163c12>`_.
+ 
+
+

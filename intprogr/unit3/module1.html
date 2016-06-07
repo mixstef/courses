@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Ενότητα 3-1 &mdash; Internet Programming Lectures v1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Internet Programming Lectures v1.0 documentation" href="../index.html" />
+    <link rel="next" title="Ενότητα 3-2" href="module2.html" />
+    <link rel="prev" title="Ενότητα 2-4" href="../unit2/module4.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="module2.html" title="Ενότητα 3-2"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../unit2/module4.html" title="Ενότητα 2-4"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Internet Programming Lectures v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>Ενότητα 3-1<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>Ξεκινάμε την παρουσίαση του προγραμματισμού σε χαμηλό επίπεδο (sockets) με το πρωτόκολλο UDP. Αυτό γίνεται γιατί το UDP, αν και δεν εγγυάται τη μετάδοση των δεδομένων μας, έχει ορισμένα χαρακτηριστικά που διευκολύνουν τον προγραμματισμό διαδικτυακών εφαρμογών:</p>
+<ul class="simple">
+<li>Δεν υπάρχει η έννοια της σύνδεσης (connection) σε αντίθεση με το TCP. Έτσι δεν απαιτείται η χρήση threads για εξυπηρέτηση πολλαπλών clients.</li>
+<li>Ένα πακέτο δεδομένων UDP αυτο-περιορίζει (self-delimits) τα δεδομένα του. Όταν το λάβετε ξέρετε ότι τα δεδομένα που σας έστειλαν είναι αυτά και μόνον αυτά: ούτε λιγότερα, ούτε περισσότερα! Σε επόμενα θα δούμε ότι στο TCP τα πράγματα δεν είναι τόσο απλά.</li>
+</ul>
+<div class="section" id="python-sockets">
+<h2>Python και Sockets<a class="headerlink" href="#python-sockets" title="Permalink to this headline">¶</a></h2>
+<p>Χρησιμοποιούμε το <tt class="docutils literal"><span class="pre">socket</span></tt> module της standard βιβλιοθήκης. Αυτό δεν είναι παρά ένα περιτύλιγμα των κλασσικών διαδικτυακών βιβλιοθηκών συστήματος σε C. Συνεπώς μπορούμε να ανατρέξουμε και στα αντίστοιχα εγχειρίδια, εάν η τεκμηρίωση του module δεν μας καλύπτει.</p>
+<p>Χωρίς να αναφερθούμε στη θεωρία των διαδικτυακών πρωτοκόλλων (θεωρούμε ότι γνωρίζουμε τα βασικά!), παραθέτουμε μια σειρά εννοιών που είναι σχετικές τόσο με το UDP, όσο και με το TCP:</p>
+<ul>
+<li><p class="first"><strong>Διευθύνσεις:</strong> αποτελούνται από δύο μέρη,</p>
+<ul class="simple">
+<li>τη διεύθυνση IP (πολλές φορές ονομάζεται &#8220;host&#8221; ή &#8220;interface&#8221;, εφόσον αντιστοιχεί μια διεύθυνση ανά δικτυακή σύνδεση του υπολογιστή)</li>
+<li>τον αριθμό port. Εάν το πρόγραμμά μας παίζει τον ρόλο του &#8216;server&#8217; πρέπει να &#8216;δεθεί&#8217; (bind) σε γνωστό port για να ξέρουν οι clients πού θα συνδεθούν. Τυπικά μια εφαρμογή χωρίς δικαιώματα superuser μπορεί να δεθεί μόνο σε ports &gt; 1023.</li>
+</ul>
+<p>Οι διευθύνσεις στην Python είναι <strong>πάντα</strong> μια πλειάδα (tuple) με δύο μέρη: <tt class="docutils literal"><span class="pre">(IP</span> <span class="pre">address,port)</span></tt>.</p>
+<blockquote>
+<ul class="simple">
+<li>Το IP address είναι πάντα τύπου string και το port αριθμός.</li>
+<li>Η ειδική διεύθυνση IP &#8220;INADDR_ANY&#8221; (οποιαδήποτε IP address) συμβολίζεται με το κενό string <tt class="docutils literal"><span class="pre">''</span></tt>.</li>
+<li>Η ειδική διεύθυνση <tt class="docutils literal"><span class="pre">'localhost'</span></tt> (127.0.0.1) διακινεί πακέτα μέσα στον υπολογιστή μας, χωρίς έξοδο στο διαδίκτυο.</li>
+</ul>
+</blockquote>
+</li>
+<li><p class="first"><strong>Μέγιστος αριθμός λαμβανόμενων δεδομένων</strong>: όλες οι συναρτήσεις λήψης για το UDP ή το TCP, δέχονται ως παράμετρο <tt class="docutils literal"><span class="pre">bufsize</span></tt> τον μέγιστο αριθμό δεδομένων που μπορούν να επιστρέψουν.</p>
+<ul class="simple">
+<li>Αυτό <strong>δεν σημαίνει</strong> ότι η συνάρτηση λήψης θα επιστρέψει μόνον αφού εμφανιστούν <tt class="docutils literal"><span class="pre">bufsize</span></tt> bytes δεδομένων! Μπορεί να επιστρέψει και με λιγότερα δεδομένα.</li>
+<li>Αν τα δεδομένα που έχουν φτάσει είναι περισσότερα από <tt class="docutils literal"><span class="pre">bufsize</span></tt> bytes, η συνάρτηση λήψης θα επιστρέψει ακριβώς <tt class="docutils literal"><span class="pre">bufsize</span></tt> bytes. Θα πρέπει να επαναλάβουμε την κλήση της συνάρτησης και για τα υπόλοιπα.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Συνήθως χρησιμοποιούμε ως <tt class="docutils literal"><span class="pre">bufsize</span></tt> έναν αριθμό δύναμη του 2, μεταξύ των 1024 και 4096. Αν και κάποια στιγμή θα μπούμε στον πειρασμό να χρησιμοποιήσουμε μεγαλύτερα νούμερα, δεν υπάρχει πρακτικό όφελος.</p>
+<div class="last highlight-python"><pre>For best match with hardware and network realities, the value of bufsize
+should be a relatively small power of 2, for example, 4096.
+                -- Python Standard Libray Documentation, socket module.</pre>
+</div>
+</div>
+</li>
+<li><p class="first"><strong>Δημιουργία sockets</strong>: Χρησιμοποιούμε τη μέθοδο <tt class="docutils literal"><span class="pre">socket.socket()</span></tt> για τη δημιουργία αντικειμένων socket. Η μέθοδος δέχεται διάφορες παραμέτρους, όπως:</p>
+<ul class="simple">
+<li>Socket family: στα παραδείγματά μας είναι πάντα AF_INET  (internet socket, IPv4).</li>
+<li>Socket type: στα παραδείγματά μας SOCK_DGRAM (για UDP) και SOCK_STREAM (για TCP).</li>
+</ul>
+</li>
+<li><p class="first"><strong>&#8216;Δέσιμο&#8217; με διεύθυνση λήψης</strong>: μετά τη δημιουργία του, ένα socket είναι &#8216;unbound&#8217;. Για να &#8216;δεθεί&#8217; με συγκεκριμένη διεύθυνση χρησιμοποιούμε τη μέθοδο <tt class="docutils literal"><span class="pre">bind()</span></tt>. Αυτό χρειάζεται μόνο για τα sockets των εφαρμογών server.</p>
+</li>
+<li><p class="first"><strong>Κλείσιμο socket</strong>: Η σωστή τακτική είναι να χρησιμοποιούμε ρητά τη μέθοδο <tt class="docutils literal"><span class="pre">close()</span></tt>. H Python πάντως θα κλείσει αυτόματα οποιαδήποτε socket είναι ανοικτά κατά τον τερματισμό του προγράμματος.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="udp-server-client">
+<h2>Απλός UDP server και client<a class="headerlink" href="#udp-server-client" title="Permalink to this headline">¶</a></h2>
+<p>Στο παράδειγμα που ακολουθεί, παρουσιάζεται ο κώδικας για έναν απλό UDP server:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">socket</span>
+
+<span class="c"># create a datagram socket</span>
+<span class="n">serversock</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span><span class="n">socket</span><span class="o">.</span><span class="n">SOCK_DGRAM</span><span class="p">)</span>
+
+<span class="c"># Bind server socket to an arbitrary non-privileged port number.</span>
+<span class="c"># Here host is &#39;&#39;, meaning INADDR_ANY (any interface)</span>
+<span class="n">serversock</span><span class="o">.</span><span class="n">bind</span><span class="p">((</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="mi">50007</span><span class="p">))</span>     <span class="c"># NOTE: tuple argument!</span>
+
+<span class="c"># run until manually killed, serversock will be garbage collected</span>
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+
+        <span class="n">requestdata</span><span class="p">,</span><span class="n">addr</span> <span class="o">=</span> <span class="n">serversock</span><span class="o">.</span><span class="n">recvfrom</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>    <span class="c"># max read at once 1024 bytes - blocking call!!</span>
+
+        <span class="k">print</span> <span class="s">&quot;server: from </span><span class="si">%s</span><span class="s"> received data=</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">addr</span><span class="p">),</span><span class="n">requestdata</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Ο αντίστοιχος UDP client:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">socket</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="c"># check if an addr is given as argument</span>
+<span class="n">host</span> <span class="o">=</span> <span class="s">&#39;localhost&#39;</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span> <span class="n">host</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c"># create the client socket object - no difference from &#39;server&#39; socket!</span>
+<span class="n">clientsock</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span><span class="n">socket</span><span class="o">.</span><span class="n">SOCK_DGRAM</span><span class="p">)</span>
+
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="c"># get a series of msgs from user</span>
+        <span class="n">tosend</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">&quot;client: enter string to send&gt;&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tosend</span><span class="o">==</span><span class="s">&#39;&#39;</span><span class="p">:</span> <span class="k">break</span>
+
+        <span class="c"># send string</span>
+        <span class="n">clientsock</span><span class="o">.</span><span class="n">sendto</span><span class="p">(</span><span class="n">tosend</span><span class="p">,(</span><span class="n">host</span><span class="p">,</span><span class="mi">50007</span><span class="p">))</span>
+
+
+<span class="c"># close socket</span>
+<span class="n">clientsock</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="section" id="id2">
+<h3>Παρατηρήσεις<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Στο UDP χρησιμοποιούμε τη συνάρτηση λήψης <tt class="docutils literal"><span class="pre">recvfrom</span></tt>, η οποία επιστρέφει, εκτός από τα δεδομένα, τη διεύθυνση (IP,port) του αποστολέα. Με βάση αυτή τη διεύθυνση μπορούμε να απαντήσουμε, εάν αυτό είναι επιθυμητό.</li>
+<li>Στο UDP χρησιμοποιούμε τη συνάρτηση αποστολής <tt class="docutils literal"><span class="pre">sendto</span></tt>, η οποία δέχεται ως ορίσματα τα δεδομένα αποστολής (πρέπει να χωράνε σε ένα πακέτο UDP) και τη διεύθυνση (IP,port) προορισμού.</li>
+<li>Στο UDP τα client και server μέρη είναι <strong>απολύτως ισοδύναμα</strong> (κάτι που δεν συμβαίνει με το TCP). Απλά &#8216;δένουμε&#8217; το socket του server σε γνωστή διεύθυνση για να ξέρουν οι clients πού θα συνδεθούν.</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="module2.html" title="Ενότητα 3-2"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../unit2/module4.html" title="Ενότητα 2-4"
+             >previous</a> |</li>
+        <li><a href="../index.html">Internet Programming Lectures v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2011, mistral.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.6.
+    </div>
+  </body>
+</html>

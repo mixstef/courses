@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Recursive descent parsing &mdash; Compiler Lecture Notes 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Compiler Lecture Notes 1.0 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">Compiler Lecture Notes 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="recursive-descent-parsing">
+<h1>Recursive descent parsing<a class="headerlink" href="#recursive-descent-parsing" title="Permalink to this headline">¶</a></h1>
+<p>Η μέθοδος συντακτικής ανάλυσης LL(1) (left-to-right,leftmost-production, 1 lookahead) αν και όχι κατάλληλη για κάθε τύπου γραμματικές, επιτρέπει την εύκολη κατασκευή &#8220;στο χέρι&#8221; top-down parsers μέσω προγραμμάτων αναδρομής (recursive descent). Στη γενική μορφή τους, τα προγράμματα αυτά εκμεταλλεύονται τη &#8220;φυσική&#8221; οργάνωση σε συναρτήσεις, τις αναδρομικές κλήσεις και τις επιστρεφόμενες τιμές για την υλοποίηση του συντακτικού αναλυτή.</p>
+<div class="section" id="first-sets">
+<h2>FIRST sets<a class="headerlink" href="#first-sets" title="Permalink to this headline">¶</a></h2>
+<p>Το FIRST(x) περιλαμβάνει όλα τα τερματικά σύμβολα, από τα οποία μπορεί να ξεκινάει μια παραγωγή από το x, σε 0 η περισσότερα βήματα. Πρακτικά, ξεκινώντας από κενά FIRST sets, επαναλαμβάνουμε για κάθε κανόνα:</p>
+<ul class="simple">
+<li>Εάν το δεξί μέρος ξεκινά με τερματικό σύμβολο ή ε, προσθέτουμε το σύμβολο αυτό στο FIRST set του αριστερού μέρους.</li>
+<li>Αλλιώς, εάν το δεξί μέρος ξεκινά με μη τερματικό σύμβολο, προσθέτουμε το τρέχον FIRST set του μη τερματικού αυτού συμβόλου στο FIRST set του αριστερού μέρους.<ul>
+<li>Εάν συναντήσουμε το ε στο FIRST set του μη τερματικού συμβόλου που προσθέτουμε, αντικαθιστούμε το ε με το τρέχον FIRST set του μη τερματικού συμβόλου που ακολουθεί. Αυτό μπορεί να γίνει διαδοχικά (chain mode). Εάν δεν υπάρχει επόμενο μη τερματικό σύμβολο χωρίς ε, προσθέτουμε το ε στο τελικό FIRST set.</li>
+</ul>
+</li>
+<li>Επαναλαμβάνουμε ξανά τη διαδικασία για όλους τους κανόνες, έως ότου να μην υπάρχουν νέες προσθήκες στα FIRST sets.</li>
+</ul>
+</div>
+<div class="section" id="follow-sets">
+<h2>FOLLOW sets<a class="headerlink" href="#follow-sets" title="Permalink to this headline">¶</a></h2>
+<p>Για τα μη τερματικά σύμβολα που περιέχουν το ε στο FIRST set τους, είναι αναγκαία η εύρεση των αντίστοιχων FOLLOW sets: την ένωση όλων των πιθανών τερματικών συμβόλων (από όλους τους κανόνες) που μπορεί να ακολουθούν κάθε τέτοιο μη τερματικό σύμβολο.</p>
+<p>Η πρακτική διαδικασία έχει ως εξής:</p>
+<ul class="simple">
+<li>Τα FOLLOW sets αρχικά είναι άδεια.</li>
+<li>Για κάθε δεξί μέρος των κανόνων (ακόμα και για τον εννοούμενο πρώτο κανόνα με το EOT!):<ul>
+<li>Για κάθε μη τερματικό <tt class="docutils literal"><span class="pre">Β</span></tt> και τυχαίες ακολουθίες συμβόλων <tt class="docutils literal"><span class="pre">α</span></tt>, <tt class="docutils literal"><span class="pre">β</span></tt> σε κανόνες της μορφής <tt class="docutils literal"><span class="pre">Α</span> <span class="pre">-&gt;</span> <span class="pre">α</span> <span class="pre">Β</span> <span class="pre">β</span></tt>, προσθέτουμε το FIRST(β) -εκτός από το ε- στο FOLLOW(B).<ul>
+<li>Παρατηρήσεις: 1) το <tt class="docutils literal"><span class="pre">α</span></tt> μπορεί να είναι κενό (να μην υπάρχει) 2) αν το <tt class="docutils literal"><span class="pre">β</span></tt> ξεκινά με τερματικό σύμβολο, το FIRST(β) είναι προφανώς το τερματικό εκείνο σύμβολο.</li>
+</ul>
+</li>
+<li>Για κάθε μη τερματικό <tt class="docutils literal"><span class="pre">Β</span></tt> και τυχαία ακολουθία συμβόλων <tt class="docutils literal"><span class="pre">α</span></tt> σε κανόνες της μορφής <tt class="docutils literal"><span class="pre">Α</span> <span class="pre">-&gt;</span> <span class="pre">α</span> <span class="pre">Β</span></tt>, προσθέτουμε το FOLLOW(Α) στο FOLLOW(B).</li>
+<li>Για κάθε μη τερματικό <tt class="docutils literal"><span class="pre">Β</span></tt> και τυχαίες ακολουθίες συμβόλων <tt class="docutils literal"><span class="pre">α</span></tt>, <tt class="docutils literal"><span class="pre">β</span></tt> σε κανόνες της μορφής <tt class="docutils literal"><span class="pre">Α</span> <span class="pre">-&gt;</span> <span class="pre">α</span> <span class="pre">Β</span> <span class="pre">β</span></tt>, όπου το ε ανήκει στο FIRST(β), προσθέτουμε το FOLLOW(Α) στο FOLLOW(B).</li>
+</ul>
+</li>
+<li>Επαναλαμβάνουμε ξανά τη διαδικασία για όλους τους κανόνες, έως ότου να μην υπάρχουν νέες προσθήκες στα FOLLOW sets.</li>
+</ul>
+</div>
+<div class="section" id="id1">
+<h2>Παράδειγμα γραμματικής<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>Στο παράδειγμα που ακολουθεί:</p>
+<ul class="simple">
+<li>η γραμματική δεν έχει αριστερή αναδρομή ούτε κοινούς παράγοντες στους κανόνες</li>
+<li>επιτρέπονται κενές παραγωγές (μέσω του ε)</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre>A simple calculator that takes instructions in the following grammar
+
+program         -&gt;      stmt_list EOT           (implicit rule!)
+stmt_list       -&gt;      stmt stmt_list | ε
+stmt            -&gt;      ID = expr | PRINT expr
+expr            -&gt;      term term_tail
+term_tail       -&gt;      addop term term_tail | ε
+term            -&gt;      factor factor_tail
+factor_tail     -&gt;      multop factor factor_tail | ε
+factor          -&gt;      (expr) | ID | NUMBER
+addop           -&gt;      + | -
+multop          -&gt;      * | /
+
+
+PRINT: the &#39;print&#39; keyword
+ID: name of a variable
+NUMBER: an integer or float constant, positive only
+
+Comments delimited by { and } are supported
+</pre></div>
+</div>
+<p>Ποια τα FIRST και FOLLOW sets της γραμματικής αυτής;</p>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">Compiler Lecture Notes 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2016, mistral.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

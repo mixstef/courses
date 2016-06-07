@@ -1,0 +1,555 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Scanning με το Plex &mdash; Compiler Lecture Notes 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Compiler Lecture Notes 1.0 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">Compiler Lecture Notes 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="scanning-plex">
+<h1>Scanning με το Plex<a class="headerlink" href="#scanning-plex" title="Permalink to this headline">¶</a></h1>
+<p>Η <strong>λεκτική ανάλυση</strong> (scanning) χρησιμοποιείται για να χωρίσουμε ένα κείμενο εισόδου (σε κάποια γλώσσα προγραμματισμού ή εφαρμογής) σε <strong>σύμβολα</strong> (tokens). Σε κανονικές συνθήκες, απαιτούμε <strong>όλο</strong> το κείμενο να μπορεί να αναγνωριστεί ως σύμβολα: αν υπάρχει μέρος του κειμένου που δεν ταιριάζει με κανένα σύμβολο, θέλουμε να παράγεται σφάλμα εκτέλεσης.</p>
+<p>Αν και μπορούμε να αναλύσουμε το κείμενο εισόδου με πολλαπλές regular expressions, στα επόμενα θα χρησιμοποιήσουμε το module <tt class="docutils literal"><span class="pre">plex</span></tt>. Αυτό <strong>δεν ανήκει</strong> στη στάνταρ βιβλιοθήκη της Python, έτσι πρέπει να το κατεβάσουμε (για την Python3 βρείτε ένα ανεπίσημο patch <a class="reference download internal" href="../_downloads/Plex-2.0.1.tar.gz"><tt class="xref download docutils literal"><span class="pre">εδώ</span></tt></a>) και να το εγκαταστήσουμε στο σύστημά μας.</p>
+<div class="section" id="id1">
+<h2>Οδηγίες εγκατάστασης<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>Εάν το module <tt class="docutils literal"><span class="pre">plex</span></tt> δεν υπάρχει στο σύστημά σας, θα πρέπει να το εγκαταστήσετε. Υπάρχουν πολλοί τρόποι, εδώ συνιστούμε τη χρήση του εργαλείου <strong>virtualenv</strong>. Αυτό μας δίνει τη δυνατότητα να δημιουργήσουμε ένα ξεχωριστό περιβάλλον εκτέλεσης Python, διαφορετικό από του συστήματος. Έτσι μπορούμε να εγκαταστήσουμε ό,τι Python module θέλουμε, χωρίς δικαιώματα administrator και χωρίς να αλλοιώνουμε την εγκατάσταση Python του συστήματος!</p>
+<ol class="arabic simple">
+<li>Έχετε το <tt class="docutils literal"><span class="pre">virtualenv</span></tt>; Αν όχι, εγκαταστήστε το πριν προχωρήσετε (ή παρακαλέστε ευγενικά τον administrator σας να το κάνει). Σε πρόσφατο Ubuntu π.χ. δίνετε:</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre>sudo apt-get install python-virtualenv
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>Μεταφερθείτε στον φάκελο που θα φτιάξετε το νέο περιβάλλον και δημιουργήστε το:</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre>cd &lt;your virtual env folder&gt;
+virtualenv -p python3 venv
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li>Στον φάκελο <tt class="docutils literal"><span class="pre">venv</span></tt> η προηγούμενη εντολή φτιάχνει ένα νέο περιβάλλον εκτέλεσης με την Python3. Για να το ενεργοποιήσετε:</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre>source venv/bin/activate
+</pre></div>
+</div>
+<p>(το τελευταίο πρέπει να το κάνετε πάντα πριν εκτελέσετε ένα πρόγραμμα στο περιβάλλον αυτό! Για να βγείτε από το περιβάλλον, δώστε <tt class="docutils literal"><span class="pre">deactivate</span></tt> ή απλά κλείστε το shell)</p>
+<ol class="arabic simple" start="4">
+<li>Φτιάξτε ένα αρχείο <tt class="docutils literal"><span class="pre">requirements.txt</span></tt>. Εδώ βάζετε τα modules που θέλετε να υπάρχουν στο περιβάλλον σας, ένα module ανά γραμμή. Modules θα βρείτε στο επίσημο <a class="reference external" href="https://pypi.python.org/pypi">PyPI - the Python Package Index</a> (γράψτε απλά το όνομα του module). Εναλλακτικά, γράψτε το πλήρες path στο αρχείο εγκατάστασης, αν το έχετε ήδη στον υπολογιστή σας. Έχοντας ήδη κατεβάσει το <a class="reference download internal" href="../_downloads/Plex-2.0.1.tar.gz"><tt class="xref download docutils literal"><span class="pre">Python3</span> <span class="pre">patch</span></tt></a> του Plex, το <tt class="docutils literal"><span class="pre">requirements.txt</span></tt> θα περιέχει:</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre>/full/path/to/locally/saved/Plex-2.0.1.tar.gz
+</pre></div>
+</div>
+<ol class="arabic simple" start="5">
+<li>Εγκαταστήστε τα πακέτα σας στο περιβάλλον εκτέλεσης (πάντα με το περιβάλλον <strong>ενεργοποιημένο</strong>!):</li>
+</ol>
+<div class="highlight-python"><div class="highlight"><pre>pip install --upgrade -r requirements.txt
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>Απλό παράδειγμα χωρίς έλεγχο λαθών<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Μην ξεχάσετε να φορτώσετε το module plex:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">plex</span>
+</pre></div>
+</div>
+<p>Ως πρώτο παράδειγμα, θέλουμε να κατασκευάσουμε έναν scanner που αναγνωρίζει τα σύμβολα <tt class="docutils literal"><span class="pre">123</span></tt> και <tt class="docutils literal"><span class="pre">abc</span></tt> (και <strong>τίποτα αλλο</strong>!). Αρχικά κατασκευάζουμε ένα <tt class="docutils literal"><span class="pre">plex.Lexicon</span></tt>, μια λίστα από ζευγάρια <tt class="docutils literal"><span class="pre">((pattern,action)</span></tt>. Το <tt class="docutils literal"><span class="pre">pattern</span></tt> είναι ένα πρότυπο αναγνώρισης (όπως οι regular expressions που έχουμε ήδη δει) και το <tt class="docutils literal"><span class="pre">action</span></tt> καθορίζει τι θα επιστρέψει ο scanner όταν ταιριάξει κείμενο με το αντίστοιχο pattern.</p>
+<p>Στο παράδειγμα που ακολουθεί, θέλουμε με την εμφάνιση του abc να επιστρέφεται το string <tt class="docutils literal"><span class="pre">&quot;ABC_TOKEN&quot;</span></tt>, ενώ με την εμφάνιση του 123 να επιστρέφεται το string <tt class="docutils literal"><span class="pre">&quot;123_TOKEN&quot;</span></tt>. Επίσης, θέλουμε να αγνοούμε ένα η περισσότερα κενα, tab και newlines (ως action χρησιμοποιείται η ειδική σταθερά <tt class="docutils literal"><span class="pre">plex.IGNORE</span></tt>). Το πώς κατασκευάζεται το pattern θα το δούμε αργότερα.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># the scanner lexicon - constructor argument is a list of (pattern,action ) tuples</span>
+<span class="n">lexicon</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Lexicon</span><span class="p">([</span>
+        <span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s">&quot;abc&quot;</span><span class="p">),</span><span class="s">&quot;ABC_TOKEN&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s">&quot;123&quot;</span><span class="p">),</span><span class="s">&quot;123_TOKEN&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Rep1</span><span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Any</span><span class="p">(</span><span class="s">&quot; </span><span class="se">\t\n</span><span class="s">&quot;</span><span class="p">)),</span><span class="n">plex</span><span class="o">.</span><span class="n">IGNORE</span><span class="p">)</span>
+        <span class="p">])</span>
+</pre></div>
+</div>
+<p>Στη συνέχεια, δημιουργούμε ένα αντικείμενο της κλάσης <tt class="docutils literal"><span class="pre">plex.Scanner</span></tt> για συγκεκριμένο λεξικό και αρχείο:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;plex1.txt&quot;</span><span class="p">,</span><span class="s">&quot;r&quot;</span><span class="p">)</span>
+<span class="n">scanner</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Scanner</span><span class="p">(</span><span class="n">lexicon</span><span class="p">,</span><span class="n">fp</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Αμέσως μετά, μπορούμε να καλέσουμε επαναληπτικά τη μέθοδο <tt class="docutils literal"><span class="pre">read()</span></tt> του αντικειμένου scanner. Αυτή η μέθοδος επιστρέφει για κάθε token που αναγνωρίζει ένα ζευγάρι <tt class="docutils literal"><span class="pre">(value-returned-from-action,matched-text)</span></tt>. Όταν δεν υπάρχουν άλλα σύμβολα στο αρχείο εισόδου (end-of-text, EOT), επιστρέφεται το ζευγάρι <tt class="docutils literal"><span class="pre">(None,</span> <span class="pre">'')</span></tt>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">token</span><span class="p">,</span><span class="n">matched</span> <span class="o">=</span> <span class="n">scanner</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">token</span><span class="p">:</span> <span class="k">break</span>     <span class="c"># reached EOT</span>
+
+        <span class="k">print</span><span class="p">(</span><span class="n">token</span><span class="p">,</span><span class="n">matched</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Το συνολικό πρόγραμμα έχει ως εξής:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">A sample app using plex module.</span>
+<span class="sd">No error checking is done here.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">plex</span>
+
+<span class="c"># the scanner lexicon - constructor argument is a list of (pattern,action ) tuples</span>
+<span class="n">lexicon</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Lexicon</span><span class="p">([</span>
+	<span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s">&quot;abc&quot;</span><span class="p">),</span><span class="s">&quot;ABC_TOKEN&quot;</span><span class="p">),</span>
+	<span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s">&quot;123&quot;</span><span class="p">),</span><span class="s">&quot;123_TOKEN&quot;</span><span class="p">),</span>
+	<span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Rep1</span><span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Any</span><span class="p">(</span><span class="s">&quot; </span><span class="se">\t\n</span><span class="s">&quot;</span><span class="p">)),</span><span class="n">plex</span><span class="o">.</span><span class="n">IGNORE</span><span class="p">)</span>
+	<span class="p">])</span>
+
+<span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;plex1.txt&quot;</span><span class="p">,</span><span class="s">&quot;r&quot;</span><span class="p">)</span>
+<span class="n">scanner</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Scanner</span><span class="p">(</span><span class="n">lexicon</span><span class="p">,</span><span class="n">fp</span><span class="p">)</span>
+
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+	<span class="n">token</span><span class="p">,</span><span class="n">matched</span> <span class="o">=</span> <span class="n">scanner</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+	
+	<span class="k">if</span> <span class="ow">not</span> <span class="n">token</span><span class="p">:</span> <span class="k">break</span>	<span class="c"># reached EOT</span>
+	
+	<span class="k">print</span><span class="p">(</span><span class="n">token</span><span class="p">,</span><span class="n">matched</span><span class="p">)</span>	
+		
+<span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Φυσικά, με το λεξικό που χρησιμοποιείται, το αρχείο εισόδου πρέπει να αποτελείται <strong>μόνο</strong> από 123 και abc, π.χ. το
+<a class="reference download internal" href="../_downloads/plex1.txt"><tt class="xref download docutils literal"><span class="pre">plex1.txt</span></tt></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Μπορείτε να κατεβάσετε <a class="reference external" href="https://gist.github.com/mixstef/25166fe36f89aed4acee">όλα τα αρχεία python και txt</a>.</p>
+</div>
+</div>
+<div class="section" id="exception-handling">
+<h2>Προσθέτοντας έλεγχο λαθών (exception handling)<a class="headerlink" href="#exception-handling" title="Permalink to this headline">¶</a></h2>
+<p>Όταν στο αρχείο εισόδου βρεθεί κείμενο που δεν ταιριάζει σε κανένα σύμβολο, δημιουργείται σφάλμα (exception) του τύπου <tt class="docutils literal"><span class="pre">plex.errors.PlexError</span></tt>. Μπορούμε να αναγνωρίσουμε την κατάσταση αυτή με τη δομή <tt class="docutils literal"><span class="pre">try:</span> <span class="pre">...</span> <span class="pre">except:</span> <span class="pre">...</span></tt> της Python
+και να βρούμε σε ποιο σημείο του κειμένου συνέβει το σφάλμα, μέσω της μεθόδου <tt class="docutils literal"><span class="pre">position()</span></tt> του scanner:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">A sample app using plex module.</span>
+<span class="sd">Simple error catching and reporting.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">plex</span>
+
+<span class="c"># the scanner lexicon - constructor argument is a list of (pattern,action ) tuples</span>
+<span class="n">lexicon</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Lexicon</span><span class="p">([</span>
+	<span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s">&quot;abc&quot;</span><span class="p">),</span><span class="s">&quot;ABC_TOKEN&quot;</span><span class="p">),</span>
+	<span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s">&quot;123&quot;</span><span class="p">),</span><span class="s">&quot;123_TOKEN&quot;</span><span class="p">),</span>
+	<span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Rep1</span><span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Any</span><span class="p">(</span><span class="s">&quot; </span><span class="se">\t\n</span><span class="s">&quot;</span><span class="p">)),</span><span class="n">plex</span><span class="o">.</span><span class="n">IGNORE</span><span class="p">)</span>
+	<span class="p">])</span>
+
+<span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;plex2.txt&quot;</span><span class="p">,</span><span class="s">&quot;r&quot;</span><span class="p">)</span>
+<span class="n">scanner</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Scanner</span><span class="p">(</span><span class="n">lexicon</span><span class="p">,</span><span class="n">fp</span><span class="p">)</span>	<span class="c"># &quot;fname&quot; as optional 3rd arg, to be returned</span>
+					<span class="c"># by scanner.position()</span>
+
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+	
+	<span class="k">try</span><span class="p">:</span>
+		<span class="n">token</span><span class="p">,</span><span class="n">matched</span> <span class="o">=</span> <span class="n">scanner</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+		
+	<span class="k">except</span> <span class="n">plex</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">PlexError</span><span class="p">:</span>
+		<span class="n">fname</span><span class="p">,</span><span class="n">lineno</span><span class="p">,</span><span class="n">charno</span> <span class="o">=</span> <span class="n">scanner</span><span class="o">.</span><span class="n">position</span><span class="p">()</span>	<span class="c"># lineno is 1-based, charno is 0-based </span>
+		<span class="k">print</span><span class="p">(</span><span class="s">&quot;Scanner Error at line {} char {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lineno</span><span class="p">,</span><span class="n">charno</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+		<span class="k">break</span>
+	
+	<span class="k">if</span> <span class="ow">not</span> <span class="n">token</span><span class="p">:</span> <span class="k">break</span>	<span class="c"># reached EOT</span>
+
+
+	<span class="k">print</span><span class="p">(</span><span class="n">token</span><span class="p">,</span><span class="n">matched</span><span class="p">)</span>
+
+		
+<span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Εφαρμόζεται στο <a class="reference download internal" href="../_downloads/plex2.txt"><tt class="xref download docutils literal"><span class="pre">plex2.txt</span></tt></a>.</p>
+</div>
+<div class="section" id="plex-patterns">
+<h2>Plex patterns<a class="headerlink" href="#plex-patterns" title="Permalink to this headline">¶</a></h2>
+<p>Αν S, S1, S2 είναι strings, και Β, Ε χαρακτήρες, μπορούν να κατασκευαστούν τα εξής patterns ταιριάσματος:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%" />
+<col width="77%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Str(S)</td>
+<td>ταιριάζει το string S</td>
+</tr>
+<tr class="row-even"><td>Str(S1,S2,..)</td>
+<td>ταιριάζει ένα από τα S1, S2, ..</td>
+</tr>
+<tr class="row-odd"><td>Any(S)</td>
+<td>ταιριάζει κάθε μονό χαρακτήρα του S</td>
+</tr>
+<tr class="row-even"><td>AnyBut(S)</td>
+<td>ταιριάζει κάθε χαρακτήρα που δεν ανήκει στο S</td>
+</tr>
+<tr class="row-odd"><td>AnyChar</td>
+<td>ταιριάζει κάθε μονό χαρακτήρα (και το newline)</td>
+</tr>
+<tr class="row-even"><td>Empty</td>
+<td>ταιριάζει το κενό string</td>
+</tr>
+<tr class="row-odd"><td>Bol,Eol,Eof</td>
+<td>ταιριάζει στην αρχή/τέλος γραμμής και τέλος κειμένου</td>
+</tr>
+<tr class="row-even"><td>Range(“BE..”)</td>
+<td>ταιριάζει περιοχές από το Β έως το Ε κ.ο.κ</td>
+</tr>
+</tbody>
+</table>
+<p>Επίσης, αν P, P1, P2 είναι patterns που έχουν ήδη κατασκευαστεί, μπορούν να γίνουν οι εξής συνδυασμοί:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="28%" />
+<col width="72%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>P1+P2 ή Seq(P1,P2)</td>
+<td>το P1 ακολουθούμενο από το P2</td>
+</tr>
+<tr class="row-even"><td>P1|P2 ή Alt(P1,P2)</td>
+<td>είτε το P1 είτε το P2 (εναλλαγή)</td>
+</tr>
+<tr class="row-odd"><td>Opt(P)</td>
+<td>0 ή 1 φορά το P (προαιρετικό)</td>
+</tr>
+<tr class="row-even"><td>Rep(P)</td>
+<td>0 ή περισσότερες φορές το P</td>
+</tr>
+<tr class="row-odd"><td>Rep1(P)</td>
+<td>1 ή περισσότερες φορές το P</td>
+</tr>
+<tr class="row-even"><td>NoCase(P)  Case(P)</td>
+<td>το P, αγνοώντας (ή λαμβάνοντας υπ&#8217;όψη) κεφαλαία-μικρά</td>
+</tr>
+</tbody>
+</table>
+<p>(για την πλήρη τεκμηρίωση του plex δείτε το <a class="reference external" href="https://pythonhosted.org/plex/">https://pythonhosted.org/plex/</a>)</p>
+</div>
+<div class="section" id="id3">
+<h2>Κανόνες Ταιριάσματος<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>Στην περίπτωση που υπάρχουν εναλλακτικές επιλογές ταιριάσματος, το plex εφαρμόζει με τη σειρά τους εξής κανόνες:</p>
+<ol class="arabic simple">
+<li>Προτιμάται η επιλογή που επιτυγχάνει το μακρύτερο ταίριασμα (αυτή που ταιριάζει περισσότερους χαρακτήρες).</li>
+<li>Εάν οι επιλογές ταιριάζουν τον ίδιο αριθμό χαρακτήρων, επιλέγεται η πρώτη, με τη σειρά δήλωσης στο λεξικό.</li>
+</ol>
+</div>
+<div class="section" id="id4">
+<h2>Ο κανόνας του μακρύτερου ταιριάσματος<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>Γιατί ταιριάζει το <tt class="docutils literal"><span class="pre">tomcat</span></tt> αντί του <tt class="docutils literal"><span class="pre">tom</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">A sample app using plex module.</span>
+<span class="sd">Checking the &quot;longest match wins&quot; rule.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">plex</span>
+
+<span class="c"># the scanner lexicon - constructor argument is a list of (pattern,action ) tuples</span>
+<span class="n">lexicon</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Lexicon</span><span class="p">([</span>
+	<span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s">&quot;tom&quot;</span><span class="p">),</span><span class="s">&quot;TOM_TOKEN&quot;</span><span class="p">),</span>
+	<span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s">&quot;cat&quot;</span><span class="p">),</span><span class="s">&quot;CAT_TOKEN&quot;</span><span class="p">),</span>
+	<span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s">&quot;tomcat&quot;</span><span class="p">),</span><span class="s">&quot;TOMCAT_TOKEN&quot;</span><span class="p">),</span>
+	<span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Rep1</span><span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Any</span><span class="p">(</span><span class="s">&quot; </span><span class="se">\t\n</span><span class="s">&quot;</span><span class="p">)),</span><span class="n">plex</span><span class="o">.</span><span class="n">IGNORE</span><span class="p">)</span>
+	<span class="p">])</span>
+
+<span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;plex3.txt&quot;</span><span class="p">,</span><span class="s">&quot;r&quot;</span><span class="p">)</span>
+<span class="n">scanner</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Scanner</span><span class="p">(</span><span class="n">lexicon</span><span class="p">,</span><span class="n">fp</span><span class="p">)</span>	
+
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+	
+	<span class="k">try</span><span class="p">:</span>
+		<span class="n">token</span><span class="p">,</span><span class="n">matched</span> <span class="o">=</span> <span class="n">scanner</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+		
+	<span class="k">except</span> <span class="n">plex</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">PlexError</span><span class="p">:</span>
+		<span class="n">fname</span><span class="p">,</span><span class="n">lineno</span><span class="p">,</span><span class="n">charno</span> <span class="o">=</span> <span class="n">scanner</span><span class="o">.</span><span class="n">position</span><span class="p">()</span>	
+		<span class="k">print</span><span class="p">(</span><span class="s">&quot;Scanner Error at line {} char {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lineno</span><span class="p">,</span><span class="n">charno</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+		<span class="k">break</span>
+	
+	<span class="k">if</span> <span class="ow">not</span> <span class="n">token</span><span class="p">:</span> <span class="k">break</span>
+
+	<span class="k">print</span><span class="p">(</span><span class="n">token</span><span class="p">,</span><span class="n">matched</span><span class="p">)</span>
+			
+<span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Εφαρμόζεται στο <a class="reference download internal" href="../_downloads/plex3.txt"><tt class="xref download docutils literal"><span class="pre">plex3.txt</span></tt></a>.</p>
+</div>
+<div class="section" id="id5">
+<h2>Αγνοώντας κείμενο με βάση το μακρύτερο ταίριασμα<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>Δουλεύει για εύρεση tokens με μήκος &gt; 1.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">A sample app using plex module.</span>
+<span class="sd">Using the &quot;longest match wins&quot; rule to match only a word (len&gt;1)</span>
+<span class="sd">and ignore everything else.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">plex</span>
+
+<span class="c"># the scanner lexicon - constructor argument is a list of (pattern,action ) tuples</span>
+<span class="n">lexicon</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Lexicon</span><span class="p">([</span>
+	<span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s">&quot;123&quot;</span><span class="p">),</span><span class="s">&quot;123_TOKEN&quot;</span><span class="p">),</span>
+	<span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">AnyChar</span><span class="p">,</span><span class="n">plex</span><span class="o">.</span><span class="n">IGNORE</span><span class="p">)</span>
+	<span class="p">])</span>
+
+<span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;plex4.txt&quot;</span><span class="p">,</span><span class="s">&quot;r&quot;</span><span class="p">)</span>
+<span class="n">scanner</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Scanner</span><span class="p">(</span><span class="n">lexicon</span><span class="p">,</span><span class="n">fp</span><span class="p">)</span>	
+
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+	
+	<span class="k">try</span><span class="p">:</span>
+		<span class="n">token</span><span class="p">,</span><span class="n">matched</span> <span class="o">=</span> <span class="n">scanner</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+		
+	<span class="k">except</span> <span class="n">plex</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">PlexError</span><span class="p">:</span>
+		<span class="n">fname</span><span class="p">,</span><span class="n">lineno</span><span class="p">,</span><span class="n">charno</span> <span class="o">=</span> <span class="n">scanner</span><span class="o">.</span><span class="n">position</span><span class="p">()</span>	
+		<span class="k">print</span><span class="p">(</span><span class="s">&quot;Scanner Error at line {} char {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lineno</span><span class="p">,</span><span class="n">charno</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+		<span class="k">break</span>
+	
+	<span class="k">if</span> <span class="ow">not</span> <span class="n">token</span><span class="p">:</span> <span class="k">break</span>
+
+
+	<span class="k">print</span><span class="p">(</span><span class="n">token</span><span class="p">,</span><span class="n">matched</span><span class="p">)</span>
+	
+	
+<span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Εφαρμόζεται στο <a class="reference download internal" href="../_downloads/plex4.txt"><tt class="xref download docutils literal"><span class="pre">plex4.txt</span></tt></a>.</p>
+</div>
+<div class="section" id="id6">
+<h2>Σε ταίριασμα ίδιου μήκους προηγείται ό,τι δηλώθηκε πρώτα<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p>Αν το identifier rule είναι πρώτο, δεν θα ταιριάξουμε ποτέ τα keywords!</p>
+<blockquote>
+<div><div class="highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">A sample app using plex module.</span>
+<span class="sd">Demonstrating the &quot;from equal matches, the topmost wins&quot; rule.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">plex</span>
+
+<span class="c"># define some pattern constructs here, to increase readability</span>
+<span class="n">letter</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Range</span><span class="p">(</span><span class="s">&quot;AZaz&quot;</span><span class="p">)</span>
+<span class="n">digit</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Range</span><span class="p">(</span><span class="s">&quot;09&quot;</span><span class="p">)</span>
+<span class="n">name</span> <span class="o">=</span> <span class="n">letter</span> <span class="o">+</span> <span class="n">plex</span><span class="o">.</span><span class="n">Rep</span><span class="p">(</span><span class="n">letter</span> <span class="o">|</span> <span class="n">digit</span><span class="p">)</span>
+<span class="n">space</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Any</span><span class="p">(</span><span class="s">&quot; </span><span class="se">\t\n</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="n">keyword</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s">&quot;if&quot;</span><span class="p">,</span><span class="s">&quot;then&quot;</span><span class="p">,</span><span class="s">&quot;else&quot;</span><span class="p">,</span><span class="s">&quot;end&quot;</span><span class="p">)</span>
+
+
+<span class="c"># the scanner lexicon - constructor argument is a list of (pattern,action ) tuples</span>
+<span class="n">lexicon</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Lexicon</span><span class="p">([</span>
+	<span class="p">(</span><span class="n">keyword</span><span class="p">,</span><span class="n">plex</span><span class="o">.</span><span class="n">TEXT</span><span class="p">),</span>	<span class="c"># plex.TEXT returns as token id the matched text</span>
+	<span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s">&quot;IDENTIFIER&quot;</span><span class="p">),</span>
+	<span class="p">(</span><span class="n">space</span><span class="p">,</span><span class="n">plex</span><span class="o">.</span><span class="n">IGNORE</span><span class="p">)</span>
+	<span class="p">])</span>
+
+<span class="c"># if lexicon is defined as follows, keywords cannot be found!</span>
+<span class="c">#lexicon = plex.Lexicon([</span>
+<span class="c">#	(name, &quot;IDENTIFIER&quot;),</span>
+<span class="c">#	(keyword,plex.TEXT),	</span>
+<span class="c">#	(space,plex.IGNORE)</span>
+<span class="c">#	])</span>
+
+
+<span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;plex5.txt&quot;</span><span class="p">,</span><span class="s">&quot;r&quot;</span><span class="p">)</span>
+<span class="n">scanner</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Scanner</span><span class="p">(</span><span class="n">lexicon</span><span class="p">,</span><span class="n">fp</span><span class="p">)</span>	
+
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+	
+	<span class="k">try</span><span class="p">:</span>
+		<span class="n">token</span><span class="p">,</span><span class="n">matched</span> <span class="o">=</span> <span class="n">scanner</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+		
+	<span class="k">except</span> <span class="n">plex</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">PlexError</span><span class="p">:</span>
+		<span class="n">fname</span><span class="p">,</span><span class="n">lineno</span><span class="p">,</span><span class="n">charno</span> <span class="o">=</span> <span class="n">scanner</span><span class="o">.</span><span class="n">position</span><span class="p">()</span>	
+		<span class="k">print</span><span class="p">(</span><span class="s">&quot;Scanner Error at line {} char {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lineno</span><span class="p">,</span><span class="n">charno</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+		<span class="k">break</span>
+	
+	<span class="k">if</span> <span class="ow">not</span> <span class="n">token</span><span class="p">:</span> <span class="k">break</span>
+
+	<span class="k">print</span><span class="p">(</span><span class="n">token</span><span class="p">,</span><span class="n">matched</span><span class="p">)</span>
+		
+<span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Εφαρμόζεται στο <a class="reference download internal" href="../_downloads/plex5.txt"><tt class="xref download docutils literal"><span class="pre">plex5.txt</span></tt></a>.</p>
+</div>
+<div class="section" id="single-line">
+<h2>Αγνοώντας single-line σχόλια<a class="headerlink" href="#single-line" title="Permalink to this headline">¶</a></h2>
+<p>Το ζητούμενο είναι η κατασκευή scanner που να αναγνωρίζει</p>
+<ul class="simple">
+<li>identifiers</li>
+<li>ακέραιες σταθερές</li>
+<li>σταθερές floating point (στις μορφές xx.yy και .yy, σε οποιοδήποτε αριθμό ψηφίων x και y)</li>
+<li>σταθερές hex (στη μορφή 0x...)</li>
+<li>τα keywords if, the, else, end</li>
+<li>τους τελεστές + - * / = &lt; &gt; (τελεστές ενός χαρακτήρα)</li>
+</ul>
+<p>και να αγνοεί:</p>
+<ul class="simple">
+<li>newline, tab, space</li>
+<li>οτιδήποτε ακολουθεί // μέχρι το τέλος της γραμμής</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">A sample app using plex module.</span>
+<span class="sd">A simple language token extractor, with single line comment support.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">plex</span>
+
+<span class="c"># define some pattern constructs here, to increase readability</span>
+<span class="n">letter</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Range</span><span class="p">(</span><span class="s">&quot;AZaz&quot;</span><span class="p">)</span>
+<span class="n">digit</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Range</span><span class="p">(</span><span class="s">&quot;09&quot;</span><span class="p">)</span>
+<span class="n">hexdigit</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">NoCase</span><span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Range</span><span class="p">(</span><span class="s">&quot;af09&quot;</span><span class="p">))</span>
+<span class="n">name</span> <span class="o">=</span> <span class="n">letter</span> <span class="o">+</span> <span class="n">plex</span><span class="o">.</span><span class="n">Rep</span><span class="p">(</span><span class="n">letter</span> <span class="o">|</span> <span class="n">digit</span><span class="p">)</span>
+<span class="n">space</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Any</span><span class="p">(</span><span class="s">&quot; </span><span class="se">\t\n</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="n">keyword</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s">&quot;if&quot;</span><span class="p">,</span><span class="s">&quot;then&quot;</span><span class="p">,</span><span class="s">&quot;else&quot;</span><span class="p">,</span><span class="s">&quot;end&quot;</span><span class="p">)</span>
+<span class="n">intnumber</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Rep1</span><span class="p">(</span><span class="n">digit</span><span class="p">)</span>
+<span class="n">floatnumber</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Opt</span><span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Rep1</span><span class="p">(</span><span class="n">digit</span><span class="p">))</span><span class="o">+</span><span class="n">plex</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s">&quot;.&quot;</span><span class="p">)</span><span class="o">+</span><span class="n">plex</span><span class="o">.</span><span class="n">Rep1</span><span class="p">(</span><span class="n">digit</span><span class="p">)</span>	<span class="c"># xx.yy, .yy but not xx.</span>
+<span class="n">hexnumber</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s">&quot;0x&quot;</span><span class="p">)</span><span class="o">+</span><span class="n">plex</span><span class="o">.</span><span class="n">Rep1</span><span class="p">(</span><span class="n">hexdigit</span><span class="p">)</span>
+<span class="n">operator</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Any</span><span class="p">(</span><span class="s">&quot;+-*/=&lt;&gt;&quot;</span><span class="p">)</span>
+<span class="n">singlecomment</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s">&quot;//&quot;</span><span class="p">)</span><span class="o">+</span><span class="n">plex</span><span class="o">.</span><span class="n">Rep</span><span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">AnyBut</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">))</span>
+
+<span class="c"># the scanner lexicon - constructor argument is a list of (pattern,action ) tuples</span>
+<span class="n">lexicon</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Lexicon</span><span class="p">([</span>
+	<span class="p">(</span><span class="n">intnumber</span><span class="p">,</span><span class="s">&quot;INTCONST&quot;</span><span class="p">),</span>
+	<span class="p">(</span><span class="n">floatnumber</span><span class="p">,</span><span class="s">&quot;FLOATCONST&quot;</span><span class="p">),</span>
+	<span class="p">(</span><span class="n">hexnumber</span><span class="p">,</span><span class="s">&quot;HEXCONST&quot;</span><span class="p">),</span>
+	<span class="p">(</span><span class="n">keyword</span><span class="p">,</span><span class="n">plex</span><span class="o">.</span><span class="n">TEXT</span><span class="p">),</span>	
+	<span class="p">(</span><span class="n">operator</span><span class="p">,</span><span class="n">plex</span><span class="o">.</span><span class="n">TEXT</span><span class="p">),</span>
+	<span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s">&quot;IDENTIFIER&quot;</span><span class="p">),</span>
+	<span class="p">(</span><span class="n">space</span><span class="o">|</span><span class="n">singlecomment</span><span class="p">,</span><span class="n">plex</span><span class="o">.</span><span class="n">IGNORE</span><span class="p">)</span>
+	<span class="p">])</span>
+
+<span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;plex6.txt&quot;</span><span class="p">,</span><span class="s">&quot;r&quot;</span><span class="p">)</span>
+<span class="n">scanner</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Scanner</span><span class="p">(</span><span class="n">lexicon</span><span class="p">,</span><span class="n">fp</span><span class="p">)</span>	
+
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+	
+	<span class="k">try</span><span class="p">:</span>
+		<span class="n">token</span><span class="p">,</span><span class="n">matched</span> <span class="o">=</span> <span class="n">scanner</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+		
+	<span class="k">except</span> <span class="n">plex</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">PlexError</span><span class="p">:</span>
+		<span class="n">fname</span><span class="p">,</span><span class="n">lineno</span><span class="p">,</span><span class="n">charno</span> <span class="o">=</span> <span class="n">scanner</span><span class="o">.</span><span class="n">position</span><span class="p">()</span>	
+		<span class="k">print</span><span class="p">(</span><span class="s">&quot;Scanner Error at line {} char {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lineno</span><span class="p">,</span><span class="n">charno</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+		<span class="k">break</span>
+	
+	<span class="k">if</span> <span class="ow">not</span> <span class="n">token</span><span class="p">:</span> <span class="k">break</span>
+
+	<span class="k">print</span><span class="p">(</span><span class="n">token</span><span class="p">,</span><span class="n">matched</span><span class="p">)</span>
+			
+<span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Εφαρμόζεται στο <a class="reference download internal" href="../_downloads/plex6.txt"><tt class="xref download docutils literal"><span class="pre">plex6.txt</span></tt></a>.</p>
+</div>
+<div class="section" id="multiple-line">
+<h2>Αγνοώντας multiple-line σχόλια /* ... */<a class="headerlink" href="#multiple-line" title="Permalink to this headline">¶</a></h2>
+<p>Αν τα block σχόλια τερματίζονται με έναν μόνο χαρακτήρα, τότε μπορούμε να εφαρμόσουμε μια λύση όπως στο προηγούμενο. Στην περίπτωση που ο τερματισμός των σχολίων απαιτεί μια ακολουθία χαρακτήρων (όπως το <tt class="docutils literal"><span class="pre">*/</span></tt>), είναι πιο εύκολο να χρησιμοποιήσουμε ξεχωριστό state όσο βρισκόμαστε μέσα στο σχόλιο. Εκτός από την απλότητα, το ξεχωριστό state επιτρέπει το χειρισμό nested σχολίων (π.χ. με έναν counter που παρακολουθεί το επίπεδο nesting -δεν υλοποιείται όμως στο επόμενο παράδειγμα) και δεν απαιτεί την αποθήκευση πολλών χαρακτήρων από τον scanner μέχρι το τέλος του σχολίου:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">A sample app using plex module.</span>
+<span class="sd">A simple language token extractor, with single line comment support</span>
+<span class="sd">and block comment support (via scanner states).</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">plex</span>
+
+<span class="c"># define some pattern constructs here, to increase readability</span>
+<span class="n">letter</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Range</span><span class="p">(</span><span class="s">&quot;AZaz&quot;</span><span class="p">)</span>
+<span class="n">digit</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Range</span><span class="p">(</span><span class="s">&quot;09&quot;</span><span class="p">)</span>
+<span class="n">hexdigit</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">NoCase</span><span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Range</span><span class="p">(</span><span class="s">&quot;af09&quot;</span><span class="p">))</span>
+<span class="n">name</span> <span class="o">=</span> <span class="n">letter</span> <span class="o">+</span> <span class="n">plex</span><span class="o">.</span><span class="n">Rep</span><span class="p">(</span><span class="n">letter</span> <span class="o">|</span> <span class="n">digit</span><span class="p">)</span>
+<span class="n">space</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Any</span><span class="p">(</span><span class="s">&quot; </span><span class="se">\t\n</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="n">keyword</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s">&quot;if&quot;</span><span class="p">,</span><span class="s">&quot;then&quot;</span><span class="p">,</span><span class="s">&quot;else&quot;</span><span class="p">,</span><span class="s">&quot;end&quot;</span><span class="p">)</span>
+<span class="n">intnumber</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Rep1</span><span class="p">(</span><span class="n">digit</span><span class="p">)</span>
+<span class="n">floatnumber</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Opt</span><span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Rep1</span><span class="p">(</span><span class="n">digit</span><span class="p">))</span><span class="o">+</span><span class="n">plex</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s">&quot;.&quot;</span><span class="p">)</span><span class="o">+</span><span class="n">plex</span><span class="o">.</span><span class="n">Rep1</span><span class="p">(</span><span class="n">digit</span><span class="p">)</span>	<span class="c"># xx.yy, .yy but not xx.</span>
+<span class="n">hexnumber</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s">&quot;0x&quot;</span><span class="p">)</span><span class="o">+</span><span class="n">plex</span><span class="o">.</span><span class="n">Rep1</span><span class="p">(</span><span class="n">hexdigit</span><span class="p">)</span>
+<span class="n">operator</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Any</span><span class="p">(</span><span class="s">&quot;+-*/=&lt;&gt;&quot;</span><span class="p">)</span>
+<span class="n">singlecomment</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s">&quot;//&quot;</span><span class="p">)</span><span class="o">+</span><span class="n">plex</span><span class="o">.</span><span class="n">Rep</span><span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">AnyBut</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">))</span>
+
+<span class="c"># the scanner lexicon - constructor argument is a list of (pattern,action ) tuples</span>
+<span class="n">lexicon</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Lexicon</span><span class="p">([</span>
+	<span class="p">(</span><span class="n">intnumber</span><span class="p">,</span><span class="s">&quot;INTCONST&quot;</span><span class="p">),</span>
+	<span class="p">(</span><span class="n">floatnumber</span><span class="p">,</span><span class="s">&quot;FLOATCONST&quot;</span><span class="p">),</span>
+	<span class="p">(</span><span class="n">hexnumber</span><span class="p">,</span><span class="s">&quot;HEXCONST&quot;</span><span class="p">),</span>
+	<span class="p">(</span><span class="n">keyword</span><span class="p">,</span><span class="n">plex</span><span class="o">.</span><span class="n">TEXT</span><span class="p">),</span>	
+	<span class="p">(</span><span class="n">operator</span><span class="p">,</span><span class="n">plex</span><span class="o">.</span><span class="n">TEXT</span><span class="p">),</span>
+	<span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s">&quot;IDENTIFIER&quot;</span><span class="p">),</span>
+	<span class="p">(</span><span class="n">space</span><span class="o">|</span><span class="n">singlecomment</span><span class="p">,</span><span class="n">plex</span><span class="o">.</span><span class="n">IGNORE</span><span class="p">),</span>
+	<span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s">&quot;/*&quot;</span><span class="p">),</span><span class="n">plex</span><span class="o">.</span><span class="n">Begin</span><span class="p">(</span><span class="s">&#39;BlockCommentState&#39;</span><span class="p">)),</span>	<span class="c"># switch to block comment state</span>
+	
+	<span class="n">plex</span><span class="o">.</span><span class="n">State</span><span class="p">(</span><span class="s">&#39;BlockCommentState&#39;</span><span class="p">,[</span>
+	  <span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s">&quot;*/&quot;</span><span class="p">),</span><span class="n">plex</span><span class="o">.</span><span class="n">Begin</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)),</span>	<span class="c"># back to normal state</span>
+	  <span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">AnyChar</span><span class="p">,</span><span class="n">plex</span><span class="o">.</span><span class="n">IGNORE</span><span class="p">)</span>		<span class="c"># this works due to the longest match rule</span>
+	<span class="p">])</span>
+	  
+	<span class="p">])</span>
+
+<span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;plex7.txt&quot;</span><span class="p">,</span><span class="s">&quot;r&quot;</span><span class="p">)</span>
+<span class="n">scanner</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Scanner</span><span class="p">(</span><span class="n">lexicon</span><span class="p">,</span><span class="n">fp</span><span class="p">)</span>	
+
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+	
+	<span class="k">try</span><span class="p">:</span>
+		<span class="n">token</span><span class="p">,</span><span class="n">matched</span> <span class="o">=</span> <span class="n">scanner</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+		
+	<span class="k">except</span> <span class="n">plex</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">PlexError</span><span class="p">:</span>
+		<span class="n">fname</span><span class="p">,</span><span class="n">lineno</span><span class="p">,</span><span class="n">charno</span> <span class="o">=</span> <span class="n">scanner</span><span class="o">.</span><span class="n">position</span><span class="p">()</span>	
+		<span class="k">print</span><span class="p">(</span><span class="s">&quot;Scanner Error at line {} char {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lineno</span><span class="p">,</span><span class="n">charno</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+		<span class="k">break</span>
+	
+	<span class="k">if</span> <span class="ow">not</span> <span class="n">token</span><span class="p">:</span> <span class="k">break</span>
+
+	<span class="k">print</span><span class="p">(</span><span class="n">token</span><span class="p">,</span><span class="n">matched</span><span class="p">)</span>
+			
+<span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Εφαρμόζεται στο <a class="reference download internal" href="../_downloads/plex7.txt"><tt class="xref download docutils literal"><span class="pre">plex7.txt</span></tt></a>.</p>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">Compiler Lecture Notes 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2016, mistral.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

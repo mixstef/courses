@@ -24,25 +24,29 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="Compiler Lecture Notes 1.0 documentation" href="../index.html" />
+    <link rel="next" title="Ενότητα 3-1" href="../unit3/module1.html" />
     <link rel="prev" title="Μεταγλωττιστές - Σημειώσεις Μαθήματος και Εργαστηρίου" href="../index.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="../unit3/module1.html" title="Ενότητα 3-1"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
           <a href="../index.html" title="Μεταγλωττιστές - Σημειώσεις Μαθήματος και Εργαστηρίου"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">Compiler Lecture Notes 1.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Compiler Lecture Notes 1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
 
     <div class="document">
       <div class="documentwrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="python-3">
 <h1>Βασικά Στοιχεία Python 3<a class="headerlink" href="#python-3" title="Permalink to this headline">¶</a></h1>
@@ -54,14 +58,14 @@
 <ul class="simple">
 <li>Σταθερές string με μονά ή διπλά εισαγωγικά</li>
 </ul>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">s</span> <span class="o">=</span> <span class="s">&quot;abcd&quot;</span>
-<span class="n">s2</span> <span class="o">=</span> <span class="s">&#39;abcd&#39;</span>  <span class="c"># ισοδύναμο με προηγούμενο</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;abcd&quot;</span>
+<span class="n">s2</span> <span class="o">=</span> <span class="s1">&#39;abcd&#39;</span>  <span class="c1"># ισοδύναμο με προηγούμενο</span>
 </pre></div>
 </div>
 <ul class="simple">
 <li>Τα strings ανήκουν στην κατηγορία τύπων sequence (διατεταγμένης ακολουθίας), άρα μπορούμε να πάρουμε επιμέρους τμήματα</li>
 </ul>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s">&quot;abcdefg&quot;</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;abcdefg&quot;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="go">&#39;a&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
@@ -89,8 +93,8 @@
 <ul class="simple">
 <li>Θυμηθείτε όμως ότι <strong>δεν μπορούμε να αλλάξουμε περιεχόμενα σε ένα string</strong> (είναι immutable):</li>
 </ul>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s">&quot;abcdefg&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;x&#39;</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;abcdefg&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span>
 <span class="gt">Traceback (most recent call last):</span>
   File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
 <span class="gr">TypeError</span>: <span class="n">&#39;str&#39; object does not support item assignment</span>
@@ -99,8 +103,8 @@
 <ul class="simple">
 <li>Μπορούμε όμως πάντοτε να δημιουργήσουμε ένα νέο string. Για παράδειγμα, για να επιτύχουμε το προηγούμενο:</li>
 </ul>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s">&quot;abcdefg&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span><span class="o">+</span><span class="s">&#39;x&#39;</span><span class="o">+</span><span class="n">s</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;abcdefg&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;x&#39;</span><span class="o">+</span><span class="n">s</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span>
 <span class="go">&#39;abcxefg&#39;</span>
 </pre></div>
@@ -114,7 +118,7 @@
 <div class="section" id="lists">
 <h2>Lists<a class="headerlink" href="#lists" title="Permalink to this headline">¶</a></h2>
 <p>Οι λίστες ανήκουν στην κατηγορία sequence και υλοποιούν μια διατεταγμένη συλλογή αντικειμένων. Τα αντικείμενα που περιέχονται στη λίστα μπορούν να είναι οποιουδήποτε τύπου (ακόμα και άλλες λίστες). Εφόσον μια λίστα είναι sequence, μπορούμε να πάρουμε μέρος της, όπως σε ένα string:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">li</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s">&#39;abcd&#39;</span><span class="p">,</span><span class="s">&#39;ef&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">li</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;abcd&#39;</span><span class="p">,</span><span class="s1">&#39;ef&#39;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">li</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 <span class="go">2</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">li</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
@@ -123,7 +127,7 @@
 <span class="go">[1, 2, &#39;abcd&#39;]</span>
 </pre></div>
 </div>
-<p>Μπορούμε ακόμα να προσπελάσουμε ένα προς ένα τα στοιχεία της λίστας με την επαναληπτική δομή <tt class="docutils literal"><span class="pre">for</span> <span class="pre">&lt;item&gt;</span> <span class="pre">in</span> <span class="pre">&lt;sequence&gt;</span></tt>:</p>
+<p>Μπορούμε ακόμα να προσπελάσουμε ένα προς ένα τα στοιχεία της λίστας με την επαναληπτική δομή <code class="docutils literal"><span class="pre">for</span> <span class="pre">&lt;item&gt;</span> <span class="pre">in</span> <span class="pre">&lt;sequence&gt;</span></code>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">li</span><span class="p">:</span>
 <span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
 <span class="gp">...</span>
@@ -134,7 +138,7 @@
 </pre></div>
 </div>
 <p>Σε αντίθεση με τα strings, <strong>μπορούμε να αλλάξουμε τιμή</strong> σε ένα (υπάρχον) στοιχείο μιας λίστας. Δείτε την τελευταία παράγραφο του κειμένου για να καταλάβετε καλά το επόμενο:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">li</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s">&#39;abcd&#39;</span><span class="p">,</span><span class="s">&#39;ef&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">li</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;abcd&#39;</span><span class="p">,</span><span class="s1">&#39;ef&#39;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lm</span> <span class="o">=</span> <span class="n">li</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lm</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">33</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lm</span>
@@ -144,7 +148,7 @@
 </pre></div>
 </div>
 <p>Μπορούμε να προσθέσουμε δυναμικά νέα στοιχεία σε μια λίστα:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">li</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="s">&#39;ab&#39;</span><span class="p">,</span><span class="s">&#39;cd&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">li</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="s1">&#39;ab&#39;</span><span class="p">,</span><span class="s1">&#39;cd&#39;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">li</span> <span class="o">+=</span> <span class="p">[</span><span class="mi">11</span><span class="p">,</span><span class="mi">22</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">li</span>
 <span class="go">[1, 2, 3, &#39;ab&#39;, &#39;cd&#39;, 11, 22]</span>
@@ -201,14 +205,14 @@
 <li>Δημιουργήστε ένα κενό ή ένα αρχικοποιημένο με μερικά στοιχεία λεξικό:</li>
 </ul>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">da</span> <span class="o">=</span> <span class="p">{</span> <span class="s">&#39;mike&#39;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span> <span class="s">&#39;nick&#39;</span><span class="p">:</span> <span class="mi">43</span> <span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">da</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;mike&#39;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span> <span class="s1">&#39;nick&#39;</span><span class="p">:</span> <span class="mi">43</span> <span class="p">}</span>
 </pre></div>
 </div>
 <ul class="simple">
 <li>Προσθέστε ένα νέο ζεύγος κλειδιού-τιμής (αν υπάρχει το κλειδί, παίρνει τη νέα τιμή):</li>
 </ul>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">da</span><span class="p">[</span><span class="s">&#39;stef&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">67</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">da</span><span class="p">[</span><span class="s">&#39;mike&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;oops&#39;</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">da</span><span class="p">[</span><span class="s1">&#39;stef&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">67</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">da</span><span class="p">[</span><span class="s1">&#39;mike&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;oops&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">da</span>
 <span class="go">{&#39;mike&#39;: &#39;oops&#39;, &#39;stef&#39;: 67, &#39;nick&#39;: 43}</span>
 </pre></div>
@@ -216,8 +220,8 @@
 <ul class="simple">
 <li>Ελέγξτε αν ένα κλειδί υπάρχει στο λεξικό:</li>
 </ul>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="s">&#39;stef&#39;</span> <span class="ow">in</span> <span class="n">da</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="s">&#39;found&#39;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="s1">&#39;stef&#39;</span> <span class="ow">in</span> <span class="n">da</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;found&#39;</span><span class="p">)</span>
 <span class="gp">...</span>
 <span class="go">found</span>
 </pre></div>
@@ -225,8 +229,8 @@
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p>Η απόπειρα προσπέλασης ενός κλειδιού που δεν υπάρχει, <strong>προκαλεί σφάλμα εκτέλεσης</strong>! Πρέπει πάντα να εκτελείτε τον έλεγχο ύπαρξης του κλειδιού!</p>
-<div class="last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">da</span> <span class="o">=</span> <span class="p">{</span> <span class="s">&#39;mike&#39;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span> <span class="s">&#39;nick&#39;</span><span class="p">:</span> <span class="mi">43</span> <span class="p">}</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">da</span><span class="p">[</span><span class="s">&#39;stef&#39;</span><span class="p">]</span>
+<div class="last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">da</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;mike&#39;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span> <span class="s1">&#39;nick&#39;</span><span class="p">:</span> <span class="mi">43</span> <span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">da</span><span class="p">[</span><span class="s1">&#39;stef&#39;</span><span class="p">]</span>
 <span class="gt">Traceback (most recent call last):</span>
   File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
 <span class="gr">KeyError</span>: <span class="n">&#39;stef&#39;</span>
@@ -251,7 +255,7 @@
 <div class="section" id="id2">
 <h2>Αρχεία Κειμένου<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>Αν ξέρουμε ότι το ένα αρχείο κειμένου δεν είναι μεγάλο, μπορούμε να το διαβάσουμε &#8220;με τη μία&#8221; σε ένα string:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;test.txt&#39;</span><span class="p">,</span><span class="s">&#39;r&#39;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;test.txt&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
 
 <span class="n">text</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 
@@ -261,7 +265,7 @@
 </pre></div>
 </div>
 <p>Μπορούμε όμως με μεγαλύτερη ασφάλεια να το διαβάσουμε γραμμή προς γραμμή:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;test.txt&#39;</span><span class="p">,</span><span class="s">&#39;r&#39;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;test.txt&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fp</span><span class="p">:</span>
     <span class="k">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
@@ -271,8 +275,8 @@
 </div>
 <p>Στη δεύτερη περίπτωση:</p>
 <ul class="simple">
-<li>Κάθε γραμμή κρατά το τελικό newline χαρακτήρα <tt class="docutils literal"><span class="pre">\n</span></tt></li>
-<li>Το αρχείο, ως προς την ανάγνωση, συμπεριφέρεται ως sequence από strings, έτσι μπορούμε να εφαρμόσουμε το επαναληπτικό <tt class="docutils literal"><span class="pre">for</span> <span class="pre">..</span> <span class="pre">in</span> <span class="pre">..</span></tt> που έχουμε ήδη δει.</li>
+<li>Κάθε γραμμή κρατά το τελικό newline χαρακτήρα <code class="docutils literal"><span class="pre">\n</span></code></li>
+<li>Το αρχείο, ως προς την ανάγνωση, συμπεριφέρεται ως sequence από strings, έτσι μπορούμε να εφαρμόσουμε το επαναληπτικό <code class="docutils literal"><span class="pre">for</span> <span class="pre">..</span> <span class="pre">in</span> <span class="pre">..</span></code> που έχουμε ήδη δει.</li>
 </ul>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -282,32 +286,32 @@
 <div class="section" id="id3">
 <h2>Παράδειγμα: Συχνότητα Εμφάνισης Λέξεων<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p>Ας εφαρμόσουμε τα προηγούμενα σε ένα συνοπτικό παράδειγμα. Υποθέστε ότι θέλουμε να διαβάσουμε ένα αρχείο κειμένου και να βρούμε τη συχνότητα εμφάνισης κάθε λέξης. Αυτό γίνεται εύκολα με ένα λεξικό:</p>
-<div class="highlight-python3"><div class="highlight"><pre><span class="c"># dictionary with words as keys</span>
+<div class="highlight-python3"><div class="highlight"><pre><span class="c1"># dictionary with words as keys</span>
 <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
 
-<span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;test.txt&#39;</span><span class="p">,</span><span class="s">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;test.txt&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fp</span><span class="p">:</span>
-	<span class="n">l</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="c"># convert to lowercase</span>
-				 <span class="c"># then split on whitespaces</span>
-	<span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>	<span class="c"># l is a list of words</span>
-		<span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>	 <span class="c"># if word already in dict</span>
-			<span class="n">d</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>	<span class="c"># incr counter</span>
-		<span class="k">else</span><span class="p">:</span>	<span class="c"># word not in dict</span>
-			<span class="n">d</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>	<span class="c"># 1st time</span>
+	<span class="n">l</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="c1"># convert to lowercase</span>
+				 <span class="c1"># then split on whitespaces</span>
+	<span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>	<span class="c1"># l is a list of words</span>
+		<span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>	 <span class="c1"># if word already in dict</span>
+			<span class="n">d</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>	<span class="c1"># incr counter</span>
+		<span class="k">else</span><span class="p">:</span>	<span class="c1"># word not in dict</span>
+			<span class="n">d</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>	<span class="c1"># 1st time</span>
 	
 <span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-<span class="c"># create list to sort per count</span>
+<span class="c1"># create list to sort per count</span>
 <span class="n">wl</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="c"># use (count,word) pairs, to sort by count first</span>
+<span class="c1"># use (count,word) pairs, to sort by count first</span>
 <span class="k">for</span> <span class="n">word</span><span class="p">,</span><span class="n">count</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
 	<span class="n">wl</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">count</span><span class="p">,</span><span class="n">word</span><span class="p">))</span>
 	
-<span class="c"># sort per count</span>
+<span class="c1"># sort per count</span>
 <span class="n">wl</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
 
-<span class="c"># print words and counts</span>
+<span class="c1"># print words and counts</span>
 <span class="k">for</span> <span class="n">count</span><span class="p">,</span><span class="n">word</span> <span class="ow">in</span> <span class="n">wl</span><span class="p">:</span>
 	<span class="nb">print</span><span class="p">(</span><span class="n">word</span><span class="p">,</span><span class="n">count</span><span class="p">)</span>
 </pre></div>
@@ -327,18 +331,18 @@
 <div class="highlight-python"><div class="highlight"><pre><span class="n">i</span> <span class="o">=</span> <span class="mi">23</span>
 <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
 <span class="n">j</span> <span class="o">=</span> <span class="n">i</span>
-<span class="n">i</span> <span class="o">=</span> <span class="s">&quot;hello&quot;</span>
+<span class="n">i</span> <span class="o">=</span> <span class="s2">&quot;hello&quot;</span>
 </pre></div>
 </div>
 <p>Αυτό που συμβαίνει κατά την εκτέλεση των παραπάνω είναι:</p>
 <ul class="simple">
-<li>Δημιουργείται ένα αντικείμενο τύπου int με τιμή <tt class="docutils literal"><span class="pre">23</span></tt></li>
-<li>Το όνομα <tt class="docutils literal"><span class="pre">i</span></tt> συνδέεται με το αντικείμενο αυτό</li>
-<li>Δημιουργείται ένα <strong>νέο</strong> αντικείμενο τύπου int με τιμή <tt class="docutils literal"><span class="pre">23+1</span></tt></li>
-<li>Το όνομα <tt class="docutils literal"><span class="pre">i</span></tt> συνδέεται με το νέο αυτό αντικείμενο</li>
-<li>Το όνομα <tt class="docutils literal"><span class="pre">j</span></tt> συνδέεται με το αντικείμενο, στο οποίο αναφέρεται το <tt class="docutils literal"><span class="pre">i</span></tt> (με τιμή 24)</li>
-<li>Δημιουργείται ένα αντικείμενο τύπου str με τιμή <tt class="docutils literal"><span class="pre">&quot;hello&quot;</span></tt></li>
-<li>Το όνομα <tt class="docutils literal"><span class="pre">i</span></tt> συνδέεται με το νέο αυτό αντικείμενο</li>
+<li>Δημιουργείται ένα αντικείμενο τύπου int με τιμή <code class="docutils literal"><span class="pre">23</span></code></li>
+<li>Το όνομα <code class="docutils literal"><span class="pre">i</span></code> συνδέεται με το αντικείμενο αυτό</li>
+<li>Δημιουργείται ένα <strong>νέο</strong> αντικείμενο τύπου int με τιμή <code class="docutils literal"><span class="pre">23+1</span></code></li>
+<li>Το όνομα <code class="docutils literal"><span class="pre">i</span></code> συνδέεται με το νέο αυτό αντικείμενο</li>
+<li>Το όνομα <code class="docutils literal"><span class="pre">j</span></code> συνδέεται με το αντικείμενο, στο οποίο αναφέρεται το <code class="docutils literal"><span class="pre">i</span></code> (με τιμή 24)</li>
+<li>Δημιουργείται ένα αντικείμενο τύπου str με τιμή <code class="docutils literal"><span class="pre">&quot;hello&quot;</span></code></li>
+<li>Το όνομα <code class="docutils literal"><span class="pre">i</span></code> συνδέεται με το νέο αυτό αντικείμενο</li>
 </ul>
 <p>Κάποια στιγμή (<strong>μη ντετερμινιστική για εμάς!</strong>) η Python θα ανακυκλώσει αυτόματα όσα αντικείμενα δεν συνδέονται με μεταβλητές (garbage collection).</p>
 </div>
@@ -349,21 +353,24 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
+          <a href="../unit3/module1.html" title="Ενότητα 3-1"
+             >next</a> |</li>
+        <li class="right" >
           <a href="../index.html" title="Μεταγλωττιστές - Σημειώσεις Μαθήματος και Εργαστηρίου"
              >previous</a> |</li>
-        <li><a href="../index.html">Compiler Lecture Notes 1.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Compiler Lecture Notes 1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2016, mistral.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
     </div>
   </body>
 </html>

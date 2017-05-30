@@ -9,5 +9,8 @@
    unit1/module1.rst
    unit3/module1.rst
    unit4/module1.rst
+   unit5/module1.rst
+   unit5/module2.rst
+   
    
 

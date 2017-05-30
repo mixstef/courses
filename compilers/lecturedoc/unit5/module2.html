@@ -25,20 +25,20 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="Compiler Lecture Notes 1.0 documentation" href="../index.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li><a href="../index.html">Compiler Lecture Notes 1.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Compiler Lecture Notes 1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
 
     <div class="document">
       <div class="documentwrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="recursive-descent-parsing">
 <h1>Recursive descent parsing<a class="headerlink" href="#recursive-descent-parsing" title="Permalink to this headline">¶</a></h1>
@@ -62,12 +62,12 @@
 <ul class="simple">
 <li>Τα FOLLOW sets αρχικά είναι άδεια.</li>
 <li>Για κάθε δεξί μέρος των κανόνων (ακόμα και για τον εννοούμενο πρώτο κανόνα με το EOT!):<ul>
-<li>Για κάθε μη τερματικό <tt class="docutils literal"><span class="pre">Β</span></tt> και τυχαίες ακολουθίες συμβόλων <tt class="docutils literal"><span class="pre">α</span></tt>, <tt class="docutils literal"><span class="pre">β</span></tt> σε κανόνες της μορφής <tt class="docutils literal"><span class="pre">Α</span> <span class="pre">-&gt;</span> <span class="pre">α</span> <span class="pre">Β</span> <span class="pre">β</span></tt>, προσθέτουμε το FIRST(β) -εκτός από το ε- στο FOLLOW(B).<ul>
-<li>Παρατηρήσεις: 1) το <tt class="docutils literal"><span class="pre">α</span></tt> μπορεί να είναι κενό (να μην υπάρχει) 2) αν το <tt class="docutils literal"><span class="pre">β</span></tt> ξεκινά με τερματικό σύμβολο, το FIRST(β) είναι προφανώς το τερματικό εκείνο σύμβολο.</li>
+<li>Για κάθε μη τερματικό <code class="docutils literal"><span class="pre">Β</span></code> και τυχαίες ακολουθίες συμβόλων <code class="docutils literal"><span class="pre">α</span></code>, <code class="docutils literal"><span class="pre">β</span></code> σε κανόνες της μορφής <code class="docutils literal"><span class="pre">Α</span> <span class="pre">-&gt;</span> <span class="pre">α</span> <span class="pre">Β</span> <span class="pre">β</span></code>, προσθέτουμε το FIRST(β) -εκτός από το ε- στο FOLLOW(B).<ul>
+<li>Παρατηρήσεις: 1) το <code class="docutils literal"><span class="pre">α</span></code> μπορεί να είναι κενό (να μην υπάρχει) 2) αν το <code class="docutils literal"><span class="pre">β</span></code> ξεκινά με τερματικό σύμβολο, το FIRST(β) είναι προφανώς το τερματικό εκείνο σύμβολο.</li>
 </ul>
 </li>
-<li>Για κάθε μη τερματικό <tt class="docutils literal"><span class="pre">Β</span></tt> και τυχαία ακολουθία συμβόλων <tt class="docutils literal"><span class="pre">α</span></tt> σε κανόνες της μορφής <tt class="docutils literal"><span class="pre">Α</span> <span class="pre">-&gt;</span> <span class="pre">α</span> <span class="pre">Β</span></tt>, προσθέτουμε το FOLLOW(Α) στο FOLLOW(B).</li>
-<li>Για κάθε μη τερματικό <tt class="docutils literal"><span class="pre">Β</span></tt> και τυχαίες ακολουθίες συμβόλων <tt class="docutils literal"><span class="pre">α</span></tt>, <tt class="docutils literal"><span class="pre">β</span></tt> σε κανόνες της μορφής <tt class="docutils literal"><span class="pre">Α</span> <span class="pre">-&gt;</span> <span class="pre">α</span> <span class="pre">Β</span> <span class="pre">β</span></tt>, όπου το ε ανήκει στο FIRST(β), προσθέτουμε το FOLLOW(Α) στο FOLLOW(B).</li>
+<li>Για κάθε μη τερματικό <code class="docutils literal"><span class="pre">Β</span></code> και τυχαία ακολουθία συμβόλων <code class="docutils literal"><span class="pre">α</span></code> σε κανόνες της μορφής <code class="docutils literal"><span class="pre">Α</span> <span class="pre">-&gt;</span> <span class="pre">α</span> <span class="pre">Β</span></code>, προσθέτουμε το FOLLOW(Α) στο FOLLOW(B).</li>
+<li>Για κάθε μη τερματικό <code class="docutils literal"><span class="pre">Β</span></code> και τυχαίες ακολουθίες συμβόλων <code class="docutils literal"><span class="pre">α</span></code>, <code class="docutils literal"><span class="pre">β</span></code> σε κανόνες της μορφής <code class="docutils literal"><span class="pre">Α</span> <span class="pre">-&gt;</span> <span class="pre">α</span> <span class="pre">Β</span> <span class="pre">β</span></code>, όπου το ε ανήκει στο FIRST(β), προσθέτουμε το FOLLOW(Α) στο FOLLOW(B).</li>
 </ul>
 </li>
 <li>Επαναλαμβάνουμε ξανά τη διαδικασία για όλους τους κανόνες, έως ότου να μην υπάρχουν νέες προσθήκες στα FOLLOW sets.</li>
@@ -110,18 +110,18 @@ Comments delimited by { and } are supported
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              >index</a></li>
-        <li><a href="../index.html">Compiler Lecture Notes 1.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Compiler Lecture Notes 1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2016, mistral.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
     </div>
   </body>
 </html>

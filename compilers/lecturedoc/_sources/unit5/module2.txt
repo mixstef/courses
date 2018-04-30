@@ -1,6 +1,6 @@
 Recursive descent parsing
 ==================================
-Η μέθοδος συντακτικής ανάλυσης LL(1) (left-to-right,leftmost-production, 1 lookahead) αν και όχι κατάλληλη για κάθε τύπου γραμματικές, επιτρέπει την εύκολη κατασκευή "στο χέρι" top-down parsers μέσω προγραμμάτων αναδρομής (recursive descent). Στη γενική μορφή τους, τα προγράμματα αυτά εκμεταλλεύονται τη "φυσική" οργάνωση σε συναρτήσεις, τις αναδρομικές κλήσεις και τις επιστρεφόμενες τιμές για την υλοποίηση του συντακτικού αναλυτή.
+Οι γραμματικές LL(1) (left-to-right,leftmost-production, 1 lookahead) επιτρέπουν την εύκολη κατασκευή "στο χέρι" top-down parsers μέσω προγραμμάτων αναδρομής (recursive descent). Στη γενική μορφή τους, τα προγράμματα αυτά εκμεταλλεύονται τη "φυσική" οργάνωση σε συναρτήσεις, τις αναδρομικές κλήσεις και τις επιστρεφόμενες τιμές για την υλοποίηση του συντακτικού αναλυτή.
 
 
 FIRST sets
@@ -44,25 +44,25 @@ FOLLOW sets
 
 ::
 
-	A simple calculator that takes instructions in the following grammar
+	Απλή γραμματική LL(1) για αριθμητικές εκφράσεις
 
-	program		->	stmt_list EOT		(implicit rule!)
-	stmt_list	->	stmt stmt_list | ε
-	stmt		->	ID = expr | PRINT expr
-	expr		->	term term_tail
-	term_tail	->	addop term term_tail | ε
-	term		->	factor factor_tail
-	factor_tail	->	multop factor factor_tail | ε
-	factor		->	(expr) | ID | NUMBER
-	addop		->	+ | -
-	multop		->	* | /
+	<Program>	->	Stmt_list #		(βοηθητικός κανόνας!)
+	
+	Stmt_list	->	Stmt Stmt_list | ε
+	Stmt		->	id = Expr | print Expr
+	Expr		->	Term Term_tail
+	Term_tail	->	Addop Term Term_tail | ε
+	Term		->	Factor Factor_tail
+	Factor_tail	->	Multop Factor Factor_tail | ε
+	Factor		->	(Expr) | id | number
+	Addop		->	+ | -
+	Multop		->	* | /
 
 
-	PRINT: the 'print' keyword
-	ID: name of a variable
-	NUMBER: an integer or float constant, positive only
+	print: το keyword 'print' 
+	id: όνομα μεταβλητής
+	number: αριθμητική σταθερά
 
-	Comments delimited by { and } are supported
 
 Ποια τα FIRST και FOLLOW sets της γραμματικής αυτής;
 

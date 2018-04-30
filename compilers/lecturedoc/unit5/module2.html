@@ -23,7 +23,8 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Compiler Lecture Notes 1.0 documentation" href="../index.html" /> 
+    <link rel="top" title="Compiler Lecture Notes 1.0 documentation" href="../index.html" />
+    <link rel="prev" title="Ad hoc parsing (μόνο με το plex)" href="module1.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -32,6 +33,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="module1.html" title="Ad hoc parsing (μόνο με το plex)"
+             accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">Compiler Lecture Notes 1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
@@ -42,7 +46,7 @@
             
   <div class="section" id="recursive-descent-parsing">
 <h1>Recursive descent parsing<a class="headerlink" href="#recursive-descent-parsing" title="Permalink to this headline">¶</a></h1>
-<p>Η μέθοδος συντακτικής ανάλυσης LL(1) (left-to-right,leftmost-production, 1 lookahead) αν και όχι κατάλληλη για κάθε τύπου γραμματικές, επιτρέπει την εύκολη κατασκευή &#8220;στο χέρι&#8221; top-down parsers μέσω προγραμμάτων αναδρομής (recursive descent). Στη γενική μορφή τους, τα προγράμματα αυτά εκμεταλλεύονται τη &#8220;φυσική&#8221; οργάνωση σε συναρτήσεις, τις αναδρομικές κλήσεις και τις επιστρεφόμενες τιμές για την υλοποίηση του συντακτικού αναλυτή.</p>
+<p>Οι γραμματικές LL(1) (left-to-right,leftmost-production, 1 lookahead) επιτρέπουν την εύκολη κατασκευή &#8220;στο χέρι&#8221; top-down parsers μέσω προγραμμάτων αναδρομής (recursive descent). Στη γενική μορφή τους, τα προγράμματα αυτά εκμεταλλεύονται τη &#8220;φυσική&#8221; οργάνωση σε συναρτήσεις, τις αναδρομικές κλήσεις και τις επιστρεφόμενες τιμές για την υλοποίηση του συντακτικού αναλυτή.</p>
 <div class="section" id="first-sets">
 <h2>FIRST sets<a class="headerlink" href="#first-sets" title="Permalink to this headline">¶</a></h2>
 <p>Το FIRST(x) περιλαμβάνει όλα τα τερματικά σύμβολα, από τα οποία μπορεί να ξεκινάει μια παραγωγή από το x, σε 0 η περισσότερα βήματα. Πρακτικά, ξεκινώντας από κενά FIRST sets, επαναλαμβάνουμε για κάθε κανόνα:</p>
@@ -80,25 +84,24 @@
 <li>η γραμματική δεν έχει αριστερή αναδρομή ούτε κοινούς παράγοντες στους κανόνες</li>
 <li>επιτρέπονται κενές παραγωγές (μέσω του ε)</li>
 </ul>
-<div class="highlight-python"><div class="highlight"><pre>A simple calculator that takes instructions in the following grammar
+<div class="highlight-python"><div class="highlight"><pre>Απλή γραμματική LL(1) για αριθμητικές εκφράσεις
 
-program         -&gt;      stmt_list EOT           (implicit rule!)
-stmt_list       -&gt;      stmt stmt_list | ε
-stmt            -&gt;      ID = expr | PRINT expr
-expr            -&gt;      term term_tail
-term_tail       -&gt;      addop term term_tail | ε
-term            -&gt;      factor factor_tail
-factor_tail     -&gt;      multop factor factor_tail | ε
-factor          -&gt;      (expr) | ID | NUMBER
-addop           -&gt;      + | -
-multop          -&gt;      * | /
+&lt;Program&gt;       -&gt;      Stmt_list #             (βοηθητικός κανόνας!)
+
+Stmt_list       -&gt;      Stmt Stmt_list | ε
+Stmt            -&gt;      id = Expr | print Expr
+Expr            -&gt;      Term Term_tail
+Term_tail       -&gt;      Addop Term Term_tail | ε
+Term            -&gt;      Factor Factor_tail
+Factor_tail     -&gt;      Multop Factor Factor_tail | ε
+Factor          -&gt;      (Expr) | id | number
+Addop           -&gt;      + | -
+Multop          -&gt;      * | /
 
 
-PRINT: the &#39;print&#39; keyword
-ID: name of a variable
-NUMBER: an integer or float constant, positive only
-
-Comments delimited by { and } are supported
+print: το keyword &#39;print&#39;
+id: όνομα μεταβλητής
+number: αριθμητική σταθερά
 </pre></div>
 </div>
 <p>Ποια τα FIRST και FOLLOW sets της γραμματικής αυτής;</p>
@@ -116,11 +119,14 @@ Comments delimited by { and } are supported
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="module1.html" title="Ad hoc parsing (μόνο με το plex)"
+             >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">Compiler Lecture Notes 1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2016, mistral.
+        &copy; Copyright 2018, mistral.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
     </div>
   </body>

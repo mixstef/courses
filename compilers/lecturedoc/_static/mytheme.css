@@ -1,0 +1,53 @@
+@import url("alabaster.css");
+
+.pageheader {
+	width: 100%;
+	border-bottom: solid #800000 2px;
+	background-color: #7880A8;
+}
+
+/* the header clearfix */
+.pageheader:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.pageheader img {
+  float: left;
+}
+
+.pageheader div {
+  width: 65%;	/* we need a width, in order to float correctly */
+  float: left;
+  padding-top: 20px;	/* align with logo image top space */
+}
+
+.pageheader h2,
+.pageheader h3,
+.pageheader h4,
+.pageheader h5,
+.pageheader h6 {
+	color: #FFFFFF;
+	font-family: Georgia, serif;
+	font-weight: normal;
+	margin: 0px 0px 0px 0px;
+	padding: 0;
+	
+}
+
+
+@media screen and (max-width: 768px) {
+
+  .pageheader img {
+    display: none;
+  }
+
+  .pageheader div {
+    width: 96%;
+    float: none;
+    padding: 6px;
+    text-align: center;
+  }
+
+}

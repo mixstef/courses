@@ -1,7 +1,0 @@
-a = 23.7 + 0  { init a }
-b = 49.3 + a
-print b
-c = a - b
-print c
-c = c - .2	{ decrement c }
-print c

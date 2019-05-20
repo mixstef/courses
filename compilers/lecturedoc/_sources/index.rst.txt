@@ -1,4 +1,4 @@
-Μεταγλωττιστές - Σημειώσεις Μαθήματος και Εργαστηρίου
+Μεταγλωττιστές - Σημειώσεις Εργαστηρίου
 ======================================================
 
 Περιεχόμενα:
@@ -6,11 +6,7 @@
 .. toctree::
    :maxdepth: 2
    
-   unit1/module1.rst
    unit3/module1.rst
    unit4/module1.rst
-   unit5/module1.rst
+   unit5/module1.rst   
    unit5/module2.rst
-   
-   
-

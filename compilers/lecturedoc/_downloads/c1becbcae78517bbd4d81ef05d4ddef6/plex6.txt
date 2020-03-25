@@ -1,8 +1,0 @@
-if x > y * -5 then
-  b = c // commented-out / 3.45
-  mem = 0x4f9E
-else
-  b = var2*8-9.23	// isn't it great?
-  d = .27
-  mem = 0x00FF
-end	// the end

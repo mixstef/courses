@@ -1,0 +1,395 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Εισαγωγή στη λεκτική ανάλυση &#8212; Compiler Labs Doc 1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/mytheme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Παράρτημα Α: Πληροφορίες για την Python3" href="../appendix-python/module1.html" />
+    <link rel="prev" title="Μεταγλωττιστές - Σημειώσεις Εργαστηρίου" href="../index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+<div class="pageheader">
+     <img src=../_static/banner.gif alt="mistral"/>
+     <div>
+        <h4>Τμήμα Πληροφορικής - Ιόνιο Πανεπιστήμιο</h4>
+        <h2>Μεταγλωττιστές</h2>
+        <h4>Εαρινό Εξάμηνο 2019-20</h4>        
+        <h5>Μ.Στεφανιδάκης</h5>
+      </div>    
+</div>
+
+
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <a class="reference internal image-reference" href="../_images/by-sa.png"><img alt="Creative Commons Attribution-ShareAlike 4.0 International License" src="../_images/by-sa.png" style="width: 80px;" /></a>
+<div class="section" id="id1">
+<h1>Εισαγωγή στη λεκτική ανάλυση<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>Στην ενότητα αυτή εξετάζουμε το πρώτο στάδιο ενός μεταγλωττιστή, τη <em>λεκτική ανάλυση</em>, η οποία μετατρέπει τον πηγαίο κώδικα (source files) σε <em>σύμβολα</em> (tokens). Το στάδιο αυτό μπορεί να ειδωθεί ως μια μορφή προ-επεξεργασίας (preprocessing), πριν την περισσότερο απαιτητική υπολογιστικά <em>συντακτική ανάλυση</em>.</p>
+<div class="section" id="id2">
+<h2>Η λειτουργία της λεκτικής ανάλυσης<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Η λεκτική ανάλυση (lexical analysis, lexing ή scanning) δέχεται ως είσοδο έναν-έναν τους μεμονωμένους χαρακτήρες του πηγαίου κώδικα και παράγει <em>σύμβολα</em> (tokens). Δείτε το επόμενο σχήμα:</p>
+<div class="figure align-default" id="id7">
+<img alt="Παράδειγμα λεκτικής ανάλυσης" src="../_images/lexing.png" />
+<p class="caption"><span class="caption-text">Παράδειγμα λεκτικής ανάλυσης</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
+</div>
+<p>Στην είσοδο έχουμε τους μεμονωμένους χαρακτήρες <code class="docutils literal notranslate"><span class="pre">&quot;int</span> <span class="pre">k;&quot;</span></code>. Η λεκτική ανάλυση ομαδοποιεί στα σύμβολα <code class="docutils literal notranslate"><span class="pre">KEYWORD_INT</span></code>, <code class="docutils literal notranslate"><span class="pre">SPACE</span></code>, <code class="docutils literal notranslate"><span class="pre">IDENTIFIER</span></code> και <code class="docutils literal notranslate"><span class="pre">SEMICOLON</span></code>. Παρατηρείστε ότι:</p>
+<ul class="simple">
+<li><p>Ένα σύμβολο (token) συνοδεύεται πάντοτε από το κείμενο που του αντιστοιχεί (lexeme).</p>
+<ul>
+<li><p>Για τα <code class="docutils literal notranslate"><span class="pre">KEYWORD_INT</span></code> ή <code class="docutils literal notranslate"><span class="pre">SEMICOLON</span></code> ξέρουμε πάντοτε ποιο κείμενο αντιστοιχεί (<code class="docutils literal notranslate"><span class="pre">&quot;int&quot;</span></code> και <code class="docutils literal notranslate"><span class="pre">&quot;;&quot;</span></code>), συνεπώς το lexeme δεν μας ενδιαφέρει.</p></li>
+<li><p>Αντιθέτως, για το token <code class="docutils literal notranslate"><span class="pre">IDENTIFIER</span></code> (ονόματα μεταβλητών κλπ) η πληροφορία του lexeme (<code class="docutils literal notranslate"><span class="pre">&quot;k&quot;</span></code>) είναι σημαντική για τον μεταγλωττιστή.</p></li>
+</ul>
+</li>
+<li><p>Ο λεκτικός αναλυτής «καθαρίζει» την είσοδο, π.χ. απορρίπτοντας σχόλια ή τα κενά σε γλώσσες όπως η C. Αυτό βέβαια εξαρτάται από τη γλώσσα προγραμματισμού: για την Python, τα κενά της στοίχισης δεν πρέπει να απορριφθούν.</p></li>
+</ul>
+<div class="topic">
+<p class="topic-title">Τι δεν κάνει η λεκτική ανάλυση.</p>
+<p>Θα πρέπει πάντοτε να θυμόμαστε ότι ένας λεκτικός αναλυτής <strong>δεν ασχολείται με τη σύνταξη</strong>: αυτό είναι αρμοδιότητα του επόμενου βήματος μεταγλώττισης, της <em>συντακτικής ανάλυσης</em>. Συνεπώς, εάν ο λεκτικός αναλυτής λάβει ως είσοδο <code class="docutils literal notranslate"><span class="pre">&quot;int</span> <span class="pre">33.56;&quot;</span></code>, θα πρέπει να εμφανίσει ως έξοδο τα <code class="docutils literal notranslate"><span class="pre">[KEYWORD_INT,</span> <span class="pre">FLOAT_CONSTANT,</span> <span class="pre">SEMICOLON]</span></code> χωρίς να παραχθεί σφάλμα.</p>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>Αυτόματα πεπερασμένων καταστάσεων<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>Από τη «Θεωρία Υπολογισμού»: Κάθε αυτόματο πεπερασμένων καταστάσεων (<em>finite automaton –FA</em>) είναι μια πεντάδα <span class="math notranslate nohighlight">\((Q, \Sigma, \delta, q_0, F)\)</span>, όπου</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(Q\)</span> ένα <strong>πεπερασμένο</strong> σύνολο καταστάσεων</p>
+<ul>
+<li><p>συν μια κατάσταση σφάλματος <span class="math notranslate nohighlight">\(q_e\)</span></p></li>
+</ul>
+</li>
+<li><p><span class="math notranslate nohighlight">\(\Sigma\)</span> ένα <strong>πεπερασμένο</strong> αλφάβητο</p>
+<ul>
+<li><p>σύνολο χαρακτήρων εισόδου</p></li>
+</ul>
+</li>
+<li><p><span class="math notranslate nohighlight">\(\delta \colon Q \times \Sigma \to Q\)</span> η συνάρτηση μετάβασης</p>
+<ul>
+<li><p>από την τρέχουσα στην επόμενη κατάσταση, με την εμφάνιση ενός νέου χαρακτήρα εισόδου</p></li>
+<li><p>αν δεν υπάρχει μετάβαση, τότε σφάλμα</p></li>
+</ul>
+</li>
+<li><p><span class="math notranslate nohighlight">\(q_0 \in Q\)</span> η αρχική κατάσταση</p></li>
+<li><p><span class="math notranslate nohighlight">\(F \subseteq Q\)</span> το σύνολο των καταστάσεων αποδοχής</p>
+<ul>
+<li><p>εάν βρισκόμαστε εδώ όταν τελειώσει η ανάλυση, τότε αποδεχόμαστε το κείμενο εισόδου</p></li>
+</ul>
+</li>
+</ul>
+<p>Σε μια τυπική εφαρμογή μεταγλωττιστή, το αλφάβητο <span class="math notranslate nohighlight">\(\Sigma\)</span> είναι όλοι οι χαρακτήρες που αναγνωρίζει η γλώσσα προγραμματισμού.</p>
+<div class="section" id="id4">
+<h3>Χρήση στη λεκτική ανάλυση<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>Πώς χρησιμοποιείται πρακτικά το αυτόματο <em>FA</em> στην λεκτική ανάλυση; Ο στόχος είναι να αναγνωρίσουμε συγκεκριμένες ακολουθίες (patterns) χαρακτήρων εισόδου. Κατά τη διαδικασία της αναγνώρισης θέλουμε να ξέρουμε σε κάθε στιγμή:</p>
+<ul class="simple">
+<li><p>Ποιους χαρακτήρες έχουμε ήδη αναγνωρίσει έως τώρα;</p></li>
+<li><p>Στο σημείο που βρισκόμαστε, ποιοι είναι οι επόμενοι έγκυροι χαρακτήρες;</p></li>
+</ul>
+<p>Αυτό μπορεί να γίνει με τη βοήθεια ενός αυτομάτου. Δείτε την εικόνα που ακολουθεί:</p>
+<div class="figure align-default" id="id8">
+<img alt="Αυτόματο πεπερασμένων καταστάσεων για τα  keywords long, term, test" src="../_images/longtermtest.png" />
+<p class="caption"><span class="caption-text">Αυτόματο πεπερασμένων καταστάσεων για τα  keywords long, term, test</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
+</div>
+<p>Το αυτόματο αυτό είναι σχεδιασμένο για να αναγνωρίζει τρία keywords, τις λέξεις <cite>long</cite>, <cite>term</cite> και <cite>test</cite>.</p>
+<ul>
+<li><p>Στην αρχή της διαδικασίας βρισκόμαστε στην αρχική κατάσταση <span class="math notranslate nohighlight">\(s_0\)</span>.</p></li>
+<li><p>Εάν ο πρώτος χαρακτήρας εισόδου είναι το <cite>t</cite> μεταβαίνουμε στην κατάσταση <span class="math notranslate nohighlight">\(s_1\)</span>, αν είναι το <cite>l</cite>, στην <span class="math notranslate nohighlight">\(s_2\)</span>. Για κάθε άλλο χαρακτήρα εισόδου δεν προβλέπεται μετάβαση, συνεπώς μεταβαίνουμε σε κατάσταση σφάλματος.</p></li>
+<li><p>Όντας στις καταστάσεις <span class="math notranslate nohighlight">\(s_1\)</span> ή <span class="math notranslate nohighlight">\(s_2\)</span>, διαβάζουμε τον επόμενο χαρακτήρα εισόδου και προχωράμε σε επόμενη κατάσταση αν αυτό είναι δυνατό.</p></li>
+<li><p>Η διαδικασία επαναλαμβάνεται όσο δεν υπάρχει σφάλμα και όσο υπάρχουν επόμενοι χαρακτήρες εισόδου.</p></li>
+<li><p>Όταν εξαντληθεί η είσοδος, ελέγχουμε αν βρισκόμαστε σε κατάσταση αποδοχής.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Αν όχι, δεν έχουμε αναγνωρίσει πλήρως κάτι από τα ζητούμενα, οπότε επιστρέφεται σφάλμα.</p></li>
+<li><p>Αν ναι, έχουμε αναγνωρίσει το κείμενο που αντιστοιχεί στην κατάσταση που βρισκόμαστε (π.χ. αν είμαστε στην κατάσταση <span class="math notranslate nohighlight">\(s_7\)</span> έχουμε αναγνωρίσει τη λέξη <cite>term</cite>.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<p>Συνοψίζοντας, είναι οι <em>καταστάσεις</em> του αυτομάτου που προσδιορίζουν σε ποιο σημείο της διαδικασίας αναγνώρισης βρισκόμαστε και ποιοι χαρακτήρες πρέπει να ακολουθήσουν.</p>
+<p>Ένα αυτόματο πεπερασμένων καταστάσεων μπορεί να αναγνωρίσει ακολουθίες χαρακτήρων με απεριόριστο μήκος. Αυτό επιτυγχάνεται με τη χρήση loops στις ακμές του αυτομάτου. Δείτε για παράδειγμα το αυτόματο που ακολουθεί, το οποίο αναγνωρίζει ακολουθίες ψηφίων <cite>0..9</cite> οποιουδήποτε μήκους:</p>
+<div class="figure align-default" id="id9">
+<img alt="Αυτόματο πεπερασμένων καταστάσεων για αναγνώριση σειράς ψηφίων" src="../_images/digits.png" />
+<p class="caption"><span class="caption-text">Αυτόματο πεπερασμένων καταστάσεων για αναγνώριση σειράς ψηφίων</span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
+</div>
+<div class="topic">
+<p class="topic-title">Μπορεί η αρχική κατάσταση να είναι κατάσταση αποδοχής;</p>
+<p>Θα μπορούσε το προηγούμενο αυτόματο να απλοποιηθεί μετατρέποντας την <span class="math notranslate nohighlight">\(s_0\)</span> σε κατάσταση αποδοχής με το loop <cite>0..9</cite> πάνω σε αυτήν; Η απάντηση είναι <strong>όχι</strong>: Αν το κάνατε, θα καταλήγατε σε ένα αυτόματο που θα αναγνώριζε το <em>τίποτα</em> (θα ήταν σε κατάσταση αποδοχής από την αρχή)!</p>
+</div>
+<p>Μια πολύ σημαντική ιδιότητα του ντετερμινιστικού αυτομάτου πεπερασμένων καταστάσεων είναι ότι η απόδοση της διαδικασίας αναγνώρισης <strong>δεν εξαρτάται από το μέγεθος του αυτομάτου</strong> (αριθμό καταστάσεων) αλλά <em>μόνο</em> από το <strong>μέγεθος του κειμένου εισόδου</strong>:</p>
+<ul class="simple">
+<li><p>Για μέγεθος εισόδου <span class="math notranslate nohighlight">\(m\)</span> η απόδοση του αυτομάτου είναι <span class="math notranslate nohighlight">\(\mathcal{O}(m)\)</span>, ανεξάρτητα από τον αριθμό των καταστάσεων του αυτομάτου.</p></li>
+</ul>
+<p>Αυτό εξηγείται αν σκεφτούμε ότι για κάθε ένα νέο χαρακτήρα εισόδου κατά τη διάρκεια αναγνώρισης το αυτόματο θα κάνει το πολύ μία μετάβαση (αν η μετάβαση είναι εφικτή).</p>
+</div>
+<div class="section" id="id5">
+<h3>Πίνακας μεταβάσεων<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>Το αυτόματο πεπερασμένων καταστάσεων είναι μια θεωρητική μορφή. Για να υλοποιηθεί σε κάποια γλώσσα προγραμματισμού χρειαζόμαστε μια πιο συγκεκριμένη (concrete) μορφή. Ως ενδιάμεσο βήμα, μπορούμε να εκφράσουμε το αυτόματο με έναν πίνακα δύο διαστάσεων.</p>
+<table class="docutils align-default" id="id10">
+<caption><span class="caption-text">Πίνακας μεταβάσεων για τα long, term, test</span><a class="headerlink" href="#id10" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>l</p></th>
+<th class="head"><p>o</p></th>
+<th class="head"><p>n</p></th>
+<th class="head"><p>g</p></th>
+<th class="head"><p>t</p></th>
+<th class="head"><p>e</p></th>
+<th class="head"><p>r</p></th>
+<th class="head"><p>m</p></th>
+<th class="head"><p>s</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>s0</p></td>
+<td><p>s2</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>s1</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>s1</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>s3</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>s2</p></td>
+<td></td>
+<td><p>s8</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>s3</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>s6</p></td>
+<td></td>
+<td><p>s4</p></td>
+</tr>
+<tr class="row-even"><td><p>s4</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>s5</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>s5*</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>s6</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>s7</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>s7*</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>s8</p></td>
+<td></td>
+<td></td>
+<td><p>s9</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>s9</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>s10</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>s10*</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Όπως φαίνεται στο σχήμα, ο πίνακας έχει στις γραμμές του τις καταστάσεις του αυτομάτου και στις στήλες του τους αναμενόμενους χαρακτήρες εισόδου (το <em>αλφάβητο</em> του αυτομάτου). Οι τερματικές καταστάσεις σημειώνονται με το *. Στην πρώτη γραμμή του πίνακα τοποθετείται η αρχική κατάσταση <span class="math notranslate nohighlight">\(s_0\)</span>.</p>
+<ul class="simple">
+<li><p>Στη διασταύρωση γραμμής-στήλης τοποθετούμε τη νέα κατάσταση που μεταβαίνουμε.</p></li>
+<li><p>Αν το κελί είναι άδειο, δεν υπάρχει μετάβαση από την τρέχουσα κατάσταση με τον δεδομένο χαρακτήρα εισόδου. Συνεπώς προκύπτει σφάλμα.</p></li>
+</ul>
+<div class="topic">
+<p class="topic-title">Πόσες τιμές σε κάθε κελί του πίνακα;</p>
+<p>Κάθε κελί μπορεί να έχει <em>μία μόνο</em> (ή καμία) τιμή. Το αυτόματό μας είναι ντετερμινιστικό (αιτιοκρατικό). Αν υπήρχαν δύο ή περισσότερες τιμές, αυτό θα σήμαινε ότι με τον <strong>ίδιο χαρακτήρα εισόδου</strong> θα μπορούσαμε να μεταβούμε μη ντετερμινιστικά σε εναλλακτικές καταστάσεις.</p>
+</div>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>Ερωτήσεις<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Λεκτικός αναλυτής για τη γλώσσα C δέχεται ως είσοδο το string <code class="docutils literal notranslate"><span class="pre">k</span> <span class="pre">;</span> <span class="pre">int</span></code>. Τι πρέπει να επιστρέψει;</p></li>
+</ol>
+<blockquote>
+<div><ol class="lowerroman simple">
+<li><p>Θα απορρίψει τους χαρακτήρες εισόδου μέχρι και το <code class="docutils literal notranslate"><span class="pre">;</span></code> και θα επιστρέψει μόνο το <code class="docutils literal notranslate"><span class="pre">KEYWORD_INT</span></code>.</p></li>
+<li><p>Θα δημιουργηθεί σφάλμα, διότι δεν πρόκειται για έγκυρη σύνταξη της C.</p></li>
+<li><p>Θα επιστρέψει τα σύμβολα <code class="docutils literal notranslate"><span class="pre">IDENTIFIER</span></code>, <code class="docutils literal notranslate"><span class="pre">SEMICOLON</span></code>, <code class="docutils literal notranslate"><span class="pre">KEYWORD_INT</span></code>.</p></li>
+</ol>
+</div></blockquote>
+<ol class="arabic" start="2">
+<li><p>Σας δίνεται το αυτόματο του επόμενου σχήματος, το οποίο αναγνωρίζει διψήφιους αριθμούς από το <code class="docutils literal notranslate"><span class="pre">00</span></code> έως το <code class="docutils literal notranslate"><span class="pre">19</span></code> για να το αξιολογήσετε. Τι λέτε;</p>
+<div class="figure align-default">
+<img alt="Αυτόματο πεπερασμένων καταστάσεων για αναγνώριση 00..19" src="../_images/phony.png" />
+</div>
+</li>
+</ol>
+<blockquote>
+<div><ol class="lowerroman simple">
+<li><p>Το αυτόματο δεν αναγνωρίζει το ζητούμενο σχέδιο (pattern).</p></li>
+<li><p>Το αυτόματο είναι εν μέρει λάθος. Οι καταστάσεις <span class="math notranslate nohighlight">\(s_1\)</span>, <span class="math notranslate nohighlight">\(s_3\)</span> πρέπει να συγχωνευτούν σε μία. Το ίδιο και οι καταστάσεις <span class="math notranslate nohighlight">\(s_2\)</span>, <span class="math notranslate nohighlight">\(s_4\)</span>.</p></li>
+<li><p>Το αυτόματο είναι σωστό. Θα μπορούσε να γραφεί πιο κομψά με συγχωνεύσεις καταστάσεων αλλά αυτό δεν έχει σημασία στην απόδοση.</p></li>
+</ol>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>Γιατί στον πίνακα μεταβάσεων του παραδείγματος long, term, test οι γραμμές των τερματικών καταστάσεων είναι κενές;</p></li>
+</ol>
+<blockquote>
+<div><ol class="lowerroman simple">
+<li><p>Αυτό συμβαίνει πάντα με τις τερματικές καταστάσεις γιατί η αναγνώριση σταματά στο σημείο εκείνο.</p></li>
+<li><p>Επειδή δεν υπάρχουν εξερχόμενες μεταβάσεις από τις καταστάσεις αποδοχής του συγκεκριμένου παραδείγματος.</p></li>
+<li><p>Επειδή όταν βρισκόμαστε σε κατάσταση αποδοχής, για κάθε επόμενο χαρακτήρα προκύπτει σφάλμα.</p></li>
+</ol>
+</div></blockquote>
+<ol class="arabic simple" start="4">
+<li><p>Στον ίδιο πίνακα μεταβάσεων μπορεί μια γραμμή να έχει δύο η περισσότερα κελιά συμπληρωμένα;</p></li>
+</ol>
+<blockquote>
+<div><ol class="lowerroman simple">
+<li><p>Ναι. Αυτό σημαίνει ότι από την τρέχουσα κατάσταση υπάρχουν πολλαπλές μεταβάσεις, ανάλογα με την εμφάνιση διαφορετικών χαρακτήρων εισόδου.</p></li>
+<li><p>Ναι. Αυτό σημαίνει ότι από την τρέχουσα κατάσταση μεταβαίνουμε σε μια μοναδική δεύτερη κατάσταση, με πολλούς διαφορετικούς χαρακτήρες εισόδου.</p></li>
+<li><p>Όχι. Αυτό θα σήμαινε ότι με τον ίδιο χαρακτήρα μεταβαίνουμε σε διαφορετικές καταστάσεις.</p></li>
+</ol>
+</div></blockquote>
+<ol class="arabic simple" start="5">
+<li><p>Σχεδιάστε τον πίνακα μεταβάσεων για το αυτόματο αναγνώρισης ψηφίων.</p></li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Περιεχόμενα</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Εισαγωγή στη λεκτική ανάλυση</a><ul>
+<li><a class="reference internal" href="#id2">Η λειτουργία της λεκτικής ανάλυσης</a></li>
+<li><a class="reference internal" href="#id3">Αυτόματα πεπερασμένων καταστάσεων</a><ul>
+<li><a class="reference internal" href="#id4">Χρήση στη λεκτική ανάλυση</a></li>
+<li><a class="reference internal" href="#id5">Πίνακας μεταβάσεων</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id6">Ερωτήσεις</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

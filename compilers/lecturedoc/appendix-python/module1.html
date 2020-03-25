@@ -1,0 +1,326 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Παράρτημα Α: Πληροφορίες για την Python3 &#8212; Compiler Labs Doc 1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/mytheme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Εισαγωγή στη λεκτική ανάλυση" href="../unit1/module1.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+<div class="pageheader">
+     <img src=../_static/banner.gif alt="mistral"/>
+     <div>
+        <h4>Τμήμα Πληροφορικής - Ιόνιο Πανεπιστήμιο</h4>
+        <h2>Μεταγλωττιστές</h2>
+        <h4>Εαρινό Εξάμηνο 2019-20</h4>        
+        <h5>Μ.Στεφανιδάκης</h5>
+      </div>    
+</div>
+
+
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <a class="reference internal image-reference" href="../_images/by-sa2.png"><img alt="Creative Commons Attribution-ShareAlike 4.0 International License" src="../_images/by-sa2.png" style="width: 80px;" /></a>
+<div class="section" id="python3">
+<h1>Παράρτημα Α: Πληροφορίες για την Python3<a class="headerlink" href="#python3" title="Permalink to this headline">¶</a></h1>
+<p>Στο παράρτημα αυτό θα βρείτε τα βασικά στοιχεία για να δουλέψετε με την Python στο εργαστήριο των Μεταγλωττιστών. Το παράρτημα ενημερώνεται συνεχώς για τις ανάγκες του μαθήματος, οπότε μπορείτε να το συμβουλεύεστε τακτικά.</p>
+<div class="section" id="install-ref">
+<span id="id1"></span><h2>Εγκατάσταση της Python3<a class="headerlink" href="#install-ref" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="linux-macos">
+<h3>Linux (ή MacOS)<a class="headerlink" href="#linux-macos" title="Permalink to this headline">¶</a></h3>
+<p>Εάν το λειτουργικό σας σύστημα είναι Linux (ή MacOS) έχετε κατά πάσα πιθανότητα τη γλώσσα διαθέσιμη ήδη. Βεβαιωθείτε ότι τρέχετε την 3η έκδοση της γλώσσας -συχνά πρέπει να δώσετε την εντολή <code class="docutils literal notranslate"><span class="pre">python3</span></code> (η απλή εντολή <code class="docutils literal notranslate"><span class="pre">python</span></code> συνήθως εκτελεί την προηγούμενη έκδοση 2). Δεν απαιτείται πολύ πρόσφατη έκδοση της γλώσσας, οτιδήποτε μεγαλύτερο από την 3.3 είναι αρκετό.</p>
+<p>Για παράδειγμα, μπορείτε να μπείτε στο interactive shell της python3 ως εξής (βγείτε με <code class="docutils literal notranslate"><span class="pre">exit()</span></code> ή <code class="docutils literal notranslate"><span class="pre">Ctrl-D</span></code> όταν τελειώσετε):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python3
+Python 3.5.2 (default, Oct  8 2019, 13:06:37)
+[GCC 5.4.0 20160609] on linux
+Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+&gt;&gt;&gt;
+</pre></div>
+</div>
+<p>Για να εκτελέσετε κώδικα που βρίσκεται σε ένα αρχείο (έστω ότι είναι το <code class="docutils literal notranslate"><span class="pre">myprogram.py</span></code> στον τρέχοντα φάκελο), δώστε:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python3 myprogram.py
+</pre></div>
+</div>
+</div>
+<div class="section" id="windows">
+<h3>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h3>
+<p>Εάν δεν έχετε ήδη εγκαταστήσει την Python3 στο σύστημά σας, πηγαίνετε <a class="reference external" href="https://www.python.org/downloads/">στη σελίδα της Python για download</a>. Βεβαιωθείτε ότι διαλέγετε την πιο πρόσφατη έκδοση 3, κατεβάστε και εκτελέστε τον installer. Θυμηθείτε να ενεργοποιήσετε κατά την εγκατάσταση τις δύο προτεινόμενες επιλογές:</p>
+<ul class="simple">
+<li><p>Την προσθήκη της Python στο <code class="docutils literal notranslate"><span class="pre">PATH</span></code></p></li>
+<li><p>Την επίτρεψη μεγάλων paths</p></li>
+</ul>
+<p>Μπορείτε τώρα να εκτελέσετε το <code class="docutils literal notranslate"><span class="pre">Command</span> <span class="pre">Prompt</span></code> για την εμφάνιση της κονσόλας. Ξεκινήστε ένα interactive shell (βγείτε με <code class="docutils literal notranslate"><span class="pre">exit()</span></code> ή <code class="docutils literal notranslate"><span class="pre">Ctrl-Ζ</span></code> και μετά <code class="docutils literal notranslate"><span class="pre">ENTER</span></code> όταν τελειώσετε):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">Testuser</span><span class="o">&gt;</span><span class="n">python</span>
+<span class="n">Python</span> <span class="mf">3.8</span><span class="o">.</span><span class="mi">2</span> <span class="p">(</span><span class="n">tags</span><span class="o">/</span><span class="n">v3</span><span class="o">.</span><span class="mf">8.2</span><span class="p">:</span><span class="mi">7</span><span class="n">b3ab59</span><span class="p">,</span> <span class="n">Feb</span> <span class="mi">25</span> <span class="mi">2020</span><span class="p">,</span> <span class="mi">22</span><span class="p">:</span><span class="mi">45</span><span class="p">:</span><span class="mi">29</span><span class="p">)</span> <span class="p">[</span><span class="n">MSC</span> <span class="n">v</span><span class="o">.</span><span class="mi">1916</span> <span class="mi">32</span> <span class="n">bit</span> <span class="p">(</span><span class="n">Intel</span><span class="p">)]</span> <span class="n">on</span> <span class="n">win32</span>
+<span class="n">Type</span> <span class="s2">&quot;help&quot;</span><span class="p">,</span> <span class="s2">&quot;copyright&quot;</span><span class="p">,</span> <span class="s2">&quot;credits&quot;</span> <span class="ow">or</span> <span class="s2">&quot;license&quot;</span> <span class="k">for</span> <span class="n">more</span> <span class="n">information</span><span class="o">.</span>
+<span class="o">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>Για να εκτελέσετε κώδικα που βρίσκεται σε ένα αρχείο (έστω ότι είναι το <code class="docutils literal notranslate"><span class="pre">myprogram.py</span></code> στον τρέχοντα φάκελο), δώστε:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">Testuser</span><span class="o">&gt;</span><span class="n">python</span> <span class="n">myprogram</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>Με την εγκατάσταση της Python έχετε επίσης στη διάθεσή σας το περιβάλλον IDLE για την εκτέλεση προγραμμάτων. Ξεκινήστε το από το μενού όπως κάθε άλλη εφαρμογή.</p>
+<p>Εναλλακτικά μπορείτε να ξεκινήσετε το IDLE από την κονσόλα:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">Testuser</span><span class="o">&gt;</span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">idlelib</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>Βασικά παραδείγματα χρήσης της Python3<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Στη συνέχεια παρουσιάζονται ορισμένα ενδιαφέροντα στοιχεία και παραδείγματα χρήσης της Python3. Αυτό που ακολουθεί δεν είναι tutorial, αν θέλετε κάτι τέτοιο μπορείτε να βρείτε εξαιρετικά κείμενα on-line.</p>
+<div class="section" id="strings">
+<h3>Strings<a class="headerlink" href="#strings" title="Permalink to this headline">¶</a></h3>
+<p>Η Python προσφέρει τους κλασσικούς τύπους δεδομένων (int, string κλπ). Τα αντικείμενα των τύπων αυτών είναι <strong>immutable</strong>, δηλαδή <strong>δεν αλλάζουν τιμή</strong> (μπορούν όμως να δημιουργηθούν νέα αντικείμενα ανά πάσα στιγμή).</p>
+<p>Τα <strong>strings</strong> αποτελούν έναν πολύ εύχρηστο τύπο δεδομένων και μερικά χαρακτηριστικά τους δίνονται στη συνέχεια:</p>
+<p>Οι σταθερές string εισάγονται με μονά ή διπλά εισαγωγικά</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;abcd&quot;</span>
+<span class="n">s2</span> <span class="o">=</span> <span class="s1">&#39;abcd&#39;</span> <span class="c1"># ισοδύναμο με προηγούμενο</span>
+</pre></div>
+</div>
+<p>Τα strings ανήκουν στην κατηγορία τύπων sequence (διατεταγμένης ακολουθίας), άρα μπορούμε να πάρουμε επιμέρους τμήματα</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;abcdefg&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">&#39;a&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="go">&#39;d&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">&#39;g&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
+<span class="go">&#39;bcd&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">&#39;abcdef&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
+<span class="go">&#39;cdefg&#39;</span>
+</pre></div>
+</div>
+<p>Για να καταλάβετε καλύτερα το πώς λαμβάνονται τα τμήματα μιας sequence (slicing), μπορείτε να σκεφτείτε ότι ο δείκτης i βρίσκεται ανάμεσα στα (i-1) και i στοιχεία (κι όχι <em>πάνω</em> στο στοιχείο i):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">a</span><span class="o">|</span><span class="n">b</span><span class="o">|</span><span class="n">c</span><span class="o">|</span><span class="n">d</span><span class="o">|</span><span class="n">e</span><span class="o">|</span><span class="n">f</span><span class="o">|</span><span class="n">g</span><span class="p">]</span>
+<span class="o">^</span> <span class="o">^</span> <span class="o">^</span> <span class="o">^</span> <span class="o">^</span> <span class="o">^</span> <span class="o">^</span> <span class="o">^</span>
+<span class="mi">0</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span>
+
+<span class="n">το</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span> <span class="n">είναι</span> <span class="n">ίσο</span> <span class="n">με</span> <span class="s2">&quot;bcd&quot;</span>
+</pre></div>
+</div>
+<p>Θυμηθείτε όμως ότι <strong>δεν μπορούμε να αλλάξουμε περιεχόμενα σε ένα string</strong> (είναι immutable):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;abcdefg&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+<span class="gr">TypeError</span>: <span class="n">&#39;str&#39; object does not support item assignment</span>
+</pre></div>
+</div>
+<p>Μπορούμε όμως πάντοτε να δημιουργήσουμε ένα νέο string. Για παράδειγμα, για να επιτύχουμε το προηγούμενο:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;abcdefg&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;x&#39;</span><span class="o">+</span><span class="n">s</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span>
+<span class="go">&#39;abcxefg&#39;</span>
+</pre></div>
+</div>
+<p>Τα αντικείμενα τύπου string διαθέτουν μια μεγάλη σειρά από <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#string-methods">χρήσιμες μεθόδους</a>.</p>
+</div>
+<div class="section" id="id4">
+<h3>Σύνθετα Αντικείμενα<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>Το δυνατό σημείο της Python είναι τα σύνθετα αντικείμενα που παρέχει, τα οποία χρησιμοποιούμε για όλες τις δομές που θέλουμε να υλοποιήσουμε. Τα δύο βασικότερα είναι οι <strong>λίστες (lists)</strong> και τα <strong>λεξικά (dictionaries)</strong>.  Και οι δύο αυτοί τύποι αντικειμένων είναι <strong>mutable</strong>, τα αντικείμενά τους δηλαδή μπορούν να αλλάξουν περιεχόμενα.</p>
+<div class="section" id="lists">
+<h4>Λίστες (Lists)<a class="headerlink" href="#lists" title="Permalink to this headline">¶</a></h4>
+<p>Οι λίστες ανήκουν στην κατηγορία sequence (όπως και τα strings) και υλοποιούν μια διατεταγμένη συλλογή αντικειμένων. Τα αντικείμενα που περιέχονται στη λίστα μπορούν να είναι οποιουδήποτε τύπου (ακόμα και άλλες λίστες). Εφόσον μια λίστα είναι sequence, μπορούμε να πάρουμε μέρος της, όπως σε ένα string:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">li</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;abcd&#39;</span><span class="p">,</span><span class="s1">&#39;ef&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">li</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">li</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">&#39;ef&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">li</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">[1, 2, &#39;abcd&#39;]</span>
+</pre></div>
+</div>
+<p>Μπορούμε ακόμα να προσπελάσουμε ένα προς ένα τα στοιχεία της λίστας με την επαναληπτική δομή <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">&lt;item&gt;</span> <span class="pre">in</span> <span class="pre">&lt;sequence&gt;</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">li</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">1</span>
+<span class="go">2</span>
+<span class="go">abcd</span>
+<span class="go">ef</span>
+</pre></div>
+</div>
+<p>Σε αντίθεση με τα strings, <strong>μπορούμε να αλλάξουμε τιμή</strong> σε ένα (υπάρχον) στοιχείο μιας λίστας:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">li</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;abcd&#39;</span><span class="p">,</span><span class="s1">&#39;ef&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">li</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">33</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">li</span>
+<span class="go">[33, 2, &#39;abcd&#39;, &#39;ef&#39;]</span>
+</pre></div>
+</div>
+<div class="topic">
+<p class="topic-title">Προσοχή για όσους προέρχονται από τον κόσμο της C!</p>
+<p>Οι αναθέσεις στην Python γίνονται μέσω αναφορών (references) κι όχι με αντιγραφή. Όταν έχουμε mutable αντικείμενα όπως η λίστα, αν δεν προσέξουμε μπορεί να έχουμε απρόβλεπτα αποτελέσματα:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">li</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;abcd&#39;</span><span class="p">,</span><span class="s1">&#39;ef&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lm</span> <span class="o">=</span> <span class="n">li</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lm</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">33</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lm</span>
+<span class="go">[33, 2, &#39;abcd&#39;, &#39;ef&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">li</span>
+<span class="go">[33, 2, &#39;abcd&#39;, &#39;ef&#39;]</span>
+</pre></div>
+</div>
+</div>
+<p>Μπορούμε να προσθέσουμε δυναμικά νέα στοιχεία σε μια λίστα:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">li</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="s1">&#39;ab&#39;</span><span class="p">,</span><span class="s1">&#39;cd&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">li</span> <span class="o">+=</span> <span class="p">[</span><span class="mi">11</span><span class="p">,</span><span class="mi">22</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">li</span>
+<span class="go">[1, 2, 3, &#39;ab&#39;, &#39;cd&#39;, 11, 22]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">li</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">33</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">li</span>
+<span class="go">[1, 2, 3, &#39;ab&#39;, &#39;cd&#39;, 11, 22, 33]</span>
+</pre></div>
+</div>
+<div class="topic">
+<p class="topic-title">Η συνάρτηση append παίρνει ένα και μοναδικό όρισμα</p>
+<p>Προσέξτε το όρισμα στη μέθοδο append στο προηγούμενο παράδειγμα. <strong>Δεν είναι λίστα</strong>. Αν ήταν, το αποτέλεσμα θα ήταν διαφορετικό!</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">l</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l</span>
+<span class="go">[1, 2, 3, [5, 6]]</span>
+</pre></div>
+</div>
+<p>Αν θέλαμε να προσθέσουμε το 5 και το 6 στη λίστα, θα έπρεπε:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">l</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l</span> <span class="o">+=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l</span>
+<span class="go">[1, 2, 3, 5, 6]</span>
+</pre></div>
+</div>
+<p>Ή εναλλακτικά (η μέθοδος extend() ισοδυναμεί με το + σε λίστες):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">l</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l</span>
+<span class="go">[1, 2, 3, 5, 6]</span>
+</pre></div>
+</div>
+</div>
+<p>Οι λίστες είναι δομές <strong>ειδικά βελτιστοποιημένες για ταξινόμηση</strong> (sorting). Εάν θέλουμε να ταξινομήσουμε <strong>πολύ γρήγορα</strong> μια σειρά στοιχείων, <strong>η χρήση λίστας είναι MUST!!!</strong></p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">l</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l</span>
+<span class="go">[-1, 6, 8, 11]</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="dictionaries">
+<h4>Λεξικά (Dictionaries)<a class="headerlink" href="#dictionaries" title="Permalink to this headline">¶</a></h4>
+<p>Τα λεξικά (dictionaries) είναι τύπου mapping: ζεύγη αντιστοιχιών (κλειδιού-τιμής).</p>
+<ul class="simple">
+<li><p>Κάθε κλειδί πρέπει να είναι μοναδικό, αλλά όχι απαραίτητα του ίδιου τύπου με τα άλλα.</p></li>
+<li><p>Δεν μπορείτε να χρησιμοποιήσετε λίστες ή λεξικά ως κλειδιά.</p></li>
+<li><p>Η τιμή που αντιστοιχεί σε ένα κλειδί μπορεί να είναι οποιουδήποτε τύπου.</p></li>
+</ul>
+<p>Οι πιο κοινές λειτουργίες σε λεξικά δίνονται στη συνέχεια.</p>
+<p>Δημιουργήστε ένα κενό ή ένα αρχικοποιημένο με μερικά στοιχεία λεξικό:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">da</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;mike&#39;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span> <span class="s1">&#39;nick&#39;</span><span class="p">:</span> <span class="mi">43</span> <span class="p">}</span>
+</pre></div>
+</div>
+<p>Προσθέστε ένα νέο ζεύγος κλειδιού-τιμής (αν υπάρχει το κλειδί, παίρνει τη νέα τιμή):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">da</span><span class="p">[</span><span class="s1">&#39;stef&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">67</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">da</span><span class="p">[</span><span class="s1">&#39;mike&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;oops&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">da</span>
+<span class="go">{&#39;mike&#39;: &#39;oops&#39;, &#39;stef&#39;: 67, &#39;nick&#39;: 43}</span>
+</pre></div>
+</div>
+<p>Ελέγξτε αν ένα κλειδί υπάρχει στο λεξικό:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="s1">&#39;stef&#39;</span> <span class="ow">in</span> <span class="n">da</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;found&#39;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">found</span>
+</pre></div>
+</div>
+<p>Η απόπειρα προσπέλασης ενός κλειδιού που δεν υπάρχει, <strong>προκαλεί σφάλμα εκτέλεσης</strong>! Πρέπει πάντα να εκτελείτε τον έλεγχο ύπαρξης του κλειδιού πριν την προσπέλαση:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">da</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;mike&#39;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span> <span class="s1">&#39;nick&#39;</span><span class="p">:</span> <span class="mi">43</span> <span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">da</span><span class="p">[</span><span class="s1">&#39;stef&#39;</span><span class="p">]</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+<span class="gr">KeyError</span>: <span class="n">&#39;stef&#39;</span>
+</pre></div>
+</div>
+<p>Προσπελάστε σε loop ένα-ένα τα ζεύγη κλειδιού-τιμής (η σειρά που επιστρέφονται τα στοιχεία εξαρτάται από την υλοποίηση της Python και δεν πρέπει να θεωρείται ντετερμινιστική):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">da</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">mike 32</span>
+<span class="go">stef 67</span>
+</pre></div>
+</div>
+<p>Τα λεξικά είναι δομές <strong>ειδικά βελτιστοποιημένες για αναζήτηση</strong> (searching). Εάν θέλουμε να αναζητήσουμε <strong>πολύ γρήγορα</strong> ένα στοιχείο μέσα σε ένα μεγάλο σύνολο, <strong>η χρήση λεξικού είναι MUST!!!</strong></p>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Περιεχόμενα</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Παράρτημα Α: Πληροφορίες για την Python3</a><ul>
+<li><a class="reference internal" href="#install-ref">Εγκατάσταση της Python3</a><ul>
+<li><a class="reference internal" href="#linux-macos">Linux (ή MacOS)</a></li>
+<li><a class="reference internal" href="#windows">Windows</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id2">Βασικά παραδείγματα χρήσης της Python3</a><ul>
+<li><a class="reference internal" href="#strings">Strings</a></li>
+<li><a class="reference internal" href="#id4">Σύνθετα Αντικείμενα</a><ul>
+<li><a class="reference internal" href="#lists">Λίστες (Lists)</a></li>
+<li><a class="reference internal" href="#dictionaries">Λεξικά (Dictionaries)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

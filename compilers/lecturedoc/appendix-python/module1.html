@@ -15,7 +15,7 @@
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Εισαγωγή στη λεκτική ανάλυση" href="../unit1/module1.html" />
+    <link rel="prev" title="Κανονικές εκφράσεις" href="../unit2/module1.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -53,7 +53,7 @@
 <h3>Linux (ή MacOS)<a class="headerlink" href="#linux-macos" title="Permalink to this headline">¶</a></h3>
 <p>Εάν το λειτουργικό σας σύστημα είναι Linux (ή MacOS) έχετε κατά πάσα πιθανότητα τη γλώσσα διαθέσιμη ήδη. Βεβαιωθείτε ότι τρέχετε την 3η έκδοση της γλώσσας -συχνά πρέπει να δώσετε την εντολή <code class="docutils literal notranslate"><span class="pre">python3</span></code> (η απλή εντολή <code class="docutils literal notranslate"><span class="pre">python</span></code> συνήθως εκτελεί την προηγούμενη έκδοση 2). Δεν απαιτείται πολύ πρόσφατη έκδοση της γλώσσας, οτιδήποτε μεγαλύτερο από την 3.3 είναι αρκετό.</p>
 <p>Για παράδειγμα, μπορείτε να μπείτε στο interactive shell της python3 ως εξής (βγείτε με <code class="docutils literal notranslate"><span class="pre">exit()</span></code> ή <code class="docutils literal notranslate"><span class="pre">Ctrl-D</span></code> όταν τελειώσετε):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python3
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ python3
 Python 3.5.2 (default, Oct  8 2019, 13:06:37)
 [GCC 5.4.0 20160609] on linux
 Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
@@ -61,7 +61,7 @@ Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;licen
 </pre></div>
 </div>
 <p>Για να εκτελέσετε κώδικα που βρίσκεται σε ένα αρχείο (έστω ότι είναι το <code class="docutils literal notranslate"><span class="pre">myprogram.py</span></code> στον τρέχοντα φάκελο), δώστε:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python3 myprogram.py
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ python3 myprogram.py
 </pre></div>
 </div>
 </div>
@@ -73,19 +73,19 @@ Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;licen
 <li><p>Την επίτρεψη μεγάλων paths</p></li>
 </ul>
 <p>Μπορείτε τώρα να εκτελέσετε το <code class="docutils literal notranslate"><span class="pre">Command</span> <span class="pre">Prompt</span></code> για την εμφάνιση της κονσόλας. Ξεκινήστε ένα interactive shell (βγείτε με <code class="docutils literal notranslate"><span class="pre">exit()</span></code> ή <code class="docutils literal notranslate"><span class="pre">Ctrl-Ζ</span></code> και μετά <code class="docutils literal notranslate"><span class="pre">ENTER</span></code> όταν τελειώσετε):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">Testuser</span><span class="o">&gt;</span><span class="n">python</span>
-<span class="n">Python</span> <span class="mf">3.8</span><span class="o">.</span><span class="mi">2</span> <span class="p">(</span><span class="n">tags</span><span class="o">/</span><span class="n">v3</span><span class="o">.</span><span class="mf">8.2</span><span class="p">:</span><span class="mi">7</span><span class="n">b3ab59</span><span class="p">,</span> <span class="n">Feb</span> <span class="mi">25</span> <span class="mi">2020</span><span class="p">,</span> <span class="mi">22</span><span class="p">:</span><span class="mi">45</span><span class="p">:</span><span class="mi">29</span><span class="p">)</span> <span class="p">[</span><span class="n">MSC</span> <span class="n">v</span><span class="o">.</span><span class="mi">1916</span> <span class="mi">32</span> <span class="n">bit</span> <span class="p">(</span><span class="n">Intel</span><span class="p">)]</span> <span class="n">on</span> <span class="n">win32</span>
-<span class="n">Type</span> <span class="s2">&quot;help&quot;</span><span class="p">,</span> <span class="s2">&quot;copyright&quot;</span><span class="p">,</span> <span class="s2">&quot;credits&quot;</span> <span class="ow">or</span> <span class="s2">&quot;license&quot;</span> <span class="k">for</span> <span class="n">more</span> <span class="n">information</span><span class="o">.</span>
-<span class="o">&gt;&gt;&gt;</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>C:\Users\Testuser&gt;python
+Python 3.8.2 (tags/v3.8.2:7b3ab59, Feb 25 2020, 22:45:29) [MSC v.1916 32 bit (Intel)] on win32
+Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+&gt;&gt;&gt;
 </pre></div>
 </div>
 <p>Για να εκτελέσετε κώδικα που βρίσκεται σε ένα αρχείο (έστω ότι είναι το <code class="docutils literal notranslate"><span class="pre">myprogram.py</span></code> στον τρέχοντα φάκελο), δώστε:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">Testuser</span><span class="o">&gt;</span><span class="n">python</span> <span class="n">myprogram</span><span class="o">.</span><span class="n">py</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>C:\Users\Testuser&gt;python myprogram.py
 </pre></div>
 </div>
 <p>Με την εγκατάσταση της Python έχετε επίσης στη διάθεσή σας το περιβάλλον IDLE για την εκτέλεση προγραμμάτων. Ξεκινήστε το από το μενού όπως κάθε άλλη εφαρμογή.</p>
 <p>Εναλλακτικά μπορείτε να ξεκινήσετε το IDLE από την κονσόλα:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">Testuser</span><span class="o">&gt;</span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">idlelib</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>C:\Users\Testuser&gt;python -m idlelib
 </pre></div>
 </div>
 </div>
@@ -119,11 +119,11 @@ Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;licen
 </pre></div>
 </div>
 <p>Για να καταλάβετε καλύτερα το πώς λαμβάνονται τα τμήματα μιας sequence (slicing), μπορείτε να σκεφτείτε ότι ο δείκτης i βρίσκεται ανάμεσα στα (i-1) και i στοιχεία (κι όχι <em>πάνω</em> στο στοιχείο i):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">a</span><span class="o">|</span><span class="n">b</span><span class="o">|</span><span class="n">c</span><span class="o">|</span><span class="n">d</span><span class="o">|</span><span class="n">e</span><span class="o">|</span><span class="n">f</span><span class="o">|</span><span class="n">g</span><span class="p">]</span>
-<span class="o">^</span> <span class="o">^</span> <span class="o">^</span> <span class="o">^</span> <span class="o">^</span> <span class="o">^</span> <span class="o">^</span> <span class="o">^</span>
-<span class="mi">0</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[a|b|c|d|e|f|g]
+^ ^ ^ ^ ^ ^ ^ ^
+0 1 2 3 4 5 6 7
 
-<span class="n">το</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span> <span class="n">είναι</span> <span class="n">ίσο</span> <span class="n">με</span> <span class="s2">&quot;bcd&quot;</span>
+το s[1:4] είναι ίσο με &quot;bcd&quot;
 </pre></div>
 </div>
 <p>Θυμηθείτε όμως ότι <strong>δεν μπορούμε να αλλάξουμε περιεχόμενα σε ένα string</strong> (είναι immutable):</p>

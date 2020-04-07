@@ -161,11 +161,11 @@ regular expressions.&#39; Now they have two problems.
 </div>
 <div class="section" id="id3">
 <h3>Βασικά σύμβολα κανονικών εκφράσεων<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
-<p>Ο πίνακας που ακολουθεί περιέχει τα βασικά σύμβολα που χρησιμοποιούνται για την κατασκευή κανονικών εκφράσεων στην Python (<em>παρατίθενται μόνο τα σύμβολα που έχουν διδαχθεί έως τώρα στο εργαστήριο</em>).</p>
+<p>Ο πίνακας που ακολουθεί περιέχει τα βασικά σύμβολα που χρησιμοποιούνται για την κατασκευή κανονικών εκφράσεων στην Python (<em>παρατίθενται τα σύμβολα που έχουν διδαχθεί στο εργαστήριο</em>).</p>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 15%" />
-<col style="width: 85%" />
+<col style="width: 12%" />
+<col style="width: 88%" />
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">abc</span></code></p></td>
@@ -195,6 +195,33 @@ regular expressions.&#39; Now they have two problems.
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">?</span></code></p></td>
 <td><p>0 ή 1 φορά ο χαρακτήρας που προηγείται</p></td>
 </tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">*</span></code></p></td>
+<td><p>0 ή περισσότερες φορές ο χαρακτήρας που προηγείται</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">+</span></code></p></td>
+<td><p>1 ή περισσότερες φορές ο χαρακτήρας που προηγείται</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">{n}</span></code> <code class="docutils literal notranslate"><span class="pre">{m,n}</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">n</span></code> φορές / από <code class="docutils literal notranslate"><span class="pre">n</span></code> έως <code class="docutils literal notranslate"><span class="pre">m</span></code> φορές ο χαρακτήρας που προηγείται</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">\b</span></code></p></td>
+<td><p>ταιριάζει στην αρχή και στο τέλος μιας λέξης</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">\w</span></code> <code class="docutils literal notranslate"><span class="pre">\W</span></code></p></td>
+<td><p>οποιοσδήποτε αλφαριθμητικός / μη αλφαριθμητικός χαρακτήρας</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">\s</span></code> <code class="docutils literal notranslate"><span class="pre">\S</span></code></p></td>
+<td><p>οποιοσδήποτε whitespace / μη whitespace χαρακτήρας</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">*?</span></code> <code class="docutils literal notranslate"><span class="pre">+?</span></code> <code class="docutils literal notranslate"><span class="pre">??</span></code></p></td>
+<td><p>μη άπληστες (non-greedy) μορφές των <code class="docutils literal notranslate"><span class="pre">*</span></code>, <code class="docutils literal notranslate"><span class="pre">+</span></code> και <code class="docutils literal notranslate"><span class="pre">?</span></code> (μόνο υλοποιήσεις backtracking)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">()</span></code></p></td>
+<td><p>group ομαδοποίησης τμημάτων μιας κανονικής έκφρασης, συγκρατούν το κείμενο που ταιριάζει στο τμήμα (μόνο υλοποιήσεις backtracking)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">\1</span></code> <code class="docutils literal notranslate"><span class="pre">\2</span></code> κλπ</p></td>
+<td><p>backreferences: μέσα στην κανονική έκφραση αντικαθίστανται από το τι έχει ταιριάξει ως τώρα στο αντίστοιχο group (μόνο υλοποιήσεις backtracking)</p></td>
+</tr>
 </tbody>
 </table>
 <p>Με βάση τα πιο πάνω μπορούμε να συντάξουμε πιο σύνθετες κανονικές εκφράσεις, συνδυάζοντας πολλές μικρότερες.</p>
@@ -206,9 +233,10 @@ regular expressions.&#39; Now they have two problems.
 <p class="topic-title">Πηγή παραδειγμάτων</p>
 <p>Πολλά από τα παραδείγματα που ακολουθούν βασίζονται σε υλικό από το βιβλίο “Mastering Regular Expressions”, 2nd ed., Jeffrey E.F. Friedl, O’Reilly Media, July 2002.</p>
 </div>
-<p>Βρείτε το string <code class="docutils literal notranslate"><span class="pre">cat</span></code> στην αρχή ή στο τέλος ενός string:</p>
-<blockquote>
-<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^cat&#39;</span><span class="p">)</span>
+<div class="section" id="id5">
+<h4>Στην αρχή ή στο τέλος<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
+<p>Βρείτε το string <code class="docutils literal notranslate"><span class="pre">cat</span></code> στην αρχή (με το <code class="docutils literal notranslate"><span class="pre">^</span></code>) ή στο τέλος (<code class="docutils literal notranslate"><span class="pre">$</span></code>) ενός string:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^cat&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;I see a cat&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
 <span class="go">None</span>
@@ -229,11 +257,12 @@ regular expressions.&#39; Now they have two problems.
 <span class="go">found!</span>
 </pre></div>
 </div>
-</div></blockquote>
 <p>Για να ταιριάξουμε ένα άδειο string, θα μπορούσαμε (θεωρητικά -δεν χρειάζεται στην πράξη!) να χρησιμοποιήσουμε το <code class="docutils literal notranslate"><span class="pre">'^$'</span></code>.</p>
+</div>
+<div class="section" id="id6">
+<h4>Κλάσεις χαρακτήρων<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h4>
 <p>Κλάσεις χαρακτήρων με το <code class="docutils literal notranslate"><span class="pre">[]</span></code>. Θυμηθείτε ότι μέσα στην κλάση, οι χαρακτήρες ελέγχου χάνουν το ειδικό τους νόημα και το <code class="docutils literal notranslate"><span class="pre">^</span></code> σημαίνει κάτι διαφορετικό:</p>
-<blockquote>
-<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;gr[ae]y&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;gr[ae]y&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;a gray cat&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">m</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;found!&#39;</span><span class="p">)</span>
 <span class="gp">...</span>
@@ -244,10 +273,8 @@ regular expressions.&#39; Now they have two problems.
 <span class="go">found!</span>
 </pre></div>
 </div>
-</div></blockquote>
 <p>Βρείτε <code class="docutils literal notranslate"><span class="pre">a</span></code> που δεν ακολουθείται από <code class="docutils literal notranslate"><span class="pre">b</span></code></p>
-<blockquote>
-<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;a[^b]&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;a[^b]&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;ab&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
 <span class="go">None</span>
@@ -261,11 +288,12 @@ regular expressions.&#39; Now they have two problems.
 <span class="go">None</span>
 </pre></div>
 </div>
-</div></blockquote>
 <p>Στο τελευταίο παράδειγμα βλέπουμε ότι ενώ το <code class="docutils literal notranslate"><span class="pre">a</span></code> δεν πρέπει να ακολουθείται από <code class="docutils literal notranslate"><span class="pre">b</span></code>, <strong>πρέπει όμως να ακολουθείται από κάτι άλλο</strong>.</p>
+</div>
+<div class="section" id="id7">
+<h4>Εναλλαγή<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
 <p>Βρείτε το gray ή grey με εναλλαγή (alternation): 2 σωστοί και ένας λάθος τρόπος</p>
-<blockquote>
-<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;gray|grey&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;gray|grey&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;a gray cat&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">m</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;found!&#39;</span><span class="p">)</span>
 <span class="gp">...</span>
@@ -290,7 +318,6 @@ regular expressions.&#39; Now they have two problems.
 <span class="go">ey</span>
 </pre></div>
 </div>
-</div></blockquote>
 <p>Στο τελευταίο παράδειγμα έχουμε ταίριασμα, δεν είναι όμως αυτό που θέλουμε. <strong>Η χρήση των παρενθέσεων είναι αναγκαία για το σωστό ταίριασμα</strong>!</p>
 <div class="topic">
 <p class="topic-title">Οι παγίδες της εναλλαγής</p>
@@ -302,9 +329,11 @@ regular expressions.&#39; Now they have two problems.
 </pre></div>
 </div>
 </div>
+</div>
+<div class="section" id="id8">
+<h4>Ένας οποιοσδήποτε χαρακτήρας<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
 <p>Χρήση της τελείας <code class="docutils literal notranslate"><span class="pre">.</span></code> για να ταιριάξουμε οτιδήποτε (εκτός από newline! Για να ταιριάξετε και το newline στο re.compile() προσθέστε το επιπλέον όρισμα <code class="docutils literal notranslate"><span class="pre">re.DOTALL</span></code>)</p>
-<blockquote>
-<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;a.c&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;a.c&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
 <span class="go">&lt;_sre.SRE_Match object; span=(0, 3), match=&#39;abc&#39;&gt;</span>
@@ -322,10 +351,11 @@ regular expressions.&#39; Now they have two problems.
 <span class="go">&lt;_sre.SRE_Match object; span=(0, 3), match=&#39;a\nc&#39;&gt;</span>
 </pre></div>
 </div>
-</div></blockquote>
+</div>
+<div class="section" id="id9">
+<h4>Προαιρετικό<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
 <p>Προαιρετικό: <code class="docutils literal notranslate"><span class="pre">color</span></code> ή <code class="docutils literal notranslate"><span class="pre">colour</span></code>;</p>
-<blockquote>
-<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;colou?r&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;colou?r&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;color&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
 <span class="go">&lt;_sre.SRE_Match object; span=(0, 5), match=&#39;color&#39;&gt;</span>
@@ -334,7 +364,6 @@ regular expressions.&#39; Now they have two problems.
 <span class="go">&lt;_sre.SRE_Match object; span=(0, 6), match=&#39;colour&#39;&gt;</span>
 </pre></div>
 </div>
-</div></blockquote>
 <div class="topic">
 <p class="topic-title">Ποιο είναι το προαιρετικό;</p>
 <p><strong>Προσοχή:</strong> Το προαιρετικό εφαρμόζεται στον <strong>έναν χαρακτήρα</strong> αριστερά από το <code class="docutils literal notranslate"><span class="pre">?</span></code>. Αν θέλετε να είναι προαιρετικοί περισσότεροι χαρακτήρες, χρησιμοποιήστε παρενθέσεις:</p>
@@ -351,6 +380,123 @@ regular expressions.&#39; Now they have two problems.
 </div></blockquote>
 </div>
 </div>
+<div class="section" id="id10">
+<h4>Τελεστές επανάληψης<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h4>
+<p>Τελεστές επανάληψης: <code class="docutils literal notranslate"><span class="pre">*</span></code> (0 ή περισσότερες φορές) και <code class="docutils literal notranslate"><span class="pre">+</span></code> (1 ή περισσότερες φορές). Οι τελεστές αυτοί εφαρμόζονται σε ό,τι βρίσκεται στα αριστερά τους (για να τους εφαρμόσετε σε πάνω από έναν χαρακτήρα χρησιμοποιήστε παρενθέσεις). Εξ’ ορισμού οι τελεστές επανάληψης είναι <strong>άπληστοι</strong> (greedy): προσπαθούν να ταιριάξουν <em>όσο το δυνατόν περισσότερο</em> κείμενο. Προσοχή με τους τελεστές επανάληψης: μην καταλήξετε σε κανονικές εκφράσεις που δεν επιλέγουν τίποτα (π.χ. <code class="docutils literal notranslate"><span class="pre">re.compile('a*')</span></code>!</p>
+<p>Στο παράδειγμα που ακολουθεί η κανονική έκφραση ταιριάζει σειρές από ψηφία <code class="docutils literal notranslate"><span class="pre">0</span></code> έως <code class="docutils literal notranslate"><span class="pre">9</span></code>, οποιουδήποτε μήκους (ένα ή περισσότερα ψηφία):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;[0-9]+&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;abc1234def&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">m</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="gp">...</span>
+<span class="go">1234</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id11">
+<h4>Ολόκληρες λέξεις<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h4>
+<p>Εάν θέλουμε στο προηγούμενο παράδειγμα να έχουμε ταιριάσματα <em>μόνο σε ολόκληρες λέξεις</em>, μπορούμε να χρησιμοποιήσουμε το σύμβολο <code class="docutils literal notranslate"><span class="pre">\b</span></code> που ταιριάζει στην αρχή και στο τέλος λέξεων (στις εναλλαγές αλφαριθμητικών και μη αλφαριθμητικών χαρακτήρων):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\b[0-9]+\b&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;abc1234def&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">m</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;1234&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">m</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="gp">...</span>
+<span class="go">1234</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<div class="topic">
+<p class="topic-title">Τα «ωμά» (raw) strings στην Python</p>
+<p>Στο προηγούμενο παράδειγμα παρατηρήστε τη χρήση του <code class="docutils literal notranslate"><span class="pre">r'....'</span></code> στο string της κανονικής έκφρασης. Στις σταθερές string η Python (όπως και η C) αντικαθιστά χαρακτήρες με escape <code class="docutils literal notranslate"><span class="pre">\</span></code> με άλλα σύμβολα. Ο πιο γνωστός συνδυασμός είναι το <code class="docutils literal notranslate"><span class="pre">\n</span></code> που αντικαθίσταται από έναν χαρακτήρα newline.</p>
+<p>Όταν όμως περνάμε το <code class="docutils literal notranslate"><span class="pre">\b</span></code> στη συνάρτηση <code class="docutils literal notranslate"><span class="pre">re.compile()</span></code> <strong>δεν θέλουμε</strong> η Python να το αντικαταστήσει με κάτι άλλο (με τον χαρακτήρα backspace, για την ακρίβεια): το escape <code class="docutils literal notranslate"><span class="pre">\b</span></code> προορίζεται για τις κανονικές εκφράσεις. Η χρήση του «ωμού» string literal με το <code class="docutils literal notranslate"><span class="pre">r'....'</span></code> λέει στην Python να περάσει το string ως έχει, χωρίς αντικαταστάσεις των escapes, στη συνάρτηση.</p>
+</div>
+<p>Στο επόμενο παράδειγμα αναζητούμε κλασματικούς αριθμούς με ακέραιο και δεκαδικό μέρος. Παρατηρήστε ότι για να ταιριάξουμε την υποδιαστολή πρέπει να χρησιμοποιήσουμε τον συνδυασμό <code class="docutils literal notranslate"><span class="pre">\.</span></code> γιατί η τελεία <code class="docutils literal notranslate"><span class="pre">.</span></code> από μόνη της είναι ειδικό σύμβολο στις κανονικές εκφράσεις!</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[0-9]+\.[0-9]+&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;1234.567&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">m</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="gp">...</span>
+<span class="go">1234.567</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<div class="topic">
+<p class="topic-title">Τα ταιριάσματα είναι πάντα κείμενο</p>
+<p>Σε μια πραγματική εφαρμογή ό,τι έχει ταιριάξει μέσω κανονικών εκφράσεων προορίζεται για περαιτέρω επεξεργασία. Στο προηγούμενο παράδειγμα, ο κλασματικός αριθμός μπορεί π.χ. να προορίζεται για αριθμητικές πράξεις. Το <code class="docutils literal notranslate"><span class="pre">m.group(0)</span></code> όμως είναι string, οπότε πρέπει πρώτα να το μετατρέψετε στην κατάλληλη μορφή:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[0-9]+\.[0-9]+&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;1234.567&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">m</span><span class="p">:</span>
+<span class="gp">... </span>  <span class="n">number</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="gp">... </span>  <span class="n">number</span> <span class="o">+=</span> <span class="mf">1.23</span>
+<span class="gp">... </span>  <span class="nb">print</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">1235.797</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="groups">
+<h4>Μέρη ταιριασμάτων (groups)<a class="headerlink" href="#groups" title="Permalink to this headline">¶</a></h4>
+<p>Τι είναι τα <em>groups</em>; Στις κανονικές εκφράσεις οι παρενθέσεις παίζουν ειδικό ρόλο, ομαδοποιώντας υποσύνολα της κανονικής έκφρασης. Επιπλέον, η μηχανή ταιριάσματος θυμάται τι ταίριαξε σε κάθε group:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;([0-9]+)\.([0-9]+)&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;12.54&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="go">12.54</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="go">12</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="go">54</span>
+</pre></div>
+</div>
+<p>Στο προηγούμενο παράδειγμα, οι παρενθέσεις γύρω από το ακέραιο και το δεκαδικό μέρος ορίζουν δύο πρόσθετα groups (<code class="docutils literal notranslate"><span class="pre">group(1)</span></code> και <code class="docutils literal notranslate"><span class="pre">group(2)</span></code>), εκτός από το <code class="docutils literal notranslate"><span class="pre">group(0)</span></code> που περιλαμβάνει όλο το κείμενο που έχει ταιριάξει.</p>
+<p>Η αρίθμηση των πρόσθετων groups αρχίζει από το 1, κάθε φορά που ανοίγει μια παρένθεση, προχωρώντας από αριστερά προς τα δεξιά. Αυτό ισχύει ακόμα και όταν οι παρενθέσεις είναι μέσα σε άλλες.</p>
+<p>Αν ένα σετ παρενθέσεων έχει μπει μόνο για την εξυπηρέτηση του <code class="docutils literal notranslate"><span class="pre">*</span></code>, <code class="docutils literal notranslate"><span class="pre">+</span></code>, <code class="docutils literal notranslate"><span class="pre">?</span></code> κλπ και δεν θέλουμε τη συγκράτηση της τιμής του group, μπορούμε να χρησιμοποιήσουμε το <code class="docutils literal notranslate"><span class="pre">(?:...)</span></code>. Στη μορφή αυτή οι παρενθέσεις δεν ορίζουν νέο group.</p>
+</div>
+</div>
+</div>
+<div class="section" id="id12">
+<h2>Ασκήσεις<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Κατασκευάστε κανονική έκφραση για την αναγνώριση έγκυρων μορφών 24ωρης ώρας (<code class="docutils literal notranslate"><span class="pre">00:00</span></code> έως <code class="docutils literal notranslate"><span class="pre">23:59</span></code>) με τη βοήθεια των <code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">]</span></code>, <code class="docutils literal notranslate"><span class="pre">|</span></code>, <code class="docutils literal notranslate"><span class="pre">?</span></code> και <code class="docutils literal notranslate"><span class="pre">\b</span></code>.</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p>Η ώρα μπορεί να εκφράζεται με ένα ή δύο ψηφία (π.χ. <code class="docutils literal notranslate"><span class="pre">3:45</span></code> αλλά και <code class="docutils literal notranslate"><span class="pre">03:45</span></code>).</p></li>
+<li><p>Τα λεπτά θα έχουν πάντα δύο ψηφία.</p></li>
+<li><p>Κάθε άκυρη μορφή ώρας θα απορρίπτεται (π.χ. <code class="docutils literal notranslate"><span class="pre">31:13</span></code> ή <code class="docutils literal notranslate"><span class="pre">9:72</span></code>).</p></li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>Γράψτε κανονική έκφραση που αναγνωρίζει κλασματικούς αριθμούς, οποιουδήποτε μήκους</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p>Στις μορφές <code class="docutils literal notranslate"><span class="pre">123.456</span></code>, <code class="docutils literal notranslate"><span class="pre">123.</span></code> και <code class="docutils literal notranslate"><span class="pre">.456</span></code>.</p></li>
+<li><p>Προσοχή μην καταλήξετε σε κανονική έκφραση που δεν επιλέγει τίποτα ή επιλέγει μόνο την τελεία!</p></li>
+<li><p>Θυμηθείτε ότι θα πρέπει να γράψετε την τελεία με escape ως <code class="docutils literal notranslate"><span class="pre">\.</span></code> (αλλιώς έχει ειδική έννοια).</p></li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>Γράψτε κανονική έκφραση που ταιριάζει</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p>Κλασματικούς αριθμούς στη μορφή <code class="docutils literal notranslate"><span class="pre">ΧΧΧ</span></code> ή <code class="docutils literal notranslate"><span class="pre">ΧΧΧ.ΥΥΥ</span></code> (τα <code class="docutils literal notranslate"><span class="pre">Χ</span></code> και <code class="docutils literal notranslate"><span class="pre">Υ</span></code> είναι τα  ψηφία <code class="docutils literal notranslate"><span class="pre">0</span></code> έως <code class="docutils literal notranslate"><span class="pre">9</span></code> σε οποιοδήποτε πλήθος), με προαιρετικό <code class="docutils literal notranslate"><span class="pre">+</span></code> ή <code class="docutils literal notranslate"><span class="pre">-</span></code> μπροστά από τον αριθμό.</p></li>
+<li><p>Μετά τον αριθμό ακολουθούν 0 ή περισσότερα κενά (whitespaces, χρησιμοποιήστε το <code class="docutils literal notranslate"><span class="pre">\s</span></code> που ταιριάζει οποιονδήποτε whitespace χαρακτήρα).</p></li>
+<li><p>Και τέλος, υποχρεωτικά, τα γράμματα C ή F (κεφαλαία μόνο).</p></li>
+<li><p>Ο σκοπός είναι να αναγνωρίσετε θερμοκρασίες, σε κλίμακα Κελσίου ή Φαρενάιτ.</p></li>
+<li><p>Ο χρήστης εισάγει μια θερμοκρασία</p>
+<ul>
+<li><p>Αν έχει την έγκυρη πιο πάνω μορφή, το πρόγραμμά σας θα πρέπει να τυπώνει τη θερμοκρασία στην άλλη κλίμακα από αυτή που έδωσε ο χρήστης.</p></li>
+<li><p>Θυμηθείτε να χρησιμοποιήσετε groups για να πάρετε μόνο τα κομμάτια που σας ενδιαφέρουν (θερμοκρασία και κλίμακα).</p></li>
+<li><p>Θυμηθείτε πριν κάνετε πράξεις να μετατρέψετε το string του αριθμού σε float.</p></li>
+<li><p>Τις πράξεις μετατροπής μπορείτε να τις βρείτε σε πολλά site online.</p></li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
 </div>
 </div>
 
@@ -367,9 +513,20 @@ regular expressions.&#39; Now they have two problems.
 <li><a class="reference internal" href="#python">Κανονικές εκφράσεις και Python</a><ul>
 <li><a class="reference internal" href="#id2">Χρήση κανονικών εκφράσεων στην Python</a></li>
 <li><a class="reference internal" href="#id3">Βασικά σύμβολα κανονικών εκφράσεων</a></li>
-<li><a class="reference internal" href="#id4">Παραδείγματα</a></li>
+<li><a class="reference internal" href="#id4">Παραδείγματα</a><ul>
+<li><a class="reference internal" href="#id5">Στην αρχή ή στο τέλος</a></li>
+<li><a class="reference internal" href="#id6">Κλάσεις χαρακτήρων</a></li>
+<li><a class="reference internal" href="#id7">Εναλλαγή</a></li>
+<li><a class="reference internal" href="#id8">Ένας οποιοσδήποτε χαρακτήρας</a></li>
+<li><a class="reference internal" href="#id9">Προαιρετικό</a></li>
+<li><a class="reference internal" href="#id10">Τελεστές επανάληψης</a></li>
+<li><a class="reference internal" href="#id11">Ολόκληρες λέξεις</a></li>
+<li><a class="reference internal" href="#groups">Μέρη ταιριασμάτων (groups)</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id12">Ασκήσεις</a></li>
 </ul>
 </li>
 </ul>

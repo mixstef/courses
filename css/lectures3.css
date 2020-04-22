@@ -119,6 +119,11 @@ nav a:hover {
   padding: 0;
 }
 
+.contentbin li {
+  line-height: 170%;
+}
+
+
 @media screen and (max-width: 768px) {
 
 

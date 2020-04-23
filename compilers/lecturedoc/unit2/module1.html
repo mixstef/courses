@@ -455,9 +455,99 @@ regular expressions.&#39; Now they have two problems.
 <p>Αν ένα σετ παρενθέσεων έχει μπει μόνο για την εξυπηρέτηση του <code class="docutils literal notranslate"><span class="pre">*</span></code>, <code class="docutils literal notranslate"><span class="pre">+</span></code>, <code class="docutils literal notranslate"><span class="pre">?</span></code> κλπ και δεν θέλουμε τη συγκράτηση της τιμής του group, μπορούμε να χρησιμοποιήσουμε το <code class="docutils literal notranslate"><span class="pre">(?:...)</span></code>. Στη μορφή αυτή οι παρενθέσεις δεν ορίζουν νέο group.</p>
 </div>
 </div>
-</div>
 <div class="section" id="id12">
-<h2>Ασκήσεις<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+<h3>Η απληστία των τελεστών * και +<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<p>Όπως ήδη γνωρίζουμε, οι τελεστές <code class="docutils literal notranslate"><span class="pre">*</span></code> και <code class="docutils literal notranslate"><span class="pre">+</span></code> (αλλά και ο <code class="docutils literal notranslate"><span class="pre">?</span></code>) είναι <em>άπληστοι</em> (greedy). Αυτό σημαίνει ότι η μηχανή ταιριάσματος των κανονικών εκφράσεων, όταν προσπαθεί να ικανοποιήσει κάποιον από τους τελεστές αυτούς και έχει και άλλες επιλογές</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>θα προτιμήσει να συνεχίσει να ταιριάζει με τον τελεστή</strong></p></li>
+<li><p>παρά να σταματήσει και να προχωρήσει στο επόμενο τμήμα της κανονικής έκφρασης.</p></li>
+</ul>
+</div></blockquote>
+<div class="topic">
+<p class="topic-title">Τι συμβαίνει εδώ;</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;^.*([0-9]+)&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;Copyright 2003&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">m</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="gp">...</span>
+<span class="go">3</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>Γιατί δεν μπήκε όλο το <code class="docutils literal notranslate"><span class="pre">2003</span></code> μέσα στο group(1); Το <code class="docutils literal notranslate"><span class="pre">*</span></code> είναι άπληστο και καταναλώνει όλο το string. Στη συνέχεια αποδεσμεύει  το <code class="docutils literal notranslate"><span class="pre">3</span></code> για να επιτρέψει και στο <code class="docutils literal notranslate"><span class="pre">+</span></code> να πετύχει ταίριασμα. Η διαδικασία σταματά εδώ και ποτέ δεν δίνεται η ευκαιρία στο <code class="docutils literal notranslate"><span class="pre">+</span></code> να ταιριάξει όλο το <code class="docutils literal notranslate"><span class="pre">2003</span></code>.</p>
+</div>
+<p>Η απληστία των τελεστών <code class="docutils literal notranslate"><span class="pre">*</span></code> και <code class="docutils literal notranslate"><span class="pre">+</span></code> είναι η επιθυμητή συμπεριφορά. Μερικές φορές όμως πρέπει να είμαστε προσεκτικοί για να επιτύχουμε αυτό που θέλουμε. Στο επόμενο παράδειγμα προσπαθούμε <strong>με λάθος τρόπο</strong> να ταιριάξουμε ετικέτες (tags) HTML:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;&lt;.+&gt;&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;this &lt;b&gt;is&lt;/b&gt; a &lt;em&gt;HTML&lt;/em&gt; text&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">m</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="gp">...</span>
+<span class="go">&lt;b&gt;is&lt;/b&gt; a &lt;em&gt;HTML&lt;/em&gt;</span>
+</pre></div>
+</div>
+<p>Η απάντηση <code class="docutils literal notranslate"><span class="pre">&lt;b&gt;is&lt;/b&gt;</span> <span class="pre">a</span> <span class="pre">&lt;em&gt;HTML&lt;/em&gt;</span></code> διαφέρει από την αναμενόμενη, το πρώτο <code class="docutils literal notranslate"><span class="pre">&lt;b&gt;</span></code> δηλαδή. Αυτό συμβαίνει γιατί ο τελεστής <code class="docutils literal notranslate"><span class="pre">+</span></code> θα συνεχίσει να ταιριάζει χαρακτήρες έως το τέλος του string και στη συνέχεια μέσω backtracking θα αρχίσει να αποδεσμεύει χαρακτήρες προς τα πίσω μέχρι να μπορέσει και το <code class="docutils literal notranslate"><span class="pre">&gt;</span></code> να ταιριάξει. Έτσι η απάντηση θα περιλαμβάνει τα πάντα από το πρώτο μέχρι το τελευταίο tag.</p>
+<p>Πώς μπορεί να βρεθεί η σωστή λύση; Στην περίπτωση του παραδείγματος υπάρχουν <strong>δύο τρόποι</strong>. Ο πρώτος τρόπος αποφεύγει εντελώς τη χρήση του <code class="docutils literal notranslate"><span class="pre">+</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;&lt;[^&gt;]+&gt;&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;this &lt;b&gt;is&lt;/b&gt; a &lt;em&gt;HTML&lt;/em&gt; text&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">m</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="gp">...</span>
+<span class="go">&lt;b&gt;</span>
+</pre></div>
+</div>
+<p>Η προηγούμενη μέθοδος είναι <strong>η βέλτιστη γιατί δεν εκτελεί καθόλου backtracking</strong>. Θα πρέπει πάντα να την προτιμάτε όταν ψάχνετε <em>μέχρι να βρείτε</em> έναν συγκεκριμένο χαρακτήρα (όπως εδώ το <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>).</p>
+<p>Η δεύτερη μέθοδος είναι διαθέσιμη μόνο όταν οι κανονικές εκφράσεις υλοποιούνται με backtracking (στις περισσότερες γλώσσες προγραμματισμού δηλαδή). Εδώ χρησιμοποιούμε τη <em>μη-άπληστη</em> (lazy) μορφή των τελεστών επανάληψης (συμβολίζεται με τα <code class="docutils literal notranslate"><span class="pre">*?</span></code>, <code class="docutils literal notranslate"><span class="pre">+?</span></code> και <code class="docutils literal notranslate"><span class="pre">??</span></code>). Η μη-άπληστη μορφή <strong>προτιμάει να σταματήσει παρά να συνεχίσει το ταίριασμα</strong>, ακόμα κι αν έχει τη δυνατότητα:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;&lt;.+?&gt;&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;this &lt;b&gt;is&lt;/b&gt; a &lt;em&gt;HTML&lt;/em&gt; text&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">m</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="gp">...</span>
+<span class="go">&lt;b&gt;</span>
+</pre></div>
+</div>
+<p>Στο παράδειγμα, ο μη-άπληστος τελεστής <code class="docutils literal notranslate"><span class="pre">+?</span></code>, αφού ταιριάξει το <code class="docutils literal notranslate"><span class="pre">b</span></code> από το πρώτο <code class="docutils literal notranslate"><span class="pre">&lt;b&gt;</span></code> tag, θα παραιτηθεί από τη συνέχεια, επιτρέποντας και στο <code class="docutils literal notranslate"><span class="pre">&gt;</span></code> να ταιριάξει.</p>
+<p>Η δεύτερη μέθοδος ίσως εκτελέσει περιορισμένο backtracking, οπότε αν έχουμε την ευχέρεια προτιμάμε την πρώτη. Μερικές φορές όμως θέλουμε να προχωρήσουμε επιλέγοντας <em>μέχρι μια συγκεκριμένη ομάδα χαρακτήρων</em> (όχι μέχρι έναν μεμονωμένο χαρακτήρα). Τότε χρησιμοποιούμε μια μορφή μη-άπληστου τελεστή.</p>
+<p>Στο επόμενο παράδειγμα θέλουμε να ταιριάξουμε σχόλια HTML, οτιδήποτε δηλαδή βρίσκεται μεταξύ <code class="docutils literal notranslate"><span class="pre">&lt;!--</span></code> και <code class="docutils literal notranslate"><span class="pre">--&gt;</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;&lt;!--.*?--&gt;&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;this &lt;b&gt;is&lt;/b&gt; &lt;!--a &lt;em&gt;--HTML--&lt;/em&gt;--&gt; text&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">m</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="gp">...</span>
+<span class="go">&lt;!--a &lt;em&gt;--HTML--&lt;/em&gt;--&gt;</span>
+</pre></div>
+</div>
+<div class="topic">
+<p class="topic-title">«Καταστροφικό» backtracking</p>
+<p>Η παράθεση πολλαπλών <code class="docutils literal notranslate"><span class="pre">*</span></code> και <code class="docutils literal notranslate"><span class="pre">+</span></code> οδηγεί συχνά στην αποτυχία ταιριάσματος ή ακόμα και στην αποτυχία της ίδιας της μηχανής αναζήτησης. Έτσι, <strong>πρέπει να γίνεται με προσοχή</strong>. Δείτε για παράδειγμα το εξής (ακραίο) παράδειγμα, όπου η αναζήτηση ταιριάσματος που δεν υπάρχει, οδηγεί σε μη πρακτικό χρόνο εκτέλεσης:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;(=+=+)+X&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;============================================&#39;</span><span class="p">)</span>
+<span class="go">^CTraceback (most recent call last):</span>
+<span class="go">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span>
+<span class="nc">KeyboardInterrupt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;(==)+X&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;============================================&#39;</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>Αυτό συμβαίνει διότι η διαδικασία backtracking έχει να εξετάσει <strong>εκθετικά μεγάλο αριθμό περιπτώσεων</strong> προσπαθώντας να βρει ένα ταίριασμα!</p>
+</div>
+</div>
+<div class="section" id="finditer">
+<h3>Η μέθοδος finditer()<a class="headerlink" href="#finditer" title="Permalink to this headline">¶</a></h3>
+<p>Μέχρι τώρα έχουμε δουλέψει μόνο με τη βασική μέθοδο <code class="docutils literal notranslate"><span class="pre">search()</span></code> των κανονικών εκφράσεων. Στη συνέχεια παρουσιάζεται η παραπλήσια μέθοδος <code class="docutils literal notranslate"><span class="pre">finditer()</span></code> η οποία επιστρέφει διαδοχικά αντικείμενα ταιριάσματος (match objects) <em>για όλα τα μη επικαλυπτόμενα ταιριάσματα</em> της κανονικής έκφρασης σε ένα string:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">re</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;&lt;[^&gt;]+&gt;&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">rexp</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="s1">&#39;this &lt;b&gt;is&lt;/b&gt; a &lt;em&gt;HTML&lt;/em&gt; text&#39;</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="gp">...</span>
+<span class="go">&lt;b&gt;</span>
+<span class="go">&lt;/b&gt;</span>
+<span class="go">&lt;em&gt;</span>
+<span class="go">&lt;/em&gt;</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>Όπως φαίνεται στο προηγούμενο παράδειγμα, η <code class="docutils literal notranslate"><span class="pre">finditer()</span></code> χρησιμοποιείται σε επαναληπτικές δομές <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">...</span> <span class="pre">in</span> <span class="pre">...</span></code> και σε κάθε επανάληψη επιστρέφει ένα αντικείμενο ταιριάσματος ακριβώς όπως και η <code class="docutils literal notranslate"><span class="pre">search()</span></code>.</p>
+</div>
+</div>
+<div class="section" id="id13">
+<h2>Ασκήσεις<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic simple">
 <li><p>Κατασκευάστε κανονική έκφραση για την αναγνώριση έγκυρων μορφών 24ωρης ώρας (<code class="docutils literal notranslate"><span class="pre">00:00</span></code> έως <code class="docutils literal notranslate"><span class="pre">23:59</span></code>) με τη βοήθεια των <code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">]</span></code>, <code class="docutils literal notranslate"><span class="pre">|</span></code>, <code class="docutils literal notranslate"><span class="pre">?</span></code> και <code class="docutils literal notranslate"><span class="pre">\b</span></code>.</p></li>
 </ol>
@@ -497,6 +587,24 @@ regular expressions.&#39; Now they have two problems.
 </li>
 </ul>
 </div></blockquote>
+<ol class="arabic simple" start="4">
+<li><p>Γράψτε κανονική έκφραση που να αναγνωρίζει ονόματα μεταβλητών:</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p>Ο πρώτος χαρακτήρας είναι γράμμα (<code class="docutils literal notranslate"><span class="pre">Α-Ζ</span></code> ή <code class="docutils literal notranslate"><span class="pre">a-z</span></code>) ή <code class="docutils literal notranslate"><span class="pre">_</span></code></p></li>
+<li><p>Ακολουθούν 0 ή περισσότεροι χαρακτήρες <code class="docutils literal notranslate"><span class="pre">A-Z</span></code>, <code class="docutils literal notranslate"><span class="pre">a-z</span></code>, <code class="docutils literal notranslate"><span class="pre">0-9</span></code>, <code class="docutils literal notranslate"><span class="pre">_</span></code></p></li>
+<li><p><strong>Προσοχή:</strong> θέλουμε ταίριασμα <strong>ολόκληρων λέξεων</strong> μόνο!</p></li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="5">
+<li><p>Γράψτε κανονική έκφραση για να αναγνωρίζετε κείμενο μέσα σε <code class="docutils literal notranslate"><span class="pre">&quot;</span> <span class="pre">&quot;</span></code>.</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p>Υπόδειξη: χρησιμοποιήστε κλάση χαρακτήρων <code class="docutils literal notranslate"><span class="pre">[^</span> <span class="pre">]</span></code> και τη μέθοδο <code class="docutils literal notranslate"><span class="pre">finditer()</span></code>.</p></li>
+</ul>
+</div></blockquote>
 </div>
 </div>
 
@@ -524,9 +632,11 @@ regular expressions.&#39; Now they have two problems.
 <li><a class="reference internal" href="#groups">Μέρη ταιριασμάτων (groups)</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#id12">Η απληστία των τελεστών * και +</a></li>
+<li><a class="reference internal" href="#finditer">Η μέθοδος finditer()</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id12">Ασκήσεις</a></li>
+<li><a class="reference internal" href="#id13">Ασκήσεις</a></li>
 </ul>
 </li>
 </ul>

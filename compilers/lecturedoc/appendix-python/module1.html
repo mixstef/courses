@@ -280,6 +280,38 @@ Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;licen
 </div>
 </div>
 </div>
+<div class="section" id="id5">
+<h2>Διαβάζοντας ένα ολόκληρο αρχείο κειμένου<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>Στο εργαστήριο επεξεργαζόμαστε το περιεχόμενο αρχείων απλού κειμένου. Στα παραδείγματα που ακολουθούν φαίνεται ο τρόπος για να διαβάσουμε <strong>ολόκληρο το περιεχόμενο</strong> ενός αρχείου κειμένου και να το τοποθετήσουμε σε μια μεταβλητή τύπου string.</p>
+<div class="topic">
+<p class="topic-title">Πόσο μεγάλα αρχεία μπορούμε να διαβάσουμε;</p>
+<p>Με τα σημερινά δεδομένα μπορείτε να διαβάσετε και να φορτώσετε στη μνήμη του υπολογιστή σας πολύ μεγάλα αρχεία κειμένου. Αν πρόκειται όμως να επεξεργαστείτε αρχεία με π.χ. πάνω από 1 δις γραμμές κειμένου (ναι, υπάρχουν και τέτοια!), είναι καλύτερο να τα διαβάσετε τμηματικά, γραμμή προς γραμμή.</p>
+</div>
+<p>Στην αρχή φαίνεται ο τρόπος για να διαβάσουμε ένα ολόκληρο αρχείο από το interactive shell της Python στη μεταβλητή <code class="docutils literal notranslate"><span class="pre">text</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">text</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;testpage.txt&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Στη συνέχεια, η ίδια λειτουργία σε ένα πρόγραμμα Python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;testpage.txt&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+
+  <span class="n">text</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Η δομή <code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">...</span> <span class="pre">:</span></code> της Python είναι ένας <code class="docutils literal notranslate"><span class="pre">context</span> <span class="pre">manager</span></code>. Θα φροντίσει να κλείσει το αρχείο στο τέλος της, ακόμα και αν ο κώδικας μέσα σε αυτήν προκαλέσει σφάλματα εκτέλεσης.</p>
+<div class="topic">
+<p class="topic-title">Προβλήματα με την κωδικοποίηση των χαρακτήρων;</p>
+<p>Εάν το πρόγραμμά σας παράγει σφάλματα εκτέλεσης σχετικά με την κωδικοποίηση των χαρακτήρων του αρχείου, δοκιμάστε να προσθέσετε την παράμετρο <code class="docutils literal notranslate"><span class="pre">encoding='utf-8'</span></code> στη συνάρτηση <code class="docutils literal notranslate"><span class="pre">open()</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">text</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;testpage.txt&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">,</span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>και αντίστοιχα:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;testpage.txt&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">,</span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+
+  <span class="n">text</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 
 
@@ -306,6 +338,7 @@ Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;licen
 </li>
 </ul>
 </li>
+<li><a class="reference internal" href="#id5">Διαβάζοντας ένα ολόκληρο αρχείο κειμένου</a></li>
 </ul>
 </li>
 </ul>

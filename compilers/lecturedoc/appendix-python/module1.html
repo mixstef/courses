@@ -285,13 +285,14 @@ Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;licen
 <p>Στο εργαστήριο επεξεργαζόμαστε το περιεχόμενο αρχείων απλού κειμένου. Στα παραδείγματα που ακολουθούν φαίνεται ο τρόπος για να διαβάσουμε <strong>ολόκληρο το περιεχόμενο</strong> ενός αρχείου κειμένου και να το τοποθετήσουμε σε μια μεταβλητή τύπου string.</p>
 <div class="topic">
 <p class="topic-title">Πόσο μεγάλα αρχεία μπορούμε να διαβάσουμε;</p>
-<p>Με τα σημερινά δεδομένα μπορείτε να διαβάσετε και να φορτώσετε στη μνήμη του υπολογιστή σας πολύ μεγάλα αρχεία κειμένου. Αν πρόκειται όμως να επεξεργαστείτε αρχεία με π.χ. πάνω από 1 δις γραμμές κειμένου (ναι, υπάρχουν και τέτοια!), είναι καλύτερο να τα διαβάσετε τμηματικά, γραμμή προς γραμμή.</p>
+<p>Με τα σημερινά δεδομένα μπορείτε να διαβάσετε και να φορτώσετε στη μνήμη του υπολογιστή σας πολύ μεγάλα αρχεία κειμένου. Αν πρόκειται όμως να επεξεργαστείτε αρχεία με π.χ. πάνω από 1 δις γραμμές κειμένου (ναι, υπάρχουν και τέτοια!), είναι καλύτερο να τα διαβάσετε τμηματικά, <a class="reference internal" href="#file-line-processing-ref"><span class="std std-ref">γραμμή προς γραμμή</span></a>.</p>
 </div>
-<p>Στην αρχή φαίνεται ο τρόπος για να διαβάσουμε ένα ολόκληρο αρχείο από το interactive shell της Python στη μεταβλητή <code class="docutils literal notranslate"><span class="pre">text</span></code>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">text</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;testpage.txt&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<p>Ο πιο απλός τρόπος για να διαβάσουμε ένα ολόκληρο αρχείο κειμένου στη μεταβλητή <code class="docutils literal notranslate"><span class="pre">text</span></code> σε μία μόνο γραμμή:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">text</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;testpage.txt&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Στη συνέχεια, η ίδια λειτουργία σε ένα πρόγραμμα Python:</p>
+<p>Στο προηγούμενο παράδειγμα η <code class="docutils literal notranslate"><span class="pre">open()</span></code> ανοίγει το αρχείο για ανάγνωση και επιστρέφει ένα αντικείμενο-αρχείο, του οποίου τη μέθοδο <code class="docutils literal notranslate"><span class="pre">read()</span></code> καλούμε στη συνέχεια. Η <code class="docutils literal notranslate"><span class="pre">read()</span></code> χωρίς ορίσματα θα διαβάσει <strong>το σύνολο του αρχείου</strong>.</p>
+<p>Στη συνέχεια, η ίδια λειτουργία μέσα σε μια δομή <code class="docutils literal notranslate"><span class="pre">with</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;testpage.txt&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
 
   <span class="n">text</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
@@ -301,13 +302,39 @@ Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;licen
 <div class="topic">
 <p class="topic-title">Προβλήματα με την κωδικοποίηση των χαρακτήρων;</p>
 <p>Εάν το πρόγραμμά σας παράγει σφάλματα εκτέλεσης σχετικά με την κωδικοποίηση των χαρακτήρων του αρχείου, δοκιμάστε να προσθέσετε την παράμετρο <code class="docutils literal notranslate"><span class="pre">encoding='utf-8'</span></code> στη συνάρτηση <code class="docutils literal notranslate"><span class="pre">open()</span></code>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">text</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;testpage.txt&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">,</span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">text</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;testpage.txt&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">,</span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>και αντίστοιχα:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;testpage.txt&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">,</span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
 
   <span class="n">text</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="file-line-processing-ref">
+<span id="id6"></span><h2>Διαβάζοντας ένα αρχείο κειμένου γραμμή προς γραμμή<a class="headerlink" href="#file-line-processing-ref" title="Permalink to this headline">¶</a></h2>
+<p>Σε πολλές περιπτώσεις, η επεξεργασία αρχείων κειμένου γίνεται <strong>γραμμή προς γραμμή</strong>. Αυτό συμβαίνει όταν κάθε γραμμή του κειμένου (και η επεξεργασία της) είναι <em>ανεξάρτητη</em> από τις υπόλοιπες γραμμές. Ιδιαίτερα σημαντική είναι η επεξεργασία γραμμή προς γραμμή σε <em>πολύ μεγάλα</em> αρχεία (δισεκατομμύρια γραμμές).</p>
+<p>Σε αντίθεση με την ανάγνωση του συνόλου του αρχείου, εδώ έχουμε μια δομή επανάληψης <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">..</span> <span class="pre">in</span> <span class="pre">..</span></code> που μας παρέχει το περιεχόμενο κάθε γραμμής ανά επανάληψη. Στο παράδειγμα που ακολουθεί, τοποθετούμε το <code class="docutils literal notranslate"><span class="pre">for</span></code> μέσα σε μια δομή <code class="docutils literal notranslate"><span class="pre">with</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;sample1.txt&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+
+  <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fp</span><span class="p">:</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Στο προηγούμενο παράδειγμα, κάθε επανάληψη του <code class="docutils literal notranslate"><span class="pre">for</span></code> τοποθετεί μια νέα γραμμή κειμένου από το αρχείο στη μεταβλητή <code class="docutils literal notranslate"><span class="pre">line</span></code>. Η ανάγνωση αυτή <strong>διατηρεί</strong> το newline στο τέλος της γραμμής. Στο παράδειγμα, χρησιμοποιούμε το όρισμα <code class="docutils literal notranslate"><span class="pre">end=''</span></code> στην <code class="docutils literal notranslate"><span class="pre">print()</span></code> για να αποφύγουμε την προσθήκη ενός δεύτερου newline (κάτι που κάνει εξ’ ορισμού η <code class="docutils literal notranslate"><span class="pre">print()</span></code>).</p>
+<div class="topic">
+<p class="topic-title">Αφαίρεση του newline</p>
+<p>Εάν κατά την επεξεργασία σας δεν θέλετε το newline, θα πρέπει να το αφαιρέσετε πριν προχωρήσετε, π.χ. με τη μέθοδο <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str.rstrip">rstrip()</a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;sample1.txt&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+
+  <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fp</span><span class="p">:</span>
+
+    <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="c1"># συνέχεια επεξεργασίας</span>
 </pre></div>
 </div>
 </div>
@@ -339,6 +366,7 @@ Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;licen
 </ul>
 </li>
 <li><a class="reference internal" href="#id5">Διαβάζοντας ένα ολόκληρο αρχείο κειμένου</a></li>
+<li><a class="reference internal" href="#file-line-processing-ref">Διαβάζοντας ένα αρχείο κειμένου γραμμή προς γραμμή</a></li>
 </ul>
 </li>
 </ul>

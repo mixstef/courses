@@ -124,32 +124,32 @@ abc123
 <p>Αν S, S1, S2 είναι strings, και Β, Ε χαρακτήρες, μπορούν να κατασκευαστούν τα εξής patterns ταιριάσματος:</p>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 20%" />
-<col style="width: 80%" />
+<col style="width: 27%" />
+<col style="width: 73%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p>Str(S)</p></td>
+<tr class="row-odd"><td><p>plex.Str(S)</p></td>
 <td><p>ταιριάζει το string S</p></td>
 </tr>
-<tr class="row-even"><td><p>Str(S1,S2,..)</p></td>
+<tr class="row-even"><td><p>plex.Str(S1,S2,..)</p></td>
 <td><p>ταιριάζει ένα από τα S1, S2, ..</p></td>
 </tr>
-<tr class="row-odd"><td><p>Any(S)</p></td>
+<tr class="row-odd"><td><p>plex.Any(S)</p></td>
 <td><p>ταιριάζει κάθε έναν από τους χαρακτήρες του S</p></td>
 </tr>
-<tr class="row-even"><td><p>AnyBut(S)</p></td>
+<tr class="row-even"><td><p>plex.AnyBut(S)</p></td>
 <td><p>ταιριάζει κάθε χαρακτήρα που δεν ανήκει στο S</p></td>
 </tr>
-<tr class="row-odd"><td><p>AnyChar</p></td>
+<tr class="row-odd"><td><p>plex.AnyChar</p></td>
 <td><p>ταιριάζει κάθε μονό χαρακτήρα (και το newline)</p></td>
 </tr>
-<tr class="row-even"><td><p>Empty</p></td>
+<tr class="row-even"><td><p>plex.Empty</p></td>
 <td><p>ταιριάζει το κενό string</p></td>
 </tr>
-<tr class="row-odd"><td><p>Bol,Eol,Eof</p></td>
+<tr class="row-odd"><td><p>plex.Bol,plex.Eol,plex.Eof</p></td>
 <td><p>ταιριάζει στην αρχή/τέλος γραμμής και τέλος κειμένου</p></td>
 </tr>
-<tr class="row-even"><td><p>Range(‘BE’)</p></td>
+<tr class="row-even"><td><p>plex.Range(‘BE’)</p></td>
 <td><p>ταιριάζει περιοχές από το Β έως το Ε (και πολλαπλές π.χ. ‘AZaz’)</p></td>
 </tr>
 </tbody>
@@ -157,26 +157,26 @@ abc123
 <p>Επίσης, αν P, P1, P2 είναι patterns που έχουν ήδη κατασκευαστεί, μπορούν να γίνουν οι εξής συνδυασμοί:</p>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 26%" />
-<col style="width: 74%" />
+<col style="width: 31%" />
+<col style="width: 69%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p>P1+P2 ή Seq(P1,P2)</p></td>
+<tr class="row-odd"><td><p>P1+P2 ή plex.Seq(P1,P2)</p></td>
 <td><p>το P1 ακολουθούμενο από το P2</p></td>
 </tr>
-<tr class="row-even"><td><p>P1|P2 ή Alt(P1,P2)</p></td>
+<tr class="row-even"><td><p>P1|P2 ή plex.Alt(P1,P2)</p></td>
 <td><p>είτε το P1 είτε το P2 (εναλλαγή)</p></td>
 </tr>
-<tr class="row-odd"><td><p>Opt(P)</p></td>
+<tr class="row-odd"><td><p>plex.Opt(P)</p></td>
 <td><p>0 ή 1 φορά το P (προαιρετικό)</p></td>
 </tr>
-<tr class="row-even"><td><p>Rep(P)</p></td>
+<tr class="row-even"><td><p>plex.Rep(P)</p></td>
 <td><p>0 ή περισσότερες φορές το P</p></td>
 </tr>
-<tr class="row-odd"><td><p>Rep1(P)</p></td>
+<tr class="row-odd"><td><p>plex.Rep1(P)</p></td>
 <td><p>1 ή περισσότερες φορές το P</p></td>
 </tr>
-<tr class="row-even"><td><p>NoCase(P)  Case(P)</p></td>
+<tr class="row-even"><td><p>plex.NoCase(P),plex.Case(P)</p></td>
 <td><p>το P, αγνοώντας (ή λαμβάνοντας υπ’όψη) κεφαλαία-μικρά</p></td>
 </tr>
 </tbody>

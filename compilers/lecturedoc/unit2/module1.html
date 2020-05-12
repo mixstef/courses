@@ -670,6 +670,44 @@ regular expressions.&#39; Now they have two problems.
 </ul>
 </div></blockquote>
 </li>
+<li><p>Κατεβάστε το εξής <a class="reference external" href="http://mixstef.github.io/courses/compilers/sample1.txt">δοκιμαστικό κείμενο</a>. Τι παρατηρείτε; Στην άσκηση θα διορθώσετε το πρόβλημα με τους τόνους και τα διαλυτικά με τη βοήθεια της <code class="docutils literal notranslate"><span class="pre">sub()</span></code>.</p>
+<ul>
+<li><p>Η πληροφορία στο αρχείο αυτό βρίσκεται αυτοτελής σε κάθε γραμμή. Έτσι μπορείτε να το επεξεργαστείτε γραμμή προς γραμμή. Αν έχετε προβλήματα encoding, προσθέστε στην <code class="docutils literal notranslate"><span class="pre">open()</span></code> το όρισμα <code class="docutils literal notranslate"><span class="pre">encoding='utf-8'</span></code>.</p></li>
+<li><p>Τι συμβαίνει στο κείμενο: τα τονισμένα φωνήεντα δεν έχουν αποθηκευτεί σωστά.</p>
+<ul class="simple">
+<li><p>Για τους τόνους, προηγείται ο χαρακτήρας <code class="docutils literal notranslate"><span class="pre">'GREEK</span> <span class="pre">TONOS'</span> <span class="pre">(U+0384)</span></code> (στην κανονική σας έκφραση θα το γράψετε ως <code class="docutils literal notranslate"><span class="pre">\u0384</span></code>) και μετά το αντίστοιχο φωνήεν.</p></li>
+<li><p>Για τα διαλυτικά, προηγείται ο χαρακτήρας <code class="docutils literal notranslate"><span class="pre">'DIAERESIS'</span> <span class="pre">(U+00A8)</span></code> (στην κανονική σας έκφραση θα το γράψετε ως <code class="docutils literal notranslate"><span class="pre">\u00A8</span></code>) και μετά το αντίστοιχο φωνήεν.</p></li>
+<li><p>Δεν υπάρχουν συνδυασμοί τόνου+διαλυτικών.</p></li>
+</ul>
+</li>
+<li><p>Γράψτε κανονική έκφραση που θα:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Αναγνωρίζει έναν από τους χαρακτήρες <code class="docutils literal notranslate"><span class="pre">'GREEK</span> <span class="pre">TONOS'</span> <span class="pre">(U+0384)</span></code> ή ‘<code class="docutils literal notranslate"><span class="pre">DIAERESIS'</span> <span class="pre">(U+00A8)</span></code> και τον κρατά <strong>στο group(1)</strong>.</p></li>
+<li><p>Κρατά τον επόμενο χαρακτήρα (οποιονδήποτε) στο <strong>group(2)</strong>.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Αντιγράψτε τα δύο λεξικά που ακολουθούν στο πρόγραμμά σας:</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># the tonos replacement dict</span>
+<span class="n">td</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;α&#39;</span><span class="p">:</span><span class="s1">&#39;ά&#39;</span><span class="p">,</span><span class="s1">&#39;ε&#39;</span><span class="p">:</span><span class="s1">&#39;έ&#39;</span><span class="p">,</span><span class="s1">&#39;η&#39;</span><span class="p">:</span><span class="s1">&#39;ή&#39;</span><span class="p">,</span><span class="s1">&#39;ι&#39;</span><span class="p">:</span><span class="s1">&#39;ί&#39;</span><span class="p">,</span><span class="s1">&#39;ο&#39;</span><span class="p">:</span><span class="s1">&#39;ό&#39;</span><span class="p">,</span><span class="s1">&#39;υ&#39;</span><span class="p">:</span><span class="s1">&#39;ύ&#39;</span><span class="p">,</span><span class="s1">&#39;ω&#39;</span><span class="p">:</span><span class="s1">&#39;ώ&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;Α&#39;</span><span class="p">:</span><span class="s1">&#39;Ά&#39;</span><span class="p">,</span><span class="s1">&#39;Ε&#39;</span><span class="p">:</span><span class="s1">&#39;Έ&#39;</span><span class="p">,</span><span class="s1">&#39;Η&#39;</span><span class="p">:</span><span class="s1">&#39;Ή&#39;</span><span class="p">,</span><span class="s1">&#39;Ι&#39;</span><span class="p">:</span><span class="s1">&#39;Ί&#39;</span><span class="p">,</span><span class="s1">&#39;Ο&#39;</span><span class="p">:</span><span class="s1">&#39;Ό&#39;</span><span class="p">,</span><span class="s1">&#39;Υ&#39;</span><span class="p">:</span><span class="s1">&#39;Ύ&#39;</span><span class="p">,</span><span class="s1">&#39;Ω&#39;</span><span class="p">:</span><span class="s1">&#39;Ώ&#39;</span> <span class="p">}</span>
+
+<span class="c1"># the dialytika replacement dict</span>
+<span class="n">dd</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;ι&#39;</span><span class="p">:</span><span class="s1">&#39;ϊ&#39;</span><span class="p">,</span><span class="s1">&#39;υ&#39;</span><span class="p">:</span><span class="s1">&#39;ϋ&#39;</span><span class="p">,</span><span class="s1">&#39;Ι&#39;</span><span class="p">:</span><span class="s1">&#39;Ϊ&#39;</span><span class="p">,</span><span class="s1">&#39;Υ&#39;</span><span class="p">:</span><span class="s1">&#39;Ϋ&#39;</span> <span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>Στη συνέχεια, χρησιμοποιήστε συνάρτηση «callback» στη <code class="docutils literal notranslate"><span class="pre">sub()</span></code> της κανονικής έκφρασης που σχεδιάσατε προηγουμένως, έτσι ώστε να επιστρέφετε τη σωστή αντικατάσταση με βάση τα δύο προηγούμενα λεξικά.</p>
+<ul class="simple">
+<li><p><em>Υποδειξη:</em> επιστρέψτε ό,τι τιμή σας δίνει το λεξικό για το κλειδί m.group(2).</p></li>
+<li><p><em>Προσοχή:</em> θα πρέπει να ελέγξετε αν το m.group(2) υπάρχει στο λεξικό. Αν όχι, επιστρέψτε όλο το m.group(0), αφήνοντας ουσιαστικά το σημείο αναλλοίωτο.</p></li>
+</ul>
+</li>
+</ul>
+</li>
 </ol>
 </div>
 </div>

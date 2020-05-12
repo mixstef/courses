@@ -1,0 +1,261 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Λεκτικοί αναλυτές με το module plex &#8212; Compiler Labs Doc 1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/mytheme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Παράρτημα Α: Πληροφορίες για την Python3" href="../appendix-python/module1.html" />
+    <link rel="prev" title="Κανονικές εκφράσεις" href="../unit2/module1.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+<div class="pageheader">
+     <img src=../_static/banner.gif alt="mistral"/>
+     <div>
+        <h4>Τμήμα Πληροφορικής - Ιόνιο Πανεπιστήμιο</h4>
+        <h2>Μεταγλωττιστές</h2>
+        <h4>Εαρινό Εξάμηνο 2019-20</h4>        
+        <h5>Μ.Στεφανιδάκης</h5>
+      </div>    
+</div>
+
+
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <a class="reference internal image-reference" href="../_images/by-sa4.png"><img alt="Creative Commons Attribution-ShareAlike 4.0 International License" src="../_images/by-sa4.png" style="width: 80px;" /></a>
+<div class="section" id="module-plex">
+<h1>Λεκτικοί αναλυτές με το module plex<a class="headerlink" href="#module-plex" title="Permalink to this headline">¶</a></h1>
+<p class="rubric">Γιατί ένα νέο module λεκτικού αναλυτή;</p>
+<p>Επιστρέφοντας στην πλήρη λεκτική ανάλυση πηγαίου κώδικα, χρειαζόμαστε κώδικα που αναλύει <strong>όλο το κείμενο εισόδου</strong>: δεν ψάχνουμε μόνο για μεμονωμένα ταιριάσματα, πρέπει να αναγνωρίζουμε τα πάντα, σε μη επικαλυπτόμενα ταιριάσματα.</p>
+<p>Η λειτουργία αυτή θα μπορούσε θεωρητικά να επιτευχθεί με τα εργαλεία που έχουμε ήδη στη διάθεσή μας, τις κανονικές εκφράσεις της Python. Θα μπορούσαμε να κατασκευάσουμε κανονικές εκφράσεις, μία για κάθε είδος token που αναγνωρίζουμε, και να τις συνδυάσουμε σε μια μεγαλύτερη με εναλλαγές (<code class="docutils literal notranslate"><span class="pre">|</span></code>). Στη συνέχεια, με τη βοήθεια διαφορετικών groups θα ανιχνεύαμε τι έχει ταιριάξει και θα επιστρέφαμε το κατάλληλο token. Η διαδικασία θα ήταν επαναληπτική, μέχρι να εξαντληθεί όλος ο πηγαίος κώδικας.</p>
+<p>Αυτή τη λειτουργία παρέχει το module <code class="docutils literal notranslate"><span class="pre">plex</span></code>, με έναν πιο απλό και αντικειμενοστρεφή τρόπο.</p>
+<p class="rubric">Διαφορές με τις κανονικές εκφράσεις</p>
+<p>Το plex υλοποιεί τη μηχανή ταιριάσματος με ντετερμινιστικό αυτόματο (DFA), χωρίς backtracking. Αυτό σημαίνει ότι δεν έχετε στη διάθεσή σας μη-άπληστους τελεστές ή backreferences, από την άλλη πλευρά όμως η απόδοση είναι ντετερμινιστική και δεν εξαρτάται από το πώς θα γράψουμε το σχέδιο ταιριάσματος ενώ εγγυημένα επιστρέφεται πάντοτε το μεγαλύτερο ταίριασμα.</p>
+<div class="topic">
+<p class="topic-title">Προσοχή: εργασία σε virtual environment</p>
+<p>Θα πρέπει να έχετε εγκαταστήσει το module plex σε ένα virtual environment, το οποίο θα πρέπει να είναι ενεργοποιημένο πριν συνεχίσετε. Για περισσότερα δείτε τις οδηγίες για την <a class="reference internal" href="../appendix-python/module1.html#python-venv-ref"><span class="std std-ref">εγκατάσταση και χρήση virtual environments</span></a> στην Python.</p>
+</div>
+<div class="section" id="id1">
+<h2>Χρήση του module plex<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>Στη συνέχεια περιγράφονται τα βασικά βήματα για τη χρήση του <code class="docutils literal notranslate"><span class="pre">plex</span></code>.</p>
+<ol class="arabic">
+<li><p>Κάνετε import το plex</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">plex</span>
+</pre></div>
+</div>
+</li>
+<li><p>Δημιουργήστε ένα <em>lexicon</em> με ζευγάρια (pattern,action). Με τον τρόπο αυτόν λέτε στο plex τι θέλετε να αναγνωρίσετε και τι πρέπει να επιστρέφεται κάθε φορά</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lexicon</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Lexicon</span><span class="p">([</span>
+    <span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s2">&quot;abc&quot;</span><span class="p">),</span><span class="s2">&quot;ABC_TOKEN&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s2">&quot;123&quot;</span><span class="p">),</span><span class="s2">&quot;123_TOKEN&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Rep1</span><span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Any</span><span class="p">(</span><span class="s2">&quot; </span><span class="se">\t\n</span><span class="s2">&quot;</span><span class="p">)),</span><span class="n">plex</span><span class="o">.</span><span class="n">IGNORE</span><span class="p">)</span>
+  <span class="p">])</span>
+</pre></div>
+</div>
+</li>
+<li><p>Ανοίξτε το αρχείο εισόδου και δημιουργήστε έναν <em>scanner</em> (λεκτικό αναλυτή) για το lexicon που φτιάξατε προηγουμένως.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;plex1.txt&quot;</span><span class="p">,</span><span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+    <span class="n">scanner</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Scanner</span><span class="p">(</span><span class="n">lexicon</span><span class="p">,</span><span class="n">fp</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Διαβάστε επαναληπτικά τo token,lexeme που επιστρέφει ο scanner μέχρι να φτάσετε στο τέλος του κειμένου</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">token</span><span class="p">,</span><span class="n">matched</span> <span class="o">=</span> <span class="n">scanner</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">token</span><span class="p">:</span> <span class="k">break</span> <span class="c1"># reached end-of-text (EOT)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">token</span><span class="p">,</span><span class="n">matched</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>Το πλήρες πρόγραμμα φαίνεται στη συνέχεια. Το συγκεκριμένο παράδειγμα αναγνωρίζει τις ακολουθίες <code class="docutils literal notranslate"><span class="pre">abc</span></code> και <code class="docutils literal notranslate"><span class="pre">123</span></code>, επιστρέφοντας τα <code class="docutils literal notranslate"><span class="pre">ABC_TOKEN</span></code> και <code class="docutils literal notranslate"><span class="pre">123_TOKEN</span></code> αντίστοιχα. Επίσης αναγνωρίζονται ακολουθίες από ένα ή περισσότερα κενά, tabs και newlines, τα οποία όμως αγνοούνται (ειδική σταθερά <code class="docutils literal notranslate"><span class="pre">plex.IGNORE</span></code>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">plex</span>
+
+<span class="c1"># the scanner lexicon - argument is a list of (pattern,action ) tuples</span>
+<span class="n">lexicon</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Lexicon</span><span class="p">([</span>
+        <span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s2">&quot;abc&quot;</span><span class="p">),</span><span class="s2">&quot;ABC_TOKEN&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s2">&quot;123&quot;</span><span class="p">),</span><span class="s2">&quot;123_TOKEN&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Rep1</span><span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Any</span><span class="p">(</span><span class="s2">&quot; </span><span class="se">\t\n</span><span class="s2">&quot;</span><span class="p">)),</span><span class="n">plex</span><span class="o">.</span><span class="n">IGNORE</span><span class="p">)</span>
+        <span class="p">])</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;plex1.txt&quot;</span><span class="p">,</span><span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+
+        <span class="n">scanner</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Scanner</span><span class="p">(</span><span class="n">lexicon</span><span class="p">,</span><span class="n">fp</span><span class="p">)</span>
+
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">token</span><span class="p">,</span><span class="n">matched</span> <span class="o">=</span> <span class="n">scanner</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">token</span><span class="p">:</span> <span class="k">break</span>     <span class="c1"># reached end-of-text (EOT)</span>
+
+                <span class="nb">print</span><span class="p">(</span><span class="n">token</span><span class="p">,</span><span class="n">matched</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Το αρχείο κειμένου εισόδου (<code class="docutils literal notranslate"><span class="pre">plex1.txt</span></code>) περιέχει π.χ.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>abc 123 abc
+123 abc
+abc123
+</pre></div>
+</div>
+</div>
+<div class="section" id="plex-patterns">
+<h2>Plex patterns<a class="headerlink" href="#plex-patterns" title="Permalink to this headline">¶</a></h2>
+<p>Αν S, S1, S2 είναι strings, και Β, Ε χαρακτήρες, μπορούν να κατασκευαστούν τα εξής patterns ταιριάσματος:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Str(S)</p></td>
+<td><p>ταιριάζει το string S</p></td>
+</tr>
+<tr class="row-even"><td><p>Str(S1,S2,..)</p></td>
+<td><p>ταιριάζει ένα από τα S1, S2, ..</p></td>
+</tr>
+<tr class="row-odd"><td><p>Any(S)</p></td>
+<td><p>ταιριάζει κάθε έναν από τους χαρακτήρες του S</p></td>
+</tr>
+<tr class="row-even"><td><p>AnyBut(S)</p></td>
+<td><p>ταιριάζει κάθε χαρακτήρα που δεν ανήκει στο S</p></td>
+</tr>
+<tr class="row-odd"><td><p>AnyChar</p></td>
+<td><p>ταιριάζει κάθε μονό χαρακτήρα (και το newline)</p></td>
+</tr>
+<tr class="row-even"><td><p>Empty</p></td>
+<td><p>ταιριάζει το κενό string</p></td>
+</tr>
+<tr class="row-odd"><td><p>Bol,Eol,Eof</p></td>
+<td><p>ταιριάζει στην αρχή/τέλος γραμμής και τέλος κειμένου</p></td>
+</tr>
+<tr class="row-even"><td><p>Range(‘BE’)</p></td>
+<td><p>ταιριάζει περιοχές από το Β έως το Ε (και πολλαπλές π.χ. ‘AZaz’)</p></td>
+</tr>
+</tbody>
+</table>
+<p>Επίσης, αν P, P1, P2 είναι patterns που έχουν ήδη κατασκευαστεί, μπορούν να γίνουν οι εξής συνδυασμοί:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 74%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>P1+P2 ή Seq(P1,P2)</p></td>
+<td><p>το P1 ακολουθούμενο από το P2</p></td>
+</tr>
+<tr class="row-even"><td><p>P1|P2 ή Alt(P1,P2)</p></td>
+<td><p>είτε το P1 είτε το P2 (εναλλαγή)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Opt(P)</p></td>
+<td><p>0 ή 1 φορά το P (προαιρετικό)</p></td>
+</tr>
+<tr class="row-even"><td><p>Rep(P)</p></td>
+<td><p>0 ή περισσότερες φορές το P</p></td>
+</tr>
+<tr class="row-odd"><td><p>Rep1(P)</p></td>
+<td><p>1 ή περισσότερες φορές το P</p></td>
+</tr>
+<tr class="row-even"><td><p>NoCase(P)  Case(P)</p></td>
+<td><p>το P, αγνοώντας (ή λαμβάνοντας υπ’όψη) κεφαλαία-μικρά</p></td>
+</tr>
+</tbody>
+</table>
+<p>(για την πλήρη τεκμηρίωση του plex δείτε το <a class="reference external" href="https://pythonhosted.org/plex/">https://pythonhosted.org/plex/</a>)</p>
+</div>
+<div class="section" id="id2">
+<h2>Παράδειγμα: λέξεις και αριθμοί<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Στο επόμενο περιγράφεται λεκτικός αναλυτής με τη βοήθεια του plex, ο οποίος αναγνωρίζει</p>
+<ul class="simple">
+<li><p><em>Λέξεις:</em> συνεχόμενες σειρές από λατινικά γράμματα (κεφαλαία-πεζά)</p></li>
+<li><p><em>Αριθμούς:</em> συνεχόμενες σειρές από ψηφία (0 έως 9).</p></li>
+<li><p>Κενά, tabs, newlines που αγνοούνται.</p></li>
+</ul>
+<p>Παρατηρήστε πώς μπορούμε να αναθέσουμε αντικείμενα ταιριάσματος σε μεταβλητές, τις οποίες χρησιμοποιούμε αργότερα σε πιο σύνθετα ταιριάσματα ή μέσα στο lexicon του plex. Έτσι ο κώδικάς μας γίνεται πολύ πιο ευανάγνωστος!</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">plex</span>
+
+<span class="c1"># define patterns</span>
+<span class="n">letter</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Range</span><span class="p">(</span><span class="s2">&quot;AZaz&quot;</span><span class="p">)</span>
+<span class="n">digit</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Range</span><span class="p">(</span><span class="s2">&quot;09&quot;</span><span class="p">)</span>
+
+<span class="n">word</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Rep1</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+<span class="n">number</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Rep1</span><span class="p">(</span><span class="n">digit</span><span class="p">)</span>
+
+<span class="c1"># the scanner lexicon - constructor argument is a list of (pattern,action ) tuples</span>
+<span class="n">lexicon</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Lexicon</span><span class="p">([</span>
+        <span class="p">(</span><span class="n">word</span><span class="p">,</span><span class="s2">&quot;WORD_TOKEN&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">number</span><span class="p">,</span><span class="s2">&quot;NUMBER_TOKEN&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Rep1</span><span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Any</span><span class="p">(</span><span class="s2">&quot; </span><span class="se">\t\n</span><span class="s2">&quot;</span><span class="p">)),</span><span class="n">plex</span><span class="o">.</span><span class="n">IGNORE</span><span class="p">)</span>
+        <span class="p">])</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;words-numbers.txt&quot;</span><span class="p">,</span><span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+
+        <span class="n">scanner</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Scanner</span><span class="p">(</span><span class="n">lexicon</span><span class="p">,</span><span class="n">fp</span><span class="p">)</span>
+
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">token</span><span class="p">,</span><span class="n">matched</span> <span class="o">=</span> <span class="n">scanner</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">token</span><span class="p">:</span> <span class="k">break</span>     <span class="c1"># reached end-of-text (EOT)</span>
+
+                <span class="nb">print</span><span class="p">(</span><span class="n">token</span><span class="p">,</span><span class="n">matched</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Το αρχείο εισόδου <code class="docutils literal notranslate"><span class="pre">words-numbers.txt</span></code> μπορεί π.χ. να περιέχει τα εξής:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>1234 567abcD 9ac45 2333
+lKJ78 a b 09
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Περιεχόμενα</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Λεκτικοί αναλυτές με το module plex</a><ul>
+<li><a class="reference internal" href="#id1">Χρήση του module plex</a></li>
+<li><a class="reference internal" href="#plex-patterns">Plex patterns</a></li>
+<li><a class="reference internal" href="#id2">Παράδειγμα: λέξεις και αριθμοί</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -263,42 +263,41 @@
 	       Αν ναί, επιστρέφεται το σύμβολο που αντιστοιχεί σ' αυτή την κατάσταση αποδοχής
 	       Αν όχι, επιστρέφεται σφάλμα.
 
-Η συνάρτηση ``scan()`` παίρνει ως ορίσματα τα ``text`` (κείμενο για αναζήτηση ταιριασμάτων), λεξικά ``transitions`` και ``accepts`` (περιγραφή αυτομάτου) και ``state`` (αρχική κατάσταση).
+Η συνάρτηση ``scan()`` παίρνει ως ορίσματα τα ``text`` (κείμενο για αναζήτηση ταιριασμάτων), λεξικά ``transitions`` και ``accepts`` (περιγραφή αυτομάτου) και ``state`` (αρχική κατάσταση). Επιστρέφει τη δυάδα ``(token,lexeme)`` αν μετά την κατανάλωση του κειμένου εισόδου το αυτόματο βρίσκεται σε κατάσταση αποδοχής, διαφορετικά τα ``(None,'')``.
 
 ..	code-block:: python
 
 	def scan(text,transitions,accepts,state):
 		""" Starting from inital `state`, scans `text` while transitions
 		exist in `transitions` dict. After that, if on a state belonging to
-		`accepts` dict, returns the corresponding token object, else None.
+		`accepts` dict, returns the corresponding (token,lexeme) tuple, else (None,'').
 		"""
-	
+		
 		# initial position on text
 		pos = 0
-	
+		
 		while True:
-		
-			c = get_char(text,pos)	# get next char
-		
+			
+			c = get_char(text,pos)	# get next char (or char category)
+			
 			if state in transitions and c in transitions[state]:
 				state = transitions[state][c]	# set new state
 				pos += 1	# advance to next char			
-			
+				
 			else:	# no transition found
 
 				# check if current state is accepting
 				if state in accepts:
-					return { 'token': accepts[state],
-						 'lexeme': text[:pos] }
+					return accepts[state],text[:pos]
 
 				# else, if on a non-accepting state
-				return None		# error
+				return None,''
 
 Η συνάρτηση ``scan()`` μπορεί να λειτουργήσει με οποιοδήποτε αυτόματο, έχει όμως ένα *ελάττωμα*. Αυτό περιγράφεται και διορθώνεται στην επόμενη παράγραφο.
 
 .. _dfa-intfloat-ref:
 
-Προαιρετικά ταιριάσματα
+Προηγούμενα ταιριάσματα
 ========================
 
 Έστω ότι υλοποιείται με την προηγούμενη μέθοδο το αυτόματο της επόμενης εικόνας:
@@ -318,31 +317,30 @@
 
 	def scan(text,transitions,accepts,state):
 		""" Starting from inital `state`, scans `text` while transitions
-		exist in `transitions` dict. After that, if on a state belonging to
-		`accepts` dict, returns the corresponding token object, else None.
+		exist in `transitions` dict. After that, if a state belonging to
+		`accepts` dict was met, returns the corresponding (token,lexeme) tuple, else (None,'').
 		"""
-	
+		
 		# initial position on text
 		pos = 0
-	
-		# memory object for last seen accepting state
-		matched = None
-	
+		
+		# memory variables for last seen accepting state
+		token,lexeme = None,''
+		
 		while True:
-		
-			c = get_char(text,pos)	# get next char
-		
+			
+			c = get_char(text,pos)	# get next char (or char category)
+			
 			if state in transitions and c in transitions[state]:
 				state = transitions[state][c]	# set new state
 				pos += 1	# advance to next char			
 
 				# remember if current state is accepting
 				if state in accepts:
-					matched = { 'token':  accepts[state],
-							'lexeme': text[:pos] }
-			
+					token,lexeme = accepts[state],text[:pos]
+				
 			else:	# no transition found, return last match or None
-				return matched
+				return token,lexeme
 
 
 Με την προσθήκη αυτή, η ``scan()`` μπορεί να καλύψει με σωστό τρόπο κάθε αυτόματο.
@@ -392,10 +390,24 @@
 	
 	**Πότε δεν γίνεται ομαδοποίηση:** όταν κάποιον χαρακτήρα της ομάδας τον χειριζόμαστε διαφορετικά από τους υπόλοιπους στις μεταβάσεις, τότε η προσθήκη του στην ομάδα δεν είναι δυνατή.
 
-Το συνολικό αποτέλεσμα
-========================
+Κλήση της συνάρτησης ταιριάσματος
+==================================
 
-Βάζοντας μαζί όλα τα στοιχεία υλοποίησης του αυτομάτου με την Python για :ref:`το παράδειγμα με τους ακεραίους και κλασματικούς αριθμούς <dfa-intfloat-ref>`, μπορείτε να δείτε `τον συνολικό κώδικα που προκύπτει <https://gist.github.com/mixstef/9783fe7825d22e9f19b90e03da5d5fd6#file-dfa-optional-py>`_.
+Παράδειγμα κώδικα για την κλήση της ``scan()``:
+
+..	code-block:: python
+
+	# get a string from input
+	text = input('give some input>')
+
+	# perform a "match" operation (try to find one token from string start)
+	token,lexeme = scan(text,transitions,accepts,'s0')
+	if token:
+		print('token={}   lexeme={}'.format(token,lexeme))
+	else:
+		print('no match found')
+
+
 
 *************
 Ασκήσεις

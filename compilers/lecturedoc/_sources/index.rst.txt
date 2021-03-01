@@ -23,5 +23,6 @@
 .. toctree::
    :maxdepth: 2
 
+   unit1/module1.rst
    appendix-python/module1.rst
-   
+

@@ -15,6 +15,8 @@
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Παράρτημα Α: Πληροφορίες για την Python3" href="../appendix-python/module1.html" />
+    <link rel="prev" title="Μεταγλωττιστές - Σημειώσεις Εργαστηρίου" href="../index.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -49,9 +51,9 @@
 <div class="section" id="id2">
 <h2>Η λειτουργία της λεκτικής ανάλυσης<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>Η λεκτική ανάλυση (lexical analysis, lexing ή scanning) δέχεται ως είσοδο έναν-έναν τους μεμονωμένους χαρακτήρες του πηγαίου κώδικα και παράγει <em>σύμβολα</em> (tokens). Δείτε το επόμενο σχήμα:</p>
-<div class="figure align-default" id="id15">
+<div class="figure align-default" id="id14">
 <img alt="Παράδειγμα λεκτικής ανάλυσης" src="../_images/lexing.png" />
-<p class="caption"><span class="caption-text">Παράδειγμα λεκτικής ανάλυσης</span><a class="headerlink" href="#id15" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text">Παράδειγμα λεκτικής ανάλυσης</span><a class="headerlink" href="#id14" title="Permalink to this image">¶</a></p>
 </div>
 <p>Στην είσοδο έχουμε τους μεμονωμένους χαρακτήρες <code class="docutils literal notranslate"><span class="pre">&quot;int</span> <span class="pre">k;&quot;</span></code>. Η λεκτική ανάλυση ομαδοποιεί στα σύμβολα <code class="docutils literal notranslate"><span class="pre">KEYWORD_INT</span></code>, <code class="docutils literal notranslate"><span class="pre">SPACE</span></code>, <code class="docutils literal notranslate"><span class="pre">IDENTIFIER</span></code> και <code class="docutils literal notranslate"><span class="pre">SEMICOLON</span></code>. Παρατηρείστε ότι:</p>
 <ul class="simple">
@@ -104,9 +106,9 @@
 <li><p>Στο σημείο που βρισκόμαστε, ποιοι είναι οι επόμενοι έγκυροι χαρακτήρες;</p></li>
 </ul>
 <p>Αυτό μπορεί να γίνει με τη βοήθεια ενός αυτομάτου. Δείτε την εικόνα που ακολουθεί:</p>
-<div class="figure align-default" id="id16">
+<div class="figure align-default" id="id15">
 <img alt="Αυτόματο πεπερασμένων καταστάσεων για τα  keywords long, term, test" src="../_images/longtermtest.png" />
-<p class="caption"><span class="caption-text">Αυτόματο πεπερασμένων καταστάσεων για τα  keywords long, term, test</span><a class="headerlink" href="#id16" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text">Αυτόματο πεπερασμένων καταστάσεων για τα  keywords long, term, test</span><a class="headerlink" href="#id15" title="Permalink to this image">¶</a></p>
 </div>
 <p>Το αυτόματο αυτό είναι σχεδιασμένο για να αναγνωρίζει τρία keywords, τις λέξεις <cite>long</cite>, <cite>term</cite> και <cite>test</cite>.</p>
 <ul>
@@ -125,9 +127,9 @@
 </ul>
 <p>Συνοψίζοντας, είναι οι <em>καταστάσεις</em> του αυτομάτου που προσδιορίζουν σε ποιο σημείο της διαδικασίας αναγνώρισης βρισκόμαστε και ποιοι χαρακτήρες πρέπει να ακολουθήσουν.</p>
 <p id="dfa-digits-ref">Ένα αυτόματο πεπερασμένων καταστάσεων μπορεί να αναγνωρίσει ακολουθίες χαρακτήρων με απεριόριστο μήκος. Αυτό επιτυγχάνεται με τη χρήση loops στις ακμές του αυτομάτου. Δείτε για παράδειγμα το αυτόματο που ακολουθεί, το οποίο αναγνωρίζει ακολουθίες ψηφίων <cite>0..9</cite> οποιουδήποτε μήκους:</p>
-<div class="figure align-default" id="id17">
+<div class="figure align-default" id="id16">
 <img alt="Αυτόματο πεπερασμένων καταστάσεων για αναγνώριση σειράς ψηφίων" src="../_images/digits.png" />
-<p class="caption"><span class="caption-text">Αυτόματο πεπερασμένων καταστάσεων για αναγνώριση σειράς ψηφίων</span><a class="headerlink" href="#id17" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text">Αυτόματο πεπερασμένων καταστάσεων για αναγνώριση σειράς ψηφίων</span><a class="headerlink" href="#id16" title="Permalink to this image">¶</a></p>
 </div>
 <div class="topic">
 <p class="topic-title">Μπορεί η αρχική κατάσταση να είναι κατάσταση αποδοχής;</p>
@@ -142,8 +144,8 @@
 <div class="section" id="dfa-table-ref">
 <span id="id5"></span><h3>Πίνακας μεταβάσεων<a class="headerlink" href="#dfa-table-ref" title="Permalink to this headline">¶</a></h3>
 <p>Το αυτόματο πεπερασμένων καταστάσεων είναι μια θεωρητική μορφή. Για να υλοποιηθεί σε κάποια γλώσσα προγραμματισμού χρειαζόμαστε μια πιο συγκεκριμένη (concrete) μορφή. Ως ενδιάμεσο βήμα, μπορούμε να εκφράσουμε το αυτόματο με έναν πίνακα δύο διαστάσεων.</p>
-<table class="docutils align-default" id="id18">
-<caption><span class="caption-text">Πίνακας μεταβάσεων για τα long, term, test</span><a class="headerlink" href="#id18" title="Permalink to this table">¶</a></caption>
+<table class="docutils align-default" id="id17">
+<caption><span class="caption-text">Πίνακας μεταβάσεων για τα long, term, test</span><a class="headerlink" href="#id17" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 10%" />
@@ -427,11 +429,11 @@
     Αν όχι, επιστρέφεται σφάλμα.
 </pre></div>
 </div>
-<p>Η συνάρτηση <code class="docutils literal notranslate"><span class="pre">scan()</span></code> παίρνει ως ορίσματα τα <code class="docutils literal notranslate"><span class="pre">text</span></code> (κείμενο για αναζήτηση ταιριασμάτων), λεξικά <code class="docutils literal notranslate"><span class="pre">transitions</span></code> και <code class="docutils literal notranslate"><span class="pre">accepts</span></code> (περιγραφή αυτομάτου) και <code class="docutils literal notranslate"><span class="pre">state</span></code> (αρχική κατάσταση).</p>
+<p>Η συνάρτηση <code class="docutils literal notranslate"><span class="pre">scan()</span></code> παίρνει ως ορίσματα τα <code class="docutils literal notranslate"><span class="pre">text</span></code> (κείμενο για αναζήτηση ταιριασμάτων), λεξικά <code class="docutils literal notranslate"><span class="pre">transitions</span></code> και <code class="docutils literal notranslate"><span class="pre">accepts</span></code> (περιγραφή αυτομάτου) και <code class="docutils literal notranslate"><span class="pre">state</span></code> (αρχική κατάσταση). Επιστρέφει τη δυάδα <code class="docutils literal notranslate"><span class="pre">(token,lexeme)</span></code> αν μετά την κατανάλωση του κειμένου εισόδου το αυτόματο βρίσκεται σε κατάσταση αποδοχής, διαφορετικά τα <code class="docutils literal notranslate"><span class="pre">(None,'')</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">scan</span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="n">transitions</span><span class="p">,</span><span class="n">accepts</span><span class="p">,</span><span class="n">state</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Starting from inital `state`, scans `text` while transitions</span>
 <span class="sd">        exist in `transitions` dict. After that, if on a state belonging to</span>
-<span class="sd">        `accepts` dict, returns the corresponding token object, else None.</span>
+<span class="sd">        `accepts` dict, returns the corresponding (token,lexeme) tuple, else (None,&#39;&#39;).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># initial position on text</span>
@@ -439,7 +441,7 @@
 
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
 
-                <span class="n">c</span> <span class="o">=</span> <span class="n">get_char</span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="n">pos</span><span class="p">)</span>  <span class="c1"># get next char</span>
+                <span class="n">c</span> <span class="o">=</span> <span class="n">get_char</span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="n">pos</span><span class="p">)</span>  <span class="c1"># get next char (or char category)</span>
 
                 <span class="k">if</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">transitions</span> <span class="ow">and</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">transitions</span><span class="p">[</span><span class="n">state</span><span class="p">]:</span>
                         <span class="n">state</span> <span class="o">=</span> <span class="n">transitions</span><span class="p">[</span><span class="n">state</span><span class="p">][</span><span class="n">c</span><span class="p">]</span>   <span class="c1"># set new state</span>
@@ -449,40 +451,39 @@
 
                         <span class="c1"># check if current state is accepting</span>
                         <span class="k">if</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">accepts</span><span class="p">:</span>
-                                <span class="k">return</span> <span class="p">{</span> <span class="s1">&#39;token&#39;</span><span class="p">:</span> <span class="n">accepts</span><span class="p">[</span><span class="n">state</span><span class="p">],</span>
-                                         <span class="s1">&#39;lexeme&#39;</span><span class="p">:</span> <span class="n">text</span><span class="p">[:</span><span class="n">pos</span><span class="p">]</span> <span class="p">}</span>
+                                <span class="k">return</span> <span class="n">accepts</span><span class="p">[</span><span class="n">state</span><span class="p">],</span><span class="n">text</span><span class="p">[:</span><span class="n">pos</span><span class="p">]</span>
 
                         <span class="c1"># else, if on a non-accepting state</span>
-                        <span class="k">return</span> <span class="kc">None</span>             <span class="c1"># error</span>
+                        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span><span class="s1">&#39;&#39;</span>
 </pre></div>
 </div>
 <p>Η συνάρτηση <code class="docutils literal notranslate"><span class="pre">scan()</span></code> μπορεί να λειτουργήσει με οποιοδήποτε αυτόματο, έχει όμως ένα <em>ελάττωμα</em>. Αυτό περιγράφεται και διορθώνεται στην επόμενη παράγραφο.</p>
 </div>
 <div class="section" id="dfa-intfloat-ref">
-<span id="id10"></span><h3>Προαιρετικά ταιριάσματα<a class="headerlink" href="#dfa-intfloat-ref" title="Permalink to this headline">¶</a></h3>
+<span id="id10"></span><h3>Προηγούμενα ταιριάσματα<a class="headerlink" href="#dfa-intfloat-ref" title="Permalink to this headline">¶</a></h3>
 <p>Έστω ότι υλοποιείται με την προηγούμενη μέθοδο το αυτόματο της επόμενης εικόνας:</p>
-<div class="figure align-default" id="id19">
+<div class="figure align-default" id="id18">
 <img alt="Αυτόματο για την αναγνώριση int και float αριθμών" src="../_images/intfloat.png" />
-<p class="caption"><span class="caption-text">Αυτόματο για την αναγνώριση int και float αριθμών</span><a class="headerlink" href="#id19" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text">Αυτόματο για την αναγνώριση int και float αριθμών</span><a class="headerlink" href="#id18" title="Permalink to this image">¶</a></p>
 </div>
 <p>Ο στόχος είναι η αναγνώριση ακεραίων αριθμών (στην κατάσταση <span class="math notranslate nohighlight">\(s_1\)</span>) και αριθμών με δεκαδικό μέρος (στην κατάσταση αποδοχής <span class="math notranslate nohighlight">\(s_3\)</span>).</p>
 <p>Εάν το string εισόδου είναι το <code class="docutils literal notranslate"><span class="pre">'123.'</span></code>, θα θέλαμε να αναγνωρίσουμε το <code class="docutils literal notranslate"><span class="pre">123</span></code> ως ακέραιο. Κάτι τέτοιο δεν θα συμβεί όμως με την τρέχουσα υλοποίηση της <code class="docutils literal notranslate"><span class="pre">scan()</span></code>, γιατί στο τέλος της αναζήτησης βρισκόμαστε στην κατάσταση <span class="math notranslate nohighlight">\(s_2\)</span>, η οποία <em>δεν είναι κατάσταση αποδοχής</em>.</p>
 <p>Αυτή η ατέλεια μπορεί να διορθωθεί εισάγοντας στη <code class="docutils literal notranslate"><span class="pre">scan()</span></code> τη δυνατότητα <em>μνήμης</em>, όπου φυλάμε την <em>τελευταία κατάσταση αποδοχής</em> απ’ όπου έχουμε περάσει. Αυτή η κατάσταση (αν υπάρχει) επιστρέφεται όταν δεν μπορούμε να προχωρήσουμε:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">scan</span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="n">transitions</span><span class="p">,</span><span class="n">accepts</span><span class="p">,</span><span class="n">state</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Starting from inital `state`, scans `text` while transitions</span>
-<span class="sd">        exist in `transitions` dict. After that, if on a state belonging to</span>
-<span class="sd">        `accepts` dict, returns the corresponding token object, else None.</span>
+<span class="sd">        exist in `transitions` dict. After that, if a state belonging to</span>
+<span class="sd">        `accepts` dict was met, returns the corresponding (token,lexeme) tuple, else (None,&#39;&#39;).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># initial position on text</span>
         <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span>
 
-        <span class="c1"># memory object for last seen accepting state</span>
-        <span class="n">matched</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># memory variables for last seen accepting state</span>
+        <span class="n">token</span><span class="p">,</span><span class="n">lexeme</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="s1">&#39;&#39;</span>
 
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
 
-                <span class="n">c</span> <span class="o">=</span> <span class="n">get_char</span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="n">pos</span><span class="p">)</span>  <span class="c1"># get next char</span>
+                <span class="n">c</span> <span class="o">=</span> <span class="n">get_char</span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="n">pos</span><span class="p">)</span>  <span class="c1"># get next char (or char category)</span>
 
                 <span class="k">if</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">transitions</span> <span class="ow">and</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">transitions</span><span class="p">[</span><span class="n">state</span><span class="p">]:</span>
                         <span class="n">state</span> <span class="o">=</span> <span class="n">transitions</span><span class="p">[</span><span class="n">state</span><span class="p">][</span><span class="n">c</span><span class="p">]</span>   <span class="c1"># set new state</span>
@@ -490,11 +491,10 @@
 
                         <span class="c1"># remember if current state is accepting</span>
                         <span class="k">if</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">accepts</span><span class="p">:</span>
-                                <span class="n">matched</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;token&#39;</span><span class="p">:</span>  <span class="n">accepts</span><span class="p">[</span><span class="n">state</span><span class="p">],</span>
-                                                <span class="s1">&#39;lexeme&#39;</span><span class="p">:</span> <span class="n">text</span><span class="p">[:</span><span class="n">pos</span><span class="p">]</span> <span class="p">}</span>
+                                <span class="n">token</span><span class="p">,</span><span class="n">lexeme</span> <span class="o">=</span> <span class="n">accepts</span><span class="p">[</span><span class="n">state</span><span class="p">],</span><span class="n">text</span><span class="p">[:</span><span class="n">pos</span><span class="p">]</span>
 
                 <span class="k">else</span><span class="p">:</span>   <span class="c1"># no transition found, return last match or None</span>
-                        <span class="k">return</span> <span class="n">matched</span>
+                        <span class="k">return</span> <span class="n">token</span><span class="p">,</span><span class="n">lexeme</span>
 </pre></div>
 </div>
 <p>Με την προσθήκη αυτή, η <code class="docutils literal notranslate"><span class="pre">scan()</span></code> μπορεί να καλύψει με σωστό τρόπο κάθε αυτόματο.</p>
@@ -540,12 +540,23 @@
 </ul>
 </div>
 <div class="section" id="id12">
-<h3>Το συνολικό αποτέλεσμα<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
-<p>Βάζοντας μαζί όλα τα στοιχεία υλοποίησης του αυτομάτου με την Python για <a class="reference internal" href="#dfa-intfloat-ref"><span class="std std-ref">το παράδειγμα με τους ακεραίους και κλασματικούς αριθμούς</span></a>, μπορείτε να δείτε <a class="reference external" href="https://gist.github.com/mixstef/9783fe7825d22e9f19b90e03da5d5fd6#file-dfa-optional-py">τον συνολικό κώδικα που προκύπτει</a>.</p>
+<h3>Κλήση της συνάρτησης ταιριάσματος<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<p>Παράδειγμα κώδικα για την κλήση της <code class="docutils literal notranslate"><span class="pre">scan()</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># get a string from input</span>
+<span class="n">text</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s1">&#39;give some input&gt;&#39;</span><span class="p">)</span>
+
+<span class="c1"># perform a &quot;match&quot; operation (try to find one token from string start)</span>
+<span class="n">token</span><span class="p">,</span><span class="n">lexeme</span> <span class="o">=</span> <span class="n">scan</span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="n">transitions</span><span class="p">,</span><span class="n">accepts</span><span class="p">,</span><span class="s1">&#39;s0&#39;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">token</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;token=</span><span class="si">{}</span><span class="s1">   lexeme=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">token</span><span class="p">,</span><span class="n">lexeme</span><span class="p">))</span>
+<span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;no match found&#39;</span><span class="p">)</span>
+</pre></div>
 </div>
 </div>
-<div class="section" id="id14">
-<h2>Ασκήσεις<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="id13">
+<h2>Ασκήσεις<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic simple">
 <li><p>Υλοποιήστε μέσω Python αυτόματο για την αναγνώριση ακέραιων και δεκαδικών αριθμών οποιουδήποτε μήκους στις εξής μορφές:</p></li>
 </ol>
@@ -603,12 +614,12 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#id9">Η συνάρτηση ταιριάσματος</a></li>
-<li><a class="reference internal" href="#dfa-intfloat-ref">Προαιρετικά ταιριάσματα</a></li>
+<li><a class="reference internal" href="#dfa-intfloat-ref">Προηγούμενα ταιριάσματα</a></li>
 <li><a class="reference internal" href="#id11">Ομαδοποίηση χαρακτήρων</a></li>
-<li><a class="reference internal" href="#id12">Το συνολικό αποτέλεσμα</a></li>
+<li><a class="reference internal" href="#id12">Κλήση της συνάρτησης ταιριάσματος</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id14">Ασκήσεις</a></li>
+<li><a class="reference internal" href="#id13">Ασκήσεις</a></li>
 </ul>
 </li>
 </ul>

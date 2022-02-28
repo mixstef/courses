@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="el-GR">
+<head>
+<meta charset="utf-8" />
+<link href="https://ionio.gr/favicon.ico" rel="shortcut icon" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="facebook-domain-verification" content="5u763usjv8myhktp713xbt7e7kby4o" />
+<meta name="google-site-verification" content="_o8aK8CgJqb7vfuzfrGKVORoHt41M7vHqeMAmpk6qHo" />
+
+	<title>ΙΟΝΙΟ ΠΑΝΕΠΙΣΤΗΜΙΟ</title>
+	<meta name="description" content="Tο Iόνιο Πανεπιστήμιο ιδρύθηκε το 1984, μαζί με τα Πανεπιστήμια της Θεσσαλίας και του Aιγαίου. H έδρα του βρίσκεται στη Kέρκυρα.  Eίναι εμφανές από τον αριθμό των Tμημάτων και το αντικείμενο το οποίο θεραπεύεται στο καθένα από αυτά, ότι το Iόνιο Πανεπιστήμιο έχει επιλέξει να κινηθεί σε μικρά και επομένως ελέγξιμα μεγέθη.  - [https://ionio.gr]" />
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:site" content="@myionio" />
+	<meta name="twitter:creator" content="@myionio" />
+	<meta property="og:title" content="ΙΟΝΙΟ ΠΑΝΕΠΙΣΤΗΜΙΟ" />
+	<meta property="og:type" content="website" />
+	<meta property="og:description" content="Tο Iόνιο Πανεπιστήμιο ιδρύθηκε το 1984, μαζί με τα Πανεπιστήμια της Θεσσαλίας και του Aιγαίου. H έδρα του βρίσκεται στη Kέρκυρα.  Eίναι εμφανές από τον αριθμό των Tμημάτων και το αντικείμενο το οποίο θεραπεύεται στο καθένα από αυτά, ότι το Iόνιο Πανεπιστήμιο έχει επιλέξει να κινηθεί σε μικρά και επομένως ελέγξιμα μεγέθη.  - [https://ionio.gr]" />
+	<meta property="og:image" content="https://ionio.gr/images/content/og_image.jpg" />
+	<!-- CSS -->
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,400italic,700,700italic,800&amp;subset=latin,greek' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" type="text/css" href="https://ionio.gr/commons/css/bootstrap_i.min.css" />
+<link rel="stylesheet" type="text/css" href="https://ionio.gr/commons/inclusive/css_frontend_inclusive_v2.css" />
+<link rel="stylesheet" type="text/css" href="https://ionio.gr/commons/css/datatables.min.css" />
+<link rel="stylesheet" type="text/css" href="https://ionio.gr/scripts/central.css?1646042600" />
+<link rel="stylesheet" type="text/css" href="https://ionio.gr/scripts/central_override.css?1646042600" />
+<!-- JS -->
+<script src="https://ionio.gr/commons/inclusive/js_frontend_inclusive_v2_no_cookies.js"></script>
+<style>.addthis_button{display:none !important;}</style><script src="https://ionio.gr/scripts/central.js?1646042600"></script>
+<script src="https://ionio.gr/commons/scripts/newsletter.js"></script>
+<script src="https://ionio.gr/commons/scripts/jquery/datatables.min.js"></script>
+<script src="https://ionio.gr/commons/scripts/jquery/jquery-ui/jquery-ui.min.js"></script>
+<script>var js_short_lang='gr';</script>
+</head>
+
+<body id="top">
+<div id="main">
+
+
+
+<div class="wrap home" id="menu-wrap">
+	<div id="top-wrap">
+<div class="container-fluid restrict">
+<div class="row">
+<div class="col-xs-2 col-sm-6"><div id="ionio-websites">
+<div id="ionio-websites-head"><img src="https://ionio.gr/images/layout/icon_websites.png" alt="ΙΠ" /> <span class="hidden-xs">Ιστοχώροι Ιονίου Πανεπιστημίου</span><img src="https://ionio.gr/images/layout/icon_more.png" alt="V" /></div>
+<div id="ionio-websites-list">
+<strong>Υπηρεσίες</strong><br>
+<a target="_blank" href="https://webmail.ionio.gr/">WebMail</a>
+<a href="https://ionio.gr/gr/comunity/directory/">Τηλεφωνικός Κατάλογος</a>
+<a target="_blank" href="https://opencourses.ionio.gr">Open eClass (OpenCourses) - Ασύγχρονη Τηλεκπαίδευση</a>
+<a target="_blank" href="http://e-class.ionio.gr/">e-Class - Ασύγχρονη Τηλεκπαίδευση</a>
+<a target="_blank" href="http://gram-web.ionio.gr/unistudent/?lang=el-gr">Online Υπηρεσίες Γραμματείας (gram-web)</a>
+<a target="_blank" href="http://gram-web.ionio.gr/classweb/?lang=el-gr">Σύστημα Υποβοήθησης Διδασκαλίας (classweb)</a>
+<a target="_blank" href="https://studentsupport.ionio.gr/gr/">Υποστήριξη Παρεμβάσεων Κοινωνικής Μέριμνας</a>
+<a target="_blank" href="https://scholarsatrisk.ionio.gr/gr/">Scholars at Risk</a>
+<strong>Φορείς</strong><br>
+<a target="_blank" href="https://urc.ionio.gr/gr/">Πανεπιστημιακό Ερευνητικό Κέντρο</a>
+<a target="_blank" href="https://library.ionio.gr/gr/">Βιβλιοθήκη και Κέντρο Πληροφόρησης</a>
+<a target="_blank" href="https://sites.ionio.gr/international/gr/">Διεθνείς &amp; Δημόσιες Σχέσεις</a>
+<a target="_blank" href="http://dasta.ionio.gr/internship/">Γραφείο Πρακτικής Άσκησης</a>
+<a target="_blank" href="https://kedivim.ionio.gr/">Κέντρο Επιμόρφωσης και Δια Βίου Μάθησης</a>
+<a target="_blank" href="https://modip.ionio.gr/gr/">Μονάδα Διασφάλισης Ποιότητας - ΜΟ.ΔΙ.Π</a>
+<a target="_blank" href="https://museum.ionio.gr/gr/">Μουσείο Ιονίου Πανεπιστημίου</a>
+<a target="_blank" href="http://noc.ionio.gr/">Δίκτυα &amp; Τηλεπικοινωνίες</a>
+<a target="_blank" href="https://care.ionio.gr/">Διεύθυνση Σπουδών &amp; Φοιτητικής Μέριμνας</a>
+<strong>Ακαδημαϊκά Τμήματα</strong><br>
+<a target="_blank" href="https://connect.ionio.gr/">Παρουσίαση Όλων των Τμημάτων</a>
+<a target="_blank" href="https://history.ionio.gr/gr/">Ιστορίας</a>
+<a target="_blank" href="https://dflti.ionio.gr/el/">Ξένων Γλωσσών, Μετάφρασης &amp; Διερμηνείας</a>
+<a target="_blank" href="https://ilam.ionio.gr/gr/">Αρχειονομίας, Βιβλιοθηκονομίας &amp; Μουσειολογίας</a>
+<a target="_blank" href="https://di.ionio.gr/">Πληροφορικής</a>
+<a target="_blank" href="https://avarts.ionio.gr/gr/">Τεχνών Ήχου και Εικόνας</a>
+<a target="_blank" href="https://music.ionio.gr/gr/">Μουσικών Σπουδών</a>
+<a target="_blank" href="http://dmc.ionio.gr">Ψηφιακών Μέσων και Επικοινωνίας</a>
+<a target="_blank" href="https://ethnomus.ionio.gr/gr/">Εθνομουσικολογίας</a>
+<a target="_blank" href="https://envi.ionio.gr/gr/">Περιβάλλοντος</a>
+<a target="_blank" href="https://fst.ionio.gr/gr/">Επιστήμης και Τεχνολογίας Τροφίμων</a>
+<a target="_blank" href="http://rd.ionio.gr/">Περιφερειακής Ανάπτυξης</a>
+<a target="_blank" href="http://tourism.ionio.gr/">Τουρισμού</a>
+<strong>Δικτυακός τόπος Ionio.gr</strong><br>
+<a href="https://ionio.gr/gr/about/statistics/">Στατιστικά κίνησης</a>
+<a href="https://ionio.gr/gr/about/links/">Σύνδεσμοι</a>
+<a href="https://ionio.gr/gr/about/sitemap/">Χάρτης δικτυακού τόπου</a>
+<a href="https://ionio.gr/gr/about/webteam/">Ομάδα Ανάπτυξης &amp; Διαχείρισης</a>
+</div>
+</div>
+<div id="top-social-icons" class="hidden-xs">
+<a target="_blank" href="https://www.facebook.com/ionio.gr" title="facebook"><img src="https://ionio.gr/images/layout/icon_fb.png" alt="facebook"/></a>
+<a target="_blank" href="https://twitter.com/myionio" title="twitter"><img src="https://ionio.gr/images/layout/icon_tw.png" alt="twitter"/></a>
+<a target="_blank" href="http://www.youtube.com/user/myionio" title="youtube"><img src="https://ionio.gr/images/layout/icon_yt.png" alt="youtube"/></a>
+<a target="_blank" href="https://www.instagram.com/ionianuniversity/" title="instagram"><img src="https://ionio.gr/images/layout/icon_ig.png" alt="instagram"/></a>
+<a target="_blank" href="https://www.linkedin.com/school/ionian-university" title="linkedin"><img src="https://ionio.gr/images/layout/icon_in.png" alt="linkedin"/></a>
+<a target="_blank" href="https://ionio.gr/feeds/rss_gr.xml" title="rss feed"><img src="https://ionio.gr/images/layout/icon_rs.png" alt="rss"/></a>
+
+</div>
+</div>
+<div class="col-xs-10 col-sm-6 t-right">
+<script>
+    (function() {
+    var cx = '012830921954111115301:-c8cvpmjjn0';
+    var gcse = document.createElement('script'); gcse.type = 'text/javascript'; gcse.async = true;
+    gcse.src = 'https://www.google.com/cse/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(gcse, s);
+	})();
+</script><div id="gsearch-form-wrapper">
+<form style="/*display:none;*/" class="gsearch-form" id="searchbox_012830921954111115301:-c8cvpmjjn0" action="https://ionio.gr/gr/about/results/">
+<input value="012830921954111115301:-c8cvpmjjn0" name="cx" type="hidden"/>
+<label style="display:none" for="q">Αναζήτηση μέσω google...</label><input id="q" name="q" placeholder="Αναζήτηση μέσω google..." type="text"/><input id="sa" value="" name="sa" type="submit"/>
+</form>
+</div>
+ <a id="lang-icon" href="https://ionio.gr/en/"  class="tooltip-bottom-left" title="Change language to English">En<span class="hidden-xs">glish</span></a>
+</div>
+</div>
+</div>
+</div>
+	<div id="logo">
+<div class="container-fluid restrict">
+<div class="row">
+<div class="col-xs-10">
+<a href="https://ionio.gr/gr/">
+<img class="logo-img" id="logo-b" src="https://ionio.gr/images/layout/logo_gr.png" alt="logo"/>
+<img class="logo-img" id="logo-s" src="https://ionio.gr/images/layout/logo_s_gr.png" alt="logo"/>
+</a>
+</div>
+<div class="col-xs-2">
+<div class="menu-icon closed" title="MENU">
+<span class="menu-icon-part menu-icon-part-1"></span>
+<span class="menu-icon-part menu-icon-part-2"></span>
+<span class="menu-icon-part menu-icon-part-3"></span>
+<span class="menu-icon-part menu-icon-part-4">M&nbsp;E&nbsp;N&nbsp;U</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+	<div id="menu-overlay"></div><div id="menu" class="closed">
+<div class="container-fluid">
+<div class="row">
+<div class="col-lg-2 visible-lg-block"><div class="menu-item hotspot">
+<a href="https://ionio.gr/gr/university/governance/rectorate/" class="menu-title">Πρυτανεία</a>
+<p><a href="https://www.ionio.gr/central/gr/university/governance/rectorate/"><img class="max-width" style="border-radius:5px;margin-top:10px;" src="https://www.ionio.gr/central/images/content/rectorate.jpg" alt="Πρυτανεία"></a></p>
+<p class="title">Πρύτανης</p>
+<p><em class="small">Καθηγητής</em><br /><strong>Ανδρέας Φλώρος</strong></p>
+<p class="title">Αντιπρυτάνεις</p>
+<p><em class="small">Αναπληρωτής Καθηγητής</em><br /><strong>Ηλίας Γιαρένης</strong></p>
+<p><em class="small">Αναπληρωτής Καθηγητής</em><br /><strong>Ευστάθιος Μακρής</strong></p>
+<p><em class="small">Αναπληρώτρια Καθηγήτρια</em><br /><strong>Χριστίνα Μπάνου</strong></p>
+<p><em class="small">Αναπληρώτρια Καθηγήτρια</em><br /><strong>Χριστίνα Μπενέκη</strong></p>
+<p><a href="https://ionio.gr/gr/university/governance/rectorate/">Περισσότερα</a></p></div></div>
+<div class="col-lg-10">
+<div class="row">
+<div class="col-sm-4 col-md-4 col-lg-3">
+<div class="menu-item"><a class="menu-title " href="https://ionio.gr/gr/university"><img src="https://ionio.gr/images/layout/icon_s_1.png" alt="image"/>Το Πανεπιστήμιο</a>
+<div class="submenu visible-md-block visible-lg-block">
+<a class="with-sub " href="https://ionio.gr/gr/university/governance/">Διοίκηση</a>
+<div class="submenu-2">
+<a class="" href="https://ionio.gr/gr/university/governance/rectorate/">Πρυτανεία</a>
+<a class="" href="https://ionio.gr/gr/university/governance/senate/">Σύγκλητος</a>
+<a class="" href="https://ionio.gr/gr/university/governance/rectorscouncil/">Πρυτανικό Συμβούλιο</a>
+</div>
+<a class=" " href="https://ionio.gr/gr/university/organisation-chart/">Οργανόγραμμα</a>
+<a class=" " href="https://ionio.gr/gr/university/regulations/">Εσωτερικός Κανονισμός Λειτουργίας</a>
+<a class=" " href="https://ionio.gr/gr/university/strategy/">Στρατηγικός Σχεδιασμός</a>
+<a class=" " href="https://ionio.gr/gr/university/facilities/">Εγκαταστάσεις Ιδρύματος</a>
+<a class=" " href="https://ionio.gr/gr/university/urc/">Πανεπιστημιακό Ερευνητικό Κέντρο</a>
+<a class=" " href="https://ionio.gr/gr/university/kedivim/">Κέντρο Επιμόρφωσης και Δια Βίου Μάθησης</a>
+<a class=" " href="https://ionio.gr/gr/university/modip/">Μονάδα Διασφάλισης Ποιότητας</a>
+<a class=" " href="https://ionio.gr/gr/university/museum-ionio/">Πανεπιστημιακό Μουσείο</a>
+<a class=" " href="https://ionio.gr/gr/university/access/">Πρόσβαση</a>
+<a class=" " href="https://ionio.gr/gr/university/map/">Χάρτης Ιονίων Νήσων</a>
+<a class=" " href="https://ionio.gr/gr/university/contact/">Επικοινωνία</a>
+</div>
+</div>
+</div>
+<div class="col-sm-4 col-md-4 col-lg-3">
+<div class="menu-item"><a class="menu-title " href="https://ionio.gr/gr/community"><img src="https://ionio.gr/images/layout/icon_s_2.png" alt="image"/>Κοινότητα</a>
+<div class="submenu visible-md-block visible-lg-block">
+<a class=" " href="https://ionio.gr/gr/community/directory/">Ευρετήριο Προσωπικού</a>
+<a class=" " href="https://ionio.gr/gr/community/academic-staff/">Διδακτικό Προσωπικό</a>
+<a class=" " href="https://ionio.gr/gr/community/administrative-staff/">Διοικητικό Προσωπικό</a>
+<a class=" " href="https://ionio.gr/gr/community/teaching-support/">Αυτοτελές Γραφείο Υποστήριξης Διδασκαλίας & Μάθησης</a>
+<a class=" " href="https://ionio.gr/gr/community/codeofconduct/">Κώδικας Δεοντολογίας</a>
+<a class=" " href="https://ionio.gr/gr/community/gender-equality/">Επιτροπή Ισότητας Φύλου</a>
+<a class=" " href="https://ionio.gr/gr/community/electors/">Μητρώα Εκλεκτόρων</a>
+<a class=" " href="https://ionio.gr/gr/community/scholarsatrisk/">Scholars at Risk</a>
+<a class=" " href="https://ionio.gr/gr/community/unions/">Σύλλογοι</a>
+<a class=" " href="https://ionio.gr/gr/community/social-media/">Κοινωνική Δικτύωση</a>
+</div>
+</div>
+</div>
+<div class="col-sm-4 col-md-4 col-lg-3">
+<div class="menu-item"><a class="menu-title " href="https://ionio.gr/gr/studies"><img src="https://ionio.gr/images/layout/icon_s_3.png" alt="image"/>Σπουδές</a>
+<div class="submenu visible-md-block visible-lg-block">
+<a class="with-sub " href="https://ionio.gr/gr/studies/faculties/">Σχολές</a>
+<div class="submenu-2">
+<a class="" href="https://ionio.gr/gr/studies/faculties/hus/">Σχολή Ανθρωπιστικών Επιστημών</a>
+<a class="" href="https://ionio.gr/gr/studies/faculties/isi/">Σχολή Επιστήμης της Πληροφορίας & Πληροφορικής</a>
+<a class="" href="https://ionio.gr/gr/studies/faculties/maa/">Σχολή Μουσικής & Οπτικοακουστικών Τεχνών</a>
+<a class="" href="https://ionio.gr/gr/studies/faculties/ens/">Σχολή Περιβάλλοντος</a>
+<a class="" href="https://ionio.gr/gr/studies/faculties/ecs/">Σχολή Οικονομικών Επιστημών</a>
+</div>
+<a class=" " href="https://ionio.gr/gr/studies/postgraduate/">Μεταπτυχιακά/Διδακτορικά</a>
+<a class=" " href="https://ionio.gr/gr/studies/summer-schools/">Θερινά Σχολεία</a>
+<a class=" " href="https://ionio.gr/gr/studies/e-learning/">e-Learning</a>
+<a class=" " href="https://ionio.gr/gr/studies/mobility/">Κινητικότητα Φοιτητών</a>
+<a class=" " href="https://ionio.gr/gr/studies/alumni/">Απόφοιτοι</a>
+</div>
+</div>
+</div>
+<div class="clearfix visible-sm-block visible-md-block"></div>
+<div class="col-sm-4 col-md-4 col-lg-3">
+<div class="menu-item"><a class="menu-title " href="https://ionio.gr/gr/services"><img src="https://ionio.gr/images/layout/icon_s_4.png" alt="image"/>Υπηρεσίες</a>
+<div class="submenu visible-md-block visible-lg-block">
+<a class=" " href="https://ionio.gr/gr/services/library/">Βιβλιοθήκη</a>
+<a class="with-sub " href="https://ionio.gr/gr/services/administrative/">Διεύθυνση Διοικητικού</a>
+<div class="submenu-2">
+<a class="" href="https://ionio.gr/gr/services/administrative/administrative-teachingstaff/">Τμήμα Διδακτικού Εκπαιδευτικού Προσωπικού</a>
+<a class="" href="https://ionio.gr/gr/services/administrative/administrative-dept/">Τμήμα Διοικητικού Προσωπικού</a>
+<a class="" href="https://ionio.gr/gr/services/administrative/administrative-protocol/">Τμήμα Πρωτοκόλλου & Διεκπεραίωσης</a>
+<a class="" href="https://ionio.gr/gr/services/administrative/administrative-care/">Τμήμα Διοικητικής Μέριμνας</a>
+<a class="" href="https://ionio.gr/gr/services/administrative/administrative-docs/">Διοικητικά Έντυπα</a>
+<a class="" href="https://ionio.gr/gr/services/administrative/administrative-dormitories/">Φοιτητική Εστία</a>
+</div>
+<a class="with-sub " href="https://ionio.gr/gr/services/pr/">Τμήμα Διεθνών & Δημοσίων Σχέσεων</a>
+<div class="submenu-2">
+<a class="" href="https://ionio.gr/gr/services/pr/erasmus/">Erasmus+</a>
+<a class="" href="https://ionio.gr/gr/services/pr/css/">Corfu Summer School</a>
+</div>
+<a class=" " href="https://ionio.gr/gr/services/ts/">Διεύθυνση Τεχνικών Υπηρεσιών</a>
+<a class="with-sub " href="https://ionio.gr/gr/services/it-noc/">Διεύθυνση Πληροφορικής  & Δικτύων</a>
+<div class="submenu-2">
+<a class="" href="https://ionio.gr/gr/services/it-noc/noc/">Τμήμα Δικτύων & Τηλεπικοινωνιών</a>
+<a class="" href="https://ionio.gr/gr/services/it-noc/it/">Τμήμα Πληροφοριακών Συστημάτων</a>
+</div>
+<a class=" " href="https://ionio.gr/gr/services/student-care/">Διεύθυνση Σπουδών & Φοιτητικής Μέριμνας</a>
+<a class=" " href="https://ionio.gr/gr/services/ssuni/">Υποστήριξη Παρεμβάσεων Κοινωνικής Μέριμνας</a>
+<a class="with-sub " href="https://ionio.gr/gr/services/internal-audit/">Διεύθυνση Μονάδας Εσωτερικού Ελέγχου</a>
+<div class="submenu-2">
+<a class="" href="https://ionio.gr/gr/services/internal-audit/program-documentation/">Τμήμα Προγραμματισμού και Τεκμηρίωσης</a>
+<a class="" href="https://ionio.gr/gr/services/internal-audit/audit-department/">Τμήμα Διενέργειας Ελέγχων</a>
+</div>
+<a class=" " href="https://ionio.gr/gr/services/publications-office/">Γραφείο Δημοσιευμάτων & Εκδόσεων</a>
+<a class="with-sub " href="https://ionio.gr/gr/services/e-services/">Τηλεκπαίδευση & Τηλεδιάσκεψη</a>
+<div class="submenu-2">
+<a class="" href="https://ionio.gr/gr/services/e-services/teleconference-policy/">Πολιτική συνεδριάσεων συλλογικών οργάνων με τηλεδιάσκεψη</a>
+</div>
+<a class=" " href="https://ionio.gr/gr/services/webmail/">Υπηρεσία WebMail</a>
+<a class=" " href="https://ionio.gr/gr/services/e-rent/">e-Ενοικιάζεται</a>
+</div>
+</div>
+</div>
+<div class="clearfix visible-lg-block"></div>
+<div class="col-sm-4 col-md-4 col-lg-2">
+<div class="menu-item"><a class="menu-title " href="https://ionio.gr/gr/research"><img src="https://ionio.gr/images/layout/icon_s_5.png" alt="image"/>Έρευνα</a>
+<div class="submenu visible-md-block visible-lg-block">
+<a class=" " href="https://ionio.gr/gr/research/rc/">Επιτροπή Ερευνών</a>
+<a class=" " href="https://ionio.gr/gr/research/rc-programs/">Ενεργά Προγράμματα</a>
+<a class=" " href="https://ionio.gr/gr/research/rc-calls/">Προκηρύξεις Προγραμμάτων</a>
+<a class=" " href="https://ionio.gr/gr/research/laboratories/">Εργαστήρια</a>
+<a class=" " href="https://ionio.gr/gr/research/projects/">Έρευνα & ΕΠΕΑΕΚ</a>
+<a class=" " href="https://ionio.gr/gr/research/research-ethics/">Επιτροπή Ηθικής & Δεοντολογίας</a>
+</div>
+</div>
+</div>
+<div class="col-sm-4 col-md-4 col-lg-3">
+<div class="menu-item"><a class="menu-title " href="https://ionio.gr/gr/news"><img src="https://ionio.gr/images/layout/icon_s_6.png" alt="image"/>Νέα</a>
+<div class="submenu visible-md-block visible-lg-block">
+<a class=" " href="https://ionio.gr/gr/news/all-news/">Όλες οι Δημοσιεύσεις</a>
+<a class=" " href="https://ionio.gr/gr/news/student-news/">Ενημέρωση Φοιτητών</a>
+<a class=" " href="https://ionio.gr/gr/news/academic-calendar/">Ακαδημαϊκό Ημερολόγιο</a>
+<a class=" " href="https://ionio.gr/gr/news/governance-calendar/">Συνεδριάσεις Οργάνων</a>
+<a class=" " href="https://ionio.gr/gr/news/recent-publications/">Πρόσφατες Εκδόσεις</a>
+<a class=" " href="https://ionio.gr/gr/news/newsletter/">Ενημερωτικό Δελτίο</a>
+<a class=" " href="https://ionio.gr/gr/news/streaming/">Μετάδοση Video</a>
+</div>
+</div>
+</div>
+<div class="clearfix visible-sm-block visible-md-block"></div>
+<div class="col-sm-4 col-md-4 col-lg-3">
+<div class="menu-item"><a class="menu-title " href="https://ionio.gr/gr/students"><img src="https://ionio.gr/images/layout/icon_s_7.png" alt="image"/>Φοιτητές</a>
+<div class="submenu visible-md-block visible-lg-block">
+<a class=" " href="https://ionio.gr/gr/students/care/">Φοιτητική Μέριμνα</a>
+<a class=" " href="https://ionio.gr/gr/students/academic-advisors/">Ακαδημαϊκοί Σύμβουλοι</a>
+<a class=" " href="https://ionio.gr/gr/students/internship/">Πρακτική Άσκηση</a>
+<a class=" " href="https://ionio.gr/gr/students/ombudsman/">Συνήγορος του Φοιτητή</a>
+<a class=" " href="https://ionio.gr/gr/students/gram-web/">Ηλεκτρονική Καρτέλα Φοιτητή</a>
+<a class=" " href="https://ionio.gr/gr/students/sports/">Πανεπιστημιακό Γυμναστήριο</a>
+<a class=" " href="https://ionio.gr/gr/students/useful/">Χρήσιμες Πληροφορίες</a>
+</div>
+</div>
+</div>
+<div class="col-sm-4 col-md-4 col-lg-2">
+<div class="menu-item"><a class="menu-title " href="https://ionio.gr/gr/prospective"><img src="https://ionio.gr/images/layout/icon_s_8.png" alt="image"/>Υποψήφιοι Φοιτητές</a>
+<div class="submenu visible-md-block visible-lg-block">
+<a class=" " href="https://ionio.gr/gr/prospective/presentation/">Παρουσίαση Πανεπιστημίου</a>
+<a class=" " href="https://ionio.gr/gr/prospective/university-history/">Ιστορικό Πανεπιστημίου</a>
+<a class=" " href="https://ionio.gr/gr/prospective/admissions/">Τρόποι Εισαγωγής</a>
+</div>
+</div>
+</div>
+<div class="col-sm-4 col-md-4 col-lg-2">
+<div class="menu-item"><a class="menu-title " href="https://ionio.gr/gr/about"><img src="https://ionio.gr/images/layout/icon_s_9.png" alt="image"/>Ionio.gr</a>
+<div class="submenu visible-md-block visible-lg-block">
+<a class=" " href="https://ionio.gr/gr/about/links/">Σύνδεσμοι</a>
+<a class=" " href="https://ionio.gr/gr/about/sitemap/">Χάρτης Δικτυακού Τόπου</a>
+<a class=" " href="https://ionio.gr/gr/about/webteam/">WebTeam Ιονίου Πανεπιστημίου</a>
+<a class=" " href="https://ionio.gr/gr/about/gdpr/">Προστασία Δεδομένων</a>
+<a class=" " href="https://ionio.gr/gr/about/statistics/">Στατιστικά Κίνησης</a>
+<a class=" " href="https://ionio.gr/gr/about/results/">Αποτελέσματα Αναζήτησης</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+	
+</div>
+
+
+
+<div id="slider-wrap" class="hidden-xs"><div class="slider-overlay-color"></div><div id="slider-preloader"></div><div id="slider-container"><div class="slider-bg" id="slider-bg-1" style="background-image:url('https://ionio.gr/images/content/news/23000-23999/IU-ni-23499-41555.jpg');"></div>
+<div class="slider-bg" id="slider-bg-2" style="background-image:url('https://ionio.gr/images/content/news/23000-23999/IU-ni-23484-30773.jpg');display:none;"></div>
+<div class="slider-bg" id="slider-bg-3" style="background-image:url('https://ionio.gr/images/content/news/23000-23999/IU-ni-23481-59167.jpg');display:none;"></div>
+<div class="slider-bg" id="slider-bg-4" style="background-image:url('https://ionio.gr/images/content/news/23000-23999/IU-ni-23259-99968.jpg');display:none;"></div>
+<div class="slider-bg" id="slider-bg-5" style="background-image:url('https://ionio.gr/images/content/news/23000-23999/IU-ni-23512-62548.jpg');display:none;"></div>
+<div class="slider-bg" id="slider-bg-6" style="background-image:url('https://ionio.gr/images/content/news/23000-23999/IU-ni-23497-47271.png');display:none;"></div>
+<div class="slider-bg" id="slider-bg-7" style="background-image:url('https://ionio.gr/images/content/news/23000-23999/IU-ni-23498-99959.png');display:none;"></div>
+<div class="slider-bg" id="slider-bg-8" style="background-image:url('https://ionio.gr/images/content/news/22000-22999/IU-ni-22090-17738.jpg');display:none;"></div>
+<div class="slider-bg" id="slider-bg-9" style="background-image:url('https://ionio.gr/images/content/news/23000-23999/IU-ni-23479-29700.png');display:none;"></div>
+<div class="slider-bg" id="slider-bg-10" style="background-image:url('https://ionio.gr/images/content/news/23000-23999/IU-ni-23447-99640.png');display:none;"></div>
+<div class="slider-bg" id="slider-bg-11" style="background-image:url('https://ionio.gr/images/content/news/23000-23999/IU-ni-23442-36000.jpg');display:none;"></div>
+<div class="slider-bg" id="slider-bg-12" style="background-image:url('https://ionio.gr/images/content/news/23000-23999/IU-ni-23407-70109.jpg');display:none;"></div>
+<div class="slider-bg" id="slider-bg-13" style="background-image:url('https://ionio.gr/images/content/news/23000-23999/IU-ni-23419-45851.jpg');display:none;"></div>
+<div class="slider-bg" id="slider-bg-14" style="background-image:url('https://ionio.gr/images/content/news/22000-22999/IU-ni-22408-27721.png');display:none;"></div>
+<div class="slider-bg" id="slider-bg-15" style="background-image:url('https://ionio.gr/images/content/news/23000-23999/IU-ni-23421-69347.jpg');display:none;"></div>
+<div class="slider-bg" id="slider-bg-16" style="background-image:url('https://ionio.gr/images/content/news/20000-20999/IU-ni-20657-19876.jpg');display:none;"></div>
+<div class="slider-overlay-color"></div><div id="slider">
+<div class="slider-part">
+<a class="slider-img" href="https://ionio.gr/gr/news/23499"><img class="slider-img-image" src="https://ionio.gr/images/content/news/23000-23999/IU-ni-23499-41555.jpg" alt="img"/></a>
+<div class="slider-txt">
+<a class="slider-title" href="https://ionio.gr/gr/news/23499">Ρεσιτάλ πιάνου στο πλαίσιο των ειδικών σεμιναρίων κατεύθυνσης πιάνου</a>
+<div class="slider-lead hidden-xs">Σεμιναριακός κύκλος συναυλιών με τους αποφοίτους του ΤΜΣ Ανδρέα Ξενόπουλο και Εβίτα Μανιατοπούλου, τον Λάμπη Βασιλειάδη και δυο ακόμα συναυλίες φοιτητών της κατεύθυνσης πιάνου.
+| 1,2,3 και 4 Μαρτίου, στην Ιόνιο Ακαδημία, στις 19.30</div>
+</div>
+<a class="slider-link" title="Ρεσιτάλ πιάνου στο πλαίσιο των ειδικών σεμιναρίων κατεύθυνσης πιάνου" href="https://ionio.gr/gr/news/23499"></a></div>
+<div class="slider-part">
+<a class="slider-img" href="https://ionio.gr/gr/news/23484"><img class="slider-img-image" src="https://ionio.gr/images/content/news/23000-23999/IU-ni-23484-30773.jpg" alt="img"/></a>
+<div class="slider-txt">
+<a class="slider-title" href="https://ionio.gr/gr/news/23484">Δράση STEM - Ρομποτικής του Τμήματος Πληροφορικής του Ιονίου Πανεπιστημίου και του Corfu Tech Lab (American Spaces) στην Δημόσια Κεντρική Ιστορική Βιβλιοθήκη Κέρκυρας</a>
+<div class="slider-lead hidden-xs">Στη Δημόσια Κεντρική Ιστορική Βιβλιοθήκη Κέρκυρας, στους Αγγλικούς Στρατώνες του Παλαιού Φρουρίου, την Τετάρτη 2 Μαρτίου 2022, θα εξελιχθούν δύο ενδιαφέρουσες δράσεις Science, Technology, Engineering and Mathematics (STEM) - Ρομποτικής, συνεργασία του Τμήματος Πληροφορικής του Ιονίου Πανεπιστημίου και του Corfu Tech Lab, το οποίο είναι ένα από τα American Spaces του επιμορφωτικού τμήματος της Αμερικανικής πρεσβείας στην Ελλάδα.</div>
+</div>
+<a class="slider-link" title="Δράση STEM - Ρομποτικής του Τμήματος Πληροφορικής του Ιονίου Πανεπιστημίου και του Corfu Tech Lab (American Spaces) στην Δημόσια Κεντρική Ιστορική Βιβλιοθήκη Κέρκυρας" href="https://ionio.gr/gr/news/23484"></a></div>
+<div class="slider-part">
+<a class="slider-img" href="https://ionio.gr/gr/news/23481"><img class="slider-img-image" src="https://ionio.gr/images/content/news/23000-23999/IU-ni-23481-59167.jpg" alt="img"/></a>
+<div class="slider-txt">
+<a class="slider-title" href="https://ionio.gr/gr/news/23481">Ο Στάθης Σούλης, απόφοιτος διεύθυνσης ορχήστρας του Τμήματος Μουσικών Σπουδών, διευθύνει Οθέλλο σε σκηνοθεσία Bob Wilson στο Κέντρο Πολιτισμού Σταύρος Νιάρχος</a>
+<div class="slider-lead hidden-xs">Η πρεμιέρα της πρώτης συνεργασίας της Εθνικής Λυρικής σκηνής με τον διεθνούς φήμης σκηνοθέτη Bob Wilson βρήκε στο podium τον 32χρονο απόφοιτο της κατεύθυνσης διεύθυνσης ορχήστρας του Τμήματος Μουσικών Σπουδών του Ιονίου Πανεπιστημίου Στάθη Σούλη.</div>
+</div>
+<a class="slider-link" title="Ο Στάθης Σούλης, απόφοιτος διεύθυνσης ορχήστρας του Τμήματος Μουσικών Σπουδών, διευθύνει Οθέλλο σε σκηνοθεσία Bob Wilson στο Κέντρο Πολιτισμού Σταύρος Νιάρχος" href="https://ionio.gr/gr/news/23481"></a></div>
+<div class="slider-part">
+<a class="slider-img" href="https://ionio.gr/gr/news/23259"><img class="slider-img-image" src="https://ionio.gr/images/content/news/23000-23999/IU-ni-23259-99968.jpg" alt="img"/></a>
+<div class="slider-txt">
+<a class="slider-title" href="https://ionio.gr/gr/news/23259">ΤΤΗΕ: 4ο Διεθνές Συνέδριο Digital Culture & AudioVisual Challenges [DCAC-2022] - Υποβολή περιλήψεων: 10/03/2022</a>
+<div class="slider-lead hidden-xs">Το Τμήμα Τεχνών Ήχου και Εικόνας του Ιονίου Πανεπιστημίου διοργανώνει το 4ο Διεθνές Συνέδριο Digital Culture & AudioVisual Challenges (DCAC-2022) που θα πραγματοποιηθεί υβριδικά στις 13 και 14 Μαΐου 2021, στην Κέρκυρα και online. Προθεσμία υποβολής περιλήψεων: 10 Μαρτίου 2022 μέσω EasyChair.</div>
+</div>
+<a class="slider-link" title="ΤΤΗΕ: 4ο Διεθνές Συνέδριο Digital Culture & AudioVisual Challenges [DCAC-2022] - Υποβολή περιλήψεων: 10/03/2022" href="https://ionio.gr/gr/news/23259"></a></div>
+<div class="slider-part">
+<a class="slider-img" href="https://ionio.gr/gr/news/23512"><img class="slider-img-image" src="https://ionio.gr/images/content/news/23000-23999/IU-ni-23512-62548.jpg" alt="img"/></a>
+<div class="slider-txt">
+<a class="slider-title" href="https://ionio.gr/gr/news/23512">Πρώτο Ετήσιο Ελληνόφωνο Συνέδριο Εργαστηρίων Επικοινωνίας cclabs2022</a>
+<div class="slider-lead hidden-xs">Σε μια εποχή έντονων προκλήσεων για την επιστήμη της επικοινωνίας στις 25 και 26 Ιουνίου 2022 με τη σύμπραξη 9 Εργαστηρίων με έδρα τους 7 Πανεπιστημιακά Τμήματα Επικοινωνίας σε Ελλάδα και Κύπρο θα πραγματοποιηθεί το πρώτο Ετήσιο Ελληνόφωνο Συνέδριο Εργαστηρίων Επικοινωνίας cclabs2022 με βασικό θεματικό τίτλο «Η περιβαλλοντική επικοινωνία με χρήση ήχου, εικόνας και κειμένου για  δημοσιογραφία/πληροφόρηση/πολιτισμό/εκπαίδευση».</div>
+</div>
+<a class="slider-link" title="Πρώτο Ετήσιο Ελληνόφωνο Συνέδριο Εργαστηρίων Επικοινωνίας cclabs2022" href="https://ionio.gr/gr/news/23512"></a></div>
+<div class="slider-part">
+<a class="slider-img" href="https://ionio.gr/gr/news/23497"><img class="slider-img-image" src="https://ionio.gr/images/content/news/23000-23999/IU-ni-23497-47271.png" alt="img"/></a>
+<div class="slider-txt">
+<a class="slider-title" href="https://ionio.gr/gr/news/23497">Απόφαση πιστοποίησης του Προγράμματος Προπτυχιακών Σπουδών Ξένων Γλωσσών, Μετάφρασης και Διερμηνείας</a>
+<div class="slider-lead hidden-xs">Το Συμβούλιο Αξιολόγησης και Πιστοποίησης της Εθνικής Αρχής Ανώτατης Εκπαίδευσης (ΕΘΑΑΕ) πιστοποίησε ότι το Πρόγραμμα Προπτυχιακών Σπουδών Ξένων Γλωσσών, Μετάφρασης και Διερμηνείας του Ιονίου Πανεπιστημίου συμμορφώνεται πλήρως με τις αρχές του Προτύπου Ποιότητας ΠΠΣ της ΕΘΑΑΕ και τις Αρχές Διασφάλισης Ποιότητας του Ευρωπαϊκού Χώρου Ανώτατης Εκπαίδευσης.</div>
+</div>
+<a class="slider-link" title="Απόφαση πιστοποίησης του Προγράμματος Προπτυχιακών Σπουδών Ξένων Γλωσσών, Μετάφρασης και Διερμηνείας" href="https://ionio.gr/gr/news/23497"></a></div>
+<div class="slider-part">
+<a class="slider-img" href="https://ionio.gr/gr/news/23498"><img class="slider-img-image" src="https://ionio.gr/images/content/news/23000-23999/IU-ni-23498-99959.png" alt="img"/></a>
+<div class="slider-txt">
+<a class="slider-title" href="https://ionio.gr/gr/news/23498">Απόφαση πιστοποίησης του Προγράμματος Προπτυχιακών Σπουδών Αρχειονομίας, Βιβλιοθηκονομίας και Μουσειολογίας</a>
+<div class="slider-lead hidden-xs">Το Συμβούλιο Αξιολόγησης και Πιστοποίησης της Εθνικής Αρχής Ανώτατης Εκπαίδευσης (ΕΘΑΑΕ) πιστοποίησε ότι το Πρόγραμμα Προπτυχιακών Σπουδών Αρχειονομίας, Βιβλιοθηκονομίας και Μουσειολογίας του Ιονίου Πανεπιστημίου συμμορφώνεται πλήρως με τις αρχές του Προτύπου Ποιότητας ΠΠΣ της ΕΘΑΑΕ και τις Αρχές Διασφάλισης Ποιότητας του Ευρωπαϊκού Χώρου Ανώτατης Εκπαίδευσης.</div>
+</div>
+<a class="slider-link" title="Απόφαση πιστοποίησης του Προγράμματος Προπτυχιακών Σπουδών Αρχειονομίας, Βιβλιοθηκονομίας και Μουσειολογίας" href="https://ionio.gr/gr/news/23498"></a></div>
+<div class="slider-part">
+<a class="slider-img" href="https://ionio.gr/gr/news/22090"><img class="slider-img-image" src="https://ionio.gr/images/content/news/22000-22999/IU-ni-22090-17738.jpg" alt="img"/></a>
+<div class="slider-txt">
+<a class="slider-title" href="https://ionio.gr/gr/news/22090">Διήμερο Συνέδριο με θέμα «Η Επτάνησος στην Επανάσταση του 1821»</a>
+<div class="slider-lead hidden-xs">Η Επιτροπή Εορτασμού των 200 χρόνων από την Επανάσταση του 1821 του Ιονίου Πανεπιστημίου προγραμματίζει την διοργάνωση Διήμερου Συνεδρίου με θέμα «Η Επτάνησος στην Επανάσταση του 1821», που θα πραγματοποιηθεί λόγω της υγειονομικής αβεβαιότητας διαδικτυακά, την Τετάρτη 23 και την Πέμπτη 24 Μαρτίου 2022.</div>
+</div>
+<a class="slider-link" title="Διήμερο Συνέδριο με θέμα «Η Επτάνησος στην Επανάσταση του 1821»" href="https://ionio.gr/gr/news/22090"></a></div>
+<div class="slider-part">
+<a class="slider-img" href="https://ionio.gr/gr/news/23479"><img class="slider-img-image" src="https://ionio.gr/images/content/news/23000-23999/IU-ni-23479-29700.png" alt="img"/></a>
+<div class="slider-txt">
+<a class="slider-title" href="https://ionio.gr/gr/news/23479">Συζητήσεις για το μουσείο 2022</a>
+<div class="slider-lead hidden-xs">Το Μουσείο του Ιονίου Πανεπιστημίου, θέλοντας να συμμετέχει στον διάλογο για τα ζητήματα που απασχολούν τους μουσειακούς οργανισμούς τον 21ο αιώνα, προσκαλεί το κοινό να συμμετέχει στις διαδικτυακές ομιλίες-συζητήσεις που οργανώνει για το διάστημα Μάρτιος-Ιούνιος 2022.</div>
+</div>
+<a class="slider-link" title="Συζητήσεις για το μουσείο 2022" href="https://ionio.gr/gr/news/23479"></a></div>
+<div class="slider-part">
+<a class="slider-img" href="https://ionio.gr/gr/news/23447"><img class="slider-img-image" src="https://ionio.gr/images/content/news/23000-23999/IU-ni-23447-99640.png" alt="img"/></a>
+<div class="slider-txt">
+<a class="slider-title" href="https://ionio.gr/gr/news/23447">Υπογραφή μνημονίου συναντίληψης και συνεργασίας μεταξύ της έδρας UNESCO του Ιονίου Πανεπιστημίου και του Συλλόγου ΜΕΛΙΣΣΑ Γονέων Κηδεμόνων και Φίλων Ατόμων με Αναπηρία Κέρκυρας</a>
+<div class="slider-lead hidden-xs">Υπογραφή μνημονίου συναντίληψης και συνεργασίας μεταξύ της έδρας UNESCO "Για τις Απειλές κατά της Πολιτιστικής Κληρονομιάς και των Σχετικών με την Πολιτιστική Κληρονομιά Δραστηριοτήτων" του Ιονίου Πανεπιστημίου (ΤΞΓΜΔ-GeoLab) και του Συλλόγου Γονέων Κηδεμόνων και Φίλων Ατόμων με Αναπηρία Κέρκυρας</div>
+</div>
+<a class="slider-link" title="Υπογραφή μνημονίου συναντίληψης και συνεργασίας μεταξύ της έδρας UNESCO του Ιονίου Πανεπιστημίου και του Συλλόγου ΜΕΛΙΣΣΑ Γονέων Κηδεμόνων και Φίλων Ατόμων με Αναπηρία Κέρκυρας" href="https://ionio.gr/gr/news/23447"></a></div>
+<div class="slider-part">
+<a class="slider-img" href="https://ionio.gr/gr/news/23442"><img class="slider-img-image" src="https://ionio.gr/images/content/news/23000-23999/IU-ni-23442-36000.jpg" alt="img"/></a>
+<div class="slider-txt">
+<a class="slider-title" href="https://ionio.gr/gr/news/23442">Πανεπιστημιακό Γυμναστήριο: Εαρινό πρόγραμμα με νέα αθλήματα</a>
+<div class="slider-lead hidden-xs">Tο Πανεπιστημιακό Γυμναστήριο του Ιονίου Πανεπιστημίου από τη Δευτέρα 21 Φεβρουαρίου 2022, προσθέτοντας κι άλλα αθλήματα, ανανεώνει το πρόγραμμά του, χρησιμοποιώντας διάφορους διαθέσιμους χώρους άθλησης.</div>
+</div>
+<a class="slider-link" title="Πανεπιστημιακό Γυμναστήριο: Εαρινό πρόγραμμα με νέα αθλήματα" href="https://ionio.gr/gr/news/23442"></a></div>
+<div class="slider-part">
+<a class="slider-img" href="https://ionio.gr/gr/news/23407"><img class="slider-img-image" src="https://ionio.gr/images/content/news/23000-23999/IU-ni-23407-70109.jpg" alt="img"/></a>
+<div class="slider-txt">
+<a class="slider-title" href="https://ionio.gr/gr/news/23407">Ρεπορτάζ ΑΠΕ-ΜΠΕ: Μουσείο Ιονίου Πανεπιστημίου, «φάρος» πολιτιστικού διαλόγου</a>
+<div class="slider-lead hidden-xs">Ένα γόνιμο ταξίδι στην ιστορία, με σκοπό την ανάπτυξη ενός πολιτιστικού διαλόγου και την παραγωγή γνώσης σε φοιτητές, αλλά και στο ευρύ κοινό, παρέχει το Μουσείο του Ιονίου Πανεπιστημίου που λειτουργεί ενεργά τα δύο τελευταία χρόνια στην Κέρκυρα.</div>
+</div>
+<a class="slider-link" title="Ρεπορτάζ ΑΠΕ-ΜΠΕ: Μουσείο Ιονίου Πανεπιστημίου, «φάρος» πολιτιστικού διαλόγου" href="https://ionio.gr/gr/news/23407"></a></div>
+<div class="slider-part">
+<a class="slider-img" href="https://ionio.gr/gr/news/23419"><img class="slider-img-image" src="https://ionio.gr/images/content/news/23000-23999/IU-ni-23419-45851.jpg" alt="img"/></a>
+<div class="slider-txt">
+<a class="slider-title" href="https://ionio.gr/gr/news/23419">Με μεγάλη επιτυχία πραγματοποιήθηκε η 2η πεζοπορία του Πανεπιστημιακού Γυμναστηρίου στο κεδρόδασος και τη λιμνοθάλασσα Κορισσίων</a>
+<div class="slider-lead hidden-xs">Το Πανεπιστημιακό Γυμναστήριο του Ιονίου Πανεπιστημίου, με συνοδό την καθηγήτρια Φυσικής Αγωγής Δρ. Αγγελική Μαυροπούλου, πραγματοποίησε με μεγάλη επιτυχία την 2η πεζοπορία του, την Κυριακή 13/02/2022 στο κεδρόδασος και τη λιμνοθάλασσα Κορισσίων στην τοποθεσία Ίσσος, στο νότιο τμήμα του νησιού.</div>
+</div>
+<a class="slider-link" title="Με μεγάλη επιτυχία πραγματοποιήθηκε η 2η πεζοπορία του Πανεπιστημιακού Γυμναστηρίου στο κεδρόδασος και τη λιμνοθάλασσα Κορισσίων" href="https://ionio.gr/gr/news/23419"></a></div>
+<div class="slider-part">
+<a class="slider-img" href="https://ionio.gr/gr/news/22408"><img class="slider-img-image" src="https://ionio.gr/images/content/news/22000-22999/IU-ni-22408-27721.png" alt="img"/></a>
+<div class="slider-txt">
+<a class="slider-title" href="https://ionio.gr/gr/news/22408">Call for abstracts - 5ο Διεθνές συνέδριο Changing Cities</a>
+<div class="slider-lead hidden-xs">Το διεθνές συνέδριο διοργανώνεται από το Εργαστήριο Μορφολογίας του Αστικού Χώρου του Τμήματος Μηχανικών Χωροταξίας, Πολεοδομίας & Περιφερειακής Ανάπτυξης Παν/μίου Θεσσαλίας σε συνεργασία με το Τμήμα Ιστορίας του Ιονίου Πανεπιστημίου, και θα πραγματοποιηθεί στην Κέρκυρα από τις 20 έως τις 25 Ιουνίου 2022.</div>
+</div>
+<a class="slider-link" title="Call for abstracts - 5ο Διεθνές συνέδριο Changing Cities" href="https://ionio.gr/gr/news/22408"></a></div>
+<div class="slider-part">
+<a class="slider-img" href="https://ionio.gr/gr/news/23421"><img class="slider-img-image" src="https://ionio.gr/images/content/news/23000-23999/IU-ni-23421-69347.jpg" alt="img"/></a>
+<div class="slider-txt">
+<a class="slider-title" href="https://ionio.gr/gr/news/23421">Πανεπιστημιακό Γυμναστήριο: Πεζοπορία στην Κεφαλλονιά</a>
+<div class="slider-lead hidden-xs">Το Πανεπιστημιακό Γυμναστήριο του Ιονίου Πανεπιστημίου διοργανώνει την πρώτη του πεζοπορία εκτός Κέρκυρας, την Πέμπτη 17/03/2022, στην πανέμορφη περιοχή του Αίνου στην Κεφαλλονιά.</div>
+</div>
+<a class="slider-link" title="Πανεπιστημιακό Γυμναστήριο: Πεζοπορία στην Κεφαλλονιά" href="https://ionio.gr/gr/news/23421"></a></div>
+<div class="slider-part">
+<a class="slider-img" href="https://ionio.gr/gr/news/20657"><img class="slider-img-image" src="https://ionio.gr/images/content/news/20000-20999/IU-ni-20657-19876.jpg" alt="img"/></a>
+<div class="slider-txt">
+<a class="slider-title" href="https://ionio.gr/gr/news/20657">Ακαδημαϊκό Ημερολόγιο 2021-2022</a>
+<div class="slider-lead hidden-xs">Αναρτήθηκε το ακαδημαϊκό ημερολόγιο για το έτος 2021-2022, με ημερομηνίες διδασκαλίας, εξετάσεων, διακοπών και αργιών.</div>
+</div>
+<a class="slider-link" title="Ακαδημαϊκό Ημερολόγιο 2021-2022" href="https://ionio.gr/gr/news/20657"></a></div>
+
+</div>
+<div id="slider-thumbs-container">
+<div id="slider-thumbs" style="width:3850px">
+<span class="customLink tooltip-top-left slider-thumb selected" title="Ρεσιτάλ πιάνου στο πλαίσιο των ειδικών σεμιναρίων κατεύθυνσης πιάνου" id="slider-thumb-1" data-target="1" style="background-image:url('https://ionio.gr/images/content/news/23000-23999/IU-ni-23499-41555.jpg');"></span>
+<span class="customLink tooltip-top-left slider-thumb normal" title="Δράση STEM - Ρομποτικής του Τμήματος Πληροφορικής του Ιονίου Πανεπιστημίου και του Corfu Tech Lab (American Spaces) στην Δημόσια Κεντρική Ιστορική Βιβλιοθήκη Κέρκυρας" id="slider-thumb-2" data-target="2" style="background-image:url('https://ionio.gr/images/content/news/23000-23999/IU-ni-23484-30773.jpg');"></span>
+<span class="customLink tooltip-top-left slider-thumb normal" title="Ο Στάθης Σούλης, απόφοιτος διεύθυνσης ορχήστρας του Τμήματος Μουσικών Σπουδών, διευθύνει Οθέλλο σε σκηνοθεσία Bob Wilson στο Κέντρο Πολιτισμού Σταύρος Νιάρχος" id="slider-thumb-3" data-target="3" style="background-image:url('https://ionio.gr/images/content/news/23000-23999/IU-ni-23481-59167.jpg');"></span>
+<span class="customLink tooltip-top-left slider-thumb normal" title="ΤΤΗΕ: 4ο Διεθνές Συνέδριο Digital Culture & AudioVisual Challenges [DCAC-2022] - Υποβολή περιλήψεων: 10/03/2022" id="slider-thumb-4" data-target="4" style="background-image:url('https://ionio.gr/images/content/news/23000-23999/IU-ni-23259-99968.jpg');"></span>
+<span class="customLink tooltip-top-left slider-thumb normal" title="Πρώτο Ετήσιο Ελληνόφωνο Συνέδριο Εργαστηρίων Επικοινωνίας cclabs2022" id="slider-thumb-5" data-target="5" style="background-image:url('https://ionio.gr/images/content/news/23000-23999/IU-ni-23512-62548.jpg');"></span>
+<span class="customLink tooltip-top-left slider-thumb normal" title="Απόφαση πιστοποίησης του Προγράμματος Προπτυχιακών Σπουδών Ξένων Γλωσσών, Μετάφρασης και Διερμηνείας" id="slider-thumb-6" data-target="6" style="background-image:url('https://ionio.gr/images/content/news/23000-23999/IU-ni-23497-47271.png');"></span>
+<span class="customLink tooltip-top-left slider-thumb normal" title="Απόφαση πιστοποίησης του Προγράμματος Προπτυχιακών Σπουδών Αρχειονομίας, Βιβλιοθηκονομίας και Μουσειολογίας" id="slider-thumb-7" data-target="7" style="background-image:url('https://ionio.gr/images/content/news/23000-23999/IU-ni-23498-99959.png');"></span>
+<span class="customLink tooltip-top-left slider-thumb normal" title="Διήμερο Συνέδριο με θέμα «Η Επτάνησος στην Επανάσταση του 1821»" id="slider-thumb-8" data-target="8" style="background-image:url('https://ionio.gr/images/content/news/22000-22999/IU-ni-22090-17738.jpg');"></span>
+<span class="customLink tooltip-top-left slider-thumb normal" title="Συζητήσεις για το μουσείο 2022" id="slider-thumb-9" data-target="9" style="background-image:url('https://ionio.gr/images/content/news/23000-23999/IU-ni-23479-29700.png');"></span>
+<span class="customLink tooltip-top-left slider-thumb normal" title="Υπογραφή μνημονίου συναντίληψης και συνεργασίας μεταξύ της έδρας UNESCO του Ιονίου Πανεπιστημίου και του Συλλόγου ΜΕΛΙΣΣΑ Γονέων Κηδεμόνων και Φίλων Ατόμων με Αναπηρία Κέρκυρας" id="slider-thumb-10" data-target="10" style="background-image:url('https://ionio.gr/images/content/news/23000-23999/IU-ni-23447-99640.png');"></span>
+<span class="customLink tooltip-top-left slider-thumb normal" title="Πανεπιστημιακό Γυμναστήριο: Εαρινό πρόγραμμα με νέα αθλήματα" id="slider-thumb-11" data-target="11" style="background-image:url('https://ionio.gr/images/content/news/23000-23999/IU-ni-23442-36000.jpg');"></span>
+<span class="customLink tooltip-top-left slider-thumb normal" title="Ρεπορτάζ ΑΠΕ-ΜΠΕ: Μουσείο Ιονίου Πανεπιστημίου, «φάρος» πολιτιστικού διαλόγου" id="slider-thumb-12" data-target="12" style="background-image:url('https://ionio.gr/images/content/news/23000-23999/IU-ni-23407-70109.jpg');"></span>
+<span class="customLink tooltip-top-left slider-thumb normal" title="Με μεγάλη επιτυχία πραγματοποιήθηκε η 2η πεζοπορία του Πανεπιστημιακού Γυμναστηρίου στο κεδρόδασος και τη λιμνοθάλασσα Κορισσίων" id="slider-thumb-13" data-target="13" style="background-image:url('https://ionio.gr/images/content/news/23000-23999/IU-ni-23419-45851.jpg');"></span>
+<span class="customLink tooltip-top-left slider-thumb normal" title="Call for abstracts - 5ο Διεθνές συνέδριο Changing Cities" id="slider-thumb-14" data-target="14" style="background-image:url('https://ionio.gr/images/content/news/22000-22999/IU-ni-22408-27721.png');"></span>
+<span class="customLink tooltip-top-left slider-thumb normal" title="Πανεπιστημιακό Γυμναστήριο: Πεζοπορία στην Κεφαλλονιά" id="slider-thumb-15" data-target="15" style="background-image:url('https://ionio.gr/images/content/news/23000-23999/IU-ni-23421-69347.jpg');"></span>
+<span class="customLink tooltip-top-left slider-thumb normal" title="Ακαδημαϊκό Ημερολόγιο 2021-2022" id="slider-thumb-16" data-target="16" style="background-image:url('https://ionio.gr/images/content/news/20000-20999/IU-ni-20657-19876.jpg');"></span>
+
+<span class="customLink slider-thumb repeat" data-target="1"></span>
+</div>
+</div>
+</div></div><script>var images = ['https://ionio.gr/images/content/news/23000-23999/IU-ni-23499-41555.jpg','https://ionio.gr/images/content/news/23000-23999/IU-ni-23484-30773.jpg','https://ionio.gr/images/content/news/23000-23999/IU-ni-23481-59167.jpg','https://ionio.gr/images/content/news/23000-23999/IU-ni-23259-99968.jpg','https://ionio.gr/images/content/news/23000-23999/IU-ni-23512-62548.jpg','https://ionio.gr/images/content/news/23000-23999/IU-ni-23497-47271.png','https://ionio.gr/images/content/news/23000-23999/IU-ni-23498-99959.png','https://ionio.gr/images/content/news/22000-22999/IU-ni-22090-17738.jpg','https://ionio.gr/images/content/news/23000-23999/IU-ni-23479-29700.png','https://ionio.gr/images/content/news/23000-23999/IU-ni-23447-99640.png','https://ionio.gr/images/content/news/23000-23999/IU-ni-23442-36000.jpg','https://ionio.gr/images/content/news/23000-23999/IU-ni-23407-70109.jpg','https://ionio.gr/images/content/news/23000-23999/IU-ni-23419-45851.jpg','https://ionio.gr/images/content/news/22000-22999/IU-ni-22408-27721.png','https://ionio.gr/images/content/news/23000-23999/IU-ni-23421-69347.jpg','https://ionio.gr/images/content/news/20000-20999/IU-ni-20657-19876.jpg',];</script>
+<div id="slider-bottom-wrap" class="none"><span id="tri1"><span id="tri2" class="hidden-xs"></span></span></div>
+			
+<div class="wrap" id="front-wrap">
+	<div class="container-fluid restrict">
+		<div class="row row-eq-height">
+			<div class="col-sm-12 col-md-4 col-lg-3">
+				<div class="front-block no-padding">
+					<a class="front-block-icon" title="Σημαντικά Νέα" href="https://ionio.gr/gr/news/all-news/"><span class="front-block-icon-img" style="background-image:url(https://ionio.gr/images/layout/icon_1.png)"></span></a>
+					<a class="front-block-title" href="https://ionio.gr/gr/news/all-news/">Σημαντικά Νέα</a>
+					<!--<div class="w2-important-block"><a href="https://ionio.gr/gr/news/student-news/" title="Συνεχής Ενημέρωση" style="text-align:center;"><img src="https://ionio.gr/central/commons/images/banners/student_news_reel.jpg" alt="Covid-19 banners" /></a></div>-->
+
+
+
+
+<div class="w2-important-block"><a href="https://ionio.gr/gr/news/all-news-f1-covid19-f2-all/" title="Συνεχής Ενημέρωση" style="text-align:center;"><img src="https://ionio.gr/central/commons/images/banners/covid_19_banner_v2.jpg" alt="Covid-19 banners" /></a></div>
+
+<br />
+<div class="w2-important-block"><a href="https://ionio.gr/gr/news/15329/" title="Ενημέρωση: 08-10-2020">
+ΠΡΩΤΟΚΟΛΛΟ ΔΙΑΧΕΙΡΙΣΗΣ ΚΡΟΥΣΜΑΤΟΣ COVID-19 ΣΤΟ ΠΛΑΙΣΙΟ ΤΗΣ ΕΚΠΑΙΔΕΥΤΙΚΗΣ ΔΙΑΔΙΚΑΣΙΑΣ</a></div>
+
+<br />
+<div class="w2-important-block"><a href="https://ionio.gr/gr/news/15330/" title="Ενημέρωση: 07-10-2021">
+ΥΠΕYΘΥΝΟΙ ΓΙΑ ΤΗΝ ΕΦΑΡΜΟΓH ΤΟΥ ΠΡΩΤΟΚOΛΛΟΥ ΔΙΑΧΕIΡΙΣΗΣ YΠΟΠΤΟΥ H ΕΠΙΒΕΒΑΙΩΜEΝΟΥ ΚΡΟYΣΜΑΤΟΣ COVID-19</a></div>
+
+
+<br />
+<div class="w2-important-block"><a href="https://ionio.gr/gr/news/22015/" title="Ενημέρωση: 12-07-2021">
+ΜΗΝΥΜΑ ΤΟΥ ΠΡΥΤΑΝΗ ΚΑΘ. ΑΝΔΡΕΑ ΦΛΩΡΟΥ ΣΧΕΤΙΚΑ ΜΕ ΤΗ ΣΗΜΑΣΙΑ ΤΟΥ ΕΜΒΟΛΙΑΣΜΟΥ</a></div>
+
+
+
+<br /><div class="tag-categories">
+<a class="tag-categories-item sm" href="https://ionio.gr/gr/news/all-news-f1-nutrition-f2-all">Σίτιση<span class="tag-categories-corner"></span></a>
+<a class="tag-categories-item md" href="https://ionio.gr/gr/news/all-news-f1-graduate-f2-all">Μεταπτυχιακές Σπουδές<span class="tag-categories-corner"></span></a>
+<a class="tag-categories-item lg" href="https://ionio.gr/gr/news/all-news-f1-student-news-f2-all">Φοιτητικά Νέα<span class="tag-categories-corner"></span></a>
+<a class="tag-categories-item md" href="https://ionio.gr/gr/news/all-news-f1-scholarships-f2-all">Υποτροφίες<span class="tag-categories-corner"></span></a>
+<a class="tag-categories-item sm" href="https://ionio.gr/gr/news/all-news-f1-proclamations-f2-all">Προκηρύξεις<span class="tag-categories-corner"></span></a>
+<a class="tag-categories-item sm" href="https://ionio.gr/gr/news/all-news-f1-covid19-f2-all">Κορωνοϊός<span class="tag-categories-corner"></span></a>
+<a class="tag-categories-item sm" href="https://ionio.gr/gr/news/all-news-f1-competitions-f2-all">Γενικοί Διαγωνισμοί<span class="tag-categories-corner"></span></a>
+<a class="tag-categories-item md" href="https://ionio.gr/gr/news/all-news-f1-conferences-f2-all">Συνέδρια<span class="tag-categories-corner"></span></a>
+<a class="tag-categories-item md" href="https://ionio.gr/gr/news/all-news-f1-erasmus-f2-all">Erasmus<span class="tag-categories-corner"></span></a>
+<a class="tag-categories-item lg" href="https://ionio.gr/gr/news/all-news-f1-news-events-f2-all">Εκδηλώσεις<span class="tag-categories-corner"></span></a>
+<a class="tag-categories-item sm" href="https://ionio.gr/gr/news/all-news-f1-professor-elections-f2-all">Εκλογές Καθηγητών<span class="tag-categories-corner"></span></a>
+<a class="tag-categories-item md" href="https://ionio.gr/gr/news/all-news-f1-news-announcements-f2-all">Ανακοινώσεις<span class="tag-categories-corner"></span></a>
+<a class="tag-categories-item sm" href="https://ionio.gr/gr/news/all-news-f1-housing-f2-all">Στέγαση<span class="tag-categories-corner"></span></a>
+<a class="tag-categories-item md" href="https://ionio.gr/gr/news/all-news-f1-internship-f2-all">Πρακτική Άσκηση<span class="tag-categories-corner"></span></a>
+<a class="tag-categories-item sm" href="https://ionio.gr/gr/news/all-news-f1-reviews-f2-all">Ανασκοπήσεις Εκδηλώσεων<span class="tag-categories-corner"></span></a>
+<br /><br /><a href="/gr/news/all-news/">Όλα τα Νέα</a></div>
+					<!--<a class="button full-width" href="https://ionio.gr/gr/news/all-news/">Περισσότερα</a>-->
+				</div>
+			</div>
+			
+			<!--<div class="col-sm-6 col-md-6 col-lg-3">
+				<div class="front-block">
+					<a class="front-block-icon" title="Ανακοινώσεις" href="https://ionio.gr/gr/news/all-news-f1-news-announcements-f2-all/"><span class="front-block-icon-img" style="background-image:url(https://ionio.gr/images/layout/icon_2.png)"></span></a>
+					<a class="front-block-title" href="https://ionio.gr/gr/news/all-news-f1-news-announcements-f2-all/">Ανακοινώσεις</a>
+					<div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23518">Ανακοίνωση της Πρυτανικής Αρχής του Ιονίου Πανεπιστημίου σχετικά με τον πόλεμο στην Ουκρανία</a>
+<div class="i3-show-hide">
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23499">Ρεσιτάλ πιάνου στο πλαίσιο των ειδικών σεμιναρίων κατεύθυνσης πιάνου</a>
+<div class="i3-show-hide">
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23498">Απόφαση πιστοποίησης του Προγράμματος Προπτυχιακών Σπουδών Αρχειονομίας, Βιβλιοθηκονομίας και Μουσειολογίας</a>
+<div class="i3-show-hide">
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23497">Απόφαση πιστοποίησης του Προγράμματος Προπτυχιακών Σπουδών Ξένων Γλωσσών, Μετάφρασης και Διερμηνείας</a>
+<div class="i3-show-hide">
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23482">2η  Ανασυγκρότηση Κοσμητείας Σχολής Επιστήμης της Πληροφορίας και Πληροφορικής του Ιονίου Πανεπιστημίου, ακαδημαϊκού έτους 2021-2022</a>
+<div class="i3-show-hide">
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23481">Ο Στάθης Σούλης, απόφοιτος διεύθυνσης ορχήστρας του Τμήματος Μουσικών Σπουδών, διευθύνει Οθέλλο σε σκηνοθεσία Bob Wilson στο Κέντρο Πολιτισμού Σταύρος Νιάρχος</a>
+<div class="i3-show-hide">
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23459">Ανακοίνωση Πανεπιστημιακού Γυμναστηρίου</a>
+<div class="i3-show-hide">
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23452">Δελτίο Τύπου Ομάδας Avarts Talk 8η συνέντευξη</a>
+<div class="i3-show-hide">
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+</div>					<a class="button full-width" href="https://ionio.gr/gr/news/all-news-f1-news-announcements-f2-all/">Όλες οι Ανακοινώσεις</a>
+				</div>
+			</div>
+			
+			<div class="clearfix hidden-lg"></div>
+			
+			<div class="col-sm-6 col-md-6 col-lg-3">
+				<div class="front-block">
+					<a class="front-block-icon" title="Προκηρύξεις - Διαγωνισμοί" href="https://ionio.gr/gr/news/all-news-f1-news-calls-f2-all/"><span class="front-block-icon-img" style="background-image:url(https://ionio.gr/images/layout/icon_3.png)"></span></a>
+					<a class="front-block-title" href="https://ionio.gr/gr/news/all-news-f1-news-calls-f2-all/">Προκηρύξεις - Διαγωνισμοί</a>
+					<div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23445">2η Προκήρυξη Θέσεων για Εκπόνηση Διδακτορικής Διατριβής Τμήμα Τουρισμού-Ιόνιο Πανεπιστήμιο Εαρινό Εξάμηνο, Ακ. Έτους 2021-22</a>
+<div class="i3-show-hide">
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23425">Τμήμα Ιστορίας: Προκήρυξη μίας θέσης ΔΕΠ στη βαθμίδα του Καθηγητή Α' βαθμίδας</a>
+<div class="i3-show-hide">
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23342">Τμήμα Πληροφορικής: Προκήρυξη δύο θέσεων ΔΕΠ στις βαθμίδες Καθηγητή Α' βαθμίδας και Αναπληρωτή Καθηγητή & Τμήμα Ξένων Γλωσσών, Μετάφρασης και Διερμηνείας: Προκήρυξη μίας θέσης ΔΕΠ στη βαθμίδα Καθηγητή Α' βαθμίδας</a>
+<div class="i3-show-hide">
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23343">Τμήμα Αρχειονομίας, Βιβλιοθηκονομίας και Μουσειολογίας: Προκήρυξη δύο θέσεων ΔΕΠ στις βαθμίδες Αναπληρωτή Καθηγητή και Επίκουρου Καθηγητή</a>
+<div class="i3-show-hide">
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+</div>					<a class="button full-width" href="https://ionio.gr/gr/news/all-news-f1-news-calls-f2-all/">Όλες οι Προκηρύξεις</a>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-6 col-lg-3">
+				<div class="front-block">
+					<a class="front-block-icon" title="Εκδηλώσεις" href="https://ionio.gr/gr/news/all-news-f1-news-events-f2-all/"><span class="front-block-icon-img" style="background-image:url(https://ionio.gr/images/layout/icon_4.png)"></span></a>
+					<a class="front-block-title" href="https://ionio.gr/gr/news/all-news-f1-news-events-f2-all/">Εκδηλώσεις</a>
+					<div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23512">Πρώτο Ετήσιο Ελληνόφωνο Συνέδριο Εργαστηρίων Επικοινωνίας cclabs2022</a>
+<div class="i3-show-hide">
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23499">Ρεσιτάλ πιάνου στο πλαίσιο των ειδικών σεμιναρίων κατεύθυνσης πιάνου</a>
+<div class="i3-show-hide">
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23484">Δράση STEM - Ρομποτικής του Τμήματος Πληροφορικής του Ιονίου Πανεπιστημίου και του Corfu Tech Lab (American Spaces) στην Δημόσια Κεντρική Ιστορική Βιβλιοθήκη Κέρκυρας</a>
+<div class="i3-show-hide">
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23479">Συζητήσεις για το μουσείο 2022</a>
+<div class="i3-show-hide">
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/22090">Διήμερο Συνέδριο με θέμα «Η Επτάνησος στην Επανάσταση του 1821»</a>
+<div class="i3-show-hide">
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23386">Συμμετοχή Τμήματος Τουρισμού στην ΕXPO CORFU 2022</a>
+<div class="i3-show-hide">
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23385">Συνδιοργάνωση διεθνούς συνεδρίου με τίτλο «Οικουμενικότητες (και Κοσμοπολιτισμός)»</a>
+<div class="i3-show-hide">
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/22408">Call for abstracts - 5ο Διεθνές συνέδριο Changing Cities</a>
+<div class="i3-show-hide">
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23259">ΤΤΗΕ: 4ο Διεθνές Συνέδριο Digital Culture & AudioVisual Challenges [DCAC-2022] - Υποβολή περιλήψεων: 10/03/2022</a>
+<div class="i3-show-hide">
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/22964">Νέα συλλογική επιστημονική έκδοση αφιερωμένη στον Κερκυραίο μουσικολόγο Σπύρο Μοτσενίγο</a>
+<div class="i3-show-hide">
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/20183">Επιστημονικό Συνέδριο - Μουσική Δημιουργία και Πράξη στη Νεώτερη Ελλάδα - Τιμώντας τον Νικόλαο Χαλικιόπουλο Μάντζαρο</a>
+<div class="i3-show-hide">
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+</div>					<a class="button full-width" href="https://ionio.gr/gr/news/all-news-f1-news-events-f2-all/">Όλες οι Εκδηλώσεις</a>
+				</div>
+			</div>-->
+			
+			<div class="col-sm-12 col-md-8 col-lg-9">
+				<div class="front-block">
+					<a class="front-block-icon" title="Ροή ενημέρωσης φοιτητών" href="https://ionio.gr/$short_lang/news/all-news-f1-all-f2-all/"><span class="front-block-icon-img" style="background-image:url(https://ionio.gr/images/layout/icon_2.png)"></span></a>
+					<a class="front-block-title" href="https://ionio.gr/gr/news/student-news/">Ροή ενημέρωσης φοιτητών</a><div class="student-news-ticker"><div id="student-news-ticker-slider"><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23340">Φοιτητικός Διαγωνισμός "Νίκος Αναλυτής" με επίκεντρο τον κοινωνικό αντίκτυπο της κλιματικής αλλαγής</a>
+<div class="i3-show-hide">
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23314">Mνημόνιο συνεργασίας του Ιονίου Πανεπιστημίου και της Κερκυραϊκής Εταιρίας Προστασίας Ζώων</a>
+<div class="i3-show-hide">
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/22524">Πανεπιστημιακό Γυμναστήριο: Πρόγραμμα αθλητικών δραστηριοτήτων 2021-2022</a>
+<div class="i3-show-hide">
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+</div></div></div>					<a class="front-block-title" href="https://ionio.gr/gr/news/all-news-f1-all-f2-all/">Πρόσφατα Νέα</a>
+<div class="front-news-block">
+<div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23518">Ανακοίνωση της Πρυτανικής Αρχής του Ιονίου Πανεπιστημίου σχετικά με τον πόλεμο στην Ουκρανία</a>
+<div class="i3-show-hide">
+</div>
+
+<div class="news-list-body">
+<div class="news-list-thumb-block">
+<a href="https://ionio.gr/gr/news/23518"><img class="news-list-thumb" src="https://ionio.gr/images/content/news/23000-23999/IU-ni-23518-46601.jpg" alt="image" /></a></div>
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+<div class="news-list-more ">
+<div class="news-list-categories">
+<div class="news-list-categories-item">
+<a class="i3-news-list-categories-title" data-url="announcements" href="https://ionio.gr/gr/news/all-news-f1-announcements/">Γενικές Ανακοινώσεις</a>
+</div>
+</div>
+<div class="news-list-more-link"><a href="https://ionio.gr/gr/news/23518">Περισσότερα</a></div>
+</div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23512">Πρώτο Ετήσιο Ελληνόφωνο Συνέδριο Εργαστηρίων Επικοινωνίας cclabs2022</a>
+<div class="i3-show-hide">
+</div>
+
+<div class="news-list-body">
+<div class="news-list-thumb-block">
+<a href="https://ionio.gr/gr/news/23512"><img class="news-list-thumb" src="https://ionio.gr/images/content/news/23000-23999/IU-ni-23512-62548.jpg" alt="image" /></a></div>
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+<div class="news-list-more ">
+<div class="news-list-categories">
+<div class="news-list-categories-item">
+<a class="i3-news-list-categories-title" data-url="conferences" href="https://ionio.gr/gr/news/all-news-f1-conferences/">Συνέδρια</a>
+</div>
+</div>
+<div class="news-list-more-link"><a href="https://ionio.gr/gr/news/23512">Περισσότερα</a></div>
+</div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23499">Ρεσιτάλ πιάνου στο πλαίσιο των ειδικών σεμιναρίων κατεύθυνσης πιάνου</a>
+<div class="i3-show-hide">
+</div>
+
+<div class="news-list-body">
+<div class="news-list-thumb-block">
+<a href="https://ionio.gr/gr/news/23499"><img class="news-list-thumb" src="https://ionio.gr/images/content/news/23000-23999/IU-ni-23499-41555.jpg" alt="image" /></a></div>
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+<div class="news-list-more ">
+<div class="news-list-categories">
+<div class="news-list-categories-item">
+<a class="i3-news-list-categories-title" data-url="announcements" href="https://ionio.gr/gr/news/all-news-f1-announcements/">Γενικές Ανακοινώσεις</a>
+</div>
+<div class="news-list-categories-item">
+<a class="i3-news-list-categories-title" data-url="concerts" href="https://ionio.gr/gr/news/all-news-f1-concerts/">Συναυλίες</a>
+</div>
+</div>
+<div class="news-list-more-link"><a href="https://ionio.gr/gr/news/23499">Περισσότερα</a></div>
+</div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23498">Απόφαση πιστοποίησης του Προγράμματος Προπτυχιακών Σπουδών Αρχειονομίας, Βιβλιοθηκονομίας και Μουσειολογίας</a>
+<div class="i3-show-hide">
+</div>
+
+<div class="news-list-body">
+<div class="news-list-thumb-block">
+<a href="https://ionio.gr/gr/news/23498"><img class="news-list-thumb" src="https://ionio.gr/images/content/news/23000-23999/IU-ni-23498-99959.png" alt="image" /></a></div>
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+<div class="news-list-more ">
+<div class="news-list-categories">
+<div class="news-list-categories-item">
+<a class="i3-news-list-categories-title" data-url="announcements" href="https://ionio.gr/gr/news/all-news-f1-announcements/">Γενικές Ανακοινώσεις</a>
+</div>
+</div>
+<div class="news-list-more-link"><a href="https://ionio.gr/gr/news/23498">Περισσότερα</a></div>
+</div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23497">Απόφαση πιστοποίησης του Προγράμματος Προπτυχιακών Σπουδών Ξένων Γλωσσών, Μετάφρασης και Διερμηνείας</a>
+<div class="i3-show-hide">
+</div>
+
+<div class="news-list-body">
+<div class="news-list-thumb-block">
+<a href="https://ionio.gr/gr/news/23497"><img class="news-list-thumb" src="https://ionio.gr/images/content/news/23000-23999/IU-ni-23497-47271.png" alt="image" /></a></div>
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+<div class="news-list-more ">
+<div class="news-list-categories">
+<div class="news-list-categories-item">
+<a class="i3-news-list-categories-title" data-url="announcements" href="https://ionio.gr/gr/news/all-news-f1-announcements/">Γενικές Ανακοινώσεις</a>
+</div>
+</div>
+<div class="news-list-more-link"><a href="https://ionio.gr/gr/news/23497">Περισσότερα</a></div>
+</div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23484">Δράση STEM - Ρομποτικής του Τμήματος Πληροφορικής του Ιονίου Πανεπιστημίου και του Corfu Tech Lab (American Spaces) στην Δημόσια Κεντρική Ιστορική Βιβλιοθήκη Κέρκυρας</a>
+<div class="i3-show-hide">
+</div>
+
+<div class="news-list-body">
+<div class="news-list-thumb-block">
+<a href="https://ionio.gr/gr/news/23484"><img class="news-list-thumb" src="https://ionio.gr/images/content/news/23000-23999/IU-ni-23484-30773.jpg" alt="image" /></a></div>
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+<div class="news-list-more ">
+<div class="news-list-categories">
+<div class="news-list-categories-item">
+<a class="i3-news-list-categories-title" data-url="events" href="https://ionio.gr/gr/news/all-news-f1-events/">Γενικές Εκδηλώσεις</a>
+</div>
+<div class="news-list-categories-item">
+<a class="i3-news-list-categories-title" data-url="student-news" href="https://ionio.gr/gr/news/all-news-f1-student-news/">Φοιτητικά Νέα</a>
+</div>
+</div>
+<div class="news-list-more-link"><a href="https://ionio.gr/gr/news/23484">Περισσότερα</a></div>
+</div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23482">2η  Ανασυγκρότηση Κοσμητείας Σχολής Επιστήμης της Πληροφορίας και Πληροφορικής του Ιονίου Πανεπιστημίου, ακαδημαϊκού έτους 2021-2022</a>
+<div class="i3-show-hide">
+</div>
+
+<div class="news-list-body">
+<div class="news-list-thumb-block">
+<a class="news-list-nothumb" title="NO IMAGE" href="https://ionio.gr/gr/news/23482"></a></div>
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+<div class="news-list-more ">
+<div class="news-list-categories">
+<div class="news-list-categories-item">
+<a class="i3-news-list-categories-title" data-url="announcements" href="https://ionio.gr/gr/news/all-news-f1-announcements/">Γενικές Ανακοινώσεις</a>
+</div>
+</div>
+<div class="news-list-more-link"><a href="https://ionio.gr/gr/news/23482">Περισσότερα</a></div>
+</div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23481">Ο Στάθης Σούλης, απόφοιτος διεύθυνσης ορχήστρας του Τμήματος Μουσικών Σπουδών, διευθύνει Οθέλλο σε σκηνοθεσία Bob Wilson στο Κέντρο Πολιτισμού Σταύρος Νιάρχος</a>
+<div class="i3-show-hide">
+</div>
+
+<div class="news-list-body">
+<div class="news-list-thumb-block">
+<a href="https://ionio.gr/gr/news/23481"><img class="news-list-thumb" src="https://ionio.gr/images/content/news/23000-23999/IU-ni-23481-59167.jpg" alt="image" /></a></div>
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+<div class="news-list-more ">
+<div class="news-list-categories">
+<div class="news-list-categories-item">
+<a class="i3-news-list-categories-title" data-url="announcements" href="https://ionio.gr/gr/news/all-news-f1-announcements/">Γενικές Ανακοινώσεις</a>
+</div>
+</div>
+<div class="news-list-more-link"><a href="https://ionio.gr/gr/news/23481">Περισσότερα</a></div>
+</div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23479">Συζητήσεις για το μουσείο 2022</a>
+<div class="i3-show-hide">
+</div>
+
+<div class="news-list-body">
+<div class="news-list-thumb-block">
+<a href="https://ionio.gr/gr/news/23479"><img class="news-list-thumb" src="https://ionio.gr/images/content/news/23000-23999/IU-ni-23479-29700.png" alt="image" /></a></div>
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+<div class="news-list-more ">
+<div class="news-list-categories">
+<div class="news-list-categories-item">
+<a class="i3-news-list-categories-title" data-url="events" href="https://ionio.gr/gr/news/all-news-f1-events/">Γενικές Εκδηλώσεις</a>
+</div>
+</div>
+<div class="news-list-more-link"><a href="https://ionio.gr/gr/news/23479">Περισσότερα</a></div>
+</div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23459">Ανακοίνωση Πανεπιστημιακού Γυμναστηρίου</a>
+<div class="i3-show-hide">
+</div>
+
+<div class="news-list-body">
+<div class="news-list-thumb-block">
+<a class="news-list-nothumb" title="NO IMAGE" href="https://ionio.gr/gr/news/23459"></a></div>
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+<div class="news-list-more ">
+<div class="news-list-categories">
+<div class="news-list-categories-item">
+<a class="i3-news-list-categories-title" data-url="announcements" href="https://ionio.gr/gr/news/all-news-f1-announcements/">Γενικές Ανακοινώσεις</a>
+</div>
+<div class="news-list-categories-item">
+<a class="i3-news-list-categories-title" data-url="student-news" href="https://ionio.gr/gr/news/all-news-f1-student-news/">Φοιτητικά Νέα</a>
+</div>
+</div>
+<div class="news-list-more-link"><a href="https://ionio.gr/gr/news/23459">Περισσότερα</a></div>
+</div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23457">Bookcycling: Take a book - Leave a book - Read a book</a>
+<div class="i3-show-hide">
+</div>
+
+<div class="news-list-body">
+<div class="news-list-thumb-block">
+<a href="https://ionio.gr/gr/news/23457"><img class="news-list-thumb" src="https://ionio.gr/images/content/news/23000-23999/IU-ni-23457-57742.png" alt="image" /></a></div>
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+<div class="news-list-more ">
+<div class="news-list-categories">
+<div class="news-list-categories-item">
+<a class="i3-news-list-categories-title" data-url="student-news" href="https://ionio.gr/gr/news/all-news-f1-student-news/">Φοιτητικά Νέα</a>
+</div>
+</div>
+<div class="news-list-more-link"><a href="https://ionio.gr/gr/news/23457">Περισσότερα</a></div>
+</div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23452">Δελτίο Τύπου Ομάδας Avarts Talk 8η συνέντευξη</a>
+<div class="i3-show-hide">
+</div>
+
+<div class="news-list-body">
+<div class="news-list-thumb-block">
+<a href="https://ionio.gr/gr/news/23452"><img class="news-list-thumb" src="https://ionio.gr/images/content/news/23000-23999/IU-ni-23452-43364.jpg" alt="image" /></a></div>
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+<div class="news-list-more ">
+<div class="news-list-categories">
+<div class="news-list-categories-item">
+<a class="i3-news-list-categories-title" data-url="announcements" href="https://ionio.gr/gr/news/all-news-f1-announcements/">Γενικές Ανακοινώσεις</a>
+</div>
+<div class="news-list-categories-item">
+<a class="i3-news-list-categories-title" data-url="student-news" href="https://ionio.gr/gr/news/all-news-f1-student-news/">Φοιτητικά Νέα</a>
+</div>
+</div>
+<div class="news-list-more-link"><a href="https://ionio.gr/gr/news/23452">Περισσότερα</a></div>
+</div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23447">Υπογραφή μνημονίου συναντίληψης και συνεργασίας μεταξύ της έδρας UNESCO του Ιονίου Πανεπιστημίου και του Συλλόγου ΜΕΛΙΣΣΑ Γονέων Κηδεμόνων και Φίλων Ατόμων με Αναπηρία Κέρκυρας</a>
+<div class="i3-show-hide">
+</div>
+
+<div class="news-list-body">
+<div class="news-list-thumb-block">
+<a href="https://ionio.gr/gr/news/23447"><img class="news-list-thumb" src="https://ionio.gr/images/content/news/23000-23999/IU-ni-23447-99640.png" alt="image" /></a></div>
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+<div class="news-list-more ">
+<div class="news-list-categories">
+<div class="news-list-categories-item">
+<a class="i3-news-list-categories-title" data-url="press-releases" href="https://ionio.gr/gr/news/all-news-f1-press-releases/">Δελτία Τύπου</a>
+</div>
+</div>
+<div class="news-list-more-link"><a href="https://ionio.gr/gr/news/23447">Περισσότερα</a></div>
+</div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/22090">Διήμερο Συνέδριο με θέμα «Η Επτάνησος στην Επανάσταση του 1821»</a>
+<div class="i3-show-hide">
+</div>
+
+<div class="news-list-body">
+<div class="news-list-thumb-block">
+<a href="https://ionio.gr/gr/news/22090"><img class="news-list-thumb" src="https://ionio.gr/images/content/news/22000-22999/IU-ni-22090-17738.jpg" alt="image" /></a></div>
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+<div class="news-list-more ">
+<div class="news-list-categories">
+<div class="news-list-categories-item">
+<a class="i3-news-list-categories-title" data-url="conferences" href="https://ionio.gr/gr/news/all-news-f1-conferences/">Συνέδρια</a>
+</div>
+</div>
+<div class="news-list-more-link"><a href="https://ionio.gr/gr/news/22090">Περισσότερα</a></div>
+</div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23445">2η Προκήρυξη Θέσεων για Εκπόνηση Διδακτορικής Διατριβής Τμήμα Τουρισμού-Ιόνιο Πανεπιστήμιο Εαρινό Εξάμηνο, Ακ. Έτους 2021-22</a>
+<div class="i3-show-hide">
+</div>
+
+<div class="news-list-body">
+<div class="news-list-thumb-block">
+<a href="https://ionio.gr/gr/news/23445"><img class="news-list-thumb" src="https://ionio.gr/images/content/news/23000-23999/IU-ni-23445-89587.jpg" alt="image" /></a></div>
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+<div class="news-list-more ">
+<div class="news-list-categories">
+<div class="news-list-categories-item">
+<a class="i3-news-list-categories-title" data-url="announcements" href="https://ionio.gr/gr/news/all-news-f1-announcements/">Γενικές Ανακοινώσεις</a>
+</div>
+<div class="news-list-categories-item">
+<a class="i3-news-list-categories-title" data-url="proclamations" href="https://ionio.gr/gr/news/all-news-f1-proclamations/">Προκηρύξεις</a>
+</div>
+<div class="news-list-categories-item">
+<a class="i3-news-list-categories-title" data-url="secretary" href="https://ionio.gr/gr/news/all-news-f1-secretary/">Γραμματεία</a>
+</div>
+<div class="news-list-categories-item">
+<a class="i3-news-list-categories-title" data-url="research" href="https://ionio.gr/gr/news/all-news-f1-research/">Έρευνα</a>
+</div>
+<div class="news-list-categories-item">
+<a class="i3-news-list-categories-title" data-url="student-news" href="https://ionio.gr/gr/news/all-news-f1-student-news/">Φοιτητικά Νέα</a>
+</div>
+</div>
+<div class="news-list-more-link"><a href="https://ionio.gr/gr/news/23445">Περισσότερα</a></div>
+</div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23442">Πανεπιστημιακό Γυμναστήριο: Εαρινό πρόγραμμα με νέα αθλήματα</a>
+<div class="i3-show-hide">
+</div>
+
+<div class="news-list-body">
+<div class="news-list-thumb-block">
+<a href="https://ionio.gr/gr/news/23442"><img class="news-list-thumb" src="https://ionio.gr/images/content/news/23000-23999/IU-ni-23442-36000.jpg" alt="image" /></a></div>
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+<div class="news-list-more ">
+<div class="news-list-categories">
+<div class="news-list-categories-item">
+<a class="i3-news-list-categories-title" data-url="announcements" href="https://ionio.gr/gr/news/all-news-f1-announcements/">Γενικές Ανακοινώσεις</a>
+</div>
+</div>
+<div class="news-list-more-link"><a href="https://ionio.gr/gr/news/23442">Περισσότερα</a></div>
+</div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23425">Τμήμα Ιστορίας: Προκήρυξη μίας θέσης ΔΕΠ στη βαθμίδα του Καθηγητή Α' βαθμίδας</a>
+<div class="i3-show-hide">
+</div>
+
+<div class="news-list-body">
+<div class="news-list-thumb-block">
+<a class="news-list-nothumb" title="NO IMAGE" href="https://ionio.gr/gr/news/23425"></a></div>
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+<div class="news-list-more ">
+<div class="news-list-categories">
+<div class="news-list-categories-item">
+<a class="i3-news-list-categories-title" data-url="professor-elections" href="https://ionio.gr/gr/news/all-news-f1-professor-elections/">Εκλογές Καθηγητών</a>
+</div>
+</div>
+<div class="news-list-more-link"><a href="https://ionio.gr/gr/news/23425">Περισσότερα</a></div>
+</div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23421">Πανεπιστημιακό Γυμναστήριο: Πεζοπορία στην Κεφαλλονιά</a>
+<div class="i3-show-hide">
+</div>
+
+<div class="news-list-body">
+<div class="news-list-thumb-block">
+<a href="https://ionio.gr/gr/news/23421"><img class="news-list-thumb" src="https://ionio.gr/images/content/news/23000-23999/IU-ni-23421-69347.jpg" alt="image" /></a></div>
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+<div class="news-list-more ">
+<div class="news-list-categories">
+<div class="news-list-categories-item">
+<a class="i3-news-list-categories-title" data-url="announcements" href="https://ionio.gr/gr/news/all-news-f1-announcements/">Γενικές Ανακοινώσεις</a>
+</div>
+<div class="news-list-categories-item">
+<a class="i3-news-list-categories-title" data-url="student-news" href="https://ionio.gr/gr/news/all-news-f1-student-news/">Φοιτητικά Νέα</a>
+</div>
+</div>
+<div class="news-list-more-link"><a href="https://ionio.gr/gr/news/23421">Περισσότερα</a></div>
+</div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23419">Με μεγάλη επιτυχία πραγματοποιήθηκε η 2η πεζοπορία του Πανεπιστημιακού Γυμναστηρίου στο κεδρόδασος και τη λιμνοθάλασσα Κορισσίων</a>
+<div class="i3-show-hide">
+</div>
+
+<div class="news-list-body">
+<div class="news-list-thumb-block">
+<a href="https://ionio.gr/gr/news/23419"><img class="news-list-thumb" src="https://ionio.gr/images/content/news/23000-23999/IU-ni-23419-45851.jpg" alt="image" /></a></div>
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+<div class="news-list-more ">
+<div class="news-list-categories">
+<div class="news-list-categories-item">
+<a class="i3-news-list-categories-title" data-url="announcements" href="https://ionio.gr/gr/news/all-news-f1-announcements/">Γενικές Ανακοινώσεις</a>
+</div>
+<div class="news-list-categories-item">
+<a class="i3-news-list-categories-title" data-url="student-news" href="https://ionio.gr/gr/news/all-news-f1-student-news/">Φοιτητικά Νέα</a>
+</div>
+</div>
+<div class="news-list-more-link"><a href="https://ionio.gr/gr/news/23419">Περισσότερα</a></div>
+</div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23413">Ψήφισμα του Πρυτανικού Συμβουλίου του Ιονίου Πανεπιστημίου για τον θάνατο του Ομότιμου Καθηγητή του Τμήματος Ιστορίας Ηλία Αντωνόπουλου</a>
+<div class="i3-show-hide">
+</div>
+
+<div class="news-list-body">
+<div class="news-list-thumb-block">
+<a href="https://ionio.gr/gr/news/23413"><img class="news-list-thumb" src="https://ionio.gr/images/content/news/23000-23999/IU-ni-23413-66180.png" alt="image" /></a></div>
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+<div class="news-list-more ">
+<div class="news-list-categories">
+<div class="news-list-categories-item">
+<a class="i3-news-list-categories-title" data-url="announcements" href="https://ionio.gr/gr/news/all-news-f1-announcements/">Γενικές Ανακοινώσεις</a>
+</div>
+</div>
+<div class="news-list-more-link"><a href="https://ionio.gr/gr/news/23413">Περισσότερα</a></div>
+</div>
+</div><div class="t-center"><a class="button" href="https://ionio.gr/gr/news/all-news-f1-all-f2-all/">Όλα τα Νέα</a></div>
+</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</div>
+
+<div class="wrap" id="studies-block-wrap">
+<div class="container-fluid restrict">
+<a class="studies-link" href="/gr/studies/postgraduate/">Μεταπτυχιακές και Διδακτορικές Σπουδές<br />στο Ιόνιο Πανεπιστήμιο</a>
+</div>
+</div>
+
+<div class="wrap" id="front-wrap-3">
+	<div class="container-fluid restrict">
+		<div class="row">
+			<div class="col-sm-12"><div class="title-big">Σχολές Ιονίου Πανεπιστημίου<br /><span></span></div></div>
+			<div class="clearfix"></div>
+		</div>
+		<div class="row row-eq-height">
+			<div class="col-md-15">
+				<div class="front-block2">
+					<a class="front-block2-title" href="https://ionio.gr/gr/studies/faculties/hus/"><img class="max-width" src="https://ionio.gr/images/banners/dp01.jpg" alt="hti"/>
+					<br />Σχολή Ανθρωπιστικών Επιστημών</a>
+					<div class="front-block2-info"><img class="front-block-icon2" src="https://ionio.gr/images/layout/icon_location.png" alt=""/> Κέρκυρα<br /><img class="front-block-icon2" src="https://ionio.gr/images/layout/icon_building.png" alt=""/> Μάιος 2013<br /><img class="front-block-icon2" src="https://ionio.gr/images/layout/icon_fek.png" alt=""/> 119/28.5.2013, τεύχος Α</div>
+					<div class="front-block2-info"><strong>Τμήματα</strong>:<ul class="dpt-links"><li><a target="_blank" href="https://history.ionio.gr/">Ιστορίας<br />history.ionio.gr</a> <span>Κέρκυρα</span></li><li><a target="_blank" href="https://dflti.ionio.gr/">Ξένων Γλωσσών, Mετάφρασης &amp; Διερμηνείας<br />dflti.ionio.gr</a> <span>Κέρκυρα</span></li></ul></div>
+				</div>
+			</div>
+			<div class="col-md-15">
+				<div class="front-block2">
+					<a class="front-block2-title" href="https://ionio.gr/gr/studies/faculties/isi/"><img class="max-width" src="https://ionio.gr/images/banners/dp02.jpg" alt="isi"/>
+					<br />Σχολή Επιστήμης της Πληροφορίας &amp; Πληροφορικής</a>
+					<div class="front-block2-info"><img class="front-block-icon2" src="https://ionio.gr/images/layout/icon_location.png" alt=""/> Κέρκυρα<br /><img class="front-block-icon2" src="https://ionio.gr/images/layout/icon_building.png" alt=""/> Μάιος 2013<br /><img class="front-block-icon2" src="https://ionio.gr/images/layout/icon_fek.png" alt=""/> 119/28.5.2013, τεύχος Α</div>
+					<div class="front-block2-info"><strong>Τμήματα</strong>:<ul class="dpt-links"><li><a target="_blank" href="https://ilam.ionio.gr/">Αρχειονομίας, Βιβλιοθηκονομίας &amp; Μουσειολογίας<br />ilam.ionio.gr</a> <span>Κέρκυρα</span></li><li><a target="_blank" href="https://di.ionio.gr/">Πληροφορικής<br />di.ionio.gr</a> <span>Κέρκυρα</span></li><li><a target="_blank" href="https://dmc.ionio.gr/">Ψηφιακών Μέσων και Επικοινωνίας<br />dmc.ionio.gr</a><span>Αργοστόλι</span></li></ul></div>
+				</div>
+			</div>
+			<div class="col-md-15">
+				<div class="front-block2">
+					<a class="front-block2-title" href="https://ionio.gr/gr/studies/faculties/maa/"><img class="max-width" src="https://ionio.gr/images/banners/dp03.jpg" alt="maa"/>
+					<br />Σχολή Μουσικής &amp; Οπτικοακουστικών Τεχνών</a>
+					<div class="front-block2-info"><img class="front-block-icon2" src="https://ionio.gr/images/layout/icon_location.png" alt=""/> Κέρκυρα<br /><img class="front-block-icon2" src="https://ionio.gr/images/layout/icon_building.png" alt=""/> Μάιος 2013<br /><img class="front-block-icon2" src="https://ionio.gr/images/layout/icon_fek.png" alt=""/> 119/28.5.2013, τεύχος Α</div>
+					<div class="front-block2-info"><strong>Τμήματα</strong>:<ul class="dpt-links"><li><a target="_blank" href="https://avarts.ionio.gr/">Τεχνών Ήχου &amp; Εικόνας<br />avarts.ionio.gr</a> <span>Κέρκυρα</span></li><li><a target="_blank" href="https://music.ionio.gr/">Μουσικών Σπουδών<br />music.ionio.gr</a> <span>Κέρκυρα</span></li><li><a target="_blank" href="https://ethnomus.ionio.gr/">Εθνομουσικολογίας<br />ethnomus.ionio.gr</a> <span>Ληξούρι</span></li></ul></div>
+				</div>
+			</div>
+			<div class="col-md-15">
+				<div class="front-block2">
+					<a class="front-block2-title" href="https://ionio.gr/gr/studies/faculties/ens/"><img class="max-width" src="https://ionio.gr/images/banners/dp04.jpg" alt="ens"/>
+					<br />Σχολή Περιβάλλοντος</a>
+					<div class="front-block2-info"><img class="front-block-icon2" src="https://ionio.gr/images/layout/icon_location.png" alt=""/> Ζάκυνθος<br /><img class="front-block-icon2" src="https://ionio.gr/images/layout/icon_building.png" alt=""/> Οκτώβριος 2018<br /><img class="front-block-icon2" src="https://ionio.gr/images/layout/icon_fek.png" alt=""/> 142/03.08.2018, τεύχος Α</div>
+					<div class="front-block2-info"><strong>Τμήματα</strong>:<ul class="dpt-links"><li><a target="_blank" href="https://envi.ionio.gr">Περιβάλλοντος<br />envi.ionio.gr</a> <span>Ζάκυνθος</span></li><li><a target="_blank" href="https://fst.ionio.gr">Επιστήμης και Τεχνολογίας Τροφίμων<br />fst.ionio.gr</a> <span>Αργοστόλι</span></li></ul></div>
+				</div>
+			</div>
+			<div class="col-md-15">
+				<div class="front-block2">
+					<a class="front-block2-title" href="https://ionio.gr/gr/studies/faculties/ecs/"><img class="max-width" src="https://ionio.gr/images/banners/dp05.jpg" alt="ecs"/>
+					<br />Σχολή Οικονομικών Επιστημών</a>
+					<div class="front-block2-info"><img class="front-block-icon2" src="https://ionio.gr/images/layout/icon_location.png" alt=""/> Κέρκυρα<br /><img class="front-block-icon2" src="https://ionio.gr/images/layout/icon_building.png" alt=""/> Οκτώβριος 2018<br /><img class="front-block-icon2" src="https://ionio.gr/images/layout/icon_fek.png" alt=""/> 142/03.08.2018, τεύχος Α</div>
+					<div class="front-block2-info"><strong>Τμήματα</strong>:<ul class="dpt-links"><li><a target="_blank" href="http://rd.ionio.gr">Περιφερειακής Ανάπτυξης<br />rd.ionio.gr</a> <span>Λευκάδα</span></li><li><a target="_blank" href="http://tourism.ionio.gr">Τουρισμού<br />tourism.ionio.gr</a> <span>Κέρκυρα</span></li></ul></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid restrict">
+<div class="row">
+<div class="col-md-12 t-center">
+<div class="tei-block">
+<a href="http://www.teiion.gr/" target="_blank"><img class="max-width" src="https://ionio.gr/images/banners/teiion_logo2.png" alt="logo"/>Τεχνολογικό Εκπαιδευτικό Ίδρυμα Ιονίων Νήσων</a>
+</div></div></div></div><div class="wrap" id="front-wrap-2">
+<div class="container-fluid restrict">
+<div class="row row-eq-height">
+<div class="col-md-6 col-lg-3 t-center"><br /><br />
+<a target="_blank" href="https://kedivim.ionio.gr/" title="kedivim.ionio.gr" class="round-img" style="background-image:url(https://ionio.gr/images/banners/kedivim_big.jpg)"></a>
+<div class="overlay-box">
+<a target="_blank" href="https://kedivim.ionio.gr/" class="round-img-title">Κέντρο Επιμόρφωσης<br />και Δια Βίου Μάθησης</a>
+<p class="small">Το ΚΕ.ΔΙ.ΒΙ.Μ. στοχεύει στη διασύνδεση του Πανεπιστημίου με τους ανθρώπους της επιστήμης και του πολιτισμού και στην αλληλεπίδρασή του με τους πολίτες.</p>
+</div><br class="hidden-lg" />
+</div>
+<div class="col-md-6 col-lg-3 t-center"><br /><br />
+<a target="_blank" href="http://modip.ionio.gr/" title="modip.ionio.gr" class="round-img" style="background-image:url(https://ionio.gr/images/banners/modip_big.jpg)"></a>
+<div class="overlay-box">
+<a target="_blank" href="http://modip.ionio.gr/" class="round-img-title">Μονάδα Διασφάλισης <br />Ποιότητας (ΜΟΔΙΠ)</a>
+<p class="small">Ο δικτυακός τόπος της ΜΟ.ΔΙ.Π. στοχεύει στην εξασφάλιση της δυνατότητας πρόσβασης σε κάθε μορφής πληροφορία που σχετίζεται με τη διασφάλιση της ποιότητας της εκπαίδευσης και της έρευνας στο Ίδρυμα.</p>
+</div><br class="hidden-lg" />
+</div>
+<div class="col-md-6 col-lg-3 t-center"><br /><br />
+<a target="_blank" href="http://sites.ionio.gr/international/gr/erasmus/" title="sites.ionio.gr/international" class="round-img" style="background-image:url(https://ionio.gr/images/banners/erasmus_big.jpg)"></a>
+<div class="overlay-box">
+<a target="_blank" href="http://sites.ionio.gr/international/gr/erasmus/" class="round-img-title">Erasmus Charter for<br />Higher Education</a>
+<p class="small">Το Ιόνιο Πανεπιστήμιο συμμετέχει στο Πρόγραμμα ERASMUS+ με κινητικότητα διδακτικού προσωπικού για διδασκαλία, κινητικότητα διοικητικού προσωπικού για επιμόρφωση, κινητικότητα φοιτητών για σπουδές και για πρακτική άσκηση.</p>
+</div><br class="hidden-lg" />
+</div>
+<div class="col-md-6 col-lg-3 t-center"><br /><br />
+<a target="_blank" href="http://iup.ionio.gr/" title="iup.ionio.gr" class="round-img" style="background-image:url(https://ionio.gr/images/banners/iup_big.jpg)"></a>
+<div class="overlay-box">
+<a target="_blank" href="http://iup.ionio.gr/" class="round-img-title">Βιβλιοθήκη και Κέντρο<br />Πληροφόρησης</a>
+<p class="small">Η Διαδικτυακή πύλη της Βιβλιοθήκης του Ιονίου Πανεπιστημίου αποτελεί υλοποίηση βασικού στόχου του προγράμματος αναβάθμισης της βιβλιοθήκης του Ιονίου Πανεπιστημίου.</p>
+</div><br class="hidden-lg" />
+</div>
+</div>
+<div class="row hidden-xs hidden-sm hidden-md">
+<div class="col-md-6 col-lg-3 t-center"><br /><a target="_blank" href="https://kedivim.ionio.gr/" class="button small full-width">kedivim.ionio.gr</a></div>
+<div class="col-md-6 col-lg-3 t-center"><br /><a target="_blank" href="http://modip.ionio.gr/" class="button small full-width">modip.ionio.gr</a></div>
+<div class="col-md-6 col-lg-3 t-center"><br /><a target="_blank" href="http://sites.ionio.gr/international/gr/erasmus/" class="button small full-width">sites.ionio.gr/international</a></div>
+<div class="col-md-6 col-lg-3 t-center"><br /><a target="_blank" href="http://iup.ionio.gr/" class="button small full-width">iup.ionio.gr</a></div>
+</div>
+<div class="row row-eq-height">
+<div class="col-md-6 col-lg-3 t-center"><br /><br />
+<a target="_blank" href="http://dasta.ionio.gr/internship/" title="dasta.ionio.gr/internship" class="round-img" style="background-image:url(https://ionio.gr/images/banners/internship_big.jpg)"></a>
+<div class="overlay-box">
+<a target="_blank" href="http://dasta.ionio.gr/internship/" class="round-img-title">Γραφείο Πρακτικής<br />Άσκησης ΙΠ</a>
+<p class="small">Πρακτική Άσκηση Ιονίου Πανεπιστημίου Μέσω του Επιχειρησιακού Προγράμματος «Ανάπτυξη Ανθρώπινου Δυναμικού, Εκπαίδευση και Δία Βίου Μάθηση» 2014 – 2020.</p>
+</div><br class="hidden-lg" />
+</div>
+<div class="col-md-6 col-lg-3 t-center"><br /><br />
+<a target="_blank" href="https://studentsupport.ionio.gr/" title="studentsupport.ionio.gr" class="round-img" style="background-image:url(https://ionio.gr/images/banners/studentsupport_big.jpg)"></a>
+<div class="overlay-box">
+<a target="_blank" href="https://studentsupport.ionio.gr/" class="round-img-title">Yποστήριξη Παρεμβάσεων<br />Κοινωνικής Μέριμνας</a>
+<p class="small">Η Υποστήριξη Παρεμβάσεων Κοινωνικής Μέριμνας Φοιτητών του Ιονίου Πανεπιστημίου στοχεύει μέσω της λειτουργίας της να παρέχει ουσιαστική στήριξη σε φοιτητές.</p>
+</div><br class="hidden-lg" />
+</div>
+<div class="col-md-6 col-lg-3 t-center"><br /><br />
+<a target="_blank" href="https://scholarsatrisk.ionio.gr/gr/" title="scholarsatrisk.ionio.gr" class="round-img" style="background-image:url(https://ionio.gr/images/banners/scholars_big.jpg)"></a>
+<div class="overlay-box">
+<a target="_blank" href="https://scholarsatrisk.ionio.gr/gr/" class="round-img-title">Scholars at Risk</a>
+<p class="small">Το Ιόνιο Πανεπιστήμιο εντάχθηκε στο Scholars at Risk (SAR), ένα δίκτυο με στόχο την προστασία των ακαδημαϊκών που απειλούνται, την αποτροπή επιθέσεων στην ανώτατη εκπαίδευση και την προώθηση της ακαδημαϊκής ελευθερίας.</p>
+</div><br class="hidden-lg" />
+</div>
+<div class="col-md-6 col-lg-3 t-center"><br /><br />
+<a target="_blank" href="https://care.ionio.gr/" title="care.ionio.gr" class="round-img" style="background-image:url(https://ionio.gr/images/banners/care_big.jpg)"></a>
+<div class="overlay-box">
+<a target="_blank" href="https://care.ionio.gr/" class="round-img-title">Διεύθυνση Σπουδών<br />&amp; Φοιτητικής Μέριμνας</a>
+<p class="small">Λαμβάνεται μέριμνα για την ικανοποίηση όλο και μεγαλύτερου αριθμού αιτήσεων σίτισης και στέγασης με στόχο τη μεγιστοποίηση κάλυψης στο 100% των αιτήσεων.</p>
+</div><br class="hidden-lg" />
+</div>
+</div>
+<div class="row hidden-xs hidden-sm hidden-md">
+<div class="col-md-6 col-lg-3 t-center"><br /><a target="_blank" href="http://dasta.ionio.gr/internship/" class="button small full-width">dasta.ionio.gr/internship</a></div>
+<div class="col-md-6 col-lg-3 t-center"><br /><a target="_blank" href="https://studentsupport.ionio.gr/" class="button small full-width">studentsupport.ionio.gr</a></div>
+<div class="col-md-6 col-lg-3 t-center"><br /><a target="_blank" href="https://scholarsatrisk.ionio.gr/gr/" class="button small full-width">scholarsatrisk.ionio.gr</a></div>
+<div class="col-md-6 col-lg-3 t-center"><br /><a target="_blank" href="https://care.ionio.gr/" class="button small full-width">care.ionio.gr</a></div>
+</div>
+</div>
+</div>
+<div class="wrap" id="banners-wrap">
+<div class="container-fluid restrict">
+<div class="row no-gutter"><div class="col-sm-6 col-md-3 t-center">
+<a target="_self" href="https://ionio.gr/gr/studies/e-learning/" style="display:block;padding-top:30px;padding-bottom:30px;background:#be091c;"><img class="max-width" src="https://ionio.gr/images/banners/elearning_banner.jpg" alt="https://ionio.gr/gr/studies/e-learning/"/></a>
+</div>
+<div class="col-sm-6 col-md-3 t-center">
+<a target="_self" href="https://ionio.gr/gr/news/20187/" style="display:block;padding-top:30px;padding-bottom:30px;background:#009899;"><img class="max-width" src="https://ionio.gr/images/banners/ationio_banner.jpg" alt="https://ionio.gr/gr/news/20187/"/></a>
+</div>
+<div class="col-sm-6 col-md-3 t-center">
+<a target="_self" href="https://ionio.gr/gr/news/12035/" style="display:block;padding-top:30px;padding-bottom:30px;background:#9CA89C;"><img class="max-width" src="https://ionio.gr/images/banners/brochure_2018_banner.jpg" alt="https://ionio.gr/gr/news/12035/"/></a>
+</div>
+<div class="col-sm-6 col-md-3 t-center">
+<a target="_self" href="https://ionio.gr/gr/studies/summer-schools/" style="display:block;padding-top:30px;padding-bottom:30px;background:#0D3976;"><img class="max-width" src="https://ionio.gr/images/banners/summer_banner.jpg" alt="https://ionio.gr/gr/studies/summer-schools/"/></a>
+</div>
+</div>
+</div>
+</div>
+		
+
+<div class="wrap" id="search-block-wrap">
+<div class="container-fluid restrict">
+<div class="row row-eq-height">
+<div class="col-md-6">
+<div class="front-block">
+<a class="front-block-icon" title="Αναζήτηση Δημοσιεύσεων" href="https://ionio.gr/gr/news/all-news/"><span class="front-block-icon-img" style="background-image:url(https://ionio.gr/images/layout/icon_xs1.png)"></span></a>
+<strong class="front-block-title">Αναζήτηση Δημοσιεύσεων</strong>
+<div class="news-search-block">
+
+<form id="search_q_form" onsubmit="if(document.getElementById('search_q_input').value==''){ alert('ΔΕΝ ΠΡΟΣΔΙΟΡΙΣΤΗΚΕ ΟΡΟΣ ΑΝΑΖΗΤΗΣΗΣ'); return false;}" action="https://ionio.gr/gr/news/search-news/" method="post">
+<label for="search_q_input" style="display:none;">Αναζήτηση δημοσιεύσεων...</label><input onfocus="javascript:this.value=''" type="text" id="search_q_input" placeholder="Αναζήτηση δημοσιεύσεων..." name="search_q" value='' />
+<input id="search_q_submit" type="submit" value="Αναζήτηση" />
+</form>
+
+</div>
+<a class="button" href="https://ionio.gr/gr/news/all-news/">Όλα τα Νέα</a>
+</div>
+</div>
+<div class="col-md-6">
+<div class="front-block">
+<a class="front-block-icon" title="Αναζήτηση Προσωπικού" href="https://ionio.gr/gr/community/directory/"><span class="front-block-icon-img" style="background-image:url(https://ionio.gr/images/layout/icon_xs2.png)"></span></a>
+<strong class="front-block-title">Αναζήτηση Προσωπικού</strong>
+<div class="news-search-block"><form id="search_people_form" onsubmit="if(document.getElementById('search_people_input').value==''){ alert('ΔΕΝ ΠΡΟΣΔΙΟΡΙΣΤΙΚΕ ΟΡΟΣ ΑΝΑΖΗΤΗΣΗΣ'); return false;}" action="https://ionio.gr/gr/community/directory-f1-search/" method="post">
+<div class="ui-widget"><label style="display:none" for="search_people_input">Αναζήτηση με ονοματεπώνυμο, τηλέφωνο ή email...</label><input value="" placeholder="Αναζήτηση με ονοματεπώνυμο, τηλέφωνο ή email..." name="search_people_input" id="search_people_input" onfocus="javascript:this.value=''" />
+<input id="search_people_submit" value="Αναζήτηση" type="submit">
+</div>
+</form>
+</div>
+<a class="button" href="https://ionio.gr/gr/community/directory/">Πλήρης Κατάλογος</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="wrap" id="calendar-wrap">
+<div class="container-fluid restrict">
+<div class="row">
+<div id="calendar-month" class="col-md-5 col-lg-4">
+<div id="calendar-month-data" data-month="2" data-year="2022"></div>
+<table class="calendar-table"><tr>
+<td><a class="calendar-nav" onclick="ajax_calendar_month('gr','2','2021','https://ionio.gr/scripts')" href="javascript:void(0)">&lt;&lt;</a></td>
+<td><a class="calendar-nav" onclick="ajax_calendar_month('gr','1','2022','https://ionio.gr/scripts')" href="javascript:void(0)">&lt;</a></td>
+<td colspan="3"><div class="calendar-title">Φεβρουάριος 2022</div></td>
+<td><a class="calendar-nav" onclick="ajax_calendar_month('gr','3','2022','https://ionio.gr/scripts')" href="javascript:void(0)">&gt;</a></td>
+<td><a class="calendar-nav" onclick="ajax_calendar_month('gr','2','2023','https://ionio.gr/scripts')" href="javascript:void(0)">&gt;&gt;</a></td>
+</tr>
+<tr class="calendar-days">
+<td>Δε</td>
+<td>Τρ</td>
+<td>Τε</td>
+<td>Πε</td>
+<td>Πα</td>
+<td>Σα</td>
+<td>Κυ</td>
+</tr>
+<tr class="calendar-dates">
+<td></td>
+<td data-cdate="2022-02-01" class="calendar-td tp active" title="01-02-2022" onclick="ajax_calendar_day('gr','2022-02-01', this, 'https://ionio.gr/scripts');"><div class="calendar-td-box">1<div class="calendar-td-info"><span></span></div></div></td>
+<td data-cdate="2022-02-02" class="calendar-td tp active" title="02-02-2022" onclick="ajax_calendar_day('gr','2022-02-02', this, 'https://ionio.gr/scripts');"><div class="calendar-td-box">2<div class="calendar-td-info"><span></span></div></div></td>
+<td data-cdate="2022-02-03" class="calendar-td tp active" title="03-02-2022" onclick="ajax_calendar_day('gr','2022-02-03', this, 'https://ionio.gr/scripts');"><div class="calendar-td-box">3<div class="calendar-td-info"><span></span><span></span><span></span><span></span></div></div></td>
+<td data-cdate="2022-02-04" class="calendar-td tp active" title="04-02-2022" onclick="ajax_calendar_day('gr','2022-02-04', this, 'https://ionio.gr/scripts');"><div class="calendar-td-box">4<div class="calendar-td-info"><span></span><span></span><span></span><span></span></div></div></td>
+<td data-cdate="2022-02-05" class="calendar-td tp active" title="05-02-2022" onclick="ajax_calendar_day('gr','2022-02-05', this, 'https://ionio.gr/scripts');"><div class="calendar-td-box">5<div class="calendar-td-info"><span></span><span></span><span></span><span></span><span></span></div></div></td>
+<td data-cdate="2022-02-06" class="calendar-td tp active" title="06-02-2022" onclick="ajax_calendar_day('gr','2022-02-06', this, 'https://ionio.gr/scripts');"><div class="calendar-td-box">6<div class="calendar-td-info"><span></span><span></span><span></span><span></span></div></div></td>
+</tr>
+<tr class="calendar-dates">
+<td data-cdate="2022-02-07" class="calendar-td tp active" title="07-02-2022" onclick="ajax_calendar_day('gr','2022-02-07', this, 'https://ionio.gr/scripts');"><div class="calendar-td-box">7<div class="calendar-td-info"><span></span><span></span><span></span><span></span></div></div></td>
+<td data-cdate="2022-02-08" class="calendar-td tp active" title="08-02-2022" onclick="ajax_calendar_day('gr','2022-02-08', this, 'https://ionio.gr/scripts');"><div class="calendar-td-box">8<div class="calendar-td-info"><span></span><span></span><span></span><span></span></div></div></td>
+<td data-cdate="2022-02-09" class="calendar-td tp active" title="09-02-2022" onclick="ajax_calendar_day('gr','2022-02-09', this, 'https://ionio.gr/scripts');"><div class="calendar-td-box">9<div class="calendar-td-info"><span></span><span></span><span></span><span></span></div></div></td>
+<td data-cdate="2022-02-10" class="calendar-td tp active" title="10-02-2022" onclick="ajax_calendar_day('gr','2022-02-10', this, 'https://ionio.gr/scripts');"><div class="calendar-td-box">10<div class="calendar-td-info"><span></span><span></span><span></span><span></span><span></span></div></div></td>
+<td data-cdate="2022-02-11" class="calendar-td tp active" title="11-02-2022" onclick="ajax_calendar_day('gr','2022-02-11', this, 'https://ionio.gr/scripts');"><div class="calendar-td-box">11<div class="calendar-td-info"><span></span><span></span><span></span><span></span><span></span></div></div></td>
+<td data-cdate="2022-02-12" class="calendar-td tp active" title="12-02-2022" onclick="ajax_calendar_day('gr','2022-02-12', this, 'https://ionio.gr/scripts');"><div class="calendar-td-box">12<div class="calendar-td-info"><span></span><span></span><span></span><span></span><span></span><span></span></div></div></td>
+<td data-cdate="2022-02-13" class="calendar-td tp active" title="13-02-2022" onclick="ajax_calendar_day('gr','2022-02-13', this, 'https://ionio.gr/scripts');"><div class="calendar-td-box">13<div class="calendar-td-info"><span></span><span></span><span></span><span></span><span></span><span></span></div></div></td>
+</tr>
+<tr class="calendar-dates">
+<td data-cdate="2022-02-14" class="calendar-td tp active" title="14-02-2022" onclick="ajax_calendar_day('gr','2022-02-14', this, 'https://ionio.gr/scripts');"><div class="calendar-td-box">14<div class="calendar-td-info"><span></span><span></span><span></span></div></div></td>
+<td data-cdate="2022-02-15" class="calendar-td tp active" title="15-02-2022" onclick="ajax_calendar_day('gr','2022-02-15', this, 'https://ionio.gr/scripts');"><div class="calendar-td-box">15<div class="calendar-td-info"><span></span><span></span><span></span><span></span></div></div></td>
+<td data-cdate="2022-02-16" class="calendar-td tp active" title="16-02-2022" onclick="ajax_calendar_day('gr','2022-02-16', this, 'https://ionio.gr/scripts');"><div class="calendar-td-box">16<div class="calendar-td-info"><span></span><span></span><span></span><span></span></div></div></td>
+<td data-cdate="2022-02-17" class="calendar-td tp active" title="17-02-2022" onclick="ajax_calendar_day('gr','2022-02-17', this, 'https://ionio.gr/scripts');"><div class="calendar-td-box">17<div class="calendar-td-info"><span></span><span></span><span></span><span></span></div></div></td>
+<td data-cdate="2022-02-18" class="calendar-td tp active" title="18-02-2022" onclick="ajax_calendar_day('gr','2022-02-18', this, 'https://ionio.gr/scripts');"><div class="calendar-td-box">18<div class="calendar-td-info"><span></span><span></span><span></span><span></span></div></div></td>
+<td data-cdate="2022-02-19" class="calendar-td tp active" title="19-02-2022" onclick="ajax_calendar_day('gr','2022-02-19', this, 'https://ionio.gr/scripts');"><div class="calendar-td-box">19<div class="calendar-td-info"><span></span><span></span><span></span><span></span></div></div></td>
+<td data-cdate="2022-02-20" class="calendar-td tp active" title="20-02-2022" onclick="ajax_calendar_day('gr','2022-02-20', this, 'https://ionio.gr/scripts');"><div class="calendar-td-box">20<div class="calendar-td-info"><span></span><span></span><span></span><span></span></div></div></td>
+</tr>
+<tr class="calendar-dates">
+<td data-cdate="2022-02-21" class="calendar-td tp active" title="21-02-2022" onclick="ajax_calendar_day('gr','2022-02-21', this, 'https://ionio.gr/scripts');"><div class="calendar-td-box">21<div class="calendar-td-info"><span></span><span></span><span></span></div></div></td>
+<td data-cdate="2022-02-22" class="calendar-td tp active" title="22-02-2022" onclick="ajax_calendar_day('gr','2022-02-22', this, 'https://ionio.gr/scripts');"><div class="calendar-td-box">22<div class="calendar-td-info"><span></span><span></span></div></div></td>
+<td data-cdate="2022-02-23" class="calendar-td tp active" title="23-02-2022" onclick="ajax_calendar_day('gr','2022-02-23', this, 'https://ionio.gr/scripts');"><div class="calendar-td-box">23<div class="calendar-td-info"><span></span><span></span><span></span></div></div></td>
+<td data-cdate="2022-02-24" class="calendar-td tp active" title="24-02-2022" onclick="ajax_calendar_day('gr','2022-02-24', this, 'https://ionio.gr/scripts');"><div class="calendar-td-box">24<div class="calendar-td-info"><span></span><span></span><span></span></div></div></td>
+<td data-cdate="2022-02-25" class="calendar-td tp active" title="25-02-2022" onclick="ajax_calendar_day('gr','2022-02-25', this, 'https://ionio.gr/scripts');"><div class="calendar-td-box">25<div class="calendar-td-info"><span></span><span></span><span></span></div></div></td>
+<td data-cdate="2022-02-26" class="calendar-td tp active" title="26-02-2022" onclick="ajax_calendar_day('gr','2022-02-26', this, 'https://ionio.gr/scripts');"><div class="calendar-td-box">26<div class="calendar-td-info"><span></span><span></span><span></span></div></div></td>
+<td data-cdate="2022-02-27" class="calendar-td tp active" title="27-02-2022" onclick="ajax_calendar_day('gr','2022-02-27', this, 'https://ionio.gr/scripts');"><div class="calendar-td-box">27<div class="calendar-td-info"><span></span><span></span><span></span></div></div></td>
+</tr>
+<tr class="calendar-dates">
+<td data-cdate="2022-02-28" class="calendar-td tp active today selected" title="28-02-2022" onclick="ajax_calendar_day('gr','2022-02-28', this, 'https://ionio.gr/scripts');"><div class="calendar-td-box">28<div class="calendar-td-info"><span></span><span></span></div></div></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+</div><div id="calendar-day" data-where="AND FIND_IN_SET(31,sites)" class="calendar-day col-md-7 col-lg-8">
+<div data-cdate="2022-02-28" class="calendar-date-title">
+<span class="calendar-date-description">Σήμερα</span>, 
+Δευτέρα 28-02-2022</div>
+<div class="calendar-news-list current today"><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23250">Πρόσκληση εκδήλωσης ενδιαφέροντος για Πρακτική Άσκηση Μέσω ΕΣΠΑ Τριτοβάθμιας Εκπαίδευσης του Πρώην ΤΕΙ Ιονίων Νήσων για το εαρινό εξάμηνο του Ακαδ. Έτους 2021-2022.</a>
+<div class="news-list-dates"><div class="news-list-date duration"><span class="label date_start">Έναρξη: </span>24-01-2022 <span class="seperator">|</span><span class="label date_end">Λήξη: </span>28-02-2022</div>
+<div class="news-list-date status">[Σε Εξέλιξη]</div>
+</div>
+<div class="i3-show-hide">
+<a class="i3-show-hide-head" href="javascript:void(0);">Συνημμένα αρχεία</a>
+<div class="i3-show-hide-content"><div class="news-list-download"><div class="downloads-block"><a href="https://ionio.gr/download.php?f=23000-23999/IU-nf-23250-42543-gr.pdf" title="Κείμενο συνημμένου στα Ελληνικά"><img src="https://ionio.gr/commons/images/flags/gr.png" alt="gr" />&nbsp;&nbsp;<img src="https://ionio.gr/commons/images/filetypes/pdf.png" alt="pdf.png" />&nbsp;&nbsp;Πρόσκληση εκδήλωσης ενδιαφέροντος για Πρακτική Άσκηση Μέσω ΕΣΠΑ Τριτοβάθμιας Εκπαίδευσης του Πρώην ΤΕΙ Ιονίων Νήσων για το εαρινό εξάμηνο του Ακαδ. Έτους 2021-2022.</a><br /><span>Mέγεθος: 662.43&nbsp;KB :: Τύπος: Αρχείο PDF</span></div></div></div></div>
+<div class="news-clear-both" style="clear:both;"></div>
+</div><div class="news-list-block"><a class="news-list-title" href="https://ionio.gr/gr/news/23346">ΑΝΑΚΟΙΝΩΣΗ ΓΡΑΦΕΙΟΥ ERASMUS</a>
+<div class="news-list-dates"><div class="news-list-date duration"><span class="label date_start">Έναρξη: </span>08-02-2022 <span class="seperator">|</span><span class="label date_end">Λήξη: </span>28-02-2022</div>
+<div class="news-list-date status">[Σε Εξέλιξη]</div>
+</div>
+<div class="i3-show-hide">
+</div>
+<div class="news-clear-both" style="clear:both;"></div>
+</div></div>
+</div></div></div></div>
+<div id="bottom-menu-wrap">
+<div class="container-fluid restrict">
+<div class="row">
+<div class="col-md-12">
+<a class="" href="https://ionio.gr/gr/university">Το Πανεπιστήμιο</a>
+<a class="" href="https://ionio.gr/gr/community">Κοινότητα</a>
+<a class="" href="https://ionio.gr/gr/studies">Σπουδές</a>
+<a class="" href="https://ionio.gr/gr/services">Υπηρεσίες</a>
+<a class="" href="https://ionio.gr/gr/research">Έρευνα</a>
+<a class="" href="https://ionio.gr/gr/news">Νέα</a>
+<a class="" href="https://ionio.gr/gr/students">Φοιτητές</a>
+<a class="" href="https://ionio.gr/gr/prospective">Υποψήφιοι Φοιτητές</a>
+<a class="" href="https://ionio.gr/gr/about">Ionio.gr</a>
+</div>
+</div>
+</div>
+</div>
+<div class="wrap" id="bottom-wrap">
+<div class="container-fluid restrict">
+<div class="row">
+<div class="col-sm-12 t-center">
+<div id="bottom-banners">
+<a target="_blank" href="https://diavgeia.gov.gr/f/ionio_panepistimio"><img class="max-width bottom-banner" src="https://ionio.gr/images/banners/diavgeia_small2.jpg" alt="diavgeia"></a>
+<a target="_blank" href="https://eudoxus.gr/"><img class="max-width bottom-banner" src="https://ionio.gr/images/banners/eudoxus_small2.jpg" alt="eudoxus"></a>
+<a target="_blank" href="https://www.clarin.gr/"><img class="max-width bottom-banner" src="https://ionio.gr/images/banners/clarin_small2.jpg" alt="clarin"></a>
+<a target="_blank" href="https://eua.eu/"><img class="max-width bottom-banner" src="https://ionio.gr/images/banners/eua_small2.jpg" alt="eua.be"></a>
+<a target="_blank" href="http://www.magna-charta.org"><img class="max-width bottom-banner" src="https://ionio.gr/images/banners/observatory_small2.jpg" alt="magna-charta.org"></a>
+<a target="_blank" href="https://eellak.ellak.gr/"><img class="max-width bottom-banner" src="https://ionio.gr/images/banners/eellak_small.jpg" alt="eellak.gr"></a>
+</div>
+<div id="bottom-social-icons">
+<a target="_blank" href="https://www.facebook.com/ionio.gr" title="facebook"><img src="https://ionio.gr/images/layout/icon_fb.png" alt="facebook"/></a>
+<a target="_blank" href="https://twitter.com/myionio" title="twitter"><img src="https://ionio.gr/images/layout/icon_tw.png" alt="twitter"/></a>
+<a target="_blank" href="http://www.youtube.com/user/myionio" title="youtube"><img src="https://ionio.gr/images/layout/icon_yt.png" alt="youtube"/></a>
+<a target="_blank" href="https://www.instagram.com/ionianuniversity/" title="instagram"><img src="https://ionio.gr/images/layout/icon_ig.png" alt="instagram"/></a>
+<a target="_blank" href="https://www.linkedin.com/school/ionian-university" title="linkedin"><img src="https://ionio.gr/images/layout/icon_in.png" alt="linkedin"/></a>
+<a target="_blank" href="https://ionio.gr/feeds/rss_gr.xml" title="rss feed"><img src="https://ionio.gr/images/layout/icon_rs.png" alt="rss"/></a>
+
+</div>
+<img class="max-width hidden-xs hidden-sm" src="https://ionio.gr/images/layout/qrcode_trans.png" alt="qrcode"/>
+</div>
+</div>
+</div>
+</div>
+<div class="wrap" id="newsletter-wrap">
+<div class="container-fluid restrict">
+<div class="row">
+<div class="col-md-12 t-center">
+<div id="newsletter-title">Newsletter</div>
+<form name="n_form" id="n_form" action="javascript:void(0);" method="post" onsubmit="return validate_newsletter('gr', 'EMAIL');"><label for="emain" style="display:none;">Email</label><input type="text" id="emain" name="email" class="newsletter-input" value="EMAIL" onfocus="$(this).val('');" />
+<input class="button newsletter-btn" type="submit" value="Εγγραφή"/>
+</form><div id="response_validation_email"></div></div>
+</div>
+</div>
+</div>
+<div id="gdpr-wrap"><div class="container"><div class="row"><div class="col-lg-12"><a class="gdpr-link" target="_blank" href="https://gdpr.ionio.gr/gr/"><img src="https://gdpr.ionio.gr/images/layout/logo_bottom.png" alt="GDPR"/><span class="gdpr-block-text">Προστασία Προσωπικών Δεδομένων στο Ιόνιο Πανεπιστήμιο <span>gdpr.ionio.gr</span></span></a></div></div></div></div><div class="wrap" id="footer-wrap">
+<div class="container-fluid restrict">
+<div class="row">
+<div class="col-md-6 center-sm">
+Ιόνιο Πανεπιστήμιο, Ιωάννου Θεοτόκη 72, 49100 Κέρκυρα, Τ.Θ. 663</div>
+<div class="col-md-6 center-sm t-right">
+<a href="https://ionio.gr/gr/university/contact/">Επικοινωνία</a>  |  <a href="https://ionio.gr/gr/about/">www.ionio.gr</a>  |  <a href="https://ionio.gr/gr/about/webteam/">WebTeam</a>
+</div>
+</div>
+</div>
+</div>
+<a href="#top" id="scroll-top" class="scroller tooltip-top-right" title="Κορυφή" ></a>
+<div class="cookie-warning"><div class="cookie-warning-message">Αυτός ο ιστοχώρος χρησιμοποιεί cookies για τη συλλογή πληροφοριών σχετικά με τη χρήση του από επισκέπτες, με στόχο την κάλυψη των αναγκών τους καθώς και τη βελτίωση του περιεχομένου του ιστοχώρου.<a class="cookie-more" target="_blank" href="https://gdpr.ionio.gr/gr/policy/cookies/">Περισσότερα</a></div><form method="post">
+<div class="cookie-select-text">Επιλέξτε ποιοι τύποι cookies θέλετε να χρησιμοποιηθούν</div>
+<div class="cookie-select-elements"><div class="cookie-select-element"><input type="checkbox" class="cookie-checkbox" id="cookie-necessary" name="cookie_nesessery" checked disabled><label class="cookie-checkbox-label" for="cookie-necessary">Αναγκαία</label></div><div class="cookie-select-element"><input type="checkbox" class="cookie-checkbox" id="cookie-performance" name="cookie_performance" checked><label class="cookie-checkbox-label" for="cookie-performance">Επιδόσεων</label></div><div class="cookie-select-element"><input type="checkbox" class="cookie-checkbox" id="cookie-operational" name="cookie_operational" checked><label class="cookie-checkbox-label" for="cookie-operational">Λειτουργικά</label></div><div class="cookie-select-element"><input type="checkbox" class="cookie-checkbox" id="cookie-thirdparty" name="cookie_thirdparty" checked><label class="cookie-checkbox-label" for="cookie-thirdparty">Τρίτων</label></div></div><input class="button cookie-warning-button" name="cookie_preferences" type="submit" value="Αποδοχή" />
+</form>
+</div>
+
+
+</div>
+</body>
+</html>
+

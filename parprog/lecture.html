@@ -120,8 +120,19 @@
        <h4>Εργαστήρια ενότητας #3</h4>        
         <ul>
           <li>14/3/2022: Παραδείγματα χρήσης pthreads: <a href="one-thread.c">δημιουργία ενός thread</a>, <a href="many-threads-parametric.c">δημιουργία πολλών όμοιων threads</a>, <a href="blocksize-demo.c">καταμερισμός εργασίας σε blocks</a>.</li>
-          <li>15/3/2022: Υποδείγματα κώδικα: <a href="triad-double.c">benchmark τύπου triad</a>, <a href="mmult-double.c">απλός πολλαπλασιασμός πινάκων</a>.</li>
-          <li>22/3/2022: Υποδείγματα κώδικα: <a href="sum-reduction-double.c">sum reduction</a>, <a href="no-mutex-example-threads-BAD.c">κοινός πόρος χωρίς συγχρονισμό</a>, <a href="no-barrier-example.c">φάσεις υπολογισμού χωρίς barrier</a>. <a href="prefix-sum-double.c">Prefix sum</a> και <a href="prefix-sum-double-pseudothreads.c">prefix sum με προετοιμασία για threads</a> (βλ. και <a href="prefix-sum.pdf">σχηματική εξήγηση</a>). </li>
+          <li>15/3/2022: Καταμερισμός εργασίας σε threads (map operations):
+            <ul>
+              <li>benchmark τύπου triad (<a href="triad-double.c">χωρίς threads</a>, <a href="triad-double-pthreads.c">με threads</a>)
+              <li>απλός πολλαπλασιασμός πινάκων (<a href="mmult-double.c">χωρίς threads</a>, <a href="mmult-double-threads.c">με threads</a>).</li>
+            </ul>
+          </li>
+          <li>22/3/2022: Προσπέλαση κοινών πόρων:
+            <ul>
+              <li>Παράδειγμα χρήσης κοινού πόρου (<a href="no-mutex-example-threads-BAD.c">χωρίς συγχρονισμό - ΛΑΘΟΣ!</a> και <a href="mutex-example-threads.c">μέσω mutex</a>).</li>
+              <li>Sum reduction (i. <a href="sum-reduction-double.c">χωρίς threads</a>, ii. <a href="sum-reduction-double-threads.c">τελικό άθροισμα από main()</a> και iii. <a href="sum-reduction-double-threads-mutex.c">τελικό άθροισμα με mutex</a>).</li>
+            </ul>
+          </li>
+          <li>28/3/2022: Υποδείγματα κώδικα: <a href="no-barrier-example.c">φάσεις υπολογισμού χωρίς barrier</a>. <a href="prefix-sum-double.c">Prefix sum</a> και <a href="prefix-sum-double-pseudothreads.c">prefix sum με προετοιμασία για threads</a> (βλ. και <a href="prefix-sum.pdf">σχηματική εξήγηση</a>).</li>          
         </ul>
 
 <!--

@@ -4,17 +4,18 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Μεταγλωττιστές - Σημειώσεις Εργαστηρίου &#8212; Compiler Labs Doc 1.0 documentation</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/mytheme.css" type="text/css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mytheme.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Εισαγωγή στη λεκτική ανάλυση" href="unit1/module1.html" />
+    <link rel="next" title="Εισαγωγή στη λεκτική ανάλυση" href="01-dfa/module1.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -43,7 +44,7 @@
           <div class="body" role="main">
             
   <a class="reference internal image-reference" href="_images/by-sa.png"><img alt="Creative Commons Attribution-ShareAlike 4.0 International License" src="_images/by-sa.png" style="width: 80px;" /></a>
-<div class="section" id="id1">
+<section id="id1">
 <h1>Μεταγλωττιστές - Σημειώσεις Εργαστηρίου<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <p>Στις σελίδες αυτές θα βρείτε το υλικό του εργαστηρίου των Μεταγλωττιστών. Εδώ δίνεται έμφαση στην πρακτική υλοποίηση θεμάτων των μεταγλωττιστών και στις ασκήσεις του εργαστηρίου. Για το θεωρητικό μέρος, εκτός από τις βασικές πληροφορίες, παρατίθενται όπου απαιτείται οι αναφορές στο βιβλίο του μαθήματος καθώς και οι παραπομπές σε εξωτερικές πηγές.</p>
 <p class="rubric">Περιβάλλον εκτέλεσης ασκήσεων</p>
@@ -51,20 +52,31 @@
 <p class="rubric">Υλικό εργαστηρίου</p>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="unit1/module1.html">Εισαγωγή στη λεκτική ανάλυση</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="unit1/module1.html#id2">Η λειτουργία της λεκτικής ανάλυσης</a></li>
-<li class="toctree-l2"><a class="reference internal" href="unit1/module1.html#id3">Αυτόματα πεπερασμένων καταστάσεων</a></li>
-<li class="toctree-l2"><a class="reference internal" href="unit1/module1.html#id6">Ερωτήσεις</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-dfa/module1.html">Εισαγωγή στη λεκτική ανάλυση</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="01-dfa/module1.html#id2">Η λειτουργία της λεκτικής ανάλυσης</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01-dfa/module1.html#id3">Αυτόματα πεπερασμένων καταστάσεων</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01-dfa/module1.html#id6">Ερωτήσεις</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="unit2/module1.html">Κανονικές εκφράσεις και Python</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="unit2/module1.html#id1">Χρήση κανονικών εκφράσεων στην Python</a></li>
-<li class="toctree-l2"><a class="reference internal" href="unit2/module1.html#id2">Βασικά σύμβολα κανονικών εκφράσεων</a></li>
-<li class="toctree-l2"><a class="reference internal" href="unit2/module1.html#id3">Παραδείγματα</a></li>
-<li class="toctree-l2"><a class="reference internal" href="unit2/module1.html#id11">Η απληστία των τελεστών * και +</a></li>
-<li class="toctree-l2"><a class="reference internal" href="unit2/module1.html#finditer">Η μέθοδος finditer()</a></li>
-<li class="toctree-l2"><a class="reference internal" href="unit2/module1.html#sub">Η μέθοδος sub()</a></li>
-<li class="toctree-l2"><a class="reference internal" href="unit2/module1.html#id12">Ασκήσεις</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-regex/module1.html">Κανονικές εκφράσεις και Python</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="02-regex/module1.html#id1">Χρήση κανονικών εκφράσεων στην Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-regex/module1.html#id2">Βασικά σύμβολα κανονικών εκφράσεων</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-regex/module1.html#id3">Παραδείγματα</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-regex/module1.html#id11">Η απληστία των τελεστών * και +</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-regex/module1.html#finditer">Η μέθοδος finditer()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-regex/module1.html#sub">Η μέθοδος sub()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02-regex/module1.html#id12">Ασκήσεις</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="03-plex/plex-intro.html">Λεκτικοί αναλυτές με το module plex</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="03-plex/plex-intro.html#python">Διαφορές με τις κανονικές εκφράσεις της Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03-plex/plex-intro.html#id1">Χρήση του module plex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03-plex/plex-intro.html#plex-patterns">Plex patterns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03-plex/plex-intro.html#plex">Plex και χειρισμός σφαλμάτων</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03-plex/plex-intro.html#id2">Κανόνες ταιριάσματος</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03-plex/plex-intro.html#id3">Παράδειγμα #1: Λέξεις και αριθμοί</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03-plex/plex-intro.html#postfix-calculator">Παράδειγμα #2: Postfix calculator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03-plex/plex-intro.html#id5">Ασκήσεις</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="appendix-python/module1.html">Παράρτημα Α: Πληροφορίες για την Python3</a><ul>
@@ -77,7 +89,7 @@
 </li>
 </ul>
 </div>
-</div>
+</section>
 
 
           </div>

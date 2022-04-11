@@ -4,18 +4,19 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Κανονικές εκφράσεις και Python &#8212; Compiler Labs Doc 1.0 documentation</title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/mytheme.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mytheme.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Παράρτημα Α: Πληροφορίες για την Python3" href="../appendix-python/module1.html" />
-    <link rel="prev" title="Εισαγωγή στη λεκτική ανάλυση" href="../unit1/module1.html" />
+    <link rel="next" title="Λεκτικοί αναλυτές με το module plex" href="../03-plex/plex-intro.html" />
+    <link rel="prev" title="Εισαγωγή στη λεκτική ανάλυση" href="../01-dfa/module1.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -44,7 +45,7 @@
           <div class="body" role="main">
             
   <a class="reference internal image-reference" href="../_images/by-sa.png"><img alt="Creative Commons Attribution-ShareAlike 4.0 International License" src="../_images/by-sa.png" style="width: 80px;" /></a>
-<div class="section" id="python">
+<section id="python">
 <h1>Κανονικές εκφράσεις και Python<a class="headerlink" href="#python" title="Permalink to this headline">¶</a></h1>
 <p>Στην Python (αλλά και σε πολλές άλλες γλώσσες προγραμματισμού) μπορούμε να φανταστούμε μια κανονική έκφραση ως μια μίνι-γλώσσα, η οποία χρησιμοποιείται για τη συγκρότηση μιας <em>μηχανής ταιριάσματος</em> (matching engine). Η μηχανή επεξεργάζεται το κείμενο εισόδου σύμφωνα με τις οδηγίες της κανονικής έκφρασης και επιστρέφει</p>
 <ul class="simple">
@@ -72,7 +73,7 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="id1">
+<section id="id1">
 <h2>Χρήση κανονικών εκφράσεων στην Python<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>Στην Python η υλοποίηση των κανονικών εκφράσεων είναι αντικειμενοστρεφής.</p>
 <p>Η υποστήριξη των regular expressions υπάρχει ενσωματωμένη στη γλώσσα, στο module <code class="docutils literal notranslate"><span class="pre">re</span></code>:</p>
@@ -149,8 +150,8 @@
 </li>
 </ul>
 <p>Στις επόμενες παραγράφους αναφέρονται <strong>μερικά μόνο</strong> από τα εργαλεία της Python για κανονικές εκφράσεις. Για την πλήρη περιγραφή του module <code class="docutils literal notranslate"><span class="pre">re</span></code>, δείτε στο <a class="reference external" href="https://docs.python.org/3/library/re.html">https://docs.python.org/3/library/re.html</a>.</p>
-</div>
-<div class="section" id="id2">
+</section>
+<section id="id2">
 <h2>Βασικά σύμβολα κανονικών εκφράσεων<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>Ο πίνακας που ακολουθεί περιέχει τα βασικά σύμβολα που χρησιμοποιούνται για την κατασκευή κανονικών εκφράσεων στην Python (<em>παρατίθενται τα σύμβολα που έχουν διδαχθεί στο εργαστήριο</em>).</p>
 <table class="docutils align-default">
@@ -216,15 +217,15 @@
 </tbody>
 </table>
 <p>Με βάση τα πιο πάνω μπορούμε να συντάξουμε πιο σύνθετες κανονικές εκφράσεις, συνδυάζοντας πολλές μικρότερες.</p>
-</div>
-<div class="section" id="id3">
+</section>
+<section id="id3">
 <h2>Παραδείγματα<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p>Παραδείγματα με τα σύμβολα που έχουν διδαχθεί έως τώρα στο εργαστήριο. Τα παραδείγματα δίνονται στο interactive shell της Python, θεωρήστε ότι έχει προηγηθεί το <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">re</span></code>.</p>
 <div class="topic">
 <p class="topic-title">Πηγή παραδειγμάτων</p>
 <p>Πολλά από τα παραδείγματα που ακολουθούν βασίζονται σε υλικό από το βιβλίο “Mastering Regular Expressions”, 2nd ed., Jeffrey E.F. Friedl, O’Reilly Media, July 2002.</p>
 </div>
-<div class="section" id="id4">
+<section id="id4">
 <h3>Στην αρχή ή στο τέλος<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p>Βρείτε το string <code class="docutils literal notranslate"><span class="pre">cat</span></code> στην αρχή (με το <code class="docutils literal notranslate"><span class="pre">^</span></code>) ή στο τέλος (<code class="docutils literal notranslate"><span class="pre">$</span></code>) ενός string:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^cat&#39;</span><span class="p">)</span>
@@ -249,8 +250,8 @@
 </pre></div>
 </div>
 <p>Για να ταιριάξουμε ένα άδειο string, θα μπορούσαμε (θεωρητικά -δεν χρειάζεται στην πράξη!) να χρησιμοποιήσουμε το <code class="docutils literal notranslate"><span class="pre">'^$'</span></code>.</p>
-</div>
-<div class="section" id="id5">
+</section>
+<section id="id5">
 <h3>Κλάσεις χαρακτήρων<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <p>Κλάσεις χαρακτήρων με το <code class="docutils literal notranslate"><span class="pre">[]</span></code>. Θυμηθείτε ότι μέσα στην κλάση, οι χαρακτήρες ελέγχου χάνουν το ειδικό τους νόημα και το <code class="docutils literal notranslate"><span class="pre">^</span></code> σημαίνει κάτι διαφορετικό:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;gr[ae]y&#39;</span><span class="p">)</span>
@@ -280,8 +281,8 @@
 </pre></div>
 </div>
 <p>Στο τελευταίο παράδειγμα βλέπουμε ότι ενώ το <code class="docutils literal notranslate"><span class="pre">a</span></code> δεν πρέπει να ακολουθείται από <code class="docutils literal notranslate"><span class="pre">b</span></code>, <strong>πρέπει όμως να ακολουθείται από κάτι άλλο</strong>.</p>
-</div>
-<div class="section" id="id6">
+</section>
+<section id="id6">
 <h3>Εναλλαγή<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <p>Βρείτε το gray ή grey με εναλλαγή (alternation): 2 σωστοί και ένας λάθος τρόπος</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;gray|grey&#39;</span><span class="p">)</span>
@@ -320,8 +321,8 @@
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="id7">
+</section>
+<section id="id7">
 <h3>Ένας οποιοσδήποτε χαρακτήρας<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <p>Χρήση της τελείας <code class="docutils literal notranslate"><span class="pre">.</span></code> για να ταιριάξουμε οτιδήποτε (εκτός από newline! Για να ταιριάξετε και το newline στο re.compile() προσθέστε το επιπλέον όρισμα <code class="docutils literal notranslate"><span class="pre">re.DOTALL</span></code>)</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;a.c&#39;</span><span class="p">)</span>
@@ -342,8 +343,8 @@
 <span class="go">&lt;_sre.SRE_Match object; span=(0, 3), match=&#39;a\nc&#39;&gt;</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="id8">
+</section>
+<section id="id8">
 <h3>Προαιρετικό<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <p>Προαιρετικό: <code class="docutils literal notranslate"><span class="pre">color</span></code> ή <code class="docutils literal notranslate"><span class="pre">colour</span></code>;</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;colou?r&#39;</span><span class="p">)</span>
@@ -370,8 +371,8 @@
 </div>
 </div></blockquote>
 </div>
-</div>
-<div class="section" id="id9">
+</section>
+<section id="id9">
 <h3>Τελεστές επανάληψης<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <p>Τελεστές επανάληψης: <code class="docutils literal notranslate"><span class="pre">*</span></code> (0 ή περισσότερες φορές) και <code class="docutils literal notranslate"><span class="pre">+</span></code> (1 ή περισσότερες φορές). Οι τελεστές αυτοί εφαρμόζονται σε ό,τι βρίσκεται στα αριστερά τους (για να τους εφαρμόσετε σε πάνω από έναν χαρακτήρα χρησιμοποιήστε παρενθέσεις). Εξ’ ορισμού οι τελεστές επανάληψης είναι <strong>άπληστοι</strong> (greedy): προσπαθούν να ταιριάξουν <em>όσο το δυνατόν περισσότερο</em> κείμενο. Προσοχή με τους τελεστές επανάληψης: μην καταλήξετε σε κανονικές εκφράσεις που δεν επιλέγουν καθόλου κείμενο (ή, για την ακρίβεια, ταιριάζουν το κενό string, π.χ. <code class="docutils literal notranslate"><span class="pre">re.compile('a*')</span></code>!).</p>
 <p>Στο παράδειγμα που ακολουθεί η κανονική έκφραση ταιριάζει σειρές από ψηφία <code class="docutils literal notranslate"><span class="pre">0</span></code> έως <code class="docutils literal notranslate"><span class="pre">9</span></code>, οποιουδήποτε μήκους (ένα ή περισσότερα ψηφία):</p>
@@ -383,8 +384,8 @@
 <span class="go">&gt;&gt;&gt;</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="id10">
+</section>
+<section id="id10">
 <h3>Ολόκληρες λέξεις<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <p>Εάν θέλουμε στο προηγούμενο παράδειγμα να έχουμε ταιριάσματα <em>μόνο σε ολόκληρες λέξεις</em>, μπορούμε να χρησιμοποιήσουμε το σύμβολο <code class="docutils literal notranslate"><span class="pre">\b</span></code> που ταιριάζει στην αρχή και στο τέλος λέξεων (στις εναλλαγές αλφαριθμητικών και μη αλφαριθμητικών χαρακτήρων):</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\b[0-9]+\b&#39;</span><span class="p">)</span>
@@ -427,8 +428,8 @@
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="groups">
+</section>
+<section id="groups">
 <h3>Μέρη ταιριασμάτων (groups)<a class="headerlink" href="#groups" title="Permalink to this headline">¶</a></h3>
 <p>Τι είναι τα <em>groups</em>; Στις κανονικές εκφράσεις οι παρενθέσεις παίζουν ειδικό ρόλο, ομαδοποιώντας υποσύνολα της κανονικής έκφρασης. Επιπλέον, η μηχανή ταιριάσματος θυμάται τι ταίριαξε σε κάθε group:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;([0-9]+)\.([0-9]+)&#39;</span><span class="p">)</span>
@@ -444,9 +445,9 @@
 <p>Στο προηγούμενο παράδειγμα, οι παρενθέσεις γύρω από το ακέραιο και το δεκαδικό μέρος ορίζουν δύο πρόσθετα groups (<code class="docutils literal notranslate"><span class="pre">group(1)</span></code> και <code class="docutils literal notranslate"><span class="pre">group(2)</span></code>), εκτός από το <code class="docutils literal notranslate"><span class="pre">group(0)</span></code> που περιλαμβάνει όλο το κείμενο που έχει ταιριάξει.</p>
 <p>Η αρίθμηση των πρόσθετων groups αρχίζει από το 1, κάθε φορά που ανοίγει μια παρένθεση, προχωρώντας από αριστερά προς τα δεξιά. Αυτό ισχύει ακόμα και όταν οι παρενθέσεις είναι μέσα σε άλλες.</p>
 <p>Αν ένα σετ παρενθέσεων έχει μπει μόνο για την εξυπηρέτηση του <code class="docutils literal notranslate"><span class="pre">*</span></code>, <code class="docutils literal notranslate"><span class="pre">+</span></code>, <code class="docutils literal notranslate"><span class="pre">?</span></code> κλπ και δεν θέλουμε τη συγκράτηση της τιμής του group, μπορούμε να χρησιμοποιήσουμε το <code class="docutils literal notranslate"><span class="pre">(?:...)</span></code>. Στη μορφή αυτή οι παρενθέσεις δεν ορίζουν νέο group.</p>
-</div>
-</div>
-<div class="section" id="id11">
+</section>
+</section>
+<section id="id11">
 <h2>Η απληστία των τελεστών * και +<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
 <p>Όπως ήδη γνωρίζουμε, οι τελεστές <code class="docutils literal notranslate"><span class="pre">*</span></code> και <code class="docutils literal notranslate"><span class="pre">+</span></code> (αλλά και ο <code class="docutils literal notranslate"><span class="pre">?</span></code>) είναι <em>άπληστοι</em> (greedy). Αυτό σημαίνει ότι η μηχανή ταιριάσματος των κανονικών εκφράσεων, όταν προσπαθεί να ικανοποιήσει κάποιον από τους τελεστές αυτούς και έχει και άλλες επιλογές</p>
 <blockquote>
@@ -518,8 +519,8 @@
 </div>
 <p>Αυτό συμβαίνει διότι η διαδικασία backtracking έχει να εξετάσει <strong>εκθετικά μεγάλο αριθμό περιπτώσεων</strong> προσπαθώντας να βρει ένα ταίριασμα!</p>
 </div>
-</div>
-<div class="section" id="finditer">
+</section>
+<section id="finditer">
 <h2>Η μέθοδος finditer()<a class="headerlink" href="#finditer" title="Permalink to this headline">¶</a></h2>
 <p>Μέχρι τώρα έχουμε δουλέψει μόνο με τη βασική μέθοδο <code class="docutils literal notranslate"><span class="pre">search()</span></code> των κανονικών εκφράσεων, η οποία επιστρέφει μόνο το πρώτο ταίριασμα που θα συναντήσει. Στη συνέχεια παρουσιάζεται η παραπλήσια μέθοδος <code class="docutils literal notranslate"><span class="pre">finditer()</span></code> η οποία επιστρέφει διαδοχικά αντικείμενα ταιριάσματος (match objects) <em>για όλα τα μη επικαλυπτόμενα ταιριάσματα</em> της κανονικής έκφρασης σε ένα string:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">re</span>
@@ -535,8 +536,8 @@
 </pre></div>
 </div>
 <p>Όπως φαίνεται στο προηγούμενο παράδειγμα, η <code class="docutils literal notranslate"><span class="pre">finditer()</span></code> χρησιμοποιείται σε επαναληπτικές δομές <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">...</span> <span class="pre">in</span> <span class="pre">...</span></code> και σε κάθε επανάληψη επιστρέφει ένα αντικείμενο ταιριάσματος ακριβώς όπως και η <code class="docutils literal notranslate"><span class="pre">search()</span></code>.</p>
-</div>
-<div class="section" id="sub">
+</section>
+<section id="sub">
 <h2>Η μέθοδος sub()<a class="headerlink" href="#sub" title="Permalink to this headline">¶</a></h2>
 <p>Η μέθοδος <code class="docutils literal notranslate"><span class="pre">sub()</span></code> των κανονικών εκφράσεων χρησιμοποιείται για την εύρεση (μη επικαλυπτόμενων) ταιριασμάτων και την αντικατάστασή τους με κάτι διαφορετικό. Στην πιο απλή περίπτωση, κάθε ταίριασμα αντικαθίσταται με ένα σταθερό string. Το επόμενο παράδειγμα αντικαθιστά κάθε ετικέτα HTML με το string <code class="docutils literal notranslate"><span class="pre">&#64;&#64;&#64;</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;&lt;[^&gt;]+&gt;&#39;</span><span class="p">)</span>
@@ -571,8 +572,8 @@
 <span class="go">&gt;&gt;&gt;</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="id12">
+</section>
+<section id="id12">
 <h2>Ασκήσεις<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic simple">
 <li><p>Κατασκευάστε κανονική έκφραση για την αναγνώριση έγκυρων μορφών 24ωρης ώρας (<code class="docutils literal notranslate"><span class="pre">00:00</span></code> έως <code class="docutils literal notranslate"><span class="pre">23:59</span></code>) με τη βοήθεια των <code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">]</span></code>, <code class="docutils literal notranslate"><span class="pre">|</span></code>, <code class="docutils literal notranslate"><span class="pre">?</span></code> και <code class="docutils literal notranslate"><span class="pre">\b</span></code>.</p></li>
@@ -632,7 +633,7 @@
 </ul>
 </div></blockquote>
 <ol class="arabic" start="6">
-<li><p>Ετοιμάστε πρόγραμμα Python που ανοίγει το αρχείο του <a class="reference download internal" download="" href="../_downloads/625f563ad2aaa549aa07692af6838986/testpage.txt"><code class="xref download docutils literal notranslate"><span class="pre">κειμένου</span> <span class="pre">δοκιμών</span></code></a> και διαβάζει όλο το περιεχόμενό του σε μια μεταβλητή τύπου string.</p>
+<li><p>Ετοιμάστε πρόγραμμα Python που ανοίγει το αρχείο του <a class="reference download internal" download="" href="../_downloads/7191275c33310b6efaef7d9080fdce44/testpage.txt"><code class="xref download docutils literal notranslate"><span class="pre">κειμένου</span> <span class="pre">δοκιμών</span></code></a> και διαβάζει όλο το περιεχόμενό του σε μια μεταβλητή τύπου string.</p>
 <p>Προσθέστε κανονική έκφραση που θα βρίσκει και θα τυπώνει το περιεχόμενο όλων των <code class="docutils literal notranslate"><span class="pre">&lt;meta&gt;</span></code> tags, δηλαδή οτιδήποτε βρίσκεται μεταξύ των <code class="docutils literal notranslate"><span class="pre">&lt;meta</span> <span class="pre">και</span> <span class="pre">/&gt;</span></code>.</p>
 <ul class="simple">
 <li><p>Πρέπει να χρησιμοποιήσετε μη-άπληστο τελεστή; Ή μπορείτε να το κάνετε με κλάση χαρακτήρων;</p></li>
@@ -653,14 +654,14 @@
 <li><p>Χρησιμοποιήστε διαδοχικά τη μέθοδο <code class="docutils literal notranslate"><span class="pre">sub()</span></code>. Το πρόγραμμά σας:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>Θα διαβάζει ολόκληρο το αρχείο <a class="reference download internal" download="" href="../_downloads/638e8df83378e452ea9d2327c15c1848/sampletext.txt"><code class="xref download docutils literal notranslate"><span class="pre">δοκιμαστικού</span> <span class="pre">κειμένου</span></code></a> (πηγή: Ταινιοθήκη της Ελλάδας) σε μια μεταβλητή.</p></li>
+<li><p>Θα διαβάζει ολόκληρο το αρχείο <a class="reference download internal" download="" href="../_downloads/d8c57e15c613b3db8ca13d1e458e4e9f/sampletext.txt"><code class="xref download docutils literal notranslate"><span class="pre">δοκιμαστικού</span> <span class="pre">κειμένου</span></code></a> (πηγή: Ταινιοθήκη της Ελλάδας) σε μια μεταβλητή.</p></li>
 <li><p>Θα χρησιμοποιεί πρώτη κανονική έκφραση για να μετατρέψει <strong>συνεχόμενους whitespace χαρακτήρες</strong> σε ακριβώς έναν κενό χαρακτήρα (space).</p></li>
 <li><p>Στη συνέχεια θα απαλείφει με δεύτερη κανονική έκφραση <strong>όλα τα σημεία στίξης</strong>, αφήνοντας μόνο λέξεις στο κείμενο, χωρισμένες από ένα κενό μεταξύ τους.</p></li>
 <li><p>Θα τυπώνει το τελικό αποτέλεσμα.</p></li>
 </ul>
 </div></blockquote>
 </li>
-<li><p>Κατεβάστε το εξής <a class="reference download internal" download="" href="../_downloads/ec5fb4686d7c57e27fbe81ceb28ab3d7/sample1.txt"><code class="xref download docutils literal notranslate"><span class="pre">δοκιμαστικό</span> <span class="pre">κείμενο</span></code></a>. Τι παρατηρείτε; Στην άσκηση θα διορθώσετε το πρόβλημα με τους τόνους και τα διαλυτικά με τη βοήθεια της <code class="docutils literal notranslate"><span class="pre">sub()</span></code>.</p>
+<li><p>Κατεβάστε το εξής <a class="reference download internal" download="" href="../_downloads/66025d0add488aa6e5f70496718bd18a/sample1.txt"><code class="xref download docutils literal notranslate"><span class="pre">δοκιμαστικό</span> <span class="pre">κείμενο</span></code></a>. Τι παρατηρείτε; Στην άσκηση θα διορθώσετε το πρόβλημα με τους τόνους και τα διαλυτικά με τη βοήθεια της <code class="docutils literal notranslate"><span class="pre">sub()</span></code>.</p>
 <ul>
 <li><p>Η πληροφορία στο αρχείο αυτό βρίσκεται αυτοτελής σε κάθε γραμμή. Έτσι μπορείτε να το επεξεργαστείτε γραμμή προς γραμμή. Αν έχετε προβλήματα encoding, προσθέστε στην <code class="docutils literal notranslate"><span class="pre">open()</span></code> το όρισμα <code class="docutils literal notranslate"><span class="pre">encoding='utf-8'</span></code>.</p></li>
 <li><p>Τι συμβαίνει στο κείμενο: τα τονισμένα φωνήεντα δεν έχουν αποθηκευτεί σωστά.</p>
@@ -699,8 +700,8 @@
 </ul>
 </li>
 </ol>
-</div>
-</div>
+</section>
+</section>
 
 
           </div>

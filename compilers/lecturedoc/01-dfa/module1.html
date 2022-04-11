@@ -4,18 +4,19 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Εισαγωγή στη λεκτική ανάλυση &#8212; Compiler Labs Doc 1.0 documentation</title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/mytheme.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mytheme.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Παράρτημα Α: Πληροφορίες για την Python3" href="../appendix-python/module1.html" />
+    <link rel="next" title="Κανονικές εκφράσεις και Python" href="../02-regex/module1.html" />
     <link rel="prev" title="Μεταγλωττιστές - Σημειώσεις Εργαστηρίου" href="../index.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -45,16 +46,18 @@
           <div class="body" role="main">
             
   <a class="reference internal image-reference" href="../_images/by-sa.png"><img alt="Creative Commons Attribution-ShareAlike 4.0 International License" src="../_images/by-sa.png" style="width: 80px;" /></a>
-<div class="section" id="id1">
+<section id="id1">
 <h1>Εισαγωγή στη λεκτική ανάλυση<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <p>Στην ενότητα αυτή εξετάζουμε το πρώτο στάδιο ενός μεταγλωττιστή, τη <em>λεκτική ανάλυση</em>, η οποία μετατρέπει τον πηγαίο κώδικα (source files) σε <em>σύμβολα</em> (tokens). Το στάδιο αυτό μπορεί να ειδωθεί ως μια μορφή προ-επεξεργασίας (preprocessing), πριν την περισσότερο απαιτητική υπολογιστικά <em>συντακτική ανάλυση</em>.</p>
-<div class="section" id="id2">
+<section id="id2">
 <h2>Η λειτουργία της λεκτικής ανάλυσης<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>Η λεκτική ανάλυση (lexical analysis, lexing ή scanning) δέχεται ως είσοδο έναν-έναν τους μεμονωμένους χαρακτήρες του πηγαίου κώδικα και παράγει <em>σύμβολα</em> (tokens). Δείτε το επόμενο σχήμα:</p>
-<div class="figure align-default" id="id7">
+<figure class="align-default" id="id7">
 <img alt="Παράδειγμα λεκτικής ανάλυσης" src="../_images/lexing.png" />
-<p class="caption"><span class="caption-text">Παράδειγμα λεκτικής ανάλυσης</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
-</div>
+<figcaption>
+<p><span class="caption-text">Παράδειγμα λεκτικής ανάλυσης</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
 <p>Στην είσοδο έχουμε τους μεμονωμένους χαρακτήρες <code class="docutils literal notranslate"><span class="pre">&quot;int</span> <span class="pre">k;&quot;</span></code>. Η λεκτική ανάλυση ομαδοποιεί στα σύμβολα <code class="docutils literal notranslate"><span class="pre">KEYWORD_INT</span></code>, <code class="docutils literal notranslate"><span class="pre">SPACE</span></code>, <code class="docutils literal notranslate"><span class="pre">IDENTIFIER</span></code> και <code class="docutils literal notranslate"><span class="pre">SEMICOLON</span></code>. Παρατηρείστε ότι:</p>
 <ul class="simple">
 <li><p>Ένα σύμβολο (token) συνοδεύεται πάντοτε από το κείμενο που του αντιστοιχεί (lexeme).</p>
@@ -70,8 +73,8 @@
 <p>Θα πρέπει πάντοτε να θυμόμαστε ότι ένας λεκτικός αναλυτής <strong>δεν ασχολείται με τη σύνταξη</strong>: αυτό είναι αρμοδιότητα του επόμενου βήματος μεταγλώττισης, της <em>συντακτικής ανάλυσης</em>. Συνεπώς, εάν ο λεκτικός αναλυτής λάβει ως είσοδο <code class="docutils literal notranslate"><span class="pre">&quot;int</span> <span class="pre">33.56;&quot;</span></code>, θα πρέπει να εμφανίσει ως έξοδο τα <code class="docutils literal notranslate"><span class="pre">[KEYWORD_INT,</span> <span class="pre">FLOAT_CONSTANT,</span> <span class="pre">SEMICOLON]</span></code> χωρίς να παραχθεί σφάλμα.</p>
 </div>
 <p>Όπως είναι φανερό από τα προηγούμενα, χρειαζόμαστε έναν μηχανισμό για την αναγνώριση συγκεκριμένων <strong>σχεδίων κειμένου</strong> (text patterns). Ο μηχανισμός αυτός βασίζεται στη θεωρία των αυτομάτων πεπερασμένων καταστάσεων, τα οποία αναλύονται στη συνέχεια.</p>
-</div>
-<div class="section" id="id3">
+</section>
+<section id="id3">
 <h2>Αυτόματα πεπερασμένων καταστάσεων<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p>Από τη «Θεωρία Υπολογισμού»: Κάθε αυτόματο πεπερασμένων καταστάσεων (<em>finite automaton –FA</em>) είναι μια πεντάδα <span class="math notranslate nohighlight">\((Q, \Sigma, \delta, q_0, F)\)</span>, όπου</p>
 <ul class="simple">
@@ -99,7 +102,7 @@
 </li>
 </ul>
 <p>Σε μια τυπική εφαρμογή μεταγλωττιστή, το αλφάβητο <span class="math notranslate nohighlight">\(\Sigma\)</span> είναι όλοι οι χαρακτήρες που αναγνωρίζει η γλώσσα προγραμματισμού.</p>
-<div class="section" id="id4">
+<section id="id4">
 <h3>Χρήση στη λεκτική ανάλυση<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p>Πώς χρησιμοποιείται πρακτικά το αυτόματο <em>FA</em> στη λεκτική ανάλυση; Ο στόχος είναι να αναγνωρίσουμε συγκεκριμένες ακολουθίες (patterns) χαρακτήρων εισόδου. Κατά τη διαδικασία της αναγνώρισης θέλουμε να ξέρουμε σε κάθε στιγμή:</p>
 <ul class="simple">
@@ -107,10 +110,12 @@
 <li><p>Στο σημείο που βρισκόμαστε, ποιοι είναι οι επόμενοι έγκυροι χαρακτήρες;</p></li>
 </ul>
 <p>Αυτό μπορεί να γίνει με τη βοήθεια ενός αυτομάτου. Δείτε την εικόνα που ακολουθεί:</p>
-<div class="figure align-default" id="id8">
+<figure class="align-default" id="id8">
 <img alt="Αυτόματο πεπερασμένων καταστάσεων για τα  keywords long, term, test" src="../_images/longtermtest.png" />
-<p class="caption"><span class="caption-text">Αυτόματο πεπερασμένων καταστάσεων για τα  keywords long, term, test</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
-</div>
+<figcaption>
+<p><span class="caption-text">Αυτόματο πεπερασμένων καταστάσεων για τα  keywords long, term, test</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
 <p>Το αυτόματο αυτό είναι σχεδιασμένο για να αναγνωρίζει τρία keywords, τις λέξεις <cite>long</cite>, <cite>term</cite> και <cite>test</cite>.</p>
 <ul>
 <li><p>Στην αρχή της διαδικασίας βρισκόμαστε στην αρχική κατάσταση <span class="math notranslate nohighlight">\(s_0\)</span>.</p></li>
@@ -128,10 +133,12 @@
 </ul>
 <p>Συνοψίζοντας, είναι οι <em>καταστάσεις</em> του αυτομάτου που προσδιορίζουν σε <em>ποιο σημείο</em> της διαδικασίας αναγνώρισης βρισκόμαστε και <em>ποιοι χαρακτήρες</em> επιτρέπεται να ακολουθήσουν.</p>
 <p id="dfa-digits-ref">Ένα αυτόματο πεπερασμένων καταστάσεων μπορεί να αναγνωρίσει ακολουθίες χαρακτήρων με <em>απεριόριστο μήκος</em>. Αυτό επιτυγχάνεται με τη χρήση loops στις ακμές του αυτομάτου. Δείτε για παράδειγμα το αυτόματο που ακολουθεί, το οποίο αναγνωρίζει ακολουθίες ψηφίων <cite>0..9</cite> οποιουδήποτε μήκους:</p>
-<div class="figure align-default" id="id9">
+<figure class="align-default" id="id9">
 <img alt="Αυτόματο πεπερασμένων καταστάσεων για αναγνώριση σειράς ψηφίων" src="../_images/digits.png" />
-<p class="caption"><span class="caption-text">Αυτόματο πεπερασμένων καταστάσεων για αναγνώριση σειράς ψηφίων</span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
-</div>
+<figcaption>
+<p><span class="caption-text">Αυτόματο πεπερασμένων καταστάσεων για αναγνώριση σειράς ψηφίων</span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
 <div class="topic">
 <p class="topic-title">Μπορεί η αρχική κατάσταση να είναι κατάσταση αποδοχής;</p>
 <p>Θα μπορούσε το προηγούμενο αυτόματο να απλοποιηθεί μετατρέποντας την <span class="math notranslate nohighlight">\(s_0\)</span> σε κατάσταση αποδοχής με το loop <cite>0..9</cite> πάνω σε αυτήν; Η απάντηση είναι <strong>όχι</strong>: Αν το κάνατε, θα καταλήγατε σε ένα αυτόματο που θα αναγνώριζε το <em>τίποτα</em> (θα ήταν σε κατάσταση αποδοχής από την αρχή)!</p>
@@ -141,8 +148,8 @@
 <li><p>Για μέγεθος εισόδου <span class="math notranslate nohighlight">\(S\)</span> η απόδοση του αυτομάτου είναι <span class="math notranslate nohighlight">\(\mathcal{O}(S)\)</span>, ανεξάρτητα από τον αριθμό των καταστάσεων του αυτομάτου.</p></li>
 </ul>
 <p>Αυτό εξηγείται αν σκεφτούμε ότι για κάθε ένα νέο χαρακτήρα εισόδου κατά τη διάρκεια αναγνώρισης, το αυτόματο θα κάνει το πολύ μία μετάβαση (αν η μετάβαση είναι εφικτή).</p>
-</div>
-<div class="section" id="dfa-table-ref">
+</section>
+<section id="dfa-table-ref">
 <span id="id5"></span><h3>Πίνακας μεταβάσεων<a class="headerlink" href="#dfa-table-ref" title="Permalink to this headline">¶</a></h3>
 <p>Το αυτόματο πεπερασμένων καταστάσεων είναι μια θεωρητική μορφή. Για να υλοποιηθεί σε κάποια γλώσσα προγραμματισμού χρειαζόμαστε μια πιο συγκεκριμένη (concrete) μορφή. Ως ενδιάμεσο βήμα, μπορούμε να εκφράσουμε το αυτόματο με έναν πίνακα δύο διαστάσεων.</p>
 <table class="docutils align-default" id="id10">
@@ -305,9 +312,9 @@
 <p class="topic-title">Πόσες τιμές σε κάθε κελί του πίνακα;</p>
 <p>Κάθε κελί μπορεί να έχει <em>μία μόνο</em> (ή καμία) τιμή. Το αυτόματό μας είναι ντετερμινιστικό (αιτιοκρατικό). Αν υπήρχαν δύο ή περισσότερες τιμές, αυτό θα σήμαινε ότι με τον <strong>ίδιο χαρακτήρα εισόδου</strong> θα μπορούσαμε να μεταβούμε μη ντετερμινιστικά σε εναλλακτικές καταστάσεις.</p>
 </div>
-</div>
-</div>
-<div class="section" id="id6">
+</section>
+</section>
+<section id="id6">
 <h2>Ερωτήσεις<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic simple">
 <li><p>Λεκτικός αναλυτής για τη γλώσσα C δέχεται ως είσοδο το string <code class="docutils literal notranslate"><span class="pre">k</span> <span class="pre">;</span> <span class="pre">int</span></code>. Τι πρέπει να επιστρέψει;</p></li>
@@ -321,9 +328,9 @@
 </div></blockquote>
 <ol class="arabic" start="2">
 <li><p>Σας δίνεται το αυτόματο του επόμενου σχήματος, το οποίο αναγνωρίζει διψήφιους αριθμούς από το <code class="docutils literal notranslate"><span class="pre">00</span></code> έως το <code class="docutils literal notranslate"><span class="pre">19</span></code> για να το αξιολογήσετε. Τι λέτε;</p>
-<div class="figure align-default">
+<figure class="align-default">
 <img alt="Αυτόματο πεπερασμένων καταστάσεων για αναγνώριση 00..19" src="../_images/phony.png" />
-</div>
+</figure>
 </li>
 </ol>
 <blockquote>
@@ -356,8 +363,8 @@
 <ol class="arabic simple" start="5">
 <li><p>Σχεδιάστε τον πίνακα μεταβάσεων για το αυτόματο αναγνώρισης ψηφίων.</p></li>
 </ol>
-</div>
-</div>
+</section>
+</section>
 
 
           </div>

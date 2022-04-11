@@ -4,17 +4,18 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Παράρτημα Α: Πληροφορίες για την Python3 &#8212; Compiler Labs Doc 1.0 documentation</title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/mytheme.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mytheme.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Μεταγλωττιστές - Σημειώσεις Εργαστηρίου" href="../index.html" />
+    <link rel="prev" title="Λεκτικοί αναλυτές με το module plex" href="../03-plex/plex-intro.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -43,12 +44,12 @@
           <div class="body" role="main">
             
   <a class="reference internal image-reference" href="../_images/by-sa.png"><img alt="Creative Commons Attribution-ShareAlike 4.0 International License" src="../_images/by-sa.png" style="width: 80px;" /></a>
-<div class="section" id="python3">
+<section id="python3">
 <h1>Παράρτημα Α: Πληροφορίες για την Python3<a class="headerlink" href="#python3" title="Permalink to this headline">¶</a></h1>
 <p>Στο παράρτημα αυτό θα βρείτε τα βασικά στοιχεία για να δουλέψετε τοπικά στον υπολογιστή σας με την Python3 στο εργαστήριο των Μεταγλωττιστών.</p>
-<div class="section" id="install-ref">
+<section id="install-ref">
 <span id="id1"></span><h2>Εγκατάσταση της Python3<a class="headerlink" href="#install-ref" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="linux">
+<section id="linux">
 <h3>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h3>
 <p>Εάν το λειτουργικό σας σύστημα είναι Linux, έχετε κατά πάσα πιθανότητα τη γλώσσα διαθέσιμη ήδη. Βεβαιωθείτε ότι τρέχετε την 3η έκδοση της γλώσσας -συχνά πρέπει να δώσετε την εντολή <code class="docutils literal notranslate"><span class="pre">python3</span></code> (η απλή εντολή <code class="docutils literal notranslate"><span class="pre">python</span></code> συνήθως εκτελεί την προηγούμενη έκδοση 2). Δεν απαιτείται πολύ πρόσφατη έκδοση της γλώσσας, οτιδήποτε μεγαλύτερο από την 3.3 είναι αρκετό.</p>
 <p>Για παράδειγμα, μπορείτε να μπείτε στο interactive shell της python3 ως εξής (βγείτε με <code class="docutils literal notranslate"><span class="pre">exit()</span></code> ή <code class="docutils literal notranslate"><span class="pre">Ctrl-D</span></code> όταν τελειώσετε):</p>
@@ -63,8 +64,8 @@ Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;licen
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ python3 myprogram.py
 </pre></div>
 </div>
-</div>
-<div class="section" id="windows">
+</section>
+<section id="windows">
 <h3>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h3>
 <p>Εάν δεν έχετε ήδη εγκαταστήσει την Python3 στο σύστημά σας, πηγαίνετε <a class="reference external" href="https://www.python.org/downloads/">στη σελίδα της Python για download</a>. Βεβαιωθείτε ότι διαλέγετε την πιο πρόσφατη έκδοση 3, κατεβάστε και εκτελέστε τον installer. Θυμηθείτε να ενεργοποιήσετε κατά την εγκατάσταση τις δύο προτεινόμενες επιλογές:</p>
 <ul class="simple">
@@ -87,9 +88,9 @@ Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;licen
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>C:\Users\Testuser&gt;python -m idlelib
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="python-virtual-environments">
+</section>
+</section>
+<section id="python-virtual-environments">
 <span id="python-venv-ref"></span><h2>Python virtual environments<a class="headerlink" href="#python-virtual-environments" title="Permalink to this headline">¶</a></h2>
 <p>Στην Python, ένα <em>virtual environment</em> επιτρέπει την εγκατάσταση πακέτων σε προστατευμένα περιβάλλοντα, <strong>χωρίς να επεμβαίνετε στην κύρια εγκατάσταση της Python του υπολογιστή σας</strong>. Μπορείτε να έχετε διαφορετικά virtual environments ανά project, με διαφορετικές εκδόσεις της Python και άλλων βιβλιοθηκών, χωρίς το ένα να επηρεάζει τα άλλα.</p>
 <p>Συνοπτικά, τα βήματα για τη χρήση των virtual environments:</p>
@@ -101,9 +102,9 @@ Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;licen
 </ol>
 <p>Το βήμα (1) γίνεται μόνο μια φορά. Το βήμα (2) πρέπει να γίνεται πάντα πριν ξεκινήσουμε την εργασία μας στο επιλεγμένο περιβάλλον. Το βήμα (4) είναι προαιρετικό: μπορούμε απλά να κλείσουμε το terminal/command prompt.</p>
 <p><strong>Προσοχή:</strong> Αν τρέχετε την Python σε κάποιο IDE (αυτό δεν καλύπτεται στο εργαστήριο), θα πρέπει να φροντίσετε να ξεκινήσει μέσα από το ενεργοποιημένο virtual environment!</p>
-<div class="section" id="id2">
+<section id="id2">
 <h3>Οδηγίες για Linux<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="virtual-environment">
+<section id="virtual-environment">
 <h4>1. Δημιουργία ενός virtual environment<a class="headerlink" href="#virtual-environment" title="Permalink to this headline">¶</a></h4>
 <p>Λογικά θα πρέπει να υπάρχει η Python3 στον υπολογιστή σας. Ανοίξτε ένα τερματικό και μετακινηθείτε στον φάκελο που θέλετε να φτιάξετε το virtual environment (έστω ότι ο φάκελος λέγεται <code class="docutils literal notranslate"><span class="pre">test-folder</span></code>).</p>
 <p>Δώστε την εντολή:</p>
@@ -116,8 +117,8 @@ Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;licen
 sudo apt-get install python3-venv
 </pre></div>
 </div>
-</div>
-<div class="section" id="id3">
+</section>
+<section id="id3">
 <h4>2. Ενεργοποίηση του virtual environment<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
 <p>Θα πρέπει να γίνεται κάθε φορά, πριν ξεκινήσετε να δουλεύετε στο virtual environment.
 Όντας στο <code class="docutils literal notranslate"><span class="pre">test-folder</span></code>, δώστε την εντολή:</p>
@@ -133,8 +134,8 @@ sudo apt-get install python3-venv
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>python -m pip install --upgrade pip setuptools wheel
 </pre></div>
 </div>
-</div>
-<div class="section" id="id4">
+</section>
+<section id="id4">
 <h4>3. Εγκατάσταση βιβλιοθηκών και χρήση<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
 <p>Για να εγκαταστήσετε π.χ. τη βιβλιοθήκη Plex που θα χρησιμοποιήσουμε στο εργαστήριο, δώστε την εντολή:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>python -m pip install --upgrade https://mixstef.github.io/courses/compilers/Plex-2.0.1.tar.gz
@@ -150,18 +151,18 @@ Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;licen
 </pre></div>
 </div>
 <p>Το import του <code class="docutils literal notranslate"><span class="pre">plex</span></code> πρέπει να γίνεται χωρίς μήνυμα σφάλματος.</p>
-</div>
-<div class="section" id="id5">
+</section>
+<section id="id5">
 <h4>4. Απενεργοποίηση του virtual environment<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
 <p>Δεν απαιτείται συνήθως (μπορείτε απλά να κλείσετε το terminal) αλλά γίνεται ως εξής:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>deactivate
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="id6">
+</section>
+</section>
+<section id="id6">
 <h3>Οδηγίες για Windows<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id7">
+<section id="id7">
 <h4>1. Δημιουργία ενός virtual environment<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
 <p>Βεβαιωθείτε ότι έχετε εγκαταστήσει μια πρόσφατη έκδοση (3.3+) της Python στον υπολογιστή σας.</p>
 <p>Ανοίξτε ένα command prompt και μετακινηθείτε στο σημείο που θέλετε να φτιάξετε το virtual environment. Για παράδειγμα, φτιάξτε έναν φάκελο <code class="docutils literal notranslate"><span class="pre">test-folder</span></code> στον φάκελο του χρήστη σας:</p>
@@ -174,8 +175,8 @@ C:\Users\Myuser&gt;cd test-folder
 </pre></div>
 </div>
 <p>Αν όλα πάνε καλά, η εντολή θα επιστρέψει <strong>χωρίς μήνυμα λάθους</strong>. Στο σημείο που είσαστε θα πρέπει να υπάρχει υποφάκελος <code class="docutils literal notranslate"><span class="pre">my-venv</span></code> με την python3 εγκατεστημένη τοπικά.</p>
-</div>
-<div class="section" id="id8">
+</section>
+<section id="id8">
 <h4>2. Ενεργοποίηση του virtual environment<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
 <p>Θα πρέπει να γίνεται κάθε φορά, πριν ξεκινήσετε να δουλεύετε στο virtual environment.</p>
 <p>Όντας στον φάκελο <code class="docutils literal notranslate"><span class="pre">test-folder</span></code>, δώστε την εντολή:</p>
@@ -191,8 +192,8 @@ C:\Users\Myuser&gt;cd test-folder
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>python -m pip install --upgrade pip setuptools wheel
 </pre></div>
 </div>
-</div>
-<div class="section" id="id9">
+</section>
+<section id="id9">
 <h4>3. Εγκατάσταση βιβλιοθηκών και χρήση<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
 <p>Για να εγκαταστήσετε π.χ. τη βιβλιοθήκη Plex που θα χρησιμοποιήσουμε στο εργαστήριο, δώστε την εντολή:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>python -m pip install --upgrade https://mixstef.github.io/courses/compilers/Plex-2.0.1.tar.gz
@@ -207,20 +208,20 @@ Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;licen
 </pre></div>
 </div>
 <p>Το import του <code class="docutils literal notranslate"><span class="pre">plex</span></code> πρέπει να γίνεται χωρίς μήνυμα σφάλματος.</p>
-</div>
-<div class="section" id="id10">
+</section>
+<section id="id10">
 <h4>4. Απενεργοποίηση του virtual environment<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h4>
 <p>Δεν απαιτείται συνήθως (μπορείτε απλά να κλείσετε το command prompt) αλλά γίνεται ως εξής:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>deactivate
 </pre></div>
 </div>
-</div>
-</div>
-</div>
-<div class="section" id="id11">
+</section>
+</section>
+</section>
+<section id="id11">
 <h2>Βασικά παραδείγματα χρήσης της Python3<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
 <p>Στη συνέχεια παρουσιάζονται ορισμένα ενδιαφέροντα στοιχεία και παραδείγματα χρήσης της Python3. Αυτό που ακολουθεί δεν είναι tutorial, αν θέλετε κάτι τέτοιο μπορείτε να βρείτε εξαιρετικά κείμενα on-line.</p>
-<div class="section" id="strings">
+<section id="strings">
 <h3>Strings<a class="headerlink" href="#strings" title="Permalink to this headline">¶</a></h3>
 <p>Η Python προσφέρει τους κλασσικούς τύπους δεδομένων (int, string κλπ). Τα αντικείμενα των τύπων αυτών είναι <strong>immutable</strong>, δηλαδή <strong>δεν αλλάζουν τιμή</strong> (μπορούν όμως να δημιουργηθούν νέα αντικείμενα ανά πάσα στιγμή).</p>
 <p>Τα <strong>strings</strong> αποτελούν έναν πολύ εύχρηστο τύπο δεδομένων και μερικά χαρακτηριστικά τους δίνονται στη συνέχεια:</p>
@@ -269,11 +270,11 @@ Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;licen
 </pre></div>
 </div>
 <p>Τα αντικείμενα τύπου string διαθέτουν μια μεγάλη σειρά από <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#string-methods">χρήσιμες μεθόδους</a>.</p>
-</div>
-<div class="section" id="id13">
+</section>
+<section id="id13">
 <h3>Σύνθετα Αντικείμενα<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <p>Το δυνατό σημείο της Python είναι τα σύνθετα αντικείμενα που παρέχει, τα οποία χρησιμοποιούμε για όλες τις δομές που θέλουμε να υλοποιήσουμε. Τα δύο βασικότερα είναι οι <strong>λίστες (lists)</strong> και τα <strong>λεξικά (dictionaries)</strong>.  Και οι δύο αυτοί τύποι αντικειμένων είναι <strong>mutable</strong>, τα αντικείμενά τους δηλαδή μπορούν να αλλάξουν περιεχόμενα.</p>
-<div class="section" id="lists">
+<section id="lists">
 <h4>Λίστες (Lists)<a class="headerlink" href="#lists" title="Permalink to this headline">¶</a></h4>
 <p>Οι λίστες ανήκουν στην κατηγορία sequence (όπως και τα strings) και υλοποιούν μια διατεταγμένη συλλογή αντικειμένων. Τα αντικείμενα που περιέχονται στη λίστα μπορούν να είναι οποιουδήποτε τύπου (ακόμα και άλλες λίστες). Εφόσον μια λίστα είναι sequence, μπορούμε να πάρουμε μέρος της, όπως σε ένα string:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">li</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;abcd&#39;</span><span class="p">,</span><span class="s1">&#39;ef&#39;</span><span class="p">]</span>
@@ -358,8 +359,8 @@ Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;licen
 </pre></div>
 </div>
 </div></blockquote>
-</div>
-<div class="section" id="dictionaries">
+</section>
+<section id="dictionaries">
 <span id="apx-dicts-ref"></span><h4>Λεξικά (Dictionaries)<a class="headerlink" href="#dictionaries" title="Permalink to this headline">¶</a></h4>
 <p>Τα λεξικά (dictionaries) είναι τύπου mapping: ζεύγη αντιστοιχιών (κλειδιού-τιμής).</p>
 <ul class="simple">
@@ -404,10 +405,10 @@ Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;licen
 </pre></div>
 </div>
 <p>Τα λεξικά είναι δομές <strong>ειδικά βελτιστοποιημένες για αναζήτηση</strong> (searching). Εάν θέλουμε να αναζητήσουμε <strong>πολύ γρήγορα</strong> ένα στοιχείο μέσα σε ένα μεγάλο σύνολο, <strong>η χρήση λεξικού είναι MUST!!!</strong></p>
-</div>
-</div>
-</div>
-<div class="section" id="id14">
+</section>
+</section>
+</section>
+<section id="id14">
 <h2>Διαβάζοντας ένα ολόκληρο αρχείο κειμένου<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
 <p>Στο εργαστήριο επεξεργαζόμαστε το περιεχόμενο αρχείων απλού κειμένου. Στο παράδειγμα που ακολουθεί φαίνεται ο τρόπος για να διαβάσουμε <strong>ολόκληρο το περιεχόμενο</strong> ενός αρχείου κειμένου και να το τοποθετήσουμε σε μια μεταβλητή τύπου string.</p>
 <div class="topic">
@@ -426,8 +427,8 @@ Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;licen
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="file-line-processing-ref">
+</section>
+<section id="file-line-processing-ref">
 <span id="id15"></span><h2>Διαβάζοντας ένα αρχείο κειμένου γραμμή προς γραμμή<a class="headerlink" href="#file-line-processing-ref" title="Permalink to this headline">¶</a></h2>
 <p>Σε πολλές περιπτώσεις, η επεξεργασία αρχείων κειμένου γίνεται <strong>γραμμή προς γραμμή</strong>. Αυτό συμβαίνει όταν κάθε γραμμή του κειμένου (και η επεξεργασία της) είναι <em>ανεξάρτητη</em> από τις υπόλοιπες γραμμές. Ιδιαίτερα σημαντική είναι η επεξεργασία γραμμή προς γραμμή σε <em>πολύ μεγάλα</em> αρχεία (δισεκατομμύρια γραμμές).</p>
 <p>Σε αντίθεση με την ανάγνωση του συνόλου του αρχείου, εδώ έχουμε μια δομή επανάληψης <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">..</span> <span class="pre">in</span> <span class="pre">..</span></code> που μας παρέχει το περιεχόμενο κάθε γραμμής ανά επανάληψη. Στο παράδειγμα που ακολουθεί, τοποθετούμε το <code class="docutils literal notranslate"><span class="pre">for</span></code> μέσα σε μια δομή <code class="docutils literal notranslate"><span class="pre">with</span></code>:</p>
@@ -453,8 +454,8 @@ Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;licen
 </pre></div>
 </div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
           </div>

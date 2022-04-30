@@ -125,14 +125,23 @@
               <li>απλός πολλαπλασιασμός πινάκων (<a href="mmult-double.c">χωρίς threads</a>, <a href="mmult-double-threads.c">με threads</a>).</li>
             </ul>
           </li>
-          <li>22/3/2022: Προσπέλαση κοινών πόρων:
+          <li>22/3/2022: Προσπέλαση κοινών πόρων (mutex).
             <ul>
               <li>Παράδειγμα χρήσης κοινού πόρου (<a href="no-mutex-example-threads-BAD.c">χωρίς συγχρονισμό - ΛΑΘΟΣ!</a> και <a href="mutex-example-threads.c">μέσω mutex</a>).</li>
               <li>Sum reduction (i. <a href="sum-reduction-double.c">χωρίς threads</a>, ii. <a href="sum-reduction-double-threads.c">τελικό άθροισμα από main()</a> και iii. <a href="sum-reduction-double-threads-mutex.c">τελικό άθροισμα με mutex</a>).</li>
             </ul>
           </li>
-          <li>28/3/2022: Υποδείγματα κώδικα: <a href="no-barrier-example.c">φάσεις υπολογισμού χωρίς barrier</a>. <a href="prefix-sum-double.c">Prefix sum</a> και <a href="prefix-sum-double-pseudothreads.c">prefix sum με προετοιμασία για threads</a> (βλ. και <a href="prefix-sum.pdf">σχηματική εξήγηση</a>).</li>
-          <li>29/3/2022: Υπόδειγμα κώδικα: <a href="producer-consumer-BAD.c">Producer-consumer (ΛΑΘΟΣ!)</a>.</li>          
+          <li>28/3/2022: Συγχρονισμός με barrier.
+            <ul>
+              <li>Παράδειγμα: Φάσεις υπολογισμού (<a href="no-barrier-example.c">υπόδειγμα χωρίς barrier</a>, <a href="barrier-example.c">λύση με barrier</a>).</li>
+              <li>Υπολογισμός prefix sum (<a href="prefix-sum-double.c">σειριακό υπόδειγμα</a>, <a href="prefix-sum-double-pseudothreads.c">προετοιμασία για threads</a>, <a href="prefix-sum-double-threads.c">λύση με barrier</a>).</li>
+            </ul>
+          </li>
+          <li>29/3/2022: Condition variables.
+            <ul>
+              <li>Παράδειγμα producer-consumer (<a href="producer-consumer-BAD.c">χωρίς συγχρονισμό (ΛΑΘΟΣ!)</a>, <a href="producer-consumer-mutex.c">με mutex (cycle burner)</a>, <a href="producer-consumer-cv.c">λύση με condition variables</a>).</li>
+            </ul>
+          </li>          
         </ul>
 
 <!--
@@ -165,9 +174,26 @@
        <h4>Εργαστήρια ενότητας #4</h4>        
         <ul>
           <li>4/4/2022: Υποδείγματα κώδικα: <a href="hello-omp.c">hello-omp.c</a>, <a href="omp-private-shared-critical.c">omp-private-shared-critical.c</a>, <a href="omp-parallel-for-example.c">omp-parallel-for-example.c</a>.</li>
-          <li>5/4/2022: Υπόδειγμα κώδικα: <a href="pi-integral.c">pi-integral.c</a>.</li>
-          <li>11/4/2022: Υποδείγματα κώδικα: <a href="omp-print-abc.c">omp-print-abc.c</a>, <a href="fib-notasks.c">fib-notasks.c</a>, <a href="quicksort-simple.c">quicksort-simple.c</a>.</li>
-          <li>12/4/2022: Υπόδειγμα κώδικα: <a href="tasks-dependence-initial.c">tasks-dependence-initial.c</a>.</li>
+          <li>5/4/2022: Λειτουργίες τύπου reduction.
+            <ul> 
+              <li>Sum reduction (<a href="sum-reduction-double.c">σειριακό υπόδειγμα</a>, <a href="sum-reduction-double-omp.c">1η λύση με το OpenMP</a>, <a href="sum-reduction-double-omp-reduction.c">2η λύση με το OpenMP</a>).</li>
+              <li>Υπολογισμός του π (<a href="pi-integral.c">σειριακό υπόδειγμα</a>, <a href="pi-integral-omp.c">1η λύση με το OpenMP</a>, <a href="pi-integral-omp2.c">2η λύση με το OpenMP</a>).</li>
+            </ul>
+          </li>
+          <li>11/4/2022: OpenMP tasks.
+            <ul>
+              <li>Παράδειγμα κωδικα με tasks (<a href="omp-print-abc.c">χωρίς tasks</a>, <a href="omp-print-abc-tasks.c">με tasks</a>).</li>
+              <li>Υπολογισμός αριθμού fibonacci (<a href="fib-notasks.c">χωρίς tasks</a>, <a href="fib-tasks.c">με tasks</a>).</li>
+              <li>Quicksort με OpenMP tasks (<a href="quicksort-simple.c">σειριακό υπόδειγμα</a>, <a href="quicksort-tasks.c">με tasks</a>).</li>
+            </ul>
+          </li>
+          <li>12/4/2022: Tasks (συνέχεια), OpenMP και υποστήριξη SIMD (OpenMP 4.0+).
+            <ul>
+              <li>Αλληλεξαρτήσεις tasks (<a href="tasks-dependence-initial.c">σειριακός κώδικας</a>, <a href="tasks-dependence-BAD.c">tasks χωρίς τήρηση αλληλεξαρτήσεων (ΛΑΘΟΣ!)</a>, <a href="tasks-dependence-correct.c">tasks με ορισμό αλληλεξαρτήσεων</a>).</li>
+              <li>Υποστήριξη SIMD (πρόσθεση float vectors με <a href="vectoradd-float-simd.c">με SIMD (SSE) εντολές</a> και με <a href="vectoradd-float-simd-threads.c">threads + SSE</a>, παράδειγμα <a href="filter-int-simd.c">filtering με συνθήκη</a>).</li>
+              <li>SIMD Reduction (άθροισμα με <a href="sum-float-simd.c">με SIMD (SSE) εντολές</a> και με <a href="sum-float-simd-threads.c">threads + SSE</a>).</li>
+            </ul> 
+          </li>
         </ul>
 
 <!--
@@ -182,11 +208,20 @@
 -->
       </div>
 
-<!--
+
       <div class="contentbin">
         <h4>Ενότητα #5</h4>
         Intel Threading Building Blocks (TBB).
 
+        <p><em>Διαφάνειες: <a href="tbb1.pdf">Εισαγωγή στη βιβλιοθήκη TBB</a></em></p>        
+
+       <h4>Εργαστήρια ενότητας #5</h4>        
+        <ul>
+          <li>3/5/2022: Υποδείγματα κώδικα: <a href="lambda-example.cpp">lambda-example.cpp</a>, <a href="testload.cpp">testload.cpp</a>, <a href="triad.cpp">triad.cpp</a>, <a href="matmul.cpp">matmul.cpp</a> </li>
+        </ul>
+        
+        
+<!--
        <p>&nbsp;</p>
        
        <h4>Εργαστήριο 28/5/2021:</h4>        
@@ -197,10 +232,12 @@
        <h4>Προηγούμενα εργαστήρια ενότητας #5</h4>        
        <ul>
           <li> 25/5/2021: <a href="https://gist.github.com/mixstef/914a5d758b53fc67c19e96104fd1e67a">Αρχικά παραδείγματα με το ΤΒΒ</a>.</li>     
-       </ul>        
+       </ul>   
+-->       
+            
       </div>
 
-
+<!--
       <div class="contentbin">
         <h4>Εργασία&nbsp;#2</h4>
         <ul>

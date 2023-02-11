@@ -1,0 +1,327 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Υλοποίηση αυτομάτων DFA μέσω Python &#8212; Compiler Labs Doc 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mytheme.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Παράρτημα Α: Πληροφορίες για την Python3" href="../appendix-python/module1.html" />
+    <link rel="prev" title="Εισαγωγή στη λεκτική ανάλυση" href="module1.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+<div class="pageheader">
+     <img src=../_static/banner.gif alt="mistral"/>
+     <div>
+        <h4>Τμήμα Πληροφορικής - Ιόνιο Πανεπιστήμιο</h4>
+        <h2>Μεταγλωττιστές</h2>
+        <h4>Εαρινό Εξάμηνο 2022-23</h4>        
+        <h5>Μ.Στεφανιδάκης</h5>
+      </div>    
+</div>
+
+
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <a class="reference internal image-reference" href="../_images/by-sa.png"><img alt="Creative Commons Attribution-ShareAlike 4.0 International License" src="../_images/by-sa.png" style="width: 80px;" /></a>
+<section id="dfa-python">
+<h1>Υλοποίηση αυτομάτων DFA μέσω Python<a class="headerlink" href="#dfa-python" title="Permalink to this headline">¶</a></h1>
+<p>Στα παραδείγματα και τις ασκήσεις θα χρησιμοποιήσουμε την κλάση <code class="docutils literal notranslate"><span class="pre">DFA</span></code> από τις βιβλιοθήκες Python του εργαστηρίου. Η κλάση αυτή παρέχει ένα απλό interface για την κατασκευή και λειτουργία αυτομάτων DFA.</p>
+<section id="dfa">
+<h2>Κατασκευή και χρήση αυτομάτου DFA<a class="headerlink" href="#dfa" title="Permalink to this headline">¶</a></h2>
+<p>Αρχικά κάνουμε import την κλάση <code class="docutils literal notranslate"><span class="pre">DFA</span></code> στο πρόγραμμά μας:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">compilerlabs</span> <span class="kn">import</span> <span class="n">DFA</span>
+</pre></div>
+</div>
+<div class="topic">
+<p class="topic-title">Η προηγούμενη εντολή δημιουργεί σφάλμα;</p>
+<p>Αν χρησιμοποιείτε τον δικό σας υπολογιστή, μάλλον δεν έχετε εγκαταστήσει <a class="reference internal" href="../appendix-python/module1.html#instal-lab-libs-ref"><span class="std std-ref">τις βιβλιοθήκες του εργαστηρίου</span></a>!</p>
+</div>
+<p>Αμέσως μετά δημιουργούμε ένα αυτόματο, στιγμιότυπο της κλάσης <code class="docutils literal notranslate"><span class="pre">DFA</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">test_dfa</span> <span class="o">=</span> <span class="n">DFA</span><span class="p">(</span><span class="s1">&#39;s0&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Το υποχρεωτικό όρισμα στην <code class="docutils literal notranslate"><span class="pre">DFA()</span></code> είναι το όνομα της <em>αρχικής κατάστασης</em> του αυτομάτου (εδώ <code class="docutils literal notranslate"><span class="pre">s0</span></code>).</p>
+<p>Στη συνέχεια, μπορούμε να ορίσουμε μεταβάσεις του αυτομάτου μέσω της μεθόδου <code class="docutils literal notranslate"><span class="pre">transition(fromstate,next_input,tostate)</span></code> όπου <code class="docutils literal notranslate"><span class="pre">fromstate</span></code> είναι η κατάσταση απ’ όπου, με την εμφάνιση του χαρακτήρα <code class="docutils literal notranslate"><span class="pre">next_input</span></code>, μεταβαίνουμε στη νέα κατάσταση <code class="docutils literal notranslate"><span class="pre">tostate</span></code>, π.χ.:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">test_dfa</span><span class="o">.</span><span class="n">transition</span><span class="p">(</span><span class="s1">&#39;s0&#39;</span><span class="p">,</span><span class="s1">&#39;t&#39;</span><span class="p">,</span><span class="s1">&#39;s1&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Μπορούμε ακόμα να δώσουμε μια λίστα χαρακτήρων για μετάβαση, π.χ.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">test_dfa</span><span class="o">.</span><span class="n">transition</span><span class="p">(</span><span class="s1">&#39;s1&#39;</span><span class="p">,[</span><span class="s1">&#39;0&#39;</span><span class="p">,</span><span class="s1">&#39;1&#39;</span><span class="p">,</span><span class="s1">&#39;2&#39;</span><span class="p">],</span><span class="s1">&#39;s2&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Για τις καταστάσεις αποδοχής, μπορούμε να ορίσουμε το σύμβολο (token) που επιστρέφεται:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">test_dfa</span><span class="o">.</span><span class="n">accept</span><span class="p">(</span><span class="s1">&#39;s2&#39;</span><span class="p">,</span><span class="s1">&#39;TOK1&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Η χρήση της μεθόδου <code class="docutils literal notranslate"><span class="pre">accept(state,token)</span></code> είναι αυτή που ορίζει μια κατάσταση ως κατάσταση αποδοχής.</p>
+<p>Όταν ορίσουμε τις μεταβάσεις και τις καταστάσεις αποδοχής του αυτομάτου, μπορούμε να το χρησιμοποιήσουμε για να ελέγξουμε ταιριάσματα σε strings. Η μέθοδος που παρέχεται ονομάζεται <code class="docutils literal notranslate"><span class="pre">scan(text)</span></code>, όπου <code class="docutils literal notranslate"><span class="pre">text</span></code> είναι το string που θα προσπαθήσουμε να ταιριάξουμε:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">token</span><span class="p">,</span><span class="n">lexeme</span> <span class="o">=</span> <span class="n">test_dfa</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="s1">&#39;t2&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Όπως φαίνεται στο προηγούμενο παράδειγμα, η μέθοδος επιστρέφει το token που αναγνωρίστηκε (ή None αν δεν υπάρχει ταίριασμα) και το αντίστοιχο κείμενο (ή το κενό string αν δεν αναγνωρίστηκε κάτι).</p>
+<section id="id1">
+<h3>Παράδειγμα<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>Στη συνέχεια θα δούμε την υλοποίηση του γνωστού παραδείγματος του αυτομάτου με τα τρία keywords, τις λέξεις <cite>long</cite>, <cite>term</cite> και <cite>test</cite> του επόμενου σχήματος:</p>
+<figure class="align-default" id="id6">
+<img alt="Αυτόματο πεπερασμένων καταστάσεων για τα  keywords long, term, test" src="../_images/longtermtest.png" />
+<figcaption>
+<p><span class="caption-text">Το αυτόματο πεπερασμένων καταστάσεων για τα  keywords long, term, test</span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>Η υλοποίηση μέσω της κλάσης <code class="docutils literal notranslate"><span class="pre">DFA</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">compilerlabs</span> <span class="kn">import</span> <span class="n">DFA</span>
+
+<span class="n">dfa1</span> <span class="o">=</span> <span class="n">DFA</span><span class="p">(</span><span class="s1">&#39;s0&#39;</span><span class="p">)</span>
+
+<span class="n">dfa1</span><span class="o">.</span><span class="n">transition</span><span class="p">(</span><span class="s1">&#39;s0&#39;</span><span class="p">,</span><span class="s1">&#39;t&#39;</span><span class="p">,</span><span class="s1">&#39;s1&#39;</span><span class="p">)</span>
+<span class="n">dfa1</span><span class="o">.</span><span class="n">transition</span><span class="p">(</span><span class="s1">&#39;s0&#39;</span><span class="p">,</span><span class="s1">&#39;l&#39;</span><span class="p">,</span><span class="s1">&#39;s2&#39;</span><span class="p">)</span>
+<span class="n">dfa1</span><span class="o">.</span><span class="n">transition</span><span class="p">(</span><span class="s1">&#39;s1&#39;</span><span class="p">,</span><span class="s1">&#39;e&#39;</span><span class="p">,</span><span class="s1">&#39;s3&#39;</span><span class="p">)</span>
+<span class="n">dfa1</span><span class="o">.</span><span class="n">transition</span><span class="p">(</span><span class="s1">&#39;s3&#39;</span><span class="p">,</span><span class="s1">&#39;s&#39;</span><span class="p">,</span><span class="s1">&#39;s4&#39;</span><span class="p">)</span>
+<span class="n">dfa1</span><span class="o">.</span><span class="n">transition</span><span class="p">(</span><span class="s1">&#39;s4&#39;</span><span class="p">,</span><span class="s1">&#39;t&#39;</span><span class="p">,</span><span class="s1">&#39;s5&#39;</span><span class="p">)</span>
+<span class="n">dfa1</span><span class="o">.</span><span class="n">transition</span><span class="p">(</span><span class="s1">&#39;s3&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">,</span><span class="s1">&#39;s6&#39;</span><span class="p">)</span>
+<span class="n">dfa1</span><span class="o">.</span><span class="n">transition</span><span class="p">(</span><span class="s1">&#39;s6&#39;</span><span class="p">,</span><span class="s1">&#39;m&#39;</span><span class="p">,</span><span class="s1">&#39;s7&#39;</span><span class="p">)</span>
+<span class="n">dfa1</span><span class="o">.</span><span class="n">transition</span><span class="p">(</span><span class="s1">&#39;s2&#39;</span><span class="p">,</span><span class="s1">&#39;o&#39;</span><span class="p">,</span><span class="s1">&#39;s8&#39;</span><span class="p">)</span>
+<span class="n">dfa1</span><span class="o">.</span><span class="n">transition</span><span class="p">(</span><span class="s1">&#39;s8&#39;</span><span class="p">,</span><span class="s1">&#39;n&#39;</span><span class="p">,</span><span class="s1">&#39;s9&#39;</span><span class="p">)</span>
+<span class="n">dfa1</span><span class="o">.</span><span class="n">transition</span><span class="p">(</span><span class="s1">&#39;s9&#39;</span><span class="p">,</span><span class="s1">&#39;g&#39;</span><span class="p">,</span><span class="s1">&#39;s10&#39;</span><span class="p">)</span>
+
+<span class="n">dfa1</span><span class="o">.</span><span class="n">accept</span><span class="p">(</span><span class="s1">&#39;s5&#39;</span><span class="p">,</span><span class="s1">&#39;TEST_TOKEN&#39;</span><span class="p">)</span>
+<span class="n">dfa1</span><span class="o">.</span><span class="n">accept</span><span class="p">(</span><span class="s1">&#39;s7&#39;</span><span class="p">,</span><span class="s1">&#39;TERM_TOKEN&#39;</span><span class="p">)</span>
+<span class="n">dfa1</span><span class="o">.</span><span class="n">accept</span><span class="p">(</span><span class="s1">&#39;s10&#39;</span><span class="p">,</span><span class="s1">&#39;LONG_TOKEN&#39;</span><span class="p">)</span>
+
+<span class="n">token</span><span class="p">,</span><span class="n">lexeme</span> <span class="o">=</span> <span class="n">dfa1</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="s1">&#39;long&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">token</span><span class="p">,</span><span class="n">lexeme</span><span class="p">)</span>             <span class="c1"># prints LONG_TOKEN long</span>
+
+<span class="n">token</span><span class="p">,</span><span class="n">lexeme</span> <span class="o">=</span> <span class="n">dfa1</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="s1">&#39;term&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">token</span><span class="p">,</span><span class="n">lexeme</span><span class="p">)</span>             <span class="c1"># prints TERM_TOKEN term</span>
+
+<span class="n">token</span><span class="p">,</span><span class="n">lexeme</span> <span class="o">=</span> <span class="n">dfa1</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">token</span><span class="p">,</span><span class="n">lexeme</span><span class="p">)</span>             <span class="c1"># prints TEST_TOKEN test</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h3>Ομαδοποίηση χαρακτήρων<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>Ας εξετάσουμε την υλοποίηση του αυτομάτου DFA το οποίο αναγνωρίζει ακολουθίες ψηφίων <cite>0..9</cite> οποιουδήποτε μήκους:</p>
+<figure class="align-default" id="id7">
+<img alt="Αυτόματο πεπερασμένων καταστάσεων για αναγνώριση σειράς ψηφίων" src="../_images/digits.png" />
+<figcaption>
+<p><span class="caption-text">Αυτόματο πεπερασμένων καταστάσεων για αναγνώριση σειράς ψηφίων</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>Για να περιγράψουμε τη μετάβαση από το <span class="math notranslate nohighlight">\(s_0\)</span> στο <span class="math notranslate nohighlight">\(s_1\)</span> θα μπορούσαμε να γράψουμε:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">num_dfa</span><span class="o">.</span><span class="n">transition</span><span class="p">(</span><span class="s1">&#39;s0&#39;</span><span class="p">,[</span><span class="s1">&#39;0&#39;</span><span class="p">,</span><span class="s1">&#39;1&#39;</span><span class="p">,</span><span class="s1">&#39;2&#39;</span><span class="p">,</span><span class="s1">&#39;3&#39;</span><span class="p">,</span><span class="s1">&#39;4&#39;</span><span class="p">,</span><span class="s1">&#39;5&#39;</span><span class="p">,</span><span class="s1">&#39;6&#39;</span><span class="p">,</span><span class="s1">&#39;7&#39;</span><span class="p">,</span><span class="s1">&#39;8&#39;</span><span class="p">,</span><span class="s1">&#39;9&#39;</span><span class="p">,],</span><span class="s1">&#39;s1&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Για να διευκολύνει την κατασκευή, το interface της κλάσης <code class="docutils literal notranslate"><span class="pre">DFA</span></code> επιτρέπει την προαιρετική χρήση ενός «προ-επεξεργαστή» (preprocessor) των χαρακτήρων εισόδου, ο οποίος μπορεί να ομαδοποιήσει διάφορους χαρακτήρες σε μια και μόνο αναγνωριστική ετικέτα. Στο παράδειγμα του αυτομάτου των αριθμητικών ψηφίων μπορούμε να ορίσουμε:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">preproc</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">c</span><span class="o">&gt;=</span><span class="s1">&#39;0&#39;</span> <span class="ow">and</span> <span class="n">c</span><span class="o">&lt;=</span><span class="s1">&#39;9&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;DIGIT&#39;</span>
+    <span class="k">return</span> <span class="n">c</span>
+</pre></div>
+</div>
+<p>Το όνομα της συνάρτησης του preprocessor περνάει ως δεύτερο προαιρετικό όρισμα στην κατασκευή του DFA:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dfa2</span> <span class="o">=</span> <span class="n">DFA</span><span class="p">(</span><span class="s1">&#39;s0&#39;</span><span class="p">,</span><span class="n">preproc</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Έχοντας ορίσει τον preprocessor της εισόδου όπως πριν, το αυτόματο μπορεί να κατασκευαστεί ως εξής:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dfa2</span><span class="o">.</span><span class="n">transition</span><span class="p">(</span><span class="s1">&#39;s0&#39;</span><span class="p">,</span><span class="s1">&#39;DIGIT&#39;</span><span class="p">,</span><span class="s1">&#39;s1&#39;</span><span class="p">)</span>
+<span class="n">dfa2</span><span class="o">.</span><span class="n">transition</span><span class="p">(</span><span class="s1">&#39;s1&#39;</span><span class="p">,</span><span class="s1">&#39;DIGIT&#39;</span><span class="p">,</span><span class="s1">&#39;s1&#39;</span><span class="p">)</span>
+
+<span class="n">dfa2</span><span class="o">.</span><span class="n">accept</span><span class="p">(</span><span class="s1">&#39;s1&#39;</span><span class="p">,</span><span class="s1">&#39;NUMBER_TOKEN&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Παράδειγμα αναζήτησης:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">token</span><span class="p">,</span><span class="n">lexeme</span> <span class="o">=</span> <span class="n">dfa2</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="s1">&#39;123&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">token</span><span class="p">,</span><span class="n">lexeme</span><span class="p">)</span>             <span class="c1"># prints NUMBER_TOKEN 123</span>
+</pre></div>
+</div>
+<div class="topic">
+<p class="topic-title">Πότε δεν γίνεται ομαδοποίηση;</p>
+<p>Όταν κάποιον χαρακτήρα μιας ομάδας τον χειριζόμαστε διαφορετικά από τους υπόλοιπους σε κάποια από τις μεταβάσεις, τότε η προσθήκη του στην ομάδα δεν είναι δυνατή.</p>
+</div>
+</section>
+</section>
+<section id="dfa-intfloat-ref">
+<span id="id3"></span><h2>Διαφορές από το θεωρητικό αυτόματο<a class="headerlink" href="#dfa-intfloat-ref" title="Permalink to this headline">¶</a></h2>
+<p>Το θεωρητικό αυτόματο (D)FA θα προσπαθήσει να ταιριάξει <em>όλους</em> τους χαρακτήρες εισόδου, σύμφωνα με τη λογική:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>για κάθε χαρακτήρα εισόδου c {
+    αν υπάρχει μετάβαση από την τρέχουσα κατάσταση με τον c {
+        μετάβαση στη νέα κατάσταση
+    }
+    αλλιώς {
+        σφάλμα
+    }
+}
+
+αν στο τέλος το αυτόματο βρίσκεται σε κατάσταση αποδοχής {
+    επιστροφή του αντίστοιχου συμβόλου (token)
+}
+αλλιώς {
+    σφάλμα
+}
+</pre></div>
+</div>
+<p>Για παράδειγμα, το θεωρητικό αυτόματο που αναγνωρίζει σειρές από αριθμητικά ψηφία (0..9) θα επιστρέψει σφάλμα τόσο στο <code class="docutils literal notranslate"><span class="pre">a123</span></code> όσο και στο <code class="docutils literal notranslate"><span class="pre">123a</span></code>. Η προηγούμενη λειτουργία εξυπηρετεί πρακτικά μόνο αν θέλουμε να <em>ελέγξουμε την εγκυρότητα</em> μιας εισόδου (input validation).</p>
+<p>Υπάρχουν όμως και άλλες πιθανές χρήσεις ενός αυτομάτου, όπως:</p>
+<ul class="simple">
+<li><p><em>Αναζήτηση (search)</em>: εδώ ψάχνουμε για την εμφάνιση ενός σχεδίου κειμένου μέσα σε ένα μεγαλύτερο κείμενο. Π.χ. στην είσοδο <code class="docutils literal notranslate"><span class="pre">123a</span></code> θα θέλαμε να αναγνωρίσουμε το <code class="docutils literal notranslate"><span class="pre">123</span></code> μόνο.</p></li>
+<li><p><em>Μετατροπή σε σύμβολα (tokenization)</em>: η κλασσική λειτουργία στο πρώτο βήμα ενός μεταγλωττιστή, όπου επαναληπτικά αναγνωρίζουμε σχέδια κειμένου σε ένα μεγαλύτερο κείμενο. Π.χ. από το <code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">k;</span></code> να αναγνωρίσουμε τα σύμβολα (tokens) <code class="docutils literal notranslate"><span class="pre">KEYWORD_INT</span></code>, <code class="docutils literal notranslate"><span class="pre">SPACE</span></code>, <code class="docutils literal notranslate"><span class="pre">IDENTIFIER</span></code> και <code class="docutils literal notranslate"><span class="pre">SEMICOLON</span></code>.</p></li>
+</ul>
+<p>Για να επιτρέψει την υλοποίηση όλων των παραπάνω, το αυτόματο της κλάσης <code class="docutils literal notranslate"><span class="pre">DFA</span></code> λειτουργεί ως εξής:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>για κάθε χαρακτήρα εισόδου c {
+    αν υπάρχει μετάβαση από την τρέχουσα κατάσταση με τον c {
+        μετάβαση στη νέα κατάσταση
+    }
+    αλλιώς {
+        αν το αυτόματο βρίσκεται σε κατάσταση αποδοχής {
+            επιστροφή του αντίστοιχου συμβόλου (token)
+        }
+        αλλιώς {
+            σφάλμα
+        }
+    }
+}
+
+αν στο τέλος το αυτόματο βρίσκεται σε κατάσταση αποδοχής {
+    επιστροφή του αντίστοιχου συμβόλου (token)
+}
+αλλιώς {
+    σφάλμα
+}
+</pre></div>
+</div>
+<p>Στο παράδειγμα του αυτομάτου των αριθμητικών ψηφίων, θα αναγνωριστεί με επιτυχία το μέρος <code class="docutils literal notranslate"><span class="pre">123</span></code> της εισόδου <code class="docutils literal notranslate"><span class="pre">123a</span></code>.</p>
+<section id="id4">
+<h3>Προαιρετικά ταιριάσματα<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>Έστω ότι υλοποιείται το αυτόματο της επόμενης εικόνας:</p>
+<figure class="align-default" id="id8">
+<img alt="Αυτόματο για την αναγνώριση int και float αριθμών" src="../_images/intfloat.png" />
+<figcaption>
+<p><span class="caption-text">Αυτόματο για την αναγνώριση int και float αριθμών</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>Ο στόχος είναι η αναγνώριση ακεραίων αριθμών (στην κατάσταση <span class="math notranslate nohighlight">\(s_1\)</span>) και αριθμών με δεκαδικό μέρος (στην κατάσταση αποδοχής <span class="math notranslate nohighlight">\(s_3\)</span>).</p>
+<p>Εάν το string εισόδου είναι το <code class="docutils literal notranslate"><span class="pre">'123.'</span></code>, θα θέλαμε να αναγνωρίσουμε το <code class="docutils literal notranslate"><span class="pre">123</span></code> ως ακέραιο. Κάτι τέτοιο δεν θα συμβεί όμως κανονικά, γιατί στο τέλος της αναζήτησης βρισκόμαστε στην κατάσταση <span class="math notranslate nohighlight">\(s_2\)</span>, η οποία <em>δεν είναι κατάσταση αποδοχής</em>.</p>
+<p>Για να διορθωθεί αυτή η ατέλεια έχει εισαχθεί στη <code class="docutils literal notranslate"><span class="pre">scan()</span></code> η δυνατότητα <em>μνήμης</em>, όπου φυλάσσεται η <em>τελευταία κατάσταση αποδοχής</em> όπου έχει βρεθεί το αυτόματο. Αυτή η κατάσταση (αν υπάρχει) επιστρέφεται όταν δεν μπορούμε να προχωρήσουμε άλλο:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">preproc</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">c</span><span class="o">&gt;=</span><span class="s1">&#39;0&#39;</span> <span class="ow">and</span> <span class="n">c</span><span class="o">&lt;=</span><span class="s1">&#39;9&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;DIGIT&#39;</span>
+    <span class="k">return</span> <span class="n">c</span>
+
+<span class="n">dfa3</span> <span class="o">=</span> <span class="n">DFA</span><span class="p">(</span><span class="s1">&#39;s0&#39;</span><span class="p">,</span><span class="n">preproc</span><span class="p">)</span>
+
+<span class="n">dfa3</span><span class="o">.</span><span class="n">transition</span><span class="p">(</span><span class="s1">&#39;s0&#39;</span><span class="p">,</span><span class="s1">&#39;DIGIT&#39;</span><span class="p">,</span><span class="s1">&#39;s1&#39;</span><span class="p">)</span>
+<span class="n">dfa3</span><span class="o">.</span><span class="n">transition</span><span class="p">(</span><span class="s1">&#39;s1&#39;</span><span class="p">,</span><span class="s1">&#39;DIGIT&#39;</span><span class="p">,</span><span class="s1">&#39;s1&#39;</span><span class="p">)</span>
+<span class="n">dfa3</span><span class="o">.</span><span class="n">transition</span><span class="p">(</span><span class="s1">&#39;s1&#39;</span><span class="p">,</span><span class="s1">&#39;.&#39;</span><span class="p">,</span><span class="s1">&#39;s2&#39;</span><span class="p">)</span>
+<span class="n">dfa3</span><span class="o">.</span><span class="n">transition</span><span class="p">(</span><span class="s1">&#39;s2&#39;</span><span class="p">,</span><span class="s1">&#39;DIGIT&#39;</span><span class="p">,</span><span class="s1">&#39;s3&#39;</span><span class="p">)</span>
+<span class="n">dfa3</span><span class="o">.</span><span class="n">transition</span><span class="p">(</span><span class="s1">&#39;s3&#39;</span><span class="p">,</span><span class="s1">&#39;DIGIT&#39;</span><span class="p">,</span><span class="s1">&#39;s3&#39;</span><span class="p">)</span>
+
+<span class="n">dfa3</span><span class="o">.</span><span class="n">accept</span><span class="p">(</span><span class="s1">&#39;s1&#39;</span><span class="p">,</span><span class="s1">&#39;INT_TOKEN&#39;</span><span class="p">)</span>
+<span class="n">dfa3</span><span class="o">.</span><span class="n">accept</span><span class="p">(</span><span class="s1">&#39;s3&#39;</span><span class="p">,</span><span class="s1">&#39;FLOAT_TOKEN&#39;</span><span class="p">)</span>
+
+<span class="n">token</span><span class="p">,</span><span class="n">lexeme</span> <span class="o">=</span> <span class="n">dfa3</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="s1">&#39;123&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">token</span><span class="p">,</span><span class="n">lexeme</span><span class="p">)</span>             <span class="c1"># prints INT_TOKEN 123</span>
+<span class="n">token</span><span class="p">,</span><span class="n">lexeme</span> <span class="o">=</span> <span class="n">dfa3</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="s1">&#39;123.&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">token</span><span class="p">,</span><span class="n">lexeme</span><span class="p">)</span>             <span class="c1"># prints INT_TOKEN 123</span>
+<span class="n">token</span><span class="p">,</span><span class="n">lexeme</span> <span class="o">=</span> <span class="n">dfa3</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="s1">&#39;123.4&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">token</span><span class="p">,</span><span class="n">lexeme</span><span class="p">)</span>             <span class="c1"># prints FLOAT_TOKEN 123.4</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id5">
+<h2>Ασκήσεις<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Υλοποιήστε μέσω της κλάσης <code class="docutils literal notranslate"><span class="pre">DFA</span></code> αυτόματο για την αναγνώριση ακέραιων και δεκαδικών αριθμών οποιουδήποτε μήκους στις εξής μορφές:</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">1234</span></code> (επιστρεφόμενο σύμβολο: <code class="docutils literal notranslate"><span class="pre">INT_TOKEN</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">123.48</span></code>  (επιστρεφόμενο σύμβολο: <code class="docutils literal notranslate"><span class="pre">FLOAT_TOKEN</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">123.48e56</span></code>  (επιστρεφόμενο σύμβολο: <code class="docutils literal notranslate"><span class="pre">SCIENTIFIC_TOKEN</span></code>)</p></li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>Υλοποιήστε μέσω μέσω της κλάσης <code class="docutils literal notranslate"><span class="pre">DFA</span></code> αυτόματο για την αναγνώριση έγκυρων μορφών 24ωρης ώρας (<code class="docutils literal notranslate"><span class="pre">00:00</span></code> έως <code class="docutils literal notranslate"><span class="pre">23:59</span></code>).</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p>Η ώρα μπορεί να εκφράζεται με ένα ή δύο ψηφία (π.χ. <code class="docutils literal notranslate"><span class="pre">3:45</span></code> αλλά και <code class="docutils literal notranslate"><span class="pre">03:45</span></code>).</p></li>
+<li><p>Τα λεπτά θα έχουν πάντα δύο ψηφία.</p></li>
+<li><p>Κάθε άκυρη μορφή ώρας <strong>δεν πρέπει να αναγνωρίζεται</strong> (π.χ. <code class="docutils literal notranslate"><span class="pre">31:13</span></code> ή <code class="docutils literal notranslate"><span class="pre">9:72</span></code>).</p></li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>Υλοποιήστε μέσω μέσω της κλάσης <code class="docutils literal notranslate"><span class="pre">DFA</span></code> αυτόματο για την αναγνώριση αριθμών μητρώου φοιτητών στη μορφή <code class="docutils literal notranslate"><span class="pre">Π2013000</span></code> για τα έτη 2004 έως 2020.</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p>Προηγείται το γράμμα <code class="docutils literal notranslate"><span class="pre">Π</span></code>.</p></li>
+<li><p>Ακολουθεί το έτος με τέσσερα ψηφία (2004 έως και 2020).</p></li>
+<li><p>Στο τέλος είναι ο αριθμός του φοιτητή με τρία ψηφία.</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Περιεχόμενα</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Υλοποίηση αυτομάτων DFA μέσω Python</a><ul>
+<li><a class="reference internal" href="#dfa">Κατασκευή και χρήση αυτομάτου DFA</a><ul>
+<li><a class="reference internal" href="#id1">Παράδειγμα</a></li>
+<li><a class="reference internal" href="#id2">Ομαδοποίηση χαρακτήρων</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dfa-intfloat-ref">Διαφορές από το θεωρητικό αυτόματο</a><ul>
+<li><a class="reference internal" href="#id4">Προαιρετικά ταιριάσματα</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id5">Ασκήσεις</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

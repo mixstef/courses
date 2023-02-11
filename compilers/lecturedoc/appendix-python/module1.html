@@ -15,7 +15,7 @@
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Λεκτικοί αναλυτές με το module plex" href="../03-plex/plex-intro.html" />
+    <link rel="prev" title="Υλοποίηση αυτομάτων (DFA) μέσω Python" href="../01-dfa/dfa-in-python.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -28,7 +28,7 @@
      <div>
         <h4>Τμήμα Πληροφορικής - Ιόνιο Πανεπιστήμιο</h4>
         <h2>Μεταγλωττιστές</h2>
-        <h4>Εαρινό Εξάμηνο 2021-22</h4>        
+        <h4>Εαρινό Εξάμηνο 2022-23</h4>        
         <h5>Μ.Στεφανιδάκης</h5>
       </div>    
 </div>
@@ -46,16 +46,16 @@
   <a class="reference internal image-reference" href="../_images/by-sa.png"><img alt="Creative Commons Attribution-ShareAlike 4.0 International License" src="../_images/by-sa.png" style="width: 80px;" /></a>
 <section id="python3">
 <h1>Παράρτημα Α: Πληροφορίες για την Python3<a class="headerlink" href="#python3" title="Permalink to this headline">¶</a></h1>
-<p>Στο παράρτημα αυτό θα βρείτε τα βασικά στοιχεία για να δουλέψετε τοπικά στον υπολογιστή σας με την Python3 στο εργαστήριο των Μεταγλωττιστών.</p>
+<p>Στο παράρτημα αυτό θα βρείτε τα βασικά στοιχεία για να δουλέψετε τοπικά στον υπολογιστή σας με την Python3 στο εργαστήριο των Μεταγλωττιστών. Επειδή θα χρειαστεί να εγκαταστήσετε τις <em>βιβλιοθήκες Python του μαθήματος</em> συνιστάται η χρήση virtual environments για να μην πειράξετε την κεντρική εγκατάσταση Python.</p>
 <section id="install-ref">
 <span id="id1"></span><h2>Εγκατάσταση της Python3<a class="headerlink" href="#install-ref" title="Permalink to this headline">¶</a></h2>
 <section id="linux">
 <h3>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h3>
-<p>Εάν το λειτουργικό σας σύστημα είναι Linux, έχετε κατά πάσα πιθανότητα τη γλώσσα διαθέσιμη ήδη. Βεβαιωθείτε ότι τρέχετε την 3η έκδοση της γλώσσας -συχνά πρέπει να δώσετε την εντολή <code class="docutils literal notranslate"><span class="pre">python3</span></code> (η απλή εντολή <code class="docutils literal notranslate"><span class="pre">python</span></code> συνήθως εκτελεί την προηγούμενη έκδοση 2). Δεν απαιτείται πολύ πρόσφατη έκδοση της γλώσσας, οτιδήποτε μεγαλύτερο από την 3.3 είναι αρκετό.</p>
+<p>Εάν το λειτουργικό σας σύστημα είναι Linux, έχετε κατά πάσα πιθανότητα τη γλώσσα διαθέσιμη ήδη. Βεβαιωθείτε ότι τρέχετε την 3η έκδοση της γλώσσας -συχνά πρέπει να δώσετε την εντολή <code class="docutils literal notranslate"><span class="pre">python3</span></code> (η απλή εντολή <code class="docutils literal notranslate"><span class="pre">python</span></code> συνήθως εκτελεί την προηγούμενη έκδοση 2). Δεν απαιτείται πολύ πρόσφατη έκδοση της γλώσσας, οτιδήποτε μεγαλύτερο από την 3.6 είναι αρκετό.</p>
 <p>Για παράδειγμα, μπορείτε να μπείτε στο interactive shell της python3 ως εξής (βγείτε με <code class="docutils literal notranslate"><span class="pre">exit()</span></code> ή <code class="docutils literal notranslate"><span class="pre">Ctrl-D</span></code> όταν τελειώσετε):</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ python3
-Python 3.5.2 (default, Oct  8 2019, 13:06:37)
-[GCC 5.4.0 20160609] on linux
+Python 3.8.10 (default, Nov 14 2022, 12:59:47)
+[GCC 9.4.0] on linux
 Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
 &gt;&gt;&gt;
 </pre></div>
@@ -106,7 +106,7 @@ Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;licen
 <h3>Οδηγίες για Linux<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <section id="virtual-environment">
 <h4>1. Δημιουργία ενός virtual environment<a class="headerlink" href="#virtual-environment" title="Permalink to this headline">¶</a></h4>
-<p>Λογικά θα πρέπει να υπάρχει η Python3 στον υπολογιστή σας. Ανοίξτε ένα τερματικό και μετακινηθείτε στον φάκελο που θέλετε να φτιάξετε το virtual environment (έστω ότι ο φάκελος λέγεται <code class="docutils literal notranslate"><span class="pre">test-folder</span></code>).</p>
+<p>Ανοίξτε ένα τερματικό και μετακινηθείτε στον φάκελο που θέλετε να φτιάξετε το virtual environment (έστω ότι ο φάκελος λέγεται <code class="docutils literal notranslate"><span class="pre">test-folder</span></code>).</p>
 <p>Δώστε την εντολή:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>python3 -m venv my-venv
 </pre></div>
@@ -136,34 +136,17 @@ sudo apt-get install python3-venv
 </div>
 </section>
 <section id="id4">
-<h4>3. Εγκατάσταση βιβλιοθηκών και χρήση<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
-<p>Για να εγκαταστήσετε π.χ. τη βιβλιοθήκη Plex που θα χρησιμοποιήσουμε στο εργαστήριο, δώστε την εντολή:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>python -m pip install --upgrade https://mixstef.github.io/courses/compilers/Plex-2.0.1.tar.gz
-</pre></div>
-</div>
-<p>Για να ελέγξετε την εγκατάσταση, δοκιμάστε το επόμενο.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>(my-venv) myuser@mypc:~/test-folder$ python
-Python 3.5.2 (default, Apr 16 2020, 17:47:17)
-[GCC 5.4.0 20160609] on linux
-Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
-&gt;&gt;&gt; import plex
-&gt;&gt;&gt;
-</pre></div>
-</div>
-<p>Το import του <code class="docutils literal notranslate"><span class="pre">plex</span></code> πρέπει να γίνεται χωρίς μήνυμα σφάλματος.</p>
-</section>
-<section id="id5">
-<h4>4. Απενεργοποίηση του virtual environment<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
+<h4>3. Απενεργοποίηση του virtual environment<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
 <p>Δεν απαιτείται συνήθως (μπορείτε απλά να κλείσετε το terminal) αλλά γίνεται ως εξής:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>deactivate
 </pre></div>
 </div>
 </section>
 </section>
+<section id="id5">
+<h3>Οδηγίες για Windows<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <section id="id6">
-<h3>Οδηγίες για Windows<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
-<section id="id7">
-<h4>1. Δημιουργία ενός virtual environment<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
+<h4>1. Δημιουργία ενός virtual environment<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h4>
 <p>Βεβαιωθείτε ότι έχετε εγκαταστήσει μια πρόσφατη έκδοση (3.3+) της Python στον υπολογιστή σας.</p>
 <p>Ανοίξτε ένα command prompt και μετακινηθείτε στο σημείο που θέλετε να φτιάξετε το virtual environment. Για παράδειγμα, φτιάξτε έναν φάκελο <code class="docutils literal notranslate"><span class="pre">test-folder</span></code> στον φάκελο του χρήστη σας:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>C:\Users\Myuser&gt;md test-folder
@@ -176,8 +159,8 @@ C:\Users\Myuser&gt;cd test-folder
 </div>
 <p>Αν όλα πάνε καλά, η εντολή θα επιστρέψει <strong>χωρίς μήνυμα λάθους</strong>. Στο σημείο που είσαστε θα πρέπει να υπάρχει υποφάκελος <code class="docutils literal notranslate"><span class="pre">my-venv</span></code> με την python3 εγκατεστημένη τοπικά.</p>
 </section>
-<section id="id8">
-<h4>2. Ενεργοποίηση του virtual environment<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
+<section id="id7">
+<h4>2. Ενεργοποίηση του virtual environment<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
 <p>Θα πρέπει να γίνεται κάθε φορά, πριν ξεκινήσετε να δουλεύετε στο virtual environment.</p>
 <p>Όντας στον φάκελο <code class="docutils literal notranslate"><span class="pre">test-folder</span></code>, δώστε την εντολή:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>my-venv\Scripts\activate.bat
@@ -193,24 +176,8 @@ C:\Users\Myuser&gt;cd test-folder
 </pre></div>
 </div>
 </section>
-<section id="id9">
-<h4>3. Εγκατάσταση βιβλιοθηκών και χρήση<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
-<p>Για να εγκαταστήσετε π.χ. τη βιβλιοθήκη Plex που θα χρησιμοποιήσουμε στο εργαστήριο, δώστε την εντολή:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>python -m pip install --upgrade https://mixstef.github.io/courses/compilers/Plex-2.0.1.tar.gz
-</pre></div>
-</div>
-<p>Για να ελέγξετε την εγκατάσταση, δοκιμάστε το επόμενο.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>(my-venv) C:\Users\Myuser\test-folder&gt;python
-Python 3.8.2 (tags/v3.8.2:7b3ab59, Feb 25 2020, 22:45:29) [MSC v.1916 32 bit (Intel)] on win32
-Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
-&gt;&gt;&gt; import plex
-&gt;&gt;&gt;
-</pre></div>
-</div>
-<p>Το import του <code class="docutils literal notranslate"><span class="pre">plex</span></code> πρέπει να γίνεται χωρίς μήνυμα σφάλματος.</p>
-</section>
-<section id="id10">
-<h4>4. Απενεργοποίηση του virtual environment<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h4>
+<section id="id8">
+<h4>3. Απενεργοποίηση του virtual environment<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
 <p>Δεν απαιτείται συνήθως (μπορείτε απλά να κλείσετε το command prompt) αλλά γίνεται ως εξής:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>deactivate
 </pre></div>
@@ -218,8 +185,25 @@ Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;licen
 </section>
 </section>
 </section>
-<section id="id11">
-<h2>Βασικά παραδείγματα χρήσης της Python3<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<section id="instal-lab-libs-ref">
+<span id="id9"></span><h2>Εγκατάσταση βιβλιοθηκών εργαστηρίου<a class="headerlink" href="#instal-lab-libs-ref" title="Permalink to this headline">¶</a></h2>
+<p>Τα επόμενα πρέπει να γίνουν με το virtual environment <strong>ενεργοποιημένο</strong>.</p>
+<ol class="arabic simple">
+<li><p>Για να δουλέψετε με jupyter notebooks (παρόμοια με το online mybinder) εγκαταστήστε το <cite>jupyter</cite>:</p></li>
+</ol>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>pip install --upgrade jupyter
+</pre></div>
+</div>
+<p>(Σημ.: για να ξεκινήσετε τα notebooks δώστε την εντολή <code class="docutils literal notranslate"><span class="pre">jupyter-notebook</span></code>)</p>
+<ol class="arabic simple" start="2">
+<li><p>Στη συνέχεια εγκαταστήστε τις βιβλιοθήκες του εργαστηρίου:</p></li>
+</ol>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>pip install --force-reinstall https://mixstef.github.io/courses/compilers/packages/compilerlabs-0.0.1.tar.gz --no-cache-dir
+</pre></div>
+</div>
+</section>
+<section id="id10">
+<h2>Βασικά παραδείγματα χρήσης της Python3<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
 <p>Στη συνέχεια παρουσιάζονται ορισμένα ενδιαφέροντα στοιχεία και παραδείγματα χρήσης της Python3. Αυτό που ακολουθεί δεν είναι tutorial, αν θέλετε κάτι τέτοιο μπορείτε να βρείτε εξαιρετικά κείμενα on-line.</p>
 <section id="strings">
 <h3>Strings<a class="headerlink" href="#strings" title="Permalink to this headline">¶</a></h3>
@@ -271,8 +255,8 @@ Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;licen
 </div>
 <p>Τα αντικείμενα τύπου string διαθέτουν μια μεγάλη σειρά από <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#string-methods">χρήσιμες μεθόδους</a>.</p>
 </section>
-<section id="id13">
-<h3>Σύνθετα Αντικείμενα<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<section id="id12">
+<h3>Σύνθετα Αντικείμενα<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <p>Το δυνατό σημείο της Python είναι τα σύνθετα αντικείμενα που παρέχει, τα οποία χρησιμοποιούμε για όλες τις δομές που θέλουμε να υλοποιήσουμε. Τα δύο βασικότερα είναι οι <strong>λίστες (lists)</strong> και τα <strong>λεξικά (dictionaries)</strong>.  Και οι δύο αυτοί τύποι αντικειμένων είναι <strong>mutable</strong>, τα αντικείμενά τους δηλαδή μπορούν να αλλάξουν περιεχόμενα.</p>
 <section id="lists">
 <h4>Λίστες (Lists)<a class="headerlink" href="#lists" title="Permalink to this headline">¶</a></h4>
@@ -408,8 +392,8 @@ Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;licen
 </section>
 </section>
 </section>
-<section id="id14">
-<h2>Διαβάζοντας ένα ολόκληρο αρχείο κειμένου<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
+<section id="id13">
+<h2>Διαβάζοντας ένα ολόκληρο αρχείο κειμένου<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
 <p>Στο εργαστήριο επεξεργαζόμαστε το περιεχόμενο αρχείων απλού κειμένου. Στο παράδειγμα που ακολουθεί φαίνεται ο τρόπος για να διαβάσουμε <strong>ολόκληρο το περιεχόμενο</strong> ενός αρχείου κειμένου και να το τοποθετήσουμε σε μια μεταβλητή τύπου string.</p>
 <div class="topic">
 <p class="topic-title">Πόσο μεγάλα αρχεία μπορούμε να διαβάσουμε;</p>
@@ -429,7 +413,7 @@ Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;licen
 </div>
 </section>
 <section id="file-line-processing-ref">
-<span id="id15"></span><h2>Διαβάζοντας ένα αρχείο κειμένου γραμμή προς γραμμή<a class="headerlink" href="#file-line-processing-ref" title="Permalink to this headline">¶</a></h2>
+<span id="id14"></span><h2>Διαβάζοντας ένα αρχείο κειμένου γραμμή προς γραμμή<a class="headerlink" href="#file-line-processing-ref" title="Permalink to this headline">¶</a></h2>
 <p>Σε πολλές περιπτώσεις, η επεξεργασία αρχείων κειμένου γίνεται <strong>γραμμή προς γραμμή</strong>. Αυτό συμβαίνει όταν κάθε γραμμή του κειμένου (και η επεξεργασία της) είναι <em>ανεξάρτητη</em> από τις υπόλοιπες γραμμές. Ιδιαίτερα σημαντική είναι η επεξεργασία γραμμή προς γραμμή σε <em>πολύ μεγάλα</em> αρχεία (δισεκατομμύρια γραμμές).</p>
 <p>Σε αντίθεση με την ανάγνωση του συνόλου του αρχείου, εδώ έχουμε μια δομή επανάληψης <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">..</span> <span class="pre">in</span> <span class="pre">..</span></code> που μας παρέχει το περιεχόμενο κάθε γραμμής ανά επανάληψη. Στο παράδειγμα που ακολουθεί, τοποθετούμε το <code class="docutils literal notranslate"><span class="pre">for</span></code> μέσα σε μια δομή <code class="docutils literal notranslate"><span class="pre">with</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;sample1.txt&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
@@ -476,29 +460,28 @@ Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;licen
 <li><a class="reference internal" href="#id2">Οδηγίες για Linux</a><ul>
 <li><a class="reference internal" href="#virtual-environment">1. Δημιουργία ενός virtual environment</a></li>
 <li><a class="reference internal" href="#id3">2. Ενεργοποίηση του virtual environment</a></li>
-<li><a class="reference internal" href="#id4">3. Εγκατάσταση βιβλιοθηκών και χρήση</a></li>
-<li><a class="reference internal" href="#id5">4. Απενεργοποίηση του virtual environment</a></li>
+<li><a class="reference internal" href="#id4">3. Απενεργοποίηση του virtual environment</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id6">Οδηγίες για Windows</a><ul>
-<li><a class="reference internal" href="#id7">1. Δημιουργία ενός virtual environment</a></li>
-<li><a class="reference internal" href="#id8">2. Ενεργοποίηση του virtual environment</a></li>
-<li><a class="reference internal" href="#id9">3. Εγκατάσταση βιβλιοθηκών και χρήση</a></li>
-<li><a class="reference internal" href="#id10">4. Απενεργοποίηση του virtual environment</a></li>
+<li><a class="reference internal" href="#id5">Οδηγίες για Windows</a><ul>
+<li><a class="reference internal" href="#id6">1. Δημιουργία ενός virtual environment</a></li>
+<li><a class="reference internal" href="#id7">2. Ενεργοποίηση του virtual environment</a></li>
+<li><a class="reference internal" href="#id8">3. Απενεργοποίηση του virtual environment</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id11">Βασικά παραδείγματα χρήσης της Python3</a><ul>
+<li><a class="reference internal" href="#instal-lab-libs-ref">Εγκατάσταση βιβλιοθηκών εργαστηρίου</a></li>
+<li><a class="reference internal" href="#id10">Βασικά παραδείγματα χρήσης της Python3</a><ul>
 <li><a class="reference internal" href="#strings">Strings</a></li>
-<li><a class="reference internal" href="#id13">Σύνθετα Αντικείμενα</a><ul>
+<li><a class="reference internal" href="#id12">Σύνθετα Αντικείμενα</a><ul>
 <li><a class="reference internal" href="#lists">Λίστες (Lists)</a></li>
 <li><a class="reference internal" href="#dictionaries">Λεξικά (Dictionaries)</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id14">Διαβάζοντας ένα ολόκληρο αρχείο κειμένου</a></li>
+<li><a class="reference internal" href="#id13">Διαβάζοντας ένα ολόκληρο αρχείο κειμένου</a></li>
 <li><a class="reference internal" href="#file-line-processing-ref">Διαβάζοντας ένα αρχείο κειμένου γραμμή προς γραμμή</a></li>
 </ul>
 </li>

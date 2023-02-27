@@ -15,6 +15,8 @@
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Παράρτημα Α: Πληροφορίες για την Python3" href="../appendix-python/module1.html" />
+    <link rel="prev" title="Υλοποίηση αυτομάτων DFA μέσω Python" href="../01-dfa/dfa-in-python.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -87,7 +89,7 @@
 </pre></div>
 </div>
 </div></blockquote>
-<p>Στο προηγούμενο παράδειγμα, η μεταβλητή <code class="docutils literal notranslate"><span class="pre">rexp</span></code> είναι η μηχανή ταιριάσματος, ένα αντικείμενο δηλαδή που μας επιτρέπει να ψάξουμε για ταιριάσματα σύμφωνα με την κανονική έκφραση <code class="docutils literal notranslate"><span class="pre">^cat</span></code>. Το αντικείμενο <strong>κατασκευάζεται άπαξ</strong> (π.χ. στην αρχή του προγράμματος). Στη συνέχεια, μπορούμε να το χρησιμοποιήσουμε <strong>όσες φορές θέλουμε</strong> για να ταιριάξουμε κείμενο:</p>
+<p>Στο προηγούμενο παράδειγμα, η μεταβλητή <code class="docutils literal notranslate"><span class="pre">rexp</span></code> είναι η μηχανή ταιριάσματος, ένα αντικείμενο δηλαδή που μας επιτρέπει να ψάξουμε για ταιριάσματα σύμφωνα με την κανονική έκφραση <code class="docutils literal notranslate"><span class="pre">^cat</span></code> (τι σημαίνει η κανονική αυτή έκφραση θα δούμε αργότερα). Το αντικείμενο <strong>κατασκευάζεται άπαξ</strong> (π.χ. στην αρχή του προγράμματος). Στη συνέχεια, μπορούμε να το χρησιμοποιήσουμε <strong>όσες φορές θέλουμε</strong> για να ταιριάξουμε κείμενο:</p>
 <blockquote>
 <div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">)</span>
 </pre></div>
@@ -111,7 +113,7 @@
 </div></blockquote>
 <p>Το <code class="docutils literal notranslate"><span class="pre">m.group(0)</span></code> επιστρέφει το συνολικό κείμενο που ταίριαξε. Τα <em>groups</em> είναι μέρη του ταιριάσματος και θα αναλυθούν στα επόμενα.</p>
 <p>Υπενθυμίζεται ότι η μέθοδος <code class="docutils literal notranslate"><span class="pre">search()</span></code> δεν επιστρέφει όλα τα ταιριάσματα μέσα στο κείμενο παρά μόνο το <em>πρώτο που θα συναντήσει</em>.</p>
-<p>Στη συνέχεια δίνεται το συνολικό προηγούμενο παράδειγμα</p>
+<p>Στη συνέχεια δίνεται το συνολικό προηγούμενο παράδειγμα:</p>
 <ul>
 <li><p>Στο interactive shell της Python (αν θέλετε να το δοκιμάσετε, ξεκινήστε το interactive shell με την εντολή <code class="docutils literal notranslate"><span class="pre">python3</span></code> (ή <code class="docutils literal notranslate"><span class="pre">python</span></code>) στη κονσόλα/τερματικό/command prompt του λειτουργικού σας. Θυμηθείτε ότι δεν πληκτρολογείτε τα <code class="docutils literal notranslate"><span class="pre">&gt;&gt;&gt;</span></code>):</p>
 <blockquote>
@@ -151,7 +153,7 @@
 </section>
 <section id="id2">
 <h2>Βασικά σύμβολα κανονικών εκφράσεων<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p>Ο πίνακας που ακολουθεί περιέχει τα βασικά σύμβολα που χρησιμοποιούνται για την κατασκευή κανονικών εκφράσεων στην Python (<em>παρατίθενται τα σύμβολα που έχουν διδαχθεί στο εργαστήριο</em>).</p>
+<p>Ο πίνακας που ακολουθεί περιέχει τα βασικά σύμβολα που χρησιμοποιούνται για την κατασκευή κανονικών εκφράσεων στην Python (<em>παρατίθενται τα σύμβολα που διδάσκονται στο εργαστήριο</em>).</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 12%" />
@@ -218,7 +220,7 @@
 </section>
 <section id="id3">
 <h2>Παραδείγματα<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
-<p>Παραδείγματα με τα σύμβολα που έχουν διδαχθεί έως τώρα στο εργαστήριο. Τα παραδείγματα δίνονται στο interactive shell της Python, θεωρήστε ότι έχει προηγηθεί το <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">re</span></code>.</p>
+<p>Τα παραδείγματα δίνονται στο interactive shell της Python, θεωρήστε ότι έχει προηγηθεί το <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">re</span></code>.</p>
 <div class="topic">
 <p class="topic-title">Πηγή παραδειγμάτων</p>
 <p>Πολλά από τα παραδείγματα που ακολουθούν βασίζονται σε υλικό από το βιβλίο “Mastering Regular Expressions”, 2nd ed., Jeffrey E.F. Friedl, O’Reilly Media, July 2002.</p>

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
-// compile with: gcc -Wall -O2 vectoradd-float.c -o vectoradd-float -DN=10000 -DR=10000
+// compile with: gcc -Wall -O2 triad-float.c -o triad-float -DN=10000 -DR=10000
 
 void get_walltime(double *wct) {
   struct timeval tp;
@@ -11,7 +11,7 @@ void get_walltime(double *wct) {
 }
 
 int main() {
-float *a,*b,*c;
+float *a,*b,*c,*d;
 double ts,te,mflops;
 
   // allocate test arrays
@@ -21,12 +21,15 @@ double ts,te,mflops;
   if (b==NULL) { free(a); exit(1); }
   c = (float *)malloc(N*sizeof(float));
   if (c==NULL) { free(a); free(b); exit(1); }
+  d = (float *)malloc(N*sizeof(float));
+  if (d==NULL) { free(a); free(b); free(c); exit(1); }
   
   //initialize all arrays - cache warm-up
   for (int i=0;i<N;i++) {
-    a[i]=2.0*i;
-    b[i]=-i;
-    c[i]=i+5.0;
+    a[i] = 2.0*i;
+    b[i] = -i;
+    c[i] = i+5.0;
+    d[i] = i;
   }
  
   // get starting time (double, seconds) 
@@ -35,7 +38,7 @@ double ts,te,mflops;
   // do artificial work
   for (int j=0;j<R;j++) {
     for (int i=0;i<N;i++) {
-      a[i] = b[i]+c[i];
+      a[i] = b[i]*c[i]+d[i];
     }
   }
  
@@ -44,19 +47,19 @@ double ts,te,mflops;
   
   // check result - avoid loop removal by compiler
    for (int i=0;i<N;i++) {
-    if (a[i]!=b[i]+c[i]) {
+    if (a[i]!=b[i]*c[i]+d[i]) {
       printf("Error!\n");
       break;
     }
   }
  
-  // compute mflops/sec (1 floating point operation per R*N passes)
-  mflops = (R*N)/((te-ts)*1e6);
+  // compute mflops/sec (2 floating point operation per R*N passes)
+  mflops = (R*N*2.0)/((te-ts)*1e6);
   
   printf("MFLOPS/sec = %f\n",mflops);
   
   // free arrays
-  free(a); free(b); free(c);
+  free(a); free(b); free(c); free(d);
   
   return 0;
 }

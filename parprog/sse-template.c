@@ -14,6 +14,7 @@
 int main() {
 
 float *fa,*fb,*fc;
+__m128 *vfa,*vfb,*vfc;
 
 int i;
 
@@ -28,9 +29,14 @@ int i;
   //initialize float input test arrays fa, fb
   fa[0] = 1.0; fa[1] = 2.0; fa[2] = 3.0; fa[3] = 4.0;
   fb[0] = 1.1; fb[1] = 2.2; fb[2] = 3.3; fb[3] = 4.4;
+
+  // alias the sse pointers to input and output test arrays
+  vfa = (__m128 *)fa; vfb = (__m128 *)fb;
+  vfc = (__m128 *)fc;
   
   // test sse instructions here
-  // TODO
+  // e.g. ADD
+    *vfc = _mm_add_ps(*vfa,*vfb);
   
   // print result of output array fc
   printf("%f %f %f %f\n",fc[0],fc[1],fc[2],fc[3]);

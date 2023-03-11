@@ -16,13 +16,13 @@ double ts,te,mflops;
 
   // allocate test arrays
   a = (float *)malloc(N*sizeof(float));
-  if (a==NULL) exit(1);
+  if (a==NULL) { printf("Allocation failed!\n"); exit(1); }
   b = (float *)malloc(N*sizeof(float));
-  if (b==NULL) { free(a); exit(1); }
+  if (b==NULL) { printf("Allocation failed!\n"); free(a); exit(1); }
   c = (float *)malloc(N*sizeof(float));
-  if (c==NULL) { free(a); free(b); exit(1); }
+  if (c==NULL) { printf("Allocation failed!\n"); free(a); free(b); exit(1); }
   d = (float *)malloc(N*sizeof(float));
-  if (d==NULL) { free(a); free(b); free(c); exit(1); }
+  if (d==NULL) { printf("Allocation failed!\n"); free(a); free(b); free(c); exit(1); }
   
   //initialize all arrays - cache warm-up
   for (int i=0;i<N;i++) {

@@ -6,8 +6,7 @@
 // this is the float version of dot product of two NxN matrices 
 // compile with: gcc -Wall -O2 mmult-float.c -o mmult-float -DN=1000
 
-// matrix dims N rows x N columns: use -DN=.. to define on compilation
-
+// NOTE: in order to be cache friendly, matrix B is assumed to be transposed
 
 
 void get_walltime(double *wct) {
@@ -24,16 +23,19 @@ float *a,*b,*c;	// matrices A,B,C C=AxB, B is transposed
 
   a = (float *)malloc(N*N*sizeof(float));
   if (a==NULL) {
+    printf("Allocation failed!\n");
     exit(1);
   }
   
   b = (float *)malloc(N*N*sizeof(float));
   if (b==NULL) {
+    printf("Allocation failed!\n");
     free(a); exit(1);
   }
 
   c = (float *)malloc(N*N*sizeof(float));
   if (c==NULL) {
+    printf("Allocation failed!\n");
     free(a); free(b); exit(1);
   }
 
@@ -54,7 +56,7 @@ float *a,*b,*c;	// matrices A,B,C C=AxB, B is transposed
     
       float sum = 0.0;
       for (int k=0;k<N;k++) {	// for each element of selected A row and B "column"
-        sum += a[i*N+k]*b[j*N+k];	// a[i,k]*b[j,k]  note: B is transposed, originally b[k,j]
+        sum += a[i*N+k]*b[j*N+k];	// a[i,k]*b[j,k]  NOTE: B is transposed, originally b[k,j]
       }
       c[i*N+j] = sum;	// c[i,j]
     
@@ -68,7 +70,7 @@ float *a,*b,*c;	// matrices A,B,C C=AxB, B is transposed
   // print computation time
   printf("Computation time = %f sec\n",(te-ts));
 
-  // test result
+  // test result (i.e. check that all elements of c were "touched"
   for (int i=0;i<N*N;i++) {
     if (c[i]==0.0) { printf("Error!\n"); break; }
   }

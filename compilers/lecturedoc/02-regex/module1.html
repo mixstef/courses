@@ -15,7 +15,7 @@
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Παράρτημα Α: Πληροφορίες για την Python3" href="../appendix-python/module1.html" />
+    <link rel="next" title="Λεκτικοί αναλυτές με το module plex" href="../03-plex/plex-intro.html" />
     <link rel="prev" title="Υλοποίηση αυτομάτων DFA μέσω Python" href="../01-dfa/dfa-in-python.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -429,8 +429,9 @@
 </div>
 </div>
 </section>
+</section>
 <section id="groups">
-<h3>Μέρη ταιριασμάτων (groups)<a class="headerlink" href="#groups" title="Permalink to this headline">¶</a></h3>
+<h2>Μέρη ταιριασμάτων (groups)<a class="headerlink" href="#groups" title="Permalink to this headline">¶</a></h2>
 <p>Τι είναι τα <em>groups</em>; Στις κανονικές εκφράσεις οι παρενθέσεις παίζουν ειδικό ρόλο, ομαδοποιώντας υποσύνολα της κανονικής έκφρασης. Επιπλέον, η μηχανή ταιριάσματος θυμάται τι ταίριαξε σε κάθε group:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;([0-9]+)\.([0-9]+)&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;12.54&#39;</span><span class="p">)</span>
@@ -445,7 +446,6 @@
 <p>Στο προηγούμενο παράδειγμα, οι παρενθέσεις γύρω από το ακέραιο και το δεκαδικό μέρος ορίζουν δύο πρόσθετα groups (<code class="docutils literal notranslate"><span class="pre">group(1)</span></code> και <code class="docutils literal notranslate"><span class="pre">group(2)</span></code>), εκτός από το <code class="docutils literal notranslate"><span class="pre">group(0)</span></code> που περιλαμβάνει όλο το κείμενο που έχει ταιριάξει.</p>
 <p>Η αρίθμηση των πρόσθετων groups αρχίζει από το 1, κάθε φορά που ανοίγει μια παρένθεση, προχωρώντας από αριστερά προς τα δεξιά. Αυτό ισχύει ακόμα και όταν οι παρενθέσεις είναι μέσα σε άλλες.</p>
 <p>Αν ένα σετ παρενθέσεων έχει μπει μόνο για την εξυπηρέτηση του <code class="docutils literal notranslate"><span class="pre">*</span></code>, <code class="docutils literal notranslate"><span class="pre">+</span></code>, <code class="docutils literal notranslate"><span class="pre">?</span></code> κλπ και δεν θέλουμε τη συγκράτηση της τιμής του group, μπορούμε να χρησιμοποιήσουμε το <code class="docutils literal notranslate"><span class="pre">(?:...)</span></code>. Στη μορφή αυτή οι παρενθέσεις δεν ορίζουν νέο group.</p>
-</section>
 </section>
 <section id="id11">
 <h2>Η απληστία των τελεστών * και +<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
@@ -520,9 +520,55 @@
 <p>Αυτό συμβαίνει διότι η διαδικασία backtracking έχει να εξετάσει <strong>εκθετικά μεγάλο αριθμό περιπτώσεων</strong> προσπαθώντας να βρει ένα ταίριασμα!</p>
 </div>
 </section>
+<section id="search">
+<h2>Άλλες μέθοδοι εκτός από τη search()<a class="headerlink" href="#search" title="Permalink to this headline">¶</a></h2>
+<p>Μέχρι τώρα έχουμε δουλέψει μόνο με τη βασική μέθοδο <code class="docutils literal notranslate"><span class="pre">search()</span></code> των κανονικών εκφράσεων της Python, η οποία επιστρέφει μόνο το πρώτο ταίριασμα που θα συναντήσει. Το αντικείμενο της μηχανής ταιριάσματος παρέχει όμως και άλλες μεθόδους που μπορούν να χρησιμοποιηθούν ανάλογα με τις ανάγκες της κάθε εφαρμογής:</p>
+<table class="docutils align-default" id="id13">
+<caption><span class="caption-text">Χρήση μεθόδων ταιριάσματος</span><a class="headerlink" href="#id13" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Εφαρμογή</p></th>
+<th class="head"><p>Μέθοδος</p></th>
+<th class="head"><p>Εναλλακτικά</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Έλεγχος εγκυρότητας εισόδου (validation)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fullmatch()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">search('^……$')</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Είσοδος τύπου scanf (ταίριασμα στην αρχή)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">match()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">search('^……')</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Εύρεση του πρώτου ταιριάσματος</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">search()</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Εύρεση όλων των (μη αλληλεπικαλυπτόμενων) ταιριασμάτων</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">finditer()</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Αντικατάσταση (ή διαγραφή)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sub()</span></code></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Εξαγωγή tokens</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">finditer()</span></code> + groups</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Στη συνέχεια παρουσιάζονται αναλυτικά οι μέθοδοι <code class="docutils literal notranslate"><span class="pre">finditer()</span></code> και <code class="docutils literal notranslate"><span class="pre">sub()</span></code>.</p>
 <section id="finditer">
-<h2>Η μέθοδος finditer()<a class="headerlink" href="#finditer" title="Permalink to this headline">¶</a></h2>
-<p>Μέχρι τώρα έχουμε δουλέψει μόνο με τη βασική μέθοδο <code class="docutils literal notranslate"><span class="pre">search()</span></code> των κανονικών εκφράσεων, η οποία επιστρέφει μόνο το πρώτο ταίριασμα που θα συναντήσει. Στη συνέχεια παρουσιάζεται η παραπλήσια μέθοδος <code class="docutils literal notranslate"><span class="pre">finditer()</span></code> η οποία επιστρέφει διαδοχικά αντικείμενα ταιριάσματος (match objects) <em>για όλα τα μη επικαλυπτόμενα ταιριάσματα</em> της κανονικής έκφρασης σε ένα string:</p>
+<h3>Η μέθοδος finditer()<a class="headerlink" href="#finditer" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>Η μέθοδος <code class="docutils literal notranslate"><span class="pre">finditer()</span></code> επιστρέφει διαδοχικά αντικείμενα ταιριάσματος (match objects) <em>για όλα τα μη επικαλυπτόμενα ταιριάσματα</em> της κανονικής έκφρασης σε ένα string:</p>
+</div></blockquote>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">re</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;&lt;[^&gt;]+&gt;&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">rexp</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="s1">&#39;this &lt;b&gt;is&lt;/b&gt; a &lt;em&gt;HTML&lt;/em&gt; text&#39;</span><span class="p">):</span>
@@ -538,8 +584,8 @@
 <p>Όπως φαίνεται στο προηγούμενο παράδειγμα, η <code class="docutils literal notranslate"><span class="pre">finditer()</span></code> χρησιμοποιείται σε επαναληπτικές δομές <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">...</span> <span class="pre">in</span> <span class="pre">...</span></code> και σε κάθε επανάληψη επιστρέφει ένα αντικείμενο ταιριάσματος ακριβώς όπως και η <code class="docutils literal notranslate"><span class="pre">search()</span></code>.</p>
 </section>
 <section id="sub">
-<h2>Η μέθοδος sub()<a class="headerlink" href="#sub" title="Permalink to this headline">¶</a></h2>
-<p>Η μέθοδος <code class="docutils literal notranslate"><span class="pre">sub()</span></code> των κανονικών εκφράσεων χρησιμοποιείται για την εύρεση (μη επικαλυπτόμενων) ταιριασμάτων και την αντικατάστασή τους με κάτι διαφορετικό. Στην πιο απλή περίπτωση, κάθε ταίριασμα αντικαθίσταται με ένα σταθερό string. Το επόμενο παράδειγμα αντικαθιστά κάθε ετικέτα HTML με το string <code class="docutils literal notranslate"><span class="pre">&#64;&#64;&#64;</span></code>:</p>
+<h3>Η μέθοδος sub()<a class="headerlink" href="#sub" title="Permalink to this headline">¶</a></h3>
+<p>Η μέθοδος <code class="docutils literal notranslate"><span class="pre">sub()</span></code> των κανονικών εκφράσεων χρησιμοποιείται για την εύρεση <strong>όλων</strong> των (μη επικαλυπτόμενων) ταιριασμάτων και την αντικατάστασή τους με κάτι διαφορετικό. Στην πιο απλή περίπτωση, κάθε ταίριασμα αντικαθίσταται με ένα σταθερό string. Το επόμενο παράδειγμα αντικαθιστά κάθε ετικέτα HTML με το string <code class="docutils literal notranslate"><span class="pre">&#64;&#64;&#64;</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;&lt;[^&gt;]+&gt;&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">newtext</span> <span class="o">=</span> <span class="n">rexp</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;@@@&#39;</span><span class="p">,</span><span class="s1">&#39;this &lt;b&gt;is&lt;/b&gt; a &lt;em&gt;HTML&lt;/em&gt; text&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">newtext</span><span class="p">)</span>
@@ -547,6 +593,7 @@
 <span class="go">&gt;&gt;&gt;</span>
 </pre></div>
 </div>
+<p>Το πρώτο όρισμα της <code class="docutils literal notranslate"><span class="pre">sub()</span></code> περιέχει το string που θα αντικαταστήσει κάθε ταίριασμα. Εάν βάλετε εκεί το κενό string (<code class="docutils literal notranslate"><span class="pre">''</span></code>) τότε όλα τα ταιριάσματα θα <em>διαγραφούν</em>.</p>
 <p>Η μέθοδος <code class="docutils literal notranslate"><span class="pre">sub()</span></code> μπορεί να χρησιμοποιήσει <strong>backreferences</strong> μέσα στο string αντικατάστασης. Τα backreferences δίνουν τη δυνατότητα στις κανονικές εκφράσεις <strong>να έχουν πρόσβαση στα groups που έχουν ήδη ταιριάξει</strong>. Η δυνατότητα αυτή υπάρχει μόνο σε υλοποιήσεις με backtracking και είναι ένα σημείο που κάνει
 τις «προγραμματιστικές» κανονικές εκφράσεις να διαφέρουν από τις «μαθηματικές». Τα backreferences χρησιμοποιούν τον συμβολισμό <code class="docutils literal notranslate"><span class="pre">\n</span></code> όπου <code class="docutils literal notranslate"><span class="pre">n</span></code> ο αριθμός του επιθυμητού group.</p>
 <p>Δείτε το επόμενο παράδειγμα, όπου ανιχνεύονται διπλές ίδιες λέξεις (με λατινικούς χαρακτήρες) και αντικαθίστανται από την πρώτη λέξη μόνο:</p>
@@ -572,6 +619,52 @@
 <span class="go">&gt;&gt;&gt;</span>
 </pre></div>
 </div>
+</section>
+<section id="tokens">
+<h3>Εξαγωγή tokens<a class="headerlink" href="#tokens" title="Permalink to this headline">¶</a></h3>
+<p>Το στάδιο της <em>λεκτικής ανάλυσης</em> σε έναν μεταγλωττιστή δέχεται ως είσοδο τον πηγαίο κώδικα ενός προγράμματος και παράγει σύμβολα (tokens) που αντιπροσωπεύουν keywords, ονόματα μεταβλητών, αριθμητικές σταθερές, τελεστές κ.ο.κ. Στο στάδιο αυτό αναγνωρίζονται επίσης τα κενά και τα σχόλια, τα οποία και απορρίπτονται.</p>
+<p>Με τις κανονικές εκφράσεις της Python μπορούμε να κατασκευάσουμε έναν απλό λεκτικό αναλυτή, όπως φαίνεται στο επόμενο παράδειγμα που αναγνωρίζει</p>
+<ul class="simple">
+<li><p>Λέξεις (σειρές χαρακτήρων a-z)</p></li>
+<li><p>Αριθμούς (σειρές ψηφίων 0-9)</p></li>
+<li><p>Κενά οποιουδήποτε μεγέθους</p></li>
+<li><p>Οτιδήποτε άλλο (ως σφάλμα)</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>
+
+<span class="n">rexp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(?P&lt;word&gt;[a-zA-Z]+)|(?P&lt;number&gt;[0-9]+)|(?P&lt;space&gt;[\n\t ]+)|(?P&lt;error&gt;.)&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">rexp</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="s1">&#39;123 abc  de    56 7 x&#39;</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">lastgroup</span><span class="p">,</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">lastgroup</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Η έξοδος του προηγούμενου κώδικα θα είναι:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>number 123
+space
+word abc
+space
+word de
+space
+number 56
+space
+number 7
+space
+word x
+</pre></div>
+</div>
+<p>Το προηγούμενο παράδειγμα χρησιμοποιεί <em>επώνυμα groups</em> (named groups):</p>
+<ul class="simple">
+<li><p>Η σύνταξη <code class="docutils literal notranslate"><span class="pre">(?P&lt;name&gt;……)</span></code> εισάγει ένα νέο group με όνομα <code class="docutils literal notranslate"><span class="pre">name</span></code>. Στη θέση του <code class="docutils literal notranslate"><span class="pre">name</span></code> μπορεί να μπει οτιδήποτε, αρκεί να είναι έγκυρο αναγνωριστικό (identifier) της Python.</p></li>
+<li><p>Το <code class="docutils literal notranslate"><span class="pre">m.lastgroup</span></code> δίνει το όνομα του τελευταίου επώνυμου group που ταίριαξε (π.χ. το <code class="docutils literal notranslate"><span class="pre">name</span></code>) ή <code class="docutils literal notranslate"><span class="pre">None</span></code> αν δεν ταίριαξε επώνυμο group ή δεν ταίριαξε τίποτα.</p></li>
+<li><p>Αν έχει ταιριάξει το επώνυμο group <code class="docutils literal notranslate"><span class="pre">name</span></code>, μπορείτε να δείτε το κείμενο που ταίριαξε σε αυτό μέσω του <code class="docutils literal notranslate"><span class="pre">m.group('name')</span></code>.</p>
+<ul>
+<li><p>To <code class="docutils literal notranslate"><span class="pre">m.group(m.lastgroup)</span></code> του προηγούμενου παραδείγματος επιστρέφει το κείμενο που αντιστοιχεί στο τελευταίο επώνυμο group που ταίριαξε.</p></li>
+<li><p>Η συνολική κανονική έκφραση του παραδείγματος αποτελείται από εναλλακτικά επώνυμα groups, από τα οποία μόνο ένα ταιριάζει κάθε φορά.</p></li>
+</ul>
+</li>
+</ul>
+<p>Ένα <a class="reference external" href="https://docs.python.org/3/library/re.html#writing-a-tokenizer">πλήρες παράδειγμα (“Writing a Tokenizer”)</a> μπορείτε να βρείτε στην τεκμηρίωση της βιβλιοθήκης <code class="docutils literal notranslate"><span class="pre">re</span></code> της Python.</p>
+</section>
 </section>
 <section id="id12">
 <h2>Ασκήσεις<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
@@ -723,12 +816,16 @@
 <li><a class="reference internal" href="#id8">Προαιρετικό</a></li>
 <li><a class="reference internal" href="#id9">Τελεστές επανάληψης</a></li>
 <li><a class="reference internal" href="#id10">Ολόκληρες λέξεις</a></li>
-<li><a class="reference internal" href="#groups">Μέρη ταιριασμάτων (groups)</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#groups">Μέρη ταιριασμάτων (groups)</a></li>
 <li><a class="reference internal" href="#id11">Η απληστία των τελεστών * και +</a></li>
+<li><a class="reference internal" href="#search">Άλλες μέθοδοι εκτός από τη search()</a><ul>
 <li><a class="reference internal" href="#finditer">Η μέθοδος finditer()</a></li>
 <li><a class="reference internal" href="#sub">Η μέθοδος sub()</a></li>
+<li><a class="reference internal" href="#tokens">Εξαγωγή tokens</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#id12">Ασκήσεις</a></li>
 </ul>
 </li>

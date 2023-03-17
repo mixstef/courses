@@ -1,6 +1,6 @@
 import plex
 
-from mystack import Stack,StackError
+from compilerlabs import Stack,StackError
 
 # pattern definitions
 digit = plex.Range('09')

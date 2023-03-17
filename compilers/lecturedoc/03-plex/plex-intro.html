@@ -15,6 +15,8 @@
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Παράρτημα Α: Πληροφορίες για την Python3" href="../appendix-python/module1.html" />
+    <link rel="prev" title="Κανονικές εκφράσεις και Python" href="../02-regex/module1.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -45,16 +47,13 @@
   <a class="reference internal image-reference" href="../_images/by-sa.png"><img alt="Creative Commons Attribution-ShareAlike 4.0 International License" src="../_images/by-sa.png" style="width: 80px;" /></a>
 <section id="module-plex">
 <h1>Λεκτικοί αναλυτές με το module plex<a class="headerlink" href="#module-plex" title="Permalink to this headline">¶</a></h1>
-<p>Επιστρέφοντας στην πλήρη λεκτική ανάλυση πηγαίου κώδικα, χρειαζόμαστε κώδικα που αναλύει <strong>όλο το κείμενο εισόδου</strong>: δεν ψάχνουμε μόνο για μεμονωμένα ταιριάσματα, πρέπει να αναγνωρίζουμε τα πάντα, σε μη επικαλυπτόμενα ταιριάσματα.</p>
-<p>Η λειτουργία αυτή θα μπορούσε θεωρητικά να επιτευχθεί με τα εργαλεία που έχουμε ήδη στη διάθεσή μας, τις κανονικές εκφράσεις της Python. Θα μπορούσαμε να κατασκευάσουμε κανονικές εκφράσεις, μία για κάθε είδος token που αναγνωρίζουμε, και να τις συνδυάσουμε σε μια μεγαλύτερη με εναλλαγές (<code class="docutils literal notranslate"><span class="pre">|</span></code>). Στη συνέχεια, με τη βοήθεια διαφορετικών groups θα ανιχνεύαμε τι έχει ταιριάξει και θα επιστρέφαμε το κατάλληλο token. Η διαδικασία θα ήταν επαναληπτική, μέχρι να εξαντληθεί όλος ο πηγαίος κώδικας. Ένα πολύ καλό <a class="reference external" href="https://docs.python.org/3/library/re.html#writing-a-tokenizer">παράδειγμα (“Writing a Tokenizer”)</a> μπορείτε να βρείτε στην τεκμηρίωση της βιβλιοθήκης <code class="docutils literal notranslate"><span class="pre">re</span></code> της Python.</p>
+<p>Στην πλήρη λεκτική ανάλυση πηγαίου κώδικα χρειαζόμαστε κώδικα που αναλύει <strong>όλο το κείμενο εισόδου</strong>: δεν ψάχνουμε μόνο για μεμονωμένα ταιριάσματα, πρέπει να αναγνωρίζουμε τα πάντα, σε μη επικαλυπτόμενα ταιριάσματα.</p>
+<p>Η λειτουργία αυτή μπορεί να επιτευχθεί με τα εργαλεία που έχουμε ήδη στη διάθεσή μας, τις κανονικές εκφράσεις της Python. Μπορούμε να κατασκευάσουμε κανονικές εκφράσεις, μία για κάθε είδος token που αναγνωρίζουμε, και να τις συνδυάσουμε σε μια μεγαλύτερη με εναλλαγές (<code class="docutils literal notranslate"><span class="pre">|</span></code>). Στη συνέχεια, με τη βοήθεια διαφορετικών groups θα ανιχνεύουμε τι έχει ταιριάξει και θα επιστρέφουμε το κατάλληλο token. Η διαδικασία θα είναι επαναληπτική, μέχρι να εξαντληθεί όλος ο πηγαίος κώδικας. Ένα πολύ καλό <a class="reference external" href="https://docs.python.org/3/library/re.html#writing-a-tokenizer">παράδειγμα (“Writing a Tokenizer”)</a> μπορείτε να βρείτε στην τεκμηρίωση της βιβλιοθήκης <code class="docutils literal notranslate"><span class="pre">re</span></code> της Python.</p>
 <p>Αυτή τη λειτουργία παρέχει το module <code class="docutils literal notranslate"><span class="pre">plex</span></code>, με έναν απλό και αντικειμενοστρεφή τρόπο.</p>
 <div class="topic">
 <p class="topic-title">Προσοχή: βιβλιοθήκη third-party</p>
-<p>Το plex δεν ανήκει στην standard library της Python. Αν χρησιμοποιήσετε το <a class="reference external" href="https://mybinder.org/v2/gh/mixstef/mybinder-compilers/HEAD">on-line περιβάλλον</a>  στο Mybinder.org, το plex είναι προεγκατεστημένο. Αν δουλέψετε στον δικό σας υπολογιστή θα πρέπει να το εγκαταστήσετε εσείς:</p>
-<ul class="simple">
-<li><p>Η συνιστώμενη μέθοδος είναι μέσω ενός virtual environment. Δείτε τις οδηγίες για την <a class="reference internal" href="../appendix-python/module1.html#python-venv-ref"><span class="std std-ref">εγκατάσταση και χρήση virtual environments</span></a> στην Python.</p></li>
-<li><p>Εναλλακτική μέθοδος (δεν συνιστάται, μόνο αν δεν μπορείτε με τον προηγούμενο τρόπο!): Κατεβάστε το αρχείο <code class="docutils literal notranslate"><span class="pre">plex.zip</span></code> από <a class="reference download internal" download="" href="../_downloads/70e565b10f51ac2fcd37efde11779107/plex.zip"><code class="xref download docutils literal notranslate"><span class="pre">εδώ</span></code></a>. Αποσυμπιέστε στον φάκελο που έχετε και τον δικό σας κώδικα (θα πρέπει να βλέπετε έναν φάκελο <code class="docutils literal notranslate"><span class="pre">plex</span></code> μαζί με τα δικά σας αρχεία python).</p></li>
-</ul>
+<p>Το plex δεν ανήκει στην standard library της Python. Αν χρησιμοποιήσετε το <a class="reference external" href="https://mybinder.org/v2/gh/mixstef/mybinder-compilers/HEAD">on-line περιβάλλον</a>  στο Mybinder.org, το plex είναι προεγκατεστημένο.</p>
+<p>Αν δουλέψετε στον δικό σας υπολογιστή θα πρέπει να το εγκαταστήσετε εσείς. Η συνιστώμενη μέθοδος είναι μέσω ενός virtual environment. Δείτε τις οδηγίες για την <a class="reference internal" href="../appendix-python/module1.html#python-venv-ref"><span class="std std-ref">εγκατάσταση και χρήση virtual environments</span></a> στην Python.</p>
 </div>
 <section id="python">
 <h2>Διαφορές με τις κανονικές εκφράσεις της Python<a class="headerlink" href="#python" title="Permalink to this headline">¶</a></h2>
@@ -345,9 +344,9 @@ abc123
 </div>
 <div class="topic">
 <p class="topic-title">Μια (στοιχειώδης) υλοποίηση στοίβας (stack)</p>
-<p>Στην Python είναι πολύ εύκολο να φτιάξουμε μια στοίβα χρησιμοποιώντας μια λίστα (list). Για ευκολία, στα επόμενα χρησιμοποιούμε την έτοιμη κλάση <code class="docutils literal notranslate"><span class="pre">Stack</span></code> που βρίσκεται στο module <code class="docutils literal notranslate"><span class="pre">mystack</span></code>. Η κλάση παρέχει μόνο τις βασικές λειτουργίες <em>push</em> και <em>pop</em>, ενώ δημιουργείται σφάλμα εάν προσπαθήσετε να εξάγετε στοιχείο όταν η στοίβα είναι άδεια. Στο <a class="reference external" href="https://mybinder.org/v2/gh/mixstef/mybinder-compilers/HEAD">on-line περιβάλλον</a>  στο Mybinder.org, το module <code class="docutils literal notranslate"><span class="pre">mystack</span></code> είναι προεγκατεστημένο. Για τον υπολογιστή σας πρέπει να κατεβάσετε το module (<a class="reference download internal" download="" href="../_downloads/c3b9982d6575494990ba96b2c09878f6/mystack.py"><code class="xref download docutils literal notranslate"><span class="pre">αρχείο</span> <span class="pre">mystack.py</span></code></a>) και να το τοποθετήσετε μαζί με τα δικά σας αρχεία Python.</p>
+<p>Στην Python είναι πολύ εύκολο να φτιάξουμε μια στοίβα χρησιμοποιώντας μια λίστα (list). Για ευκολία, στα επόμενα χρησιμοποιούμε την έτοιμη κλάση <code class="docutils literal notranslate"><span class="pre">Stack</span></code> που βρίσκεται στο package <code class="docutils literal notranslate"><span class="pre">compilerlabs</span></code>. Η κλάση παρέχει μόνο τις βασικές λειτουργίες <em>push</em> και <em>pop</em>, ενώ δημιουργείται σφάλμα εάν προσπαθήσετε να εξάγετε στοιχείο όταν η στοίβα είναι άδεια. Στο <a class="reference external" href="https://mybinder.org/v2/gh/mixstef/mybinder-compilers/HEAD">on-line περιβάλλον</a>  στο Mybinder.org, το package <code class="docutils literal notranslate"><span class="pre">compilerlabs</span></code> είναι προεγκατεστημένο. Για τον υπολογιστή σας δείτε τις οδηγίες για την <a class="reference internal" href="../appendix-python/module1.html#python-venv-ref"><span class="std std-ref">εγκατάσταση και χρήση virtual environments</span></a> στην Python.</p>
 <p>Παραδείγματα χρήσης της κλασης <code class="docutils literal notranslate"><span class="pre">Stack</span></code>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">mystack</span> <span class="kn">import</span> <span class="n">Stack</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">compilerlabs</span> <span class="kn">import</span> <span class="n">Stack</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Stack</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="mf">12.34</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="mf">9.22</span><span class="p">)</span>
@@ -364,7 +363,7 @@ abc123
 <p>Το επόμενο πρόγραμμα Python υλοποιεί τον αλγόριθμο για υπολογισμό αριθμητικών εκφράσεων σε postfix μορφή. Οι υποστηριζόμενοι τελεστές ειναι οι <code class="docutils literal notranslate"><span class="pre">+</span></code>, <code class="docutils literal notranslate"><span class="pre">-</span></code>, <code class="docutils literal notranslate"><span class="pre">*</span></code>, <code class="docutils literal notranslate"><span class="pre">/</span></code> και ο ψευδοτελεστής <code class="docutils literal notranslate"><span class="pre">?</span></code>, ο οποίος τυπώνει ό,τι βρίσκεται στην κορυφή της στοίβας εκείνη τη στιγμή.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">plex</span>
 
-<span class="kn">from</span> <span class="nn">mystack</span> <span class="kn">import</span> <span class="n">Stack</span><span class="p">,</span><span class="n">StackError</span>
+<span class="kn">from</span> <span class="nn">compilerlabs</span> <span class="kn">import</span> <span class="n">Stack</span><span class="p">,</span><span class="n">StackError</span>
 
 <span class="c1"># pattern definitions</span>
 <span class="n">digit</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Range</span><span class="p">(</span><span class="s1">&#39;09&#39;</span><span class="p">)</span>
@@ -440,7 +439,11 @@ abc123
 </pre></div>
 </div>
 <p>Στο προηγούμενο παράδειγμα, χρησιμοποιούμε μια συνάρτηση ανά τελεστή και ένα dictionary για να επιλέγουμε συνάρτηση ανάλογα με τον τελεστή. Θα μπορούσατε εναλλακτικά να υλοποιήσετε τον κώδικα με μια σειρά από <code class="docutils literal notranslate"><span class="pre">if..elif..elif..else</span></code>.</p>
-<p>Μπορείτε να κατεβάσετε τα αρχεία με τον <a class="reference download internal" download="" href="../_downloads/2aed1114bf1d7ad9842cbfbe08ce845d/rpn.py"><code class="xref download docutils literal notranslate"><span class="pre">κώδικα</span> <span class="pre">Python</span></code></a> και το <a class="reference download internal" download="" href="../_downloads/f53e78174b28b7aa171cd5aa127d42de/rpn.txt"><code class="xref download docutils literal notranslate"><span class="pre">δοκιμαστικό</span> <span class="pre">κείμενο</span> <span class="pre">εισόδου</span></code></a> του παραδείγματος, που υπολογίζει την έκφραση <code class="docutils literal notranslate"><span class="pre">1.1+(10-7)*(6/2)</span></code>.</p>
+<p>Μπορείτε να κατεβάσετε τα αρχεία με τον <a class="reference download internal" download="" href="../_downloads/2aed1114bf1d7ad9842cbfbe08ce845d/rpn.py"><code class="xref download docutils literal notranslate"><span class="pre">κώδικα</span> <span class="pre">Python</span></code></a> και το <a class="reference download internal" download="" href="../_downloads/f53e78174b28b7aa171cd5aa127d42de/rpn.txt"><code class="xref download docutils literal notranslate"><span class="pre">δοκιμαστικό</span> <span class="pre">κείμενο</span> <span class="pre">εισόδου</span></code></a> του παραδείγματος, που υπολογίζει την έκφραση</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>1.1  10  7 -  6  2  /  *  +  ?
+</pre></div>
+</div>
+<p>υπολογίζει δηλαδή το <code class="docutils literal notranslate"><span class="pre">1.1+(10-7)*(6/2)</span></code>.</p>
 </section>
 <section id="id5">
 <h2>Ασκήσεις<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>

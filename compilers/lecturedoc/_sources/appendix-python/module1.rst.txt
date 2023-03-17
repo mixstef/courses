@@ -217,7 +217,9 @@ Python virtual environments
 
 ::
 
-	pip install --force-reinstall https://mixstef.github.io/courses/compilers/packages/compilerlabs-0.0.1.tar.gz --no-cache-dir	
+	pip install --force-reinstall https://mixstef.github.io/courses/compilers/packages/compilerlabs-0.0.1.tar.gz --no-cache-dir
+	
+	pip install --force-reinstall https://mixstef.github.io/courses/compilers/packages/plex-2.0.1.tar.gz --no-cache-dir		
 
 
 ***************************************

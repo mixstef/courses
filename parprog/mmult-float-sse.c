@@ -7,9 +7,9 @@
 // this is the sse float version of dot product of two NxN matrices 
 // compile with: gcc -msse2 -Wall -O2 mmult-float-sse.c -o mmult-float-sse -DN=1000
 
-// matrix dims N rows x N columns: use -DN=.. to define on compilation
 // N must be a multiple of 4!
 
+// NOTE: in order to be cache friendly, matrix B is assumed to be transposed
 
 
 void get_walltime(double *wct) {
@@ -27,11 +27,11 @@ __m128 *pa,*pb;
 __m128 sum,t1,t2;
 
   int i = posix_memalign((void **)&a,16,N*N*sizeof(float));
-  if (i!=0) exit(1);
+  if (i!=0) { printf("Allocation failed!\n"); exit(1); }
   i = posix_memalign((void **)&b,16,N*N*sizeof(float));
-  if (i!=0) { free(a); exit(1); }
+  if (i!=0) { printf("Allocation failed!\n"); free(a); exit(1); }
   i = posix_memalign((void **)&c,16,N*N*sizeof(float));
-  if (i!=0) { free(b); free(a); exit(1); }
+  if (i!=0) { printf("Allocation failed!\n"); free(b); free(a); exit(1); }
 
   // alias m128 ptrs to arrays
   pa = (__m128 *)a;
@@ -52,7 +52,7 @@ __m128 sum,t1,t2;
   
     for (int j=0;j<N;j++) {	// for all "columns" (rows) of B
     
-      sum = _mm_set1_ps(0);
+      sum = _mm_setzero_ps();
       for (int k=0;k<N/4;k++) {	// for each element of selected A row and B "column"
         sum = _mm_add_ps(sum,_mm_mul_ps(pa[i*N/4+k],pb[j*N/4+k])); // note: B is transposed
       }
@@ -74,7 +74,7 @@ __m128 sum,t1,t2;
   // print computation time
   printf("Computation time = %f sec\n",(te-ts));
 
-  // "test" result
+  // test result (i.e. check that all elements of c were "touched"
   for (int i=0;i<N*N;i++) {
     if (c[i]==0.0) { printf("Error!\n"); break; }
   }

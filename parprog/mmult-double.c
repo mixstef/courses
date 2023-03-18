@@ -1,13 +1,11 @@
+// this is the plain version of dot product of two NxN matrices of doubles
+// compile with:  gcc -Wall -O2 mmult-double.c -o mmult-double -DN=1000
+
+
 #include <stdio.h>
 #include <stdlib.h>
 
 #include <sys/time.h>
-
-// this is the plain version of dot product of two NxN matrices of doubles
-// compile with:
-// gcc -Wall -O2 mmult-double.c -o mmult-double -DN=1000
-
-// matrix dims N rows x N columns: use -DN=.. to define on compilation
 
 
 

@@ -1,7 +1,6 @@
 // Sample program generating THREADS identical threads with parametric args
-// working on parts of an array of size N
-// compile with e.g.:
-// gcc -O2 -Wall -pthread blocksize-demo.c -o blocksize-demo -DN=100 -DTHREADS=10
+// working on block parts of an array of total size N
+// compile with:  gcc -O2 -Wall -pthread blocksize-demo.c -o blocksize-demo -DN=100 -DTHREADS=10
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,7 +8,7 @@
 #include <pthread.h>
 
 
-// how many elements a thread will process - NOTE: surrounding ()!
+// how many elements a thread will process - note surrounding ()!
 #define BLOCKSIZE  ((N+THREADS-1)/THREADS)
 
 
@@ -17,7 +16,7 @@
 struct thread_params {
   int id;	// thread's id (for demo purposes)
   double *pa;	// start of array to work on	
-  int n;	// how many items to "process"
+  int n;	// how many items to process
 };
 
 
@@ -31,7 +30,7 @@ void *thread_func(void *args) {
  
   // useful work here
   for (int i=0;i<n;i++) {
-    printf("Child thread %d working on element %f\n",id,pa[i]);
+    printf("Child thread %d working on element with value %f\n",id,pa[i]);
   }
 
   // exit and let be joined
@@ -57,14 +56,14 @@ int main() {
   
   // for all threads
   for (int i=0;i<THREADS;i++) {
-    // fill i-th member of tparm array
+    // fill tparm[i]
     tparm[i].id = i;
     tparm[i].pa = a+i*BLOCKSIZE;
-    if (i==(THREADS-1)) { // last thread, maybe less than blocksize to do...
+    if (i==(THREADS-1)) { // last thread, maybe less than blocksize to do
       tparm[i].n = N-i*BLOCKSIZE; 
     }
     else { 
-      tparm[i].n = BLOCKSIZE; // always blocksize work to do! 
+      tparm[i].n = BLOCKSIZE; // any other thread, always blocksize work to do 
     }
       
     // create i-th thread, pass ptr to tparm[i]

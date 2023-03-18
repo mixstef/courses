@@ -1,6 +1,5 @@
 // Sample program generating THREADS identical threads with parametric args
-// compile with e.g.:
-// gcc -O2 -Wall -pthread many-threads-parametric.c -o many-threads-parametric -DTHREADS=10
+// compile with:  gcc -O2 -Wall -pthread many-threads-parametric.c -o many-threads-parametric -DTHREADS=10
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -31,13 +30,13 @@ void *thread_func(void *args) {
 
 int main() {
 
-  pthread_t pid[THREADS];
+  pthread_t pid[THREADS];	// array of thread "handles" (one per thread)
   
-  struct thread_params tparm[THREADS];
+  struct thread_params tparm[THREADS];	// array of info structs (one per thread)
   
   // for all threads
   for (int i=0;i<THREADS;i++) {
-    // fill i-th member of tparm array
+    // fill info of tparm[i] 
     tparm[i].id = i;
     
     // create i-th thread, pass ptr to tparm[i]

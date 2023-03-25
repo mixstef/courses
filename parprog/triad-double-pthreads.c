@@ -1,13 +1,15 @@
+// Sample triad benchmark with arrays of doubles, using pthreads
+// compile with : gcc -O2 -Wall -pthread triad-double-pthreads.c -o triad-double-pthreads -DTHREADS=4 -DN=10000 -DR=10000
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
 
 #include <pthread.h>
 
-// Sample triad benchmark with arrays of doubles, using pthreads
-// compile with : gcc -O2 -Wall -pthread triad-double-pthreads.c -o triad-double-pthreads -DTHREADS=4 -DN=10000 -DR=10000
 
-// how many elements a thread will process - NOTE: surrounding ()!
+// how many elements a thread will process - note surrounding ()!
 #define BLOCKSIZE  ((N+THREADS-1)/THREADS)
 
 // struct of info passed to each thread
@@ -25,16 +27,15 @@ void *thread_func(void *args) {
   struct thread_params *tparm = (struct thread_params *)args;
 
   int n = tparm->n;
+  double *a = tparm->a;
+  double *b = tparm->b;
+  double *c = tparm->c;
+  double *d = tparm->d;
 
   // for R artificial repetitions
   for (int j=0;j<R;j++) {
     
-    // process block of consecutive elements
-    double *a = tparm->a;
-    double *b = tparm->b;
-    double *c = tparm->c;
-    double *d = tparm->d;
-    
+    // process block of consecutive elements    
     for (int i=0;i<n;i++) {
       a[i] = b[i]*c[i]+d[i];
     }

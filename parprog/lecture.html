@@ -69,7 +69,7 @@
           <li>Λειτουργίες "map": <a href="vectoradd-float.c">vectoradd-float.c</a> και <a href="triad-float.c">triad-float.c</a> (μετατροπή σε SSE: <a href="vectoradd-float-sse.c">vectoradd-float-sse.c</a> και <a href="triad-float-sse.c">triad-float-sse.c</a>).</li>
           <li>Λειτουργίες "reduce": <a href="sum-float.c">sum-float.c</a> και <a href="mmult-float.c">mmult-float.c</a> (μετατροπή σε SSE: sum <a href="sum-float-sse.c">χωρίς </a> και <a href="sum-float-sse-hsum.c">με</a> οριζόντιο άθροισμα, <a href="mmult-float-sse.c">mmult-float-sse.c</a>).</li>
           <li>Λειτουργίες υπό συνθήκη: <a href="threshold-clamp-float.c">threshold-clamp-float.c</a> (μετατροπή σε SSE: <a href="threshold-clamp-float-sse.c">threshold-clamp-float-sse.c</a>).</li>
-          <li><a href="assignment1.pdf">Εργασία #1</a> [Παράδοση: 3/4/23].</li>
+          <li><a href="assignment1.pdf">Εργασία #1</a> [Παράδοση: <del>3/4/23</del><ins> 24/4/23</ins>].</li>
         </ul>
 
 
@@ -89,11 +89,11 @@
           <li>Sum reduction: <a href="sum-reduction-double.c">υπόδειγμα χωρίς threads</a> (μετατρέψτε σε threads, η τελική άθροιση να γίνεται i. από την main, ii. από τα threads με προστασία mutex).</li>
           <li>Φάσεις υπολογισμού (συγχρονισμός με barrier): <a href="example-no-barrier.c">υπόδειγμα χωρίς barrier</a>, <a href="example-barrier.c">λύση με barrier</a>.</li>
           <li>Υπολογισμός prefix sum: <a href="PrefixSumThreads.pdf">ανάλυση λειτουργίας</a>, <a href="prefix-sum-double.c">σειριακό υπόδειγμα</a> και <a href="prefix-sum-double-pseudothreads.c">προετοιμασία για threads</a> (μετατρέψτε σε threads με χρήση barrier μεταξύ των φάσεων υπολογισμού).</li>
-          
+          <li>Condition variables: <a href="producer-consumer-BAD.c">Αρχικός κώδικας producer-consumer χωρίς συγχρονισμό (ΛΑΘΟΣ!)</a>. Στόχος: i. προσθήκη mutex, ii. παρουσίαση condition variables.</li>
 <!--          
-          <li>29/3/2022: Condition variables.
+          <li>29/3/2022: .
             <ul>
-              <li>Παράδειγμα producer-consumer (<a href="producer-consumer-BAD.c">χωρίς συγχρονισμό (ΛΑΘΟΣ!)</a>, <a href="producer-consumer-mutex.c">με mutex (cycle burner)</a>, <a href="producer-consumer-cv.c">λύση με condition variables</a>).</li>
+              <a href="producer-consumer-mutex.c">με mutex (cycle burner)</a>, <a href="producer-consumer-cv.c">λύση με condition variables</a>)
             </ul>
           </li> 
 -->                   

@@ -15,7 +15,6 @@ void get_walltime(double *wct) {
 
 int main() {
 double *a,*b,*c,*d;
-int i,j;
 double ts,te,mflops;
 
   // allocate test arrays
@@ -29,7 +28,7 @@ double ts,te,mflops;
   if (d==NULL) { free(a); free(b); free(c); exit(1); }
   
   //initialize all arrays - cache warm-up
-  for (i=0;i<N;i++) {
+  for (int i=0;i<N;i++) {
     a[i]=2.0*i;
     b[i]=-i;
     c[i]=i+5.0;
@@ -40,8 +39,8 @@ double ts,te,mflops;
   get_walltime(&ts);
   
   // do triad artificial work
-  for (j=0;j<R;j++) {
-    for (i=0;i<N;i++) {
+  for (int j=0;j<R;j++) {
+    for (int i=0;i<N;i++) {
       a[i] = b[i]*c[i]+d[i];
     }
   }
@@ -50,7 +49,7 @@ double ts,te,mflops;
   get_walltime(&te);
   
   // check result - avoid loop removal by compiler
-   for (i=0;i<N;i++) {
+   for (int i=0;i<N;i++) {
     if (a[i]!=b[i]*c[i]+d[i]) {
       printf("Error!\n");
       break;

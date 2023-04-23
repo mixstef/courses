@@ -15,7 +15,7 @@ int main() {
   
   #pragma omp parallel
   {
-    printf("Thread %d: Hello world!\n",omp_get_thread_num());
+    printf("Thread %d of %d: Hello world!\n",omp_get_thread_num(), omp_get_num_threads());
   
   } // NOTE: implicit barrier sync here
 

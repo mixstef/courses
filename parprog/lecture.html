@@ -103,17 +103,13 @@
        <h4>Υλικό εργαστηρίων ενότητας #4</h4>        
         <ul>
           <li>Υποδείγματα κώδικα: <a href="hello-omp.c">hello-omp.c</a>, <a href="omp-private-shared-critical.c">omp-private-shared-critical.c</a>, <a href="omp-for-example.c">omp-for-example.c</a>.</li>
-          <li>Λειτουργίες "map": <a href="triad-double.c">benchmark τύπου triad</a>, <a href="mmult-double.c">απλός πολλαπλασιασμός πινάκων</a>. Μετατρέψτε σε παράλληλο κώδικα με το OpenMP.</li>
-          <li>Λειτουργίες "reduce": <a href="sum-reduction-double.c">άθροισμα στοιχείων πίνακα</a>, <a href="pi-integral.c">υπολογισμός του π</a>. Μετατρέψτε σε παράλληλο κώδικα με το OpenMP.</li>
+          <li>Λειτουργίες "map": <a href="triad-double.c">benchmark τύπου triad</a> [<a href="triad-double-omp2.c">παραλληλισμός με το OpenMP</a>], <a href="mmult-double.c">απλός πολλαπλασιασμός πινάκων</a> [<a href="mmult-double-omp.c">παραλληλισμός με το OpenMP</a>].</li>
+          <li>Λειτουργίες "reduce": <a href="sum-reduction-double.c">άθροισμα στοιχείων πίνακα</a> [παραλληλισμός με το OpenMP: <a href="sum-reduction-double-omp.c">λύση 1</a>, <a href="sum-reduction-double-omp-reduction.c">λύση 2</a>] και <a href="pi-integral.c">υπολογισμός του π</a> [παραλληλισμός με το OpenMP: <a href="pi-integral-omp.c">λύση 1</a>, <a href="pi-integral-omp2.c">λύση 2</a>].</li>
+          <li>Υποδείγματα κώδικα για tasks: <a href="omp-print-abc.c">omp-print-abc.c</a>, <a href="fib-notasks.c">fib-notasks.c</a>, <a href="quicksort-simple.c">quicksort-simple.c</a>, <a href="tasks-dependence-initial.c">tasks-dependence-initial.c</a>.</li>
+          
         </ul>
 
 <!--
-          <li>5/4/2022: Λειτουργίες τύπου reduction.
-            <ul> 
-              <li>Sum reduction (<a href="sum-reduction-double.c">σειριακό υπόδειγμα</a>, <a href="sum-reduction-double-omp.c">1η λύση με το OpenMP</a>, <a href="sum-reduction-double-omp-reduction.c">2η λύση με το OpenMP</a>).</li>
-              <li>Υπολογισμός του π (<a href="pi-integral.c">σειριακό υπόδειγμα</a>, <a href="pi-integral-omp.c">1η λύση με το OpenMP</a>, <a href="pi-integral-omp2.c">2η λύση με το OpenMP</a>).</li>
-            </ul>
-          </li>
           <li>11/4/2022: OpenMP tasks.
             <ul>
               <li>Παράδειγμα κωδικα με tasks (<a href="omp-print-abc.c">χωρίς tasks</a>, <a href="omp-print-abc-tasks.c">με tasks</a>).</li>

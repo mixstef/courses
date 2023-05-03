@@ -71,7 +71,7 @@
 <li><p>Στη συνέχεια προσδιορίστε τα patterns που θα αναγνωρίζονται (εδώ, τα strings <code class="docutils literal notranslate"><span class="pre">abc</span></code> και <code class="docutils literal notranslate"><span class="pre">123</span></code>, καθώς και διάφοροι χαρακτήρες whitespace):</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">text_abc</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
 <span class="n">text_123</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="s1">&#39;123&#39;</span><span class="p">)</span>
-<span class="n">spaces</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Rep1</span><span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Any</span><span class="p">(</span><span class="s1">&#39; </span><span class="se">\\</span><span class="s1">t</span><span class="se">\\</span><span class="s1">n&#39;</span><span class="p">))</span>
+<span class="n">spaces</span> <span class="o">=</span> <span class="n">plex</span><span class="o">.</span><span class="n">Rep1</span><span class="p">(</span><span class="n">plex</span><span class="o">.</span><span class="n">Any</span><span class="p">(</span><span class="s1">&#39; </span><span class="se">\t\n</span><span class="s1">&#39;</span><span class="p">))</span>
 </pre></div>
 </div>
 </li>

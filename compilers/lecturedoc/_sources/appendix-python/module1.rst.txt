@@ -217,9 +217,7 @@ Python virtual environments
 
 ::
 
-	pip install --force-reinstall https://mixstef.github.io/courses/compilers/packages/compilerlabs-0.0.1.tar.gz --no-cache-dir
-	
-	pip install --force-reinstall https://mixstef.github.io/courses/compilers/packages/plex-2.0.1.tar.gz --no-cache-dir		
+	pip install --upgrade plex compilerlabs -f https://mixstef.github.io/courses/compilers/packages/		
 
 
 ***************************************
@@ -527,5 +525,66 @@ Strings
 	    line = line.rstrip('\n')
 	    
 	    # συνέχεια επεξεργασίας
+	    
+
+.. _apx-classes-ref:
+
+***********************************************
+Κλάσεις στην Python3: μια μικροσκοπική εισαγωγή
+***********************************************
+
+Η Python είναι αντικειμενοστρεφής γλώσσα και το κύριο εργαλείο για αυτόν τον σκοπό είναι οι κλάσεις. Οι κλάσεις ορίζονται ως εξής:
+
+..	code-block:: python
+     
+	class Test:
+		""" a class without parent """
+		
+		# put class code here
 
 
+..	code-block:: python
+     
+	class Test2(Parent):
+		""" a class having as parent the class Parent """
+		
+		# put class code here
+
+Για να δημιουργήσουμε αντικείμενα μιας κλάσης χρησιμοποιούμε τη σύνταξη:
+
+..	code-block:: python
+     
+	testobj = Test()
+
+Οι μέθοδοι μέσα στις κλάσεις δηλώνονται με πρώτη παράμετρο το ``self`` που συμβολίζει *το ίδιο το αντικείμενο* της κλάσης. Το ``self`` χρησιμοποιείται για να αναφερθούμε τόσο σε μεταβλητές όσο και σε μεθόδους του αντικειμένου της κλάσης. **Προσοχή!** Το όρισμα self το παρέχει κατά την κλήση κάθε μεθόδου η Python, έτσι δεν πρέπει να το δώσουμε εμείς:
+
+..	code-block:: python
+     
+	class Test:
+		""" a test class """
+		
+		def testmethod(self,a,b):    # declaration of method "testmethod"
+			self.t = a+b	     # "self.t" is a class member variable
+ 			
+		def testmethod2(self):       # declaration of method "testmethod"
+			self.testmethod(3,4) # call of class method "testmethod" 
+
+
+Η συνάρτηση ``__init__()`` έχει ειδικό ρόλο: καλείται κατά την αρχικοποίηση ενός αντικειμένου και μπορεί να δεχτεί αρχικές παραμέτρους για το νέο αντικείμενο:
+
+..	code-block:: python
+     
+	class Test:
+		""" a test class """
+
+		def __init(self,size):
+			self.size = size     # "self.size" is a class member variable
+			
+			
+	# elsewhere in program
+	t = Test(34)	# create a new Test instance with size = 34
+	print(t.size)	# print member variable "size" of instance "t" (will print 34)
+		
+Θα πρέπει να σημειωθεί ότι στην Python δεν υπάρχει η έννοια των ιδιωτικών (private) μεταβλητών ή μεθόδων: τα μέλη και οι μέθοδοι μιας κλάσης μπορούν να προσπελαστούν *από οποιοδήποτε σημείο του προγράμματος*, όπως στην τελευταία γραμμή του προηγούμενου παραδείγματος.
+
+	    

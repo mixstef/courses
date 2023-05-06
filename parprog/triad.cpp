@@ -1,10 +1,9 @@
 // C++ triad benchmark without TBB threading
-// compile with: g++ -Wall -O2 -std=c++11 triad.cpp -o triad -ltbb
+// compile with: g++ -Wall -O2 -std=c++11 triad.cpp -o triad
 
 #include <iostream>
 #include <chrono>
 
-#include "tbb/tbb.h"
 
 
 size_t const N = 100000000;

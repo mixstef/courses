@@ -1,10 +1,9 @@
 // Serial Matrix multiplication (without TBB)
-// Compile with:  g++ -Wall -O2 -std=c++11 matmul.cpp -o matmul -ltbb
+// Compile with:  g++ -Wall -O2 -std=c++11 matmul.cpp -o matmul
 
 #include <iostream>
 #include <chrono>
 
-#include "tbb/tbb.h"
 
 size_t const N = 1000;	// all matrices are NxN 
 

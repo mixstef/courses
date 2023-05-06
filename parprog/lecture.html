@@ -106,26 +106,37 @@
           <li>Λειτουργίες "map": <a href="triad-double.c">benchmark τύπου triad</a> [<a href="triad-double-omp2.c">παραλληλισμός με το OpenMP</a>], <a href="mmult-double.c">απλός πολλαπλασιασμός πινάκων</a> [<a href="mmult-double-omp.c">παραλληλισμός με το OpenMP</a>].</li>
           <li>Λειτουργίες "reduce": <a href="sum-reduction-double.c">άθροισμα στοιχείων πίνακα</a> [παραλληλισμός με το OpenMP: <a href="sum-reduction-double-omp.c">λύση 1</a>, <a href="sum-reduction-double-omp-reduction.c">λύση 2</a>] και <a href="pi-integral.c">υπολογισμός του π</a> [παραλληλισμός με το OpenMP: <a href="pi-integral-omp.c">λύση 1</a>, <a href="pi-integral-omp2.c">λύση 2</a>].</li>
           <li>Υποδείγματα κώδικα για tasks: <a href="omp-print-abc.c">omp-print-abc.c</a>, <a href="fib-notasks.c">fib-notasks.c</a>, <a href="quicksort-simple.c">quicksort-simple.c</a>, <a href="tasks-dependence-initial.c">tasks-dependence-initial.c</a>.</li>
+          <li>Λύσεις με OpenMP tasks: <a href="omp-print-abc-taskwait.c">omp-print-abc-taskwait.c</a>, <a href="fib-tasks.c">fib-tasks.c</a>, <a href="quicksort-tasks.c">quicksort-tasks.c</a>, <a href="tasks-dependence-correct.c">tasks-dependence-correct.c</a>.</li>
           
         </ul>
 
 <!--
-          <li>11/4/2022: OpenMP tasks.
-            <ul>
-              <li>Παράδειγμα κωδικα με tasks (<a href="omp-print-abc.c">χωρίς tasks</a>, <a href="omp-print-abc-tasks.c">με tasks</a>).</li>
-              <li>Υπολογισμός αριθμού fibonacci (<a href="fib-notasks.c">χωρίς tasks</a>, <a href="fib-tasks.c">με tasks</a>).</li>
-              <li>Quicksort με OpenMP tasks (<a href="quicksort-simple.c">σειριακό υπόδειγμα</a>, <a href="quicksort-tasks.c">με tasks</a>).</li>
-            </ul>
-          </li>
-          <li>12/4/2022: Tasks (συνέχεια), OpenMP και υποστήριξη SIMD (OpenMP 4.0+).
-            <ul>
-              <li>Αλληλεξαρτήσεις tasks (<a href="tasks-dependence-initial.c">σειριακός κώδικας</a>, <a href="tasks-dependence-BAD.c">tasks χωρίς τήρηση αλληλεξαρτήσεων (ΛΑΘΟΣ!)</a>, <a href="tasks-dependence-correct.c">tasks με ορισμό αλληλεξαρτήσεων</a>).</li>
               <li>Υποστήριξη SIMD (πρόσθεση float vectors με <a href="vectoradd-float-simd.c">με SIMD (SSE) εντολές</a> και με <a href="vectoradd-float-simd-threads.c">threads + SSE</a>, παράδειγμα <a href="filter-int-simd.c">filtering με συνθήκη</a>).</li>
               <li>SIMD Reduction (άθροισμα με <a href="sum-float-simd.c">με SIMD (SSE) εντολές</a> και με <a href="sum-float-simd-threads.c">threads + SSE</a>).</li>
             </ul> 
           </li>
 
 -->
+      </div>
+
+      <div class="contentbin">
+        <h4>Ενότητα #5</h4>
+        Intel Threading Building Blocks (TBB).
+
+
+       <h4>Υλικό εργαστηρίων ενότητας #5</h4>        
+        <ul>
+          <li>Διαφάνειες: <a href="tbb1.pdf">Εισαγωγή στη βιβλιοθήκη TBB</a>.</li>
+          <li>Υποδείγματα κώδικα: <a href="lambda-example.cpp">lambda-example.cpp</a>, <a href="testload.cpp">testload.cpp</a>, <a href="triad.cpp">triad.cpp</a>, <a href="matmul.cpp">matmul.cpp</a>.</li>
+          <li>Υποδείγματα κώδικα: <a href="sumreduce-serial.cpp">sumreduce-serial.cpp</a>, <a href="pi-integral-serial.cpp">pi-integral-serial.cpp</a>.</li>
+        </ul>
+
+<!--
+          <li>16/5/2022: Υποδείγματα κώδικα: <a href="pipeline-base.cpp">pipeline-base.cpp</a>, <a href="pipeline-primes-base.cpp">pipeline-primes-base.cpp</a></li>
+          <li>17/5/2022: Υποδείγματα κώδικα: <a href="parallel-invoke-base.cpp">parallel-invoke-base.cpp</a>, <a href="quicksort-simple.cpp">quicksort-simple.cpp</a></li>
+-->
+
+        
       </div>
 
 
@@ -140,22 +151,6 @@
 
 
 
-      <div class="contentbin">
-        <h4>Ενότητα #5</h4>
-        Intel Threading Building Blocks (TBB).
-
-        <p><em>Διαφάνειες: <a href="tbb1.pdf">Εισαγωγή στη βιβλιοθήκη TBB</a></em></p>        
-
-       <h4>Εργαστήρια ενότητας #5</h4>        
-        <ul>
-          <li>3/5/2022: Υποδείγματα κώδικα: <a href="lambda-example.cpp">lambda-example.cpp</a>, <a href="testload.cpp">testload.cpp</a>, <a href="triad.cpp">triad.cpp</a>, <a href="matmul.cpp">matmul.cpp</a> </li>
-          <li>9/5/2022: (συνέχεια από προηγούμενο εργαστήριο)</li>
-          <li>10/5/2022: Υποδείγματα κώδικα: <a href="sumreduce-serial.cpp">sumreduce-serial.cpp</a>, <a href="pi-integral-serial.cpp">pi-integral-serial.cpp</a></li>
-          <li>16/5/2022: Υποδείγματα κώδικα: <a href="pipeline-base.cpp">pipeline-base.cpp</a>, <a href="pipeline-primes-base.cpp">pipeline-primes-base.cpp</a></li>
-          <li>17/5/2022: Υποδείγματα κώδικα: <a href="parallel-invoke-base.cpp">parallel-invoke-base.cpp</a>, <a href="quicksort-simple.cpp">quicksort-simple.cpp</a></li>
-        </ul>
-        
-      </div>
       
       <div class="contentbin">
         <h4>Ενότητα #6</h4>

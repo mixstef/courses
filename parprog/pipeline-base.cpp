@@ -9,7 +9,7 @@
 using namespace std;
 
 
-constexpr size_t N = 10;
+constexpr size_t N = 2;
 
 
 int main() {
@@ -31,12 +31,12 @@ int main() {
   
   const auto stage2 = [](int x) -> int {
     this_thread::sleep_for(chrono::milliseconds(50));  // simulate load
-    return x; 
+    return 2*x; 
   };
   
   const auto stage3 = [](int x) -> int {
     this_thread::sleep_for(chrono::milliseconds(100));  // simulate load
-    return x; 
+    return x*x; 
   };
 
   const auto stage4 = [&j](int x) {
@@ -65,7 +65,7 @@ int main() {
 
  
   // check results
-  if (j!=N) {
+  if (j!=4*N*N) {
     cout << "error!" << endl; 
   }
         

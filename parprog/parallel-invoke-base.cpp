@@ -1,5 +1,5 @@
 // TBB parallel invoke template
-// compile with: g++ -Wall -O2 -std=c++11 parallel-invoke-base.cpp -o parallel-invoke-base -ltbb
+// compile with: g++ -Wall -O2 -std=c++11 parallel-invoke-base.cpp -o parallel-invoke-base $(pkg-config --libs --cflags tbb)
 
 #include <iostream>
 #include <chrono>

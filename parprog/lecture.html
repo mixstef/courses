@@ -129,7 +129,7 @@
       <div class="contentbin">
         <h4>Ενότητα #5</h4>
         Intel Threading Building Blocks (TBB).
-
+        <p></p>
 
        <h4>Υλικό εργαστηρίων ενότητας #5</h4>        
         <ul>
@@ -137,8 +137,8 @@
           <li>Λειτουργίες "map": <a href="lambda-example.cpp">lambda-example.cpp</a>, <a href="testload.cpp">testload.cpp</a> (TBB: <a href="testload-tbb1.cpp">λύση 1</a>, <a href="testload-tbb2.cpp">λύση 2</a>), <a href="triad.cpp">triad.cpp</a> (TBB: <a href="triad-tbb1.cpp">λύση 1</a>, <a href="triad-tbb2.cpp">λύση 2</a>), <a href="matmul.cpp">matmul.cpp</a> (TBB: <a href="matmul-tbb1.cpp">λύση 1</a>, <a href="matmul-tbb2.cpp">λύση 2</a>).</li>
           <li>Λειτουργίες "reduce": <a href="sumreduce-serial.cpp">sumreduce-serial.cpp</a> (<a href="sumreduce-tbb.cpp">λύση με TBB</a>), <a href="pi-integral-serial.cpp">pi-integral-serial.cpp</a> (<a href="pi-integral-tbb.cpp">λύση με TBB</a>).</li>
           <li>Διαφάνειες: <a href="tbb2.pdf">Εισαγωγή στη βιβλιοθήκη TBB (2ο μέρος)</a>.</li>
-          <li>Υποδείγματα κώδικα: <a href="parallel-invoke-base.cpp">parallel-invoke-base.cpp</a>, <a href="fibonacci.cpp">fibonacci.cpp</a>, <a href="quicksort-simple.cpp">quicksort-simple.cpp</a> (βοηθητικό αρχείο: <a href="vector-test.cpp">vector-test.cpp</a>)</li>
-          <li>Υποδείγματα κώδικα: <a href="pipeline-base.cpp">pipeline-base.cpp</a>, <a href="pipeline-primes-base.cpp">pipeline-primes-base.cpp</a></li>
+          <li>parallel_invoke: <a href="parallel-invoke-base.cpp">parallel-invoke-base.cpp</a>, <a href="fibonacci.cpp">fibonacci.cpp</a> (<a href="parallel-invoke-fibonacci.cpp">λύση με TBB</a>), <a href="quicksort-simple.cpp">quicksort-simple.cpp</a> (<a href="quicksort-tbb.cpp">λύση με TBB</a>). Βοηθητικό αρχείο: <a href="vector-test.cpp">vector-test.cpp</a>.</li>
+          <li>parallel_pipeline: <a href="pipeline-base.cpp">pipeline-base.cpp</a>, <a href="pipeline-primes-base.cpp">pipeline-primes-base.cpp</a> (<a href="pipeline-primes.cpp">λύση με TBB</a>).</li>
         </ul>
 
       </div>
@@ -155,17 +155,22 @@
 
 
 
- <!--     
+     
       <div class="contentbin">
         <h4>Ενότητα #6</h4>
         Εισαγωγή στον προγραμματισμό CUDA.
-       <p></p>
-       <h4>Εργαστήρια ενότητας #6</h4>        
+        <p></p>
+        
+       <h4>Υλικό εργαστηρίων ενότητας #6</h4>         
         <ul>
-          <li>23/5/2022: <a href="cuda.pdf">Διαφάνειες</a> και υποδείγματα κώδικα: <a href="one-addition.cu">one-addition.cu</a>, <a href="vectoradd-threads-only.cu">vectoradd-threads-only.cu</a>, <a href="deviceQuery.cpp">deviceQuery.cpp</a>.</li>
+          <li><a href="cuda.pdf">Εισαγωγικές διαφάνειες</a></li>
+          <li>Υποδείγματα κώδικα: <a href="one-addition.cu">one-addition.cu</a>, <a href="vectoradd-threads-only.cu">vectoradd-threads-only.cu</a>, <a href="deviceQuery.cpp">deviceQuery.cpp</a>.</li>
+          <li>Υπόδειγμα κώδικα: <a href="dotproduct-shm.cu">dotproduct-shm.cu</a></li>
         </ul>
                    
       </div>
+
+<!--
 
       <div class="contentbin">
         <h4>Εργασία&nbsp;#2</h4>

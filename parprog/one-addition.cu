@@ -1,10 +1,12 @@
+// Sample program to add two integers on the GPU.
+// Compile with: nvcc one-addition.cu -o one-addition
+
+
 #include <stdio.h>
 #include <stdlib.h>
 
-// Compile with: nvcc one-addition.cu -o one-addition
-// nvcc takes care of all includes/libraries.
 
-// helper function and macro
+// helper function and macro for error reporting
 static void HandleError( cudaError_t err,
                          const char *file,
                          int line ) {
@@ -26,13 +28,14 @@ __global__ void add(int a,int b,int *c) {
 
 int main() {
 
-  int c;	// host's 'c' variable
-  int *dev_c;	// ptr to device's 'c' variable
+  int c;	// host's (CPU) 'c' variable
+  int *dev_c;	// ptr to device's (GPU) 'c' variable
 
   // allocate space for 'c' on device's memory
   HANDLE_ERROR(cudaMalloc((void **)&dev_c,sizeof(int)));
 
   // call the kernel on device, 1 block/1 thread
+  // syntax is: kernel_name<<blocks-per-grid,threads-per-block>>
   // this call is asynchronous - host continues execution
   add<<<1,1>>>(2,7,dev_c);
 

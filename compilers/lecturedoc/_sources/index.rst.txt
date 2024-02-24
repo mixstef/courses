@@ -22,7 +22,5 @@
 
    01-dfa/module1.rst
    01-dfa/dfa-in-python.rst
-   02-regex/module1.rst
-   03-plex/plex-intro.rst
    appendix-python/module1.rst
 

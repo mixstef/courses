@@ -30,7 +30,7 @@
      <div>
         <h4>Τμήμα Πληροφορικής - Ιόνιο Πανεπιστήμιο</h4>
         <h2>Μεταγλωττιστές</h2>
-        <h4>Εαρινό Εξάμηνο 2022-23</h4>        
+        <h4>Εαρινό Εξάμηνο 2023-24</h4>        
         <h5>Μ.Στεφανιδάκης</h5>
       </div>    
 </div>
@@ -58,7 +58,7 @@
 <p><span class="caption-text">Παράδειγμα λεκτικής ανάλυσης</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
 </figcaption>
 </figure>
-<p>Στην είσοδο έχουμε τους μεμονωμένους χαρακτήρες <code class="docutils literal notranslate"><span class="pre">&quot;int</span> <span class="pre">k;&quot;</span></code>. Η λεκτική ανάλυση ομαδοποιεί στα σύμβολα <code class="docutils literal notranslate"><span class="pre">KEYWORD_INT</span></code>, <code class="docutils literal notranslate"><span class="pre">SPACE</span></code>, <code class="docutils literal notranslate"><span class="pre">IDENTIFIER</span></code> και <code class="docutils literal notranslate"><span class="pre">SEMICOLON</span></code>. Παρατηρείστε ότι:</p>
+<p>Στην είσοδο έχουμε τους μεμονωμένους χαρακτήρες <code class="docutils literal notranslate"><span class="pre">&quot;int</span> <span class="pre">k;&quot;</span></code>. Η λεκτική ανάλυση τους ομαδοποιεί στα σύμβολα <code class="docutils literal notranslate"><span class="pre">KEYWORD_INT</span></code>, <code class="docutils literal notranslate"><span class="pre">SPACE</span></code>, <code class="docutils literal notranslate"><span class="pre">IDENTIFIER</span></code> και <code class="docutils literal notranslate"><span class="pre">SEMICOLON</span></code>. Παρατηρείστε ότι:</p>
 <ul class="simple">
 <li><p>Ένα σύμβολο (token) συνοδεύεται πάντοτε από το κείμενο που του αντιστοιχεί (lexeme).</p>
 <ul>
@@ -66,13 +66,13 @@
 <li><p>Αντιθέτως, για το token <code class="docutils literal notranslate"><span class="pre">IDENTIFIER</span></code> (ονόματα μεταβλητών κλπ) η πληροφορία του lexeme (<code class="docutils literal notranslate"><span class="pre">&quot;k&quot;</span></code>) είναι σημαντική για τον μεταγλωττιστή.</p></li>
 </ul>
 </li>
-<li><p>Ο λεκτικός αναλυτής «καθαρίζει» την είσοδο, π.χ. απορρίπτοντας σχόλια ή τα κενά σε γλώσσες όπως η C. Αυτό βέβαια εξαρτάται από τη γλώσσα προγραμματισμού: για την Python, τα κενά της στοίχισης δεν πρέπει να απορριφθούν.</p></li>
+<li><p>Ο λεκτικός αναλυτής συνήθως «καθαρίζει» την είσοδο, π.χ. απορρίπτοντας σχόλια ή τα κενά (spaces) σε γλώσσες όπως η C. Αυτό βέβαια εξαρτάται από τη γλώσσα προγραμματισμού: για την Python π.χ., τα κενά της στοίχισης δεν πρέπει να απορριφθούν.</p></li>
 </ul>
 <div class="topic">
 <p class="topic-title">Τι δεν κάνει η λεκτική ανάλυση.</p>
 <p>Θα πρέπει πάντοτε να θυμόμαστε ότι ένας λεκτικός αναλυτής <strong>δεν ασχολείται με τη σύνταξη</strong>: αυτό είναι αρμοδιότητα του επόμενου βήματος μεταγλώττισης, της <em>συντακτικής ανάλυσης</em>. Συνεπώς, εάν ο λεκτικός αναλυτής λάβει ως είσοδο <code class="docutils literal notranslate"><span class="pre">&quot;int</span> <span class="pre">33.56;&quot;</span></code>, θα πρέπει να εμφανίσει ως έξοδο τα <code class="docutils literal notranslate"><span class="pre">[KEYWORD_INT,</span> <span class="pre">FLOAT_CONSTANT,</span> <span class="pre">SEMICOLON]</span></code> χωρίς να παραχθεί σφάλμα.</p>
 </div>
-<p>Όπως είναι φανερό από τα προηγούμενα, χρειαζόμαστε έναν μηχανισμό για την αναγνώριση συγκεκριμένων <strong>σχεδίων κειμένου</strong> (text patterns). Ο μηχανισμός αυτός βασίζεται στη θεωρία των αυτομάτων πεπερασμένων καταστάσεων, τα οποία αναλύονται στη συνέχεια.</p>
+<p>Όπως είναι φανερό από τα προηγούμενα, χρειαζόμαστε έναν μηχανισμό για την αναγνώριση συγκεκριμένων <em>πρότυπων σχεδίων κειμένου</em> (text patterns). Ο μηχανισμός αυτός βασίζεται στη θεωρία των <em>αυτομάτων πεπερασμένων καταστάσεων</em>, τα οποία αναλύονται στη συνέχεια.</p>
 </section>
 <section id="id3">
 <h2>Αυτόματα πεπερασμένων καταστάσεων<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
@@ -97,7 +97,7 @@
 <li><p><span class="math notranslate nohighlight">\(q_0 \in Q\)</span> η αρχική κατάσταση</p></li>
 <li><p><span class="math notranslate nohighlight">\(F \subseteq Q\)</span> το σύνολο των καταστάσεων αποδοχής</p>
 <ul>
-<li><p>εάν βρισκόμαστε εδώ όταν τελειώσει η ανάλυση, τότε αποδεχόμαστε το κείμενο εισόδου</p></li>
+<li><p>εάν βρισκόμαστε σε κατάσταση αποδοχής όταν τελειώσει η ανάλυση, τότε αποδεχόμαστε το κείμενο εισόδου</p></li>
 </ul>
 </li>
 </ul>
@@ -131,7 +131,7 @@
 </div></blockquote>
 </li>
 </ul>
-<p>Συνοψίζοντας, είναι οι <em>καταστάσεις</em> του αυτομάτου που προσδιορίζουν σε <em>ποιο σημείο</em> της διαδικασίας αναγνώρισης βρισκόμαστε και <em>ποιοι χαρακτήρες</em> επιτρέπεται να ακολουθήσουν.</p>
+<p>Συνοψίζοντας, η τρέχουσα <em>κατάσταση</em> του αυτομάτου προσδιορίζει σε <em>ποιο σημείο</em> της διαδικασίας αναγνώρισης βρισκόμαστε και <em>ποιοι χαρακτήρες</em> επιτρέπεται να ακολουθήσουν.</p>
 <p id="dfa-digits-ref">Ένα αυτόματο πεπερασμένων καταστάσεων μπορεί να αναγνωρίσει ακολουθίες χαρακτήρων με <em>απεριόριστο μήκος</em>. Αυτό επιτυγχάνεται με τη χρήση loops στις ακμές του αυτομάτου. Δείτε για παράδειγμα το αυτόματο που ακολουθεί, το οποίο αναγνωρίζει ακολουθίες ψηφίων <cite>0..9</cite> οποιουδήποτε μήκους:</p>
 <figure class="align-default" id="id9">
 <img alt="Αυτόματο πεπερασμένων καταστάσεων για αναγνώριση σειράς ψηφίων" src="../_images/digits.png" />
@@ -143,9 +143,9 @@
 <p class="topic-title">Μπορεί η αρχική κατάσταση να είναι κατάσταση αποδοχής;</p>
 <p>Θα μπορούσε το προηγούμενο αυτόματο να απλοποιηθεί μετατρέποντας την <span class="math notranslate nohighlight">\(s_0\)</span> σε κατάσταση αποδοχής με το loop <cite>0..9</cite> πάνω σε αυτήν; Η απάντηση είναι <strong>όχι</strong>: Αν το κάνατε, θα καταλήγατε σε ένα αυτόματο που θα αναγνώριζε το <em>τίποτα</em> (θα ήταν σε κατάσταση αποδοχής από την αρχή)!</p>
 </div>
-<p>Μια πολύ σημαντική ιδιότητα του ντετερμινιστικού αυτομάτου πεπερασμένων καταστάσεων είναι ότι η απόδοση της διαδικασίας αναγνώρισης <strong>δεν εξαρτάται από το μέγεθος του αυτομάτου</strong> (αριθμό καταστάσεων) αλλά <em>μόνο</em> από το <strong>μέγεθος του κειμένου εισόδου</strong>:</p>
+<p>Μια πολύ σημαντική ιδιότητα του ντετερμινιστικού αυτομάτου πεπερασμένων καταστάσεων είναι ότι η πολυπλοκότητα (και η απόδοση) της διαδικασίας αναγνώρισης <em>δεν εξαρτάται από το μέγεθος του αυτομάτου</em> (αριθμό καταστάσεων) αλλά <em>μόνο από το μέγεθος του κειμένου εισόδου</em>:</p>
 <ul class="simple">
-<li><p>Για μέγεθος εισόδου <span class="math notranslate nohighlight">\(S\)</span> η απόδοση του αυτομάτου είναι <span class="math notranslate nohighlight">\(\mathcal{O}(S)\)</span>, ανεξάρτητα από τον αριθμό των καταστάσεων του αυτομάτου.</p></li>
+<li><p>Για μέγεθος εισόδου <span class="math notranslate nohighlight">\(S\)</span> η πολυπλοκότητα του αυτομάτου είναι <span class="math notranslate nohighlight">\(\mathcal{O}(S)\)</span>, ανεξάρτητα από τον αριθμό των καταστάσεων του αυτομάτου.</p></li>
 </ul>
 <p>Αυτό εξηγείται αν σκεφτούμε ότι για κάθε ένα νέο χαρακτήρα εισόδου κατά τη διάρκεια αναγνώρισης, το αυτόματο θα κάνει το πολύ μία μετάβαση (αν η μετάβαση είναι εφικτή).</p>
 </section>

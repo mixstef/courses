@@ -16,7 +16,7 @@
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Κανονικές εκφράσεις και Python" href="../02-regex/module1.html" />
+    <link rel="next" title="Παράρτημα Α: Πληροφορίες για την Python3" href="../appendix-python/module1.html" />
     <link rel="prev" title="Εισαγωγή στη λεκτική ανάλυση" href="module1.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -30,7 +30,7 @@
      <div>
         <h4>Τμήμα Πληροφορικής - Ιόνιο Πανεπιστήμιο</h4>
         <h2>Μεταγλωττιστές</h2>
-        <h4>Εαρινό Εξάμηνο 2022-23</h4>        
+        <h4>Εαρινό Εξάμηνο 2023-24</h4>        
         <h5>Μ.Στεφανιδάκης</h5>
       </div>    
 </div>
@@ -48,7 +48,7 @@
   <a class="reference internal image-reference" href="../_images/by-sa.png"><img alt="Creative Commons Attribution-ShareAlike 4.0 International License" src="../_images/by-sa.png" style="width: 80px;" /></a>
 <section id="dfa-python">
 <h1>Υλοποίηση αυτομάτων DFA μέσω Python<a class="headerlink" href="#dfa-python" title="Permalink to this headline">¶</a></h1>
-<p>Στα παραδείγματα και τις ασκήσεις θα χρησιμοποιήσουμε την κλάση <code class="docutils literal notranslate"><span class="pre">DFA</span></code> από τις βιβλιοθήκες Python του εργαστηρίου. Η κλάση αυτή παρέχει ένα απλό interface για την κατασκευή και λειτουργία αυτομάτων DFA.</p>
+<p>Στα παραδείγματα και τις ασκήσεις θα χρησιμοποιήσουμε την έτοιμη κλάση <code class="docutils literal notranslate"><span class="pre">DFA</span></code> από τις βιβλιοθήκες Python του εργαστηρίου. Η κλάση αυτή παρέχει ένα απλό interface για την κατασκευή και λειτουργία αυτομάτων DFA.</p>
 <section id="dfa">
 <h2>Κατασκευή και χρήση αυτομάτου DFA<a class="headerlink" href="#dfa" title="Permalink to this headline">¶</a></h2>
 <p>Αρχικά κάνουμε import την κλάση <code class="docutils literal notranslate"><span class="pre">DFA</span></code> στο πρόγραμμά μας:</p>
@@ -68,20 +68,27 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">test_dfa</span><span class="o">.</span><span class="n">transition</span><span class="p">(</span><span class="s1">&#39;s0&#39;</span><span class="p">,</span><span class="s1">&#39;t&#39;</span><span class="p">,</span><span class="s1">&#39;s1&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>που σημαίνει ότι όταν βρισκόμαστε στην κατάσταση <code class="docutils literal notranslate"><span class="pre">s0</span></code> και εμφανιστεί ο χαρακτήρας <code class="docutils literal notranslate"><span class="pre">t</span></code> θα μεταβούμε στην κατάσταση <code class="docutils literal notranslate"><span class="pre">s1</span></code>.</p>
 <p>Μπορούμε ακόμα να δώσουμε μια λίστα χαρακτήρων για μετάβαση, π.χ.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">test_dfa</span><span class="o">.</span><span class="n">transition</span><span class="p">(</span><span class="s1">&#39;s1&#39;</span><span class="p">,[</span><span class="s1">&#39;0&#39;</span><span class="p">,</span><span class="s1">&#39;1&#39;</span><span class="p">,</span><span class="s1">&#39;2&#39;</span><span class="p">],</span><span class="s1">&#39;s2&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Για τις καταστάσεις αποδοχής, μπορούμε να ορίσουμε το σύμβολο (token) που επιστρέφεται:</p>
+<p>που δηλώνει μετάβαση από το <code class="docutils literal notranslate"><span class="pre">s1</span></code> στο <code class="docutils literal notranslate"><span class="pre">s2</span></code> με έναν οποιονδήποτε χαρακτήρα από τους <code class="docutils literal notranslate"><span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">1</span></code> ή <code class="docutils literal notranslate"><span class="pre">2</span></code>. Προσέξε ότι το προηγούμενο είναι ισοδύναμο με το:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">test_dfa</span><span class="o">.</span><span class="n">transition</span><span class="p">(</span><span class="s1">&#39;s1&#39;</span><span class="p">,</span><span class="s1">&#39;0&#39;</span><span class="p">,</span><span class="s1">&#39;s2&#39;</span><span class="p">)</span>
+<span class="n">test_dfa</span><span class="o">.</span><span class="n">transition</span><span class="p">(</span><span class="s1">&#39;s1&#39;</span><span class="p">,</span><span class="s1">&#39;1&#39;</span><span class="p">,</span><span class="s1">&#39;s2&#39;</span><span class="p">)</span>
+<span class="n">test_dfa</span><span class="o">.</span><span class="n">transition</span><span class="p">(</span><span class="s1">&#39;s1&#39;</span><span class="p">,</span><span class="s1">&#39;2&#39;</span><span class="p">,</span><span class="s1">&#39;s2&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Η χρήση της μεθόδου <code class="docutils literal notranslate"><span class="pre">accept(state,token)</span></code> είναι αυτή που ορίζει μια κατάσταση ως κατάσταση αποδοχής. Μέσω της <code class="docutils literal notranslate"><span class="pre">accept</span></code> ορίζουμε το σύμβολο (token) που επιστρέφεται:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">test_dfa</span><span class="o">.</span><span class="n">accept</span><span class="p">(</span><span class="s1">&#39;s2&#39;</span><span class="p">,</span><span class="s1">&#39;TOK1&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Η χρήση της μεθόδου <code class="docutils literal notranslate"><span class="pre">accept(state,token)</span></code> είναι αυτή που ορίζει μια κατάσταση ως κατάσταση αποδοχής.</p>
-<p>Όταν ορίσουμε τις μεταβάσεις και τις καταστάσεις αποδοχής του αυτομάτου, μπορούμε να το χρησιμοποιήσουμε για να ελέγξουμε ταιριάσματα σε strings. Η μέθοδος που παρέχεται ονομάζεται <code class="docutils literal notranslate"><span class="pre">scan(text)</span></code>, όπου <code class="docutils literal notranslate"><span class="pre">text</span></code> είναι το string που θα προσπαθήσουμε να ταιριάξουμε:</p>
+<p>Στο προηγούμενο παράδειγμα η <code class="docutils literal notranslate"><span class="pre">s2</span></code> ορίζεται ως κατάσταση αποδοχής που αναγνωρίζει και επιστρέφει το σύμβολο <code class="docutils literal notranslate"><span class="pre">TOK1</span></code>.</p>
+<p>Όταν ολοκληρώσουμε τον ορισμό των μεταβάσεων και τις καταστάσεις αποδοχής του αυτομάτου, μπορούμε να το χρησιμοποιήσουμε για να ελέγξουμε ταιριάσματα σε strings. Η μέθοδος που παρέχεται ονομάζεται <code class="docutils literal notranslate"><span class="pre">scan(text)</span></code>, όπου <code class="docutils literal notranslate"><span class="pre">text</span></code> είναι το string που θα προσπαθήσουμε να ταιριάξουμε:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">token</span><span class="p">,</span><span class="n">lexeme</span> <span class="o">=</span> <span class="n">test_dfa</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="s1">&#39;t2&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Όπως φαίνεται στο προηγούμενο παράδειγμα, η μέθοδος επιστρέφει το token που αναγνωρίστηκε (ή None αν δεν υπάρχει ταίριασμα) και το αντίστοιχο κείμενο (ή το κενό string αν δεν αναγνωρίστηκε κάτι).</p>
+<p>Η μέθοδος επιστρέφει το token που αναγνωρίστηκε (ή None αν δεν υπάρχει ταίριασμα) και το αντίστοιχο κείμενο (ή το κενό string αν δεν αναγνωρίστηκε κάτι).</p>
 <section id="id1">
 <h3>Παράδειγμα<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p>Στη συνέχεια θα δούμε την υλοποίηση του γνωστού παραδείγματος του αυτομάτου με τα τρία keywords, τις λέξεις <cite>long</cite>, <cite>term</cite> και <cite>test</cite> του επόμενου σχήματος:</p>
@@ -166,66 +173,43 @@
 </section>
 <section id="dfa-intfloat-ref">
 <span id="id3"></span><h2>Διαφορές από το θεωρητικό αυτόματο<a class="headerlink" href="#dfa-intfloat-ref" title="Permalink to this headline">¶</a></h2>
-<p>Το θεωρητικό αυτόματο (D)FA θα προσπαθήσει να ταιριάξει <em>όλους</em> τους χαρακτήρες εισόδου, σύμφωνα με τη λογική:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>για κάθε χαρακτήρα εισόδου c {
-    αν υπάρχει μετάβαση από την τρέχουσα κατάσταση με τον c {
-        μετάβαση στη νέα κατάσταση
-    }
-    αλλιώς {
-        σφάλμα
-    }
-}
-
-αν στο τέλος το αυτόματο βρίσκεται σε κατάσταση αποδοχής {
-    επιστροφή του αντίστοιχου συμβόλου (token)
-}
-αλλιώς {
-    σφάλμα
-}
-</pre></div>
-</div>
-<p>Για παράδειγμα, το θεωρητικό αυτόματο που αναγνωρίζει σειρές από αριθμητικά ψηφία (0..9) θα επιστρέψει σφάλμα τόσο στο <code class="docutils literal notranslate"><span class="pre">a123</span></code> όσο και στο <code class="docutils literal notranslate"><span class="pre">123a</span></code>. Η προηγούμενη λειτουργία εξυπηρετεί πρακτικά μόνο αν θέλουμε να <em>ελέγξουμε την εγκυρότητα</em> μιας εισόδου (input validation).</p>
-<p>Υπάρχουν όμως και άλλες πιθανές χρήσεις ενός αυτομάτου, όπως:</p>
+<p>Το θεωρητικό αυτόματο (D)FA θα προσπαθήσει να ταιριάξει <em>όλους</em> τους χαρακτήρες εισόδου. Εάν για κάποιον χαρακτήρα δεν υπάρχει μετάβαση από την τρέχουσα κατάσταση θα παραχθεί σφάλμα. Το θεωρητικό αυτόματο αναγνωρίζει ένα κείμενο όταν, αφού το καταναλώσει όλο, βρίσκεται σε κατάσταση αποδοχής.</p>
+<figure class="align-default" id="id8">
+<img alt="Αυτόματο πεπερασμένων καταστάσεων για αναγνώριση σειράς ψηφίων" src="../_images/digits.png" />
+<figcaption>
+<p><span class="caption-text">Αυτόματο πεπερασμένων καταστάσεων για αναγνώριση σειράς ψηφίων</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>Για παράδειγμα, το θεωρητικό αυτόματο που αναγνωρίζει σειρές από αριθμητικά ψηφία (0..9) στο προηγούμενο σχήμα θα επιστρέψει σφάλμα τόσο στο <code class="docutils literal notranslate"><span class="pre">a123</span></code> (επειδή από την αρχική κατάσταση δεν υπάρχει μετάβαση με τον χαρακτήρα <code class="docutils literal notranslate"><span class="pre">a</span></code>) όσο και στο <code class="docutils literal notranslate"><span class="pre">123a</span></code> (γιατί από το <code class="docutils literal notranslate"><span class="pre">s1</span></code> δεν υπάρχει μετάβαση με το <code class="docutils literal notranslate"><span class="pre">a</span></code>).</p>
+<p>Η λειτουργία του θεωρητικού αυτομάτου εξυπηρετεί πρακτικά μόνο αν θέλουμε να ελέγξουμε την <em>εγκυρότητα</em> όλου του κειμένου εισόδου (input validation).</p>
+<p>Υπάρχουν όμως και άλλες πιθανές πρακτικές χρήσεις ενός αυτομάτου, όπως:</p>
 <ul class="simple">
-<li><p><em>Αναζήτηση (search)</em>: εδώ ψάχνουμε για την εμφάνιση ενός σχεδίου κειμένου μέσα σε ένα μεγαλύτερο κείμενο. Π.χ. στην είσοδο <code class="docutils literal notranslate"><span class="pre">123a</span></code> θα θέλαμε να αναγνωρίσουμε το <code class="docutils literal notranslate"><span class="pre">123</span></code> μόνο.</p></li>
+<li><p><em>Αναζήτηση (search)</em>: εδώ ψάχνουμε για την εμφάνιση ενός σχεδίου κειμένου <em>μέσα</em> σε ένα μεγαλύτερο κείμενο. Π.χ. στην είσοδο <code class="docutils literal notranslate"><span class="pre">123a</span></code> θα θέλαμε να αναγνωρίσουμε το <code class="docutils literal notranslate"><span class="pre">123</span></code> μόνο.</p></li>
 <li><p><em>Μετατροπή σε σύμβολα (tokenization)</em>: η κλασσική λειτουργία στο πρώτο βήμα ενός μεταγλωττιστή, όπου επαναληπτικά αναγνωρίζουμε σχέδια κειμένου σε ένα μεγαλύτερο κείμενο. Π.χ. από το <code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">k;</span></code> να αναγνωρίσουμε τα σύμβολα (tokens) <code class="docutils literal notranslate"><span class="pre">KEYWORD_INT</span></code>, <code class="docutils literal notranslate"><span class="pre">SPACE</span></code>, <code class="docutils literal notranslate"><span class="pre">IDENTIFIER</span></code> και <code class="docutils literal notranslate"><span class="pre">SEMICOLON</span></code>.</p></li>
 </ul>
-<p>Για να επιτρέψει την υλοποίηση όλων των παραπάνω, το αυτόματο της κλάσης <code class="docutils literal notranslate"><span class="pre">DFA</span></code> λειτουργεί ως εξής:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>για κάθε χαρακτήρα εισόδου c {
-    αν υπάρχει μετάβαση από την τρέχουσα κατάσταση με τον c {
-        μετάβαση στη νέα κατάσταση
-    }
-    αλλιώς {
-        αν το αυτόματο βρίσκεται σε κατάσταση αποδοχής {
-            επιστροφή του αντίστοιχου συμβόλου (token)
-        }
-        αλλιώς {
-            σφάλμα
-        }
-    }
-}
-
-αν στο τέλος το αυτόματο βρίσκεται σε κατάσταση αποδοχής {
-    επιστροφή του αντίστοιχου συμβόλου (token)
-}
-αλλιώς {
-    σφάλμα
-}
-</pre></div>
-</div>
-<p>Στο παράδειγμα του αυτομάτου των αριθμητικών ψηφίων, θα αναγνωριστεί με επιτυχία το μέρος <code class="docutils literal notranslate"><span class="pre">123</span></code> της εισόδου <code class="docutils literal notranslate"><span class="pre">123a</span></code>.</p>
+<p>Για να επιτρέψει την υλοποίηση των παραπάνω, το αυτόματο της κλάσης <code class="docutils literal notranslate"><span class="pre">DFA</span></code> που χρησιμοποιούμε στο εργαστήριο λειτουργεί ως εξής:</p>
+<ul class="simple">
+<li><p>Εάν δεν είναι δυνατή η μετάβαση από την τρέχουσα κατάσταση με τον χαρακτήρα εισόδου, ελέγχεται εάν η κατάσταση αυτή είναι κατάσταση αποδοχής.</p>
+<ul>
+<li><p>Εάν ναι, τότε αναγνωρίζεται το κείμενο μέχρι το σημείο αυτό (μέρος δηλαδή του συνολικού κειμένου).</p></li>
+<li><p>Εάν όχι, παράγεται σφάλμα.</p></li>
+</ul>
+</li>
+</ul>
+<p>Στο παράδειγμα του αυτομάτου των αριθμητικών ψηφίων, η κλάση <code class="docutils literal notranslate"><span class="pre">DFA</span></code> θα αναγνωρίσει με επιτυχία το μέρος <code class="docutils literal notranslate"><span class="pre">123</span></code> της εισόδου <code class="docutils literal notranslate"><span class="pre">123a</span></code>.</p>
 <section id="id4">
 <h3>Προαιρετικά ταιριάσματα<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p>Έστω ότι υλοποιείται το αυτόματο της επόμενης εικόνας:</p>
-<figure class="align-default" id="id8">
+<figure class="align-default" id="id9">
 <img alt="Αυτόματο για την αναγνώριση int και float αριθμών" src="../_images/intfloat.png" />
 <figcaption>
-<p><span class="caption-text">Αυτόματο για την αναγνώριση int και float αριθμών</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
+<p><span class="caption-text">Αυτόματο για την αναγνώριση int και float αριθμών</span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
 </figcaption>
 </figure>
 <p>Ο στόχος είναι η αναγνώριση ακεραίων αριθμών (στην κατάσταση <span class="math notranslate nohighlight">\(s_1\)</span>) και αριθμών με δεκαδικό μέρος (στην κατάσταση αποδοχής <span class="math notranslate nohighlight">\(s_3\)</span>).</p>
 <p>Εάν το string εισόδου είναι το <code class="docutils literal notranslate"><span class="pre">'123.'</span></code>, θα θέλαμε να αναγνωρίσουμε το <code class="docutils literal notranslate"><span class="pre">123</span></code> ως ακέραιο. Κάτι τέτοιο δεν θα συμβεί όμως κανονικά, γιατί στο τέλος της αναζήτησης βρισκόμαστε στην κατάσταση <span class="math notranslate nohighlight">\(s_2\)</span>, η οποία <em>δεν είναι κατάσταση αποδοχής</em>.</p>
-<p>Για να διορθωθεί αυτή η ατέλεια έχει εισαχθεί στη <code class="docutils literal notranslate"><span class="pre">scan()</span></code> η δυνατότητα <em>μνήμης</em>, όπου φυλάσσεται η <em>τελευταία κατάσταση αποδοχής</em> όπου έχει βρεθεί το αυτόματο. Αυτή η κατάσταση (αν υπάρχει) επιστρέφεται όταν δεν μπορούμε να προχωρήσουμε άλλο:</p>
+<p>Για να διορθωθεί αυτή η ατέλεια έχει εισαχθεί στη <code class="docutils literal notranslate"><span class="pre">scan()</span></code> η δυνατότητα <em>μνήμης</em>, όπου φυλάσσεται η <em>τελευταία κατάσταση αποδοχής</em> όπου έχει βρεθεί το αυτόματο. Αυτή η κατάσταση (αν υπάρχει) επιστρέφεται όταν δεν μπορούμε να προχωρήσουμε άλλο.</p>
+<p>Το αυτόματο για την αναγνώριση int και float αριθμών μπορεί να υλοποιηθεί με την κλάση <code class="docutils literal notranslate"><span class="pre">DFA</span></code> ως εξής:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">preproc</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">c</span><span class="o">&gt;=</span><span class="s1">&#39;0&#39;</span> <span class="ow">and</span> <span class="n">c</span><span class="o">&lt;=</span><span class="s1">&#39;9&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="s1">&#39;DIGIT&#39;</span>

@@ -1,4 +1,4 @@
-// Sample triad benchmark with arrays of doubles
+// Sample "triad" benchmark with arrays of doubles
 // compile with: gcc -Wall -O2 triad-double.c -o triad-double -DN=10000 -DR=10000
 
 

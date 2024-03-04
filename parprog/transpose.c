@@ -1,8 +1,12 @@
+// Code example to transpose a NxN matrix
+// compile with:  gcc -Wall -O2 transpose.c -o transpose -DN=4000
+// test also with N=4095, 4096 and 4097
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
 
-// compile with:  gcc -Wall -O2 transpose.c -o transpose -DN=4000
 
 void get_walltime(double *wct) {
   struct timeval tp;

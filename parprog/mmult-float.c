@@ -1,12 +1,14 @@
+// Float version of dot product of two NxN matrices 
+// compile with: gcc -Wall -O2 mmult-float.c -o mmult-float -DN=1000
+
+// NOTE: in order to be cache friendly, matrix B is assumed to be transposed
+
+
 #include <stdio.h>
 #include <stdlib.h>
 
 #include <sys/time.h>
 
-// this is the float version of dot product of two NxN matrices 
-// compile with: gcc -Wall -O2 mmult-float.c -o mmult-float -DN=1000
-
-// NOTE: in order to be cache friendly, matrix B is assumed to be transposed
 
 
 void get_walltime(double *wct) {
@@ -70,7 +72,7 @@ float *a,*b,*c;	// matrices A,B,C C=AxB, B is transposed
   // print computation time
   printf("Computation time = %f sec\n",(te-ts));
 
-  // test result (i.e. check that all elements of c were "touched"
+  // check that all elements of c were "touched"
   for (int i=0;i<N*N;i++) {
     if (c[i]==0.0) { printf("Error!\n"); break; }
   }

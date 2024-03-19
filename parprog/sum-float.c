@@ -1,6 +1,6 @@
-// sum reduction of an array of floats
+// Sum reduction of an array of N floats, repeated R times
 
-// compile with: gcc -Wall -O2 sum-float.c -o sum-float -DN=10000 -DR=10000
+// Compile with: gcc -Wall -O2 sum-float.c -o sum-float -DN=10000 -DR=10000
 
 
 

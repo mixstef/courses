@@ -1,4 +1,4 @@
-// Simple sum-reduction example.
+// Simple sum reduction example.
 // Compile with: gcc -O2 -Wall sum-reduction-double.c -o sum-reduction-double -DN=10000000
 
 #include <stdio.h>

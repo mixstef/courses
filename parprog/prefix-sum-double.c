@@ -6,7 +6,6 @@
 #include <sys/time.h>
 
 
-
 void get_walltime(double *wct) {
   struct timeval tp;
   gettimeofday(&tp,NULL);
@@ -30,6 +29,7 @@ int main() {
     a[i] = i+1;
   }
 
+ 
   // get starting time (double, seconds) 
   get_walltime(&ts);
   

@@ -1,22 +1,20 @@
-
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Υλοποίηση αυτομάτων DFA μέσω Python &#8212; Compiler Labs Doc 1.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mytheme.css" />
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=4f649999" />
+    <link rel="stylesheet" type="text/css" href="../_static/mytheme.css?v=9774cda0" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=359c27e9"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Παράρτημα Α: Πληροφορίες για την Python3" href="../appendix-python/module1.html" />
+    <link rel="next" title="Κανονικές εκφράσεις και Python" href="../02-regex/module1.html" />
     <link rel="prev" title="Εισαγωγή στη λεκτική ανάλυση" href="module1.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -47,18 +45,18 @@
             
   <a class="reference internal image-reference" href="../_images/by-sa.png"><img alt="Creative Commons Attribution-ShareAlike 4.0 International License" src="../_images/by-sa.png" style="width: 80px;" /></a>
 <section id="dfa-python">
-<h1>Υλοποίηση αυτομάτων DFA μέσω Python<a class="headerlink" href="#dfa-python" title="Permalink to this headline">¶</a></h1>
+<h1>Υλοποίηση αυτομάτων DFA μέσω Python<a class="headerlink" href="#dfa-python" title="Permalink to this heading">¶</a></h1>
 <p>Στα παραδείγματα και τις ασκήσεις θα χρησιμοποιήσουμε την έτοιμη κλάση <code class="docutils literal notranslate"><span class="pre">DFA</span></code> από τις βιβλιοθήκες Python του εργαστηρίου. Η κλάση αυτή παρέχει ένα απλό interface για την κατασκευή και λειτουργία αυτομάτων DFA.</p>
 <section id="dfa">
-<h2>Κατασκευή και χρήση αυτομάτου DFA<a class="headerlink" href="#dfa" title="Permalink to this headline">¶</a></h2>
+<h2>Κατασκευή και χρήση αυτομάτου DFA<a class="headerlink" href="#dfa" title="Permalink to this heading">¶</a></h2>
 <p>Αρχικά κάνουμε import την κλάση <code class="docutils literal notranslate"><span class="pre">DFA</span></code> στο πρόγραμμά μας:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">compilerlabs</span> <span class="kn">import</span> <span class="n">DFA</span>
 </pre></div>
 </div>
-<div class="topic">
+<aside class="topic">
 <p class="topic-title">Η προηγούμενη εντολή δημιουργεί σφάλμα;</p>
 <p>Αν χρησιμοποιείτε τον δικό σας υπολογιστή, μάλλον δεν έχετε εγκαταστήσει <a class="reference internal" href="../appendix-python/module1.html#instal-lab-libs-ref"><span class="std std-ref">τις βιβλιοθήκες του εργαστηρίου</span></a>!</p>
-</div>
+</aside>
 <p>Αμέσως μετά δημιουργούμε ένα αυτόματο, στιγμιότυπο της κλάσης <code class="docutils literal notranslate"><span class="pre">DFA</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">test_dfa</span> <span class="o">=</span> <span class="n">DFA</span><span class="p">(</span><span class="s1">&#39;s0&#39;</span><span class="p">)</span>
 </pre></div>
@@ -90,7 +88,7 @@
 </div>
 <p>Η μέθοδος επιστρέφει το token που αναγνωρίστηκε (ή None αν δεν υπάρχει ταίριασμα) και το αντίστοιχο κείμενο (ή το κενό string αν δεν αναγνωρίστηκε κάτι).</p>
 <section id="id1">
-<h3>Παράδειγμα<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<h3>Παράδειγμα<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h3>
 <p>Στη συνέχεια θα δούμε την υλοποίηση του γνωστού παραδείγματος του αυτομάτου με τα τρία keywords, τις λέξεις <cite>long</cite>, <cite>term</cite> και <cite>test</cite> του επόμενου σχήματος:</p>
 <figure class="align-default" id="id6">
 <img alt="Αυτόματο πεπερασμένων καταστάσεων για τα  keywords long, term, test" src="../_images/longtermtest.png" />
@@ -130,7 +128,7 @@
 </div>
 </section>
 <section id="id2">
-<h3>Ομαδοποίηση χαρακτήρων<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<h3>Ομαδοποίηση χαρακτήρων<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
 <p>Ας εξετάσουμε την υλοποίηση του αυτομάτου DFA το οποίο αναγνωρίζει ακολουθίες ψηφίων <cite>0..9</cite> οποιουδήποτε μήκους:</p>
 <figure class="align-default" id="id7">
 <img alt="Αυτόματο πεπερασμένων καταστάσεων για αναγνώριση σειράς ψηφίων" src="../_images/digits.png" />
@@ -165,14 +163,14 @@
 <span class="nb">print</span><span class="p">(</span><span class="n">token</span><span class="p">,</span><span class="n">lexeme</span><span class="p">)</span>             <span class="c1"># prints NUMBER_TOKEN 123</span>
 </pre></div>
 </div>
-<div class="topic">
+<aside class="topic">
 <p class="topic-title">Πότε δεν γίνεται ομαδοποίηση;</p>
 <p>Όταν κάποιον χαρακτήρα μιας ομάδας τον χειριζόμαστε διαφορετικά από τους υπόλοιπους σε κάποια από τις μεταβάσεις, τότε η προσθήκη του στην ομάδα δεν είναι δυνατή.</p>
-</div>
+</aside>
 </section>
 </section>
 <section id="dfa-intfloat-ref">
-<span id="id3"></span><h2>Διαφορές από το θεωρητικό αυτόματο<a class="headerlink" href="#dfa-intfloat-ref" title="Permalink to this headline">¶</a></h2>
+<span id="id3"></span><h2>Διαφορές από το θεωρητικό αυτόματο<a class="headerlink" href="#dfa-intfloat-ref" title="Permalink to this heading">¶</a></h2>
 <p>Το θεωρητικό αυτόματο (D)FA θα προσπαθήσει να ταιριάξει <em>όλους</em> τους χαρακτήρες εισόδου. Εάν για κάποιον χαρακτήρα δεν υπάρχει μετάβαση από την τρέχουσα κατάσταση θα παραχθεί σφάλμα. Το θεωρητικό αυτόματο αναγνωρίζει ένα κείμενο όταν, αφού το καταναλώσει όλο, βρίσκεται σε κατάσταση αποδοχής.</p>
 <figure class="align-default" id="id8">
 <img alt="Αυτόματο πεπερασμένων καταστάσεων για αναγνώριση σειράς ψηφίων" src="../_images/digits.png" />
@@ -198,7 +196,7 @@
 </ul>
 <p>Στο παράδειγμα του αυτομάτου των αριθμητικών ψηφίων, η κλάση <code class="docutils literal notranslate"><span class="pre">DFA</span></code> θα αναγνωρίσει με επιτυχία το μέρος <code class="docutils literal notranslate"><span class="pre">123</span></code> της εισόδου <code class="docutils literal notranslate"><span class="pre">123a</span></code>.</p>
 <section id="id4">
-<h3>Προαιρετικά ταιριάσματα<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<h3>Προαιρετικά ταιριάσματα<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h3>
 <p>Έστω ότι υλοποιείται το αυτόματο της επόμενης εικόνας:</p>
 <figure class="align-default" id="id9">
 <img alt="Αυτόματο για την αναγνώριση int και float αριθμών" src="../_images/intfloat.png" />
@@ -237,7 +235,7 @@
 </section>
 </section>
 <section id="id5">
-<h2>Ασκήσεις<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<h2>Ασκήσεις<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h2>
 <ol class="arabic simple">
 <li><p>Υλοποιήστε μέσω της κλάσης <code class="docutils literal notranslate"><span class="pre">DFA</span></code> αυτόματο για την αναγνώριση ακέραιων και δεκαδικών αριθμών οποιουδήποτε μήκους στις εξής μορφές:</p></li>
 </ol>

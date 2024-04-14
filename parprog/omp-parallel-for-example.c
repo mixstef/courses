@@ -1,4 +1,4 @@
-// Simple OpenMP demo of parallel for
+// Simple OpenMP demo of parallel for combined constructs
 
 // compile with:
 // gcc -O2 -Wall -fopenmp omp-parallel-for-example.c -o omp-parallel-for-example
@@ -14,12 +14,11 @@
 
 
 int main() {
-int i;
 
-  #pragma omp parallel for private(i)
-  for (i=0;i<N;i++)
+
+  #pragma omp parallel for
+  for (int i=0;i<N;i++)
   {
-    // NOTE: i will be private even if not declared so
     
     printf("Thread %d working on element %d\n",omp_get_thread_num(),i);
         

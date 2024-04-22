@@ -1,4 +1,4 @@
-// OpenMP sum-reduction example, using firstprivate clause.
+// OpenMP sum-reduction example, using reduction clause.
 // Compile with: gcc -O2 -Wall -fopenmp sum-reduction-double-omp-reduction.c -o sum-reduction-double-omp-reduction -DN=10000000
 
 #include <stdio.h>

@@ -17,18 +17,18 @@ int y = 0;
   
     #pragma omp single nowait
     {
-      
-        printf("Thread %d: x=%d y=%d\n",omp_get_thread_num(),x,y);
+        // this will be task A
+        printf("(A) Thread %d: x=%d y=%d\n",omp_get_thread_num(),x,y);
         x = 33;
 
-
-        printf("Thread %d: x=%d y=%d\n",omp_get_thread_num(),x,y);
+        // this will be task B
+        printf("(B) Thread %d: x=%d y=%d\n",omp_get_thread_num(),x,y);
         y = x+66;
 
-
-        printf("Thread %d: x=%d y=%d\n",omp_get_thread_num(),x,y);
+        // this will be task C 
+        printf("(C) Thread %d: x=%d y=%d\n",omp_get_thread_num(),x,y);
         int t = y+1;
-        printf("Thread %d: t=%d\n",omp_get_thread_num(),t);
+        printf("(C) Thread %d: t=%d\n",omp_get_thread_num(),t);
       
     }
     

@@ -16,7 +16,7 @@
     <div>
       <h4>Τμήμα Πληροφορικής - Ιόνιο Πανεπιστήμιο</h4>
       <h2>Μεταγλωττιστές</h2>
-      <h4>Εαρινό εξάμηνο 2023-24</h4>
+      <h4>Εαρινό εξάμηνο 2024-25</h4>
       <h5>Διδάσκων: Μ.Στεφανιδάκης</h5>
     </div>
     </header>
@@ -25,7 +25,6 @@
         <ul>
           <li><a href="index.html">Παρουσίαση Μαθήματος</a></li>
           <li>Υλικό Μαθήματος</li>
- <!--          <li><a href="lecturedoc/index.html">Σημειώσεις</a></li> -->
           <li><a href="../index.html">(Άλλα Μαθήματα)</a></li>          
         </ul>
 
@@ -33,12 +32,12 @@
 
     <div id="content">
 
-
+<!--
       <div class="contentbin">
         <h4>Εξέταση Ιουνίου 2024</h4>
           <a href="apallagi.pdf">Ποιοι απαλλάσσονται</a>
       </div>
-
+-->
 
      
       <div class="contentbin">
@@ -48,17 +47,17 @@
 
         
 
-        <h4>Υλικό εργαστηρίων ενότητας #1</h4>        
+        <h4>Υλικό ενότητας #1</h4>        
         <ul>
-          <li>Σημειώσεις: <a href="lecturedoc/01-dfa/module1.html">Εισαγωγή στη λεκτική ανάλυση</a>.</li>
           <li><a href="https://mybinder.org/v2/gh/mixstef/mybinder-compilers/HEAD">Το on-line περιβάλλον εκτέλεσης του εργαστηρίου</a> [<a href="https://ovh.mybinder.org/v2/gh/mixstef/mybinder-compilers/HEAD">Εναλλακτικό link 1</a>] [<a href="https://notebooks.gesis.org/binder/v2/gh/mixstef/mybinder-compilers/HEAD">Εναλλακτικό link 2</a>] [<a href="https://binder.curvenote.dev/v2/gh/mixstef/mybinder-compilers/HEAD">Εναλλακτικό link 3</a>].</li>
-          <li>Σημειώσεις: <a href="lecturedoc/01-dfa/dfa-in-python.html">Υλοποίηση αυτομάτων DFA μέσω Python</a>.</li>
+          <li>Σημειώσεις: <a href="lecturedoc/01-dfa/module1.html">Εισαγωγή στη λεκτική ανάλυση</a>.</li>
+          <li>Σημειώσεις: <a href="lecturedoc/01-dfa/dfa-in-python.html">Υλοποίηση αυτομάτων με την κλάση DFA</a>.</li>
 
         </ul>        
 
       </div>
 
-
+<!--
       <div class="contentbin">
         <h4>Ενότητα #2</h4>
         <p>Κανονικές εκφράσεις (regular expressions). Ισοδυναμία και υλοποιήσεις με NFA/DFA.</p>
@@ -81,28 +80,6 @@
       </div>
 
 
-<!--
-      <div class="contentbin">
-        <h4>Ενότητα #3</h4>
-        <p>Πλήρης λεκτική ανάλυση κειμένου (πηγαίου κώδικα). Το module Plex στην Python.</p>
-        
-        <p><em>Ενδεικτική θεωρία: Ενότητες 2.3 - 2.4 από το βιβλίο "ΣΧΕΔΙΑΣΗ ΚΑΙ ΚΑΤΑΣΚΕΥΗ ΜΕΤΑΓΛΩΤΤΙΣΤΩΝ" των Keith D. Cooper, Linda Torczon.</em></p>
-
-        <h4>Υλικό εργαστηρίων ενότητας #3</h4>        
-        <ul>
-          <li>Σημειώσεις: <a href="lecturedoc/03-plex/plex-intro.html">Λεκτικοί αναλυτές με το module plex</a>.</li>
-	  <li>Εισαγωγή στη χρήση του module plex (<a href="basic-plex.ipynb">notebook</a> [<a href="https://nbviewer.org/urls/mixstef.github.io/courses/compilers/basic-plex.ipynb">δείτε το on-line</a>] και <a href="plex-123-abc.txt">κείμενο δοκιμών</a>).</li>
-        </ul>
-             
-
-        <h4>Εργαστήρια ενότητας #3</h4>        
-        <ul>
-	  <li>22/3/2022: Εισαγωγή στη χρήση του module plex (συνέχεια).</li>
-        </ul> 
-        
-      </div>
--->
-
       <div class="contentbin">
         <h4>Ενότητα #3</h4>
         <p>Συντακτική ανάλυση: αρχικές έννοιες.</p>
@@ -119,23 +96,6 @@
           <li>Διαφάνειες: <a href="parsing-notes3.pdf">Σύνολα FIRST και FOLLOW</a>.</li>
           <li>Αριθμητικές εκφράσεις: <a href="arithmetic.txt">δοκιμαστική είσοδος</a></li>          
           <li>Κώδικας Python: <a href="arithmetic-parser.py">Συντακτικός αναλυτής για τη γραμματική των αριθμητικών εκφράσεων</a>.</li>
-<!--          
-           <li><a href="arithmetic-parser.ipynb">Notebook συντακτικού αναλυτή LL(1) για τις αριθμητικές εκφράσεις</a> [<a href="https://nbviewer.org/urls/mixstef.github.io/courses/compilers/arithmetic-parser.ipynb">δείτε το on-line</a>].</li> 
-          
-          <li>12/4/2022: Σύνολα FIRST και FOLLOW (συνέχεια).
-            <ul>
-              <li><a href="arithmetic-statements-parser.py">Παράδειγμα κώδικα</a> για τον συντακτικό αναλυτή των αριθμητικών εκφράσεων με ASSIGN και PRINT statements (<a href="arithmetic.txt">κείμενο δοκιμών</a>). </li>
-            </ul>
-          </li>
-          <li>3/5/2022: Κατασκευή AST μέσω της διαδικασίας συντακτικής ανάλυσης.</li>
-          <li>9/5/2022: Συντακτική Ανάλυση Αναδρομικής Κατάβασης:
-<a href="rd-tweaks.pdf">τροποποιήσεις/προσαρμογές</a>.</li>
-          <li>10/5/2022: Εκτέλεση εντολών/υπολογισμός εκφράσεων από AST.</li>
-          <li>16/5/2022: Συντακτική ανάλυση λογικών εκφράσεων:
-<a href="logical-expressions.pdf">ζητούμενο</a>.</li>
-          <li>17/5/2022: (συνέχεια από το προηγούμενο εργαστήριο)</li>
-          <li>23/5/2022: (συνέχεια από το προηγούμενο εργαστήριο)</li>           
--->
         </ul>
 
         
@@ -158,29 +118,8 @@
           <li>Διαφάνειες: <a href="if-while.pdf">Προσθήκη εντολών if και while στη γραμματική των αριθμητικών εκφράσεων</a>.</li>
           <li>Διαφάνειες: <a href="functions.pdf">Προσθήκη συναρτήσεων στη γραμματική των αριθμητικών εκφράσεων</a>.</li>
           <li>Κώδικας Python: <a href="if-else-while-function-ast-builder-interpreter.py">Ενδεικτική λύση τελικού συντακτικού αναλυτή/interpreter</a> για τη γλώσσα των αριθμητικών εκφράσεων.</li>            
-<!--
-          <li><a href="ast-usage-example.ipynb">Παράδειγμα χρήσης κλάσης ASTNode</a> [<a href="https://nbviewer.org/urls/mixstef.github.io/courses/compilers/ast-usage-example.ipynb">δείτε το on-line</a>].</li>
-          <li>Διαφάνειες: <a href="ast-building.pdf">Οδηγίες για την κατασκευή AST αριθμητικών εκφράσεων</a>.</li>
-          <li><a href="parser-ast-builder-interpreter-template.ipynb">Υπόδειγμα κώδικα για συντακτική ανάλυση, κατασκευή AST και εκτέλεση εντολών</a> [<a href="https://nbviewer.org/urls/mixstef.github.io/courses/compilers/parser-ast-builder-interpreter-template.ipynb">δείτε το on-line</a>].</li>
-          <li>Διαφάνειες: <a href="rd-tweaks.pdf">Τροποποιήσεις/μετατροπές στον συντακτικό αναλυτή αναδρομικής κατάβασης</a>.</li>
-          <li>Διαφάνειες: <a href="logical-expressions.pdf">Οδηγίες για τη γραμματική των λογικών εκφράσεων</a>.</li>
--->
 
         </ul> 
-
-<!--
-	  <li>28/3/2022: Abstract Syntax Trees (ASTs) (<a href="ast1.ipynb">notebook</a> [<a href="https://nbviewer.org/url/mixstef.github.io/courses/compilers/ast1.ipynb">δείτε το on-line</a>]).
-	    <ul>
-	      <li>Παράδειγμα: εκτύπωση AST αριθμητικής έκφρασης (<a href="ast-to-postfix.py">postfix</a>, <a href="ast-to-prefix.py">prefix</a> και <a href="ast-to-infix.py">infix</a> μορφή).</li>
-	      <li>Παράδειγμα: <a href="evaluate-arithmetic-ast.py">υπολογισμός AST αριθμητικής έκφρασης</a>.</li>	    
-	    </ul>
-	  </li>
-	  <li>29/3/2022: Abstract Syntax Trees (ASTs) (συνέχεια).
-	    <ul>
-	      <li>Παράδειγμα: <a href="execute-statement-ast.py">εκτέλεση AST με ASSIGN και PRINT statements</a>.</li>
-	    </ul>	    
-	  </li>
--->
         
       </div>
 
@@ -189,101 +128,6 @@
         <h4>Εργασία #2</h4>
         <ul>
           <li><a href="assignment2.pdf">Εκφώνηση</a> [Παράδοση: 3/6/2024].</li>
-        </ul>
-      </div>
-
-<!--      
-      <div class="contentbin">
-        <h4>Εργασία&nbsp;#1</h4>
-        <ul>
-          <li><a href="assignment1.pdf">Εκφώνηση</a><br><strong>Παράδοση: 2/5/2022</strong></li>
-        </ul>
-      </div>
-
-
-      <div class="contentbin">
-        <h4>Εργασία&nbsp;#2</h4>
-        <ul>
-          <li><a href="assignment2.pdf">Εκφώνηση</a><br><strong>Παράδοση: 31/5/2021</strong></li>
-        </ul>
-      </div>
-
-
-
-
-      <div class="contentbin">
-        <h4>Ενότητα #3</h4>
-        <p>Πλήρης λεκτική ανάλυση κειμένου (πηγαίου κώδικα). Το module Plex στην Python.</p>
-        <em>Υλικό εργαστηρίου:</em>        
-        <ul>
-          <li>Σημειώσεις: <a href="lecturedoc/unit4/module1.html">Scanning στην Python με το Plex</a>.</li>
-          <li><em>Πρόσθετη άσκηση:</em> Κατασκευάστε χρησιμοποιώντας το module Plex ένα postfix calculator (βλ. σχετικά π.χ. το <a href="https://en.wikipedia.org/wiki/Reverse_Polish_notation">λήμμα "Reverse Polish notation" στη Wikipedia</a>). Θα πρέπει να αναγνωρίζετε ακέραιους, κλασματικούς (στη μορφή xx.yy ή .yy) και hex αριθμούς (στη μορφή 0x...).</li>          
-          <li>Υπόδειξη: δείτε πώς μπορείτε να <a href="https://gist.github.com/mixstef/5db60ac724296741fd6b2677ec77ad5a">χρησιμοποιήσετε το Plex με strings αντί με αρχεία</a>.
-          </li>          
-        </ul>
-      </div>
-
-
-
-
-
-      <div class="contentbin">
-        <h4>Ενότητα #4</h4>
-        <p>Μέθοδοι συντακτικής ανάλυσης top-down.</p>
-        <p><em>Ενδεικτική θεωρία: Ενότητες 3.3.1 - 3.3.2 από το βιβλίο "ΣΧΕΔΙΑΣΗ ΚΑΙ ΚΑΤΑΣΚΕΥΗ ΜΕΤΑΓΛΩΤΤΙΣΤΩΝ" των Keith D. Cooper, Linda Torczon.</em></p>
-        
-        <h4>Εργαστήριο 3/6/2020:</h4>        
-        <ul>
-          <li><a href="https://gist.github.com/mixstef/e195a83f245532ad02d9956e2dbeb305">Κώδικας και υποδείξεις εργαστηρίου</a>.</li>
-        </ul>        
-
-        <h4>Προηγούμενα εργαστήρια ενότητας #4</h4>
-        <p>Εδώ θα βρείτε το ιστορικό δραστηριοτήτων (lab logs) των προηγούμενων εργαστηρίων, στην περίπτωση που θέλετε να επαναλάβετε κάποιο μέρος των ασκήσεων.</p>
-        
-                
-        <ul>
-          <li><em>Εργαστήριο 28/5/2020:</em> <a href="https://gist.github.com/mixstef/5ea65b738d337bb1040711ee87bd580f">Υλοποίηση «απλουστευμένης» γραμματικής LL(1) με τη μέθοδο recursive descent (ολοκλήρωση άσκησης). Εισαγωγή στα σύνολα FIRST</a>.</li>        
-          <li><em>Εργαστήριο 27/5/2020:</em> <a href="https://gist.github.com/mixstef/a34083918cd9dacf457184c8162abc3b">Υλοποίηση «απλουστευμένης» γραμματικής LL(1) με τη μέθοδο recursive descent</a>.</li>        
-          <li><em>Εργαστήρια 20/5/2020 και 21/5/2020:</em> <a href="parsing-notes.pdf">Εισαγωγή στη συντακτική ανάλυση (θεωρητικό μέρος)</a>.</li>
-        </ul>        
-
-        
-      
-        <em>Υλικό εργαστηρίου:</em>
-        <ul>
-          <li>Σημειώσεις: <a href="lecturedoc/unit5/module2.html">Συντακτική ανάλυση αναδρομικής κατάβασης</a>. (Recurive Descent Parsing)</li>
-        </ul>
-
-      </div>
-
-
-
-
-      <div class="contentbin">
-        <h4>Ενότητα #6</h4>
-        <p>Αφηρημένα δένδρα σύνταξης και ενδιάμεσες αναπαραστάσεις.</p>
-        <p><em>Ενδεικτική θεωρία: Ενότητες 5.1 - 5.3.3 από το βιβλίο "ΣΧΕΔΙΑΣΗ ΚΑΙ ΚΑΤΑΣΚΕΥΗ ΜΕΤΑΓΛΩΤΤΙΣΤΩΝ" των Keith D. Cooper, Linda Torczon.</em></p>
-        <em>Υλικό εργαστηρίου:</em>
-        <ul>
-          <li><a href="https://gist.github.com/mixstef/edc6bddbeb1ace0cb2d20d238c6cbc6f">Παράδειγμα χρήσης του module llvmlite</a>.</li>
-          <li><a href="https://gist.github.com/mixstef/6a51d8964da054ab1732e47319f30720">Παράδειγμα χρήσης της συνάρτησης printf της stdlibc</a>.</li>
-        </ul>
-      </div>
-
-
-
-      <div class="contentbin">
-        <h4>Εργασία&nbsp;#1</h4>
-        <ul>
-          <li><a href="assignment1.pdf">Εκφώνηση</a><br><strong><del>Παράδοση: 9/5/2017</strong></del> <ins>(έληξε)</ins></li>
-        </ul>
-      </div>
-
-
-      <div class="contentbin">
-        <h4>Εργασία&nbsp;#3</h4>
-        <ul>
-          <li><a href="assignment3.pdf">Εκφώνηση</a><br><strong><del>Παράδοση: 13/5/2014</del> <ins>(έληξε)</ins></strong></li>
         </ul>
       </div>
 -->

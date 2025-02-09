@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Παράρτημα Α: Πληροφορίες για την Python3 &#8212; Compiler Labs Doc 1.0 documentation</title>
+    <title>Παράρτημα &#8212; Compiler Labs Doc 1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=4f649999" />
     <link rel="stylesheet" type="text/css" href="../_static/mytheme.css?v=9774cda0" />
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=359c27e9"></script>
@@ -13,7 +13,7 @@
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Εξαγωγή tokens" href="../02-regex/tokenizer.html" />
+    <link rel="prev" title="Υλοποίηση αυτομάτων με την κλάση DFA" href="../01-dfa/dfa-in-python.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -26,7 +26,7 @@
      <div>
         <h4>Τμήμα Πληροφορικής - Ιόνιο Πανεπιστήμιο</h4>
         <h2>Μεταγλωττιστές</h2>
-        <h4>Εαρινό Εξάμηνο 2023-24</h4>        
+        <h4>Εαρινό Εξάμηνο 2024-25</h4>        
         <h5>Μ.Στεφανιδάκης</h5>
       </div>    
 </div>
@@ -42,14 +42,14 @@
           <div class="body" role="main">
             
   <a class="reference internal image-reference" href="../_images/by-sa.png"><img alt="Creative Commons Attribution-ShareAlike 4.0 International License" src="../_images/by-sa.png" style="width: 80px;" /></a>
-<section id="python3">
-<h1>Παράρτημα Α: Πληροφορίες για την Python3<a class="headerlink" href="#python3" title="Permalink to this heading">¶</a></h1>
-<p>Στο παράρτημα αυτό θα βρείτε τα βασικά στοιχεία για να δουλέψετε τοπικά στον υπολογιστή σας με την Python3 στο εργαστήριο των Μεταγλωττιστών. Επειδή θα χρειαστεί να εγκαταστήσετε τις <em>βιβλιοθήκες Python του μαθήματος</em> συνιστάται η χρήση virtual environments για να μην πειράξετε την κεντρική εγκατάσταση Python.</p>
-<section id="install-ref">
-<span id="id1"></span><h2>Εγκατάσταση της Python3<a class="headerlink" href="#install-ref" title="Permalink to this heading">¶</a></h2>
+<section id="id1">
+<h1>Παράρτημα<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h1>
+<p>Στο παράρτημα αυτό θα βρείτε τα βασικά στοιχεία για να δουλέψετε τοπικά στον υπολογιστή σας με την Python3 στο εργαστήριο των Μεταγλωττιστών. Επειδή θα χρειαστεί να εγκαταστήσετε τη βιβλιοθήκη <code class="docutils literal notranslate"><span class="pre">compilerlabs</span></code> του μαθήματος συνιστάται η χρήση virtual environments για να μην πειράξετε την κεντρική εγκατάσταση Python.</p>
+<section id="python">
+<span id="install-ref"></span><h2>Εγκατάσταση της Python<a class="headerlink" href="#python" title="Permalink to this heading">¶</a></h2>
 <section id="linux">
 <h3>Linux<a class="headerlink" href="#linux" title="Permalink to this heading">¶</a></h3>
-<p>Εάν το λειτουργικό σας σύστημα είναι Linux, έχετε κατά πάσα πιθανότητα τη γλώσσα διαθέσιμη ήδη. Βεβαιωθείτε ότι τρέχετε την 3η έκδοση της γλώσσας -συχνά πρέπει να δώσετε την εντολή <code class="docutils literal notranslate"><span class="pre">python3</span></code> (η απλή εντολή <code class="docutils literal notranslate"><span class="pre">python</span></code> συνήθως εκτελεί την προηγούμενη έκδοση 2). Δεν απαιτείται πολύ πρόσφατη έκδοση της γλώσσας, οτιδήποτε μεγαλύτερο από την 3.6 είναι αρκετό.</p>
+<p>Εάν το λειτουργικό σας σύστημα είναι Linux, έχετε κατά πάσα πιθανότητα τη γλώσσα διαθέσιμη ήδη. Βεβαιωθείτε ότι τρέχετε την 3η έκδοση της γλώσσας -συχνά πρέπει να δώσετε την εντολή <code class="docutils literal notranslate"><span class="pre">python3</span></code> (η απλή εντολή <code class="docutils literal notranslate"><span class="pre">python</span></code> σε κάποιες διανομές εκτελεί ακόμα την προηγούμενη έκδοση 2). Δεν απαιτείται πολύ πρόσφατη έκδοση της γλώσσας, οτιδήποτε μεγαλύτερο από την 3.8 είναι αρκετό.</p>
 <p>Για παράδειγμα, μπορείτε να μπείτε στο interactive shell της python3 ως εξής (βγείτε με <code class="docutils literal notranslate"><span class="pre">exit()</span></code> ή <code class="docutils literal notranslate"><span class="pre">Ctrl-D</span></code> όταν τελειώσετε):</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ python3
 Python 3.8.10 (default, Nov 14 2022, 12:59:47)
@@ -183,26 +183,26 @@ C:\Users\Myuser&gt;cd test-folder
 </section>
 </section>
 </section>
-<section id="instal-lab-libs-ref">
-<span id="id9"></span><h2>Εγκατάσταση βιβλιοθηκών εργαστηρίου<a class="headerlink" href="#instal-lab-libs-ref" title="Permalink to this heading">¶</a></h2>
-<p>Τα επόμενα πρέπει να γίνουν με το virtual environment <strong>ενεργοποιημένο</strong>.</p>
+<section id="compilerlabs">
+<span id="instal-lab-libs-ref"></span><h2>Εγκατάσταση βιβλιοθήκης compilerlabs<a class="headerlink" href="#compilerlabs" title="Permalink to this heading">¶</a></h2>
+<p>Αν δουλεύετε με virtual environments, τα επόμενα πρέπει να γίνουν με το virtual environment <strong>ενεργοποιημένο</strong>.</p>
 <ol class="arabic simple">
 <li><p>Για να δουλέψετε με jupyter notebooks (παρόμοια με το online mybinder) εγκαταστήστε το <cite>jupyter</cite>:</p></li>
 </ol>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>pip install --upgrade jupyter
 </pre></div>
 </div>
-<p>(Σημ.: για να ξεκινήσετε τα notebooks δώστε την εντολή <code class="docutils literal notranslate"><span class="pre">jupyter-notebook</span></code>)</p>
 <ol class="arabic simple" start="2">
 <li><p>Στη συνέχεια εγκαταστήστε τις βιβλιοθήκες του εργαστηρίου:</p></li>
 </ol>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>pip install --upgrade plex compilerlabs -f https://mixstef.github.io/courses/compilers/packages/
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>pip install --upgrade compilerlabs -f https://mixstef.github.io/courses/compilers/packages/
 </pre></div>
 </div>
+<p>(Σημ.: για να ξεκινήσετε τα notebooks μετά την εγκατάσταση δώστε την εντολή <code class="docutils literal notranslate"><span class="pre">jupyter-notebook</span></code>)</p>
 </section>
-<section id="id10">
-<h2>Βασικά παραδείγματα χρήσης της Python3<a class="headerlink" href="#id10" title="Permalink to this heading">¶</a></h2>
-<p>Στη συνέχεια παρουσιάζονται ορισμένα ενδιαφέροντα στοιχεία και παραδείγματα χρήσης της Python3. Αυτό που ακολουθεί δεν είναι tutorial, αν θέλετε κάτι τέτοιο μπορείτε να βρείτε εξαιρετικά κείμενα on-line.</p>
+<section id="id9">
+<h2>Βασικά παραδείγματα χρήσης της Python<a class="headerlink" href="#id9" title="Permalink to this heading">¶</a></h2>
+<p>Στη συνέχεια παρουσιάζονται ορισμένα ενδιαφέροντα στοιχεία και παραδείγματα χρήσης της Python. Αυτό που ακολουθεί δεν είναι tutorial, αν θέλετε κάτι τέτοιο μπορείτε να βρείτε εξαιρετικά κείμενα on-line.</p>
 <section id="strings">
 <h3>Strings<a class="headerlink" href="#strings" title="Permalink to this heading">¶</a></h3>
 <p>Η Python προσφέρει τους κλασσικούς τύπους δεδομένων (int, string κλπ). Τα αντικείμενα των τύπων αυτών είναι <strong>immutable</strong>, δηλαδή <strong>δεν αλλάζουν τιμή</strong> (μπορούν όμως να δημιουργηθούν νέα αντικείμενα ανά πάσα στιγμή).</p>
@@ -253,8 +253,8 @@ C:\Users\Myuser&gt;cd test-folder
 </div>
 <p>Τα αντικείμενα τύπου string διαθέτουν μια μεγάλη σειρά από <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#string-methods">χρήσιμες μεθόδους</a>.</p>
 </section>
-<section id="id12">
-<h3>Σύνθετα Αντικείμενα<a class="headerlink" href="#id12" title="Permalink to this heading">¶</a></h3>
+<section id="id11">
+<h3>Σύνθετα Αντικείμενα<a class="headerlink" href="#id11" title="Permalink to this heading">¶</a></h3>
 <p>Το δυνατό σημείο της Python είναι τα σύνθετα αντικείμενα που παρέχει, τα οποία χρησιμοποιούμε για όλες τις δομές που θέλουμε να υλοποιήσουμε. Τα δύο βασικότερα είναι οι <strong>λίστες (lists)</strong> και τα <strong>λεξικά (dictionaries)</strong>.  Και οι δύο αυτοί τύποι αντικειμένων είναι <strong>mutable</strong>, τα αντικείμενά τους δηλαδή μπορούν να αλλάξουν περιεχόμενα.</p>
 <section id="lists">
 <h4>Λίστες (Lists)<a class="headerlink" href="#lists" title="Permalink to this heading">¶</a></h4>
@@ -390,8 +390,8 @@ C:\Users\Myuser&gt;cd test-folder
 </section>
 </section>
 </section>
-<section id="id13">
-<h2>Διαβάζοντας ένα ολόκληρο αρχείο κειμένου<a class="headerlink" href="#id13" title="Permalink to this heading">¶</a></h2>
+<section id="id12">
+<h2>Διαβάζοντας ένα ολόκληρο αρχείο κειμένου<a class="headerlink" href="#id12" title="Permalink to this heading">¶</a></h2>
 <p>Στο εργαστήριο επεξεργαζόμαστε το περιεχόμενο αρχείων απλού κειμένου. Στο παράδειγμα που ακολουθεί φαίνεται ο τρόπος για να διαβάσουμε <strong>ολόκληρο το περιεχόμενο</strong> ενός αρχείου κειμένου και να το τοποθετήσουμε σε μια μεταβλητή τύπου string.</p>
 <aside class="topic">
 <p class="topic-title">Πόσο μεγάλα αρχεία μπορούμε να διαβάσουμε;</p>
@@ -411,7 +411,7 @@ C:\Users\Myuser&gt;cd test-folder
 </aside>
 </section>
 <section id="file-line-processing-ref">
-<span id="id14"></span><h2>Διαβάζοντας ένα αρχείο κειμένου γραμμή προς γραμμή<a class="headerlink" href="#file-line-processing-ref" title="Permalink to this heading">¶</a></h2>
+<span id="id13"></span><h2>Διαβάζοντας ένα αρχείο κειμένου γραμμή προς γραμμή<a class="headerlink" href="#file-line-processing-ref" title="Permalink to this heading">¶</a></h2>
 <p>Σε πολλές περιπτώσεις, η επεξεργασία αρχείων κειμένου γίνεται <strong>γραμμή προς γραμμή</strong>. Αυτό συμβαίνει όταν κάθε γραμμή του κειμένου (και η επεξεργασία της) είναι <em>ανεξάρτητη</em> από τις υπόλοιπες γραμμές. Ιδιαίτερα σημαντική είναι η επεξεργασία γραμμή προς γραμμή σε <em>πολύ μεγάλα</em> αρχεία (δισεκατομμύρια γραμμές).</p>
 <p>Σε αντίθεση με την ανάγνωση του συνόλου του αρχείου, εδώ έχουμε μια δομή επανάληψης <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">..</span> <span class="pre">in</span> <span class="pre">..</span></code> που μας παρέχει το περιεχόμενο κάθε γραμμής ανά επανάληψη. Στο παράδειγμα που ακολουθεί, τοποθετούμε το <code class="docutils literal notranslate"><span class="pre">for</span></code> μέσα σε μια δομή <code class="docutils literal notranslate"><span class="pre">with</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;sample1.txt&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
@@ -438,7 +438,7 @@ C:\Users\Myuser&gt;cd test-folder
 </aside>
 </section>
 <section id="apx-classes-ref">
-<span id="id15"></span><h2>Κλάσεις στην Python3: μια μικροσκοπική εισαγωγή<a class="headerlink" href="#apx-classes-ref" title="Permalink to this heading">¶</a></h2>
+<span id="id14"></span><h2>Κλάσεις στην Python: μια μικροσκοπική εισαγωγή<a class="headerlink" href="#apx-classes-ref" title="Permalink to this heading">¶</a></h2>
 <p>Η Python είναι αντικειμενοστρεφής γλώσσα και το κύριο εργαλείο για αυτόν τον σκοπό είναι οι κλάσεις. Οι κλάσεις ορίζονται ως εξής:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Test</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; a class without parent &quot;&quot;&quot;</span>
@@ -452,7 +452,7 @@ C:\Users\Myuser&gt;cd test-folder
         <span class="c1"># put class code here</span>
 </pre></div>
 </div>
-<p>Για να δημιουργήσουμε αντικείμενα μιας κλάσης χρησιμοποιούμε τη σύνταξη:</p>
+<p>Για να δημιουργήσουμε αντικείμενα (instances) μιας κλάσης χρησιμοποιούμε τη σύνταξη:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">testobj</span> <span class="o">=</span> <span class="n">Test</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -471,7 +471,7 @@ C:\Users\Myuser&gt;cd test-folder
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Test</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; a test class &quot;&quot;&quot;</span>
 
-        <span class="k">def</span> <span class="nf">__init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">size</span><span class="p">):</span>
+        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">size</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">size</span>     <span class="c1"># &quot;self.size&quot; is a class member variable</span>
 
 
@@ -493,8 +493,8 @@ C:\Users\Myuser&gt;cd test-folder
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Περιεχόμενα</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Παράρτημα Α: Πληροφορίες για την Python3</a><ul>
-<li><a class="reference internal" href="#install-ref">Εγκατάσταση της Python3</a><ul>
+<li><a class="reference internal" href="#">Παράρτημα</a><ul>
+<li><a class="reference internal" href="#python">Εγκατάσταση της Python</a><ul>
 <li><a class="reference internal" href="#linux">Linux</a></li>
 <li><a class="reference internal" href="#windows">Windows</a></li>
 </ul>
@@ -514,19 +514,19 @@ C:\Users\Myuser&gt;cd test-folder
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#instal-lab-libs-ref">Εγκατάσταση βιβλιοθηκών εργαστηρίου</a></li>
-<li><a class="reference internal" href="#id10">Βασικά παραδείγματα χρήσης της Python3</a><ul>
+<li><a class="reference internal" href="#compilerlabs">Εγκατάσταση βιβλιοθήκης compilerlabs</a></li>
+<li><a class="reference internal" href="#id9">Βασικά παραδείγματα χρήσης της Python</a><ul>
 <li><a class="reference internal" href="#strings">Strings</a></li>
-<li><a class="reference internal" href="#id12">Σύνθετα Αντικείμενα</a><ul>
+<li><a class="reference internal" href="#id11">Σύνθετα Αντικείμενα</a><ul>
 <li><a class="reference internal" href="#lists">Λίστες (Lists)</a></li>
 <li><a class="reference internal" href="#dictionaries">Λεξικά (Dictionaries)</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id13">Διαβάζοντας ένα ολόκληρο αρχείο κειμένου</a></li>
+<li><a class="reference internal" href="#id12">Διαβάζοντας ένα ολόκληρο αρχείο κειμένου</a></li>
 <li><a class="reference internal" href="#file-line-processing-ref">Διαβάζοντας ένα αρχείο κειμένου γραμμή προς γραμμή</a></li>
-<li><a class="reference internal" href="#apx-classes-ref">Κλάσεις στην Python3: μια μικροσκοπική εισαγωγή</a></li>
+<li><a class="reference internal" href="#apx-classes-ref">Κλάσεις στην Python: μια μικροσκοπική εισαγωγή</a></li>
 </ul>
 </li>
 </ul>

@@ -87,8 +87,8 @@
 </pre></div>
 </div>
 <p>Η μέθοδος επιστρέφει το token που αναγνωρίστηκε (ή None αν δεν υπάρχει ταίριασμα) και το αντίστοιχο κείμενο (ή το κενό string αν δεν αναγνωρίστηκε κάτι).</p>
-<section id="id2">
-<h3>Παράδειγμα<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
+<section id="long-term-test">
+<h3>Παράδειγμα: το αυτόματο για τα long, term και test<a class="headerlink" href="#long-term-test" title="Permalink to this heading">¶</a></h3>
 <p>Στη συνέχεια θα δούμε την υλοποίηση του γνωστού παραδείγματος του αυτομάτου με τα τρία keywords, τις λέξεις <cite>long</cite>, <cite>term</cite> και <cite>test</cite> του επόμενου σχήματος:</p>
 <figure class="align-default" id="id7">
 <img alt="Αυτόματο πεπερασμένων καταστάσεων για τα  keywords long, term, test" src="../_images/longtermtest.png" />
@@ -127,13 +127,56 @@
 </pre></div>
 </div>
 </section>
+<section id="id2">
+<h3>Παράδειγμα: το αυτόματο για τον αριθμό μήνα (1..12)<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
+<p>Το αυτόματο για την αναγνώριση αριθμών μήνα (1..12) με ένα ή δύο ψηφία έχει παρουσιαστεί σε <a class="reference internal" href="module1.html#dfa-month-number-ref"><span class="std std-ref">προηγούμενη ενότητα</span></a> και είναι ως εξής:</p>
+<figure class="align-default" id="id8">
+<img alt="Αυτόματο πεπερασμένων καταστάσεων για αναγνώριση αριθμού μήνα" src="../_images/month-number.png" />
+<figcaption>
+<p><span class="caption-text">Αυτόματο πεπερασμένων καταστάσεων για αναγνώριση  αριθμού μήνα</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>Πώς θα υλοποιηθεί με την κλάση DFA;</p>
+<details class="summary-">
+<summary>Δείτε τη λύση</summary><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">compilerlabs</span> <span class="kn">import</span> <span class="n">DFA</span>
+
+<span class="n">dfa</span> <span class="o">=</span> <span class="n">DFA</span><span class="p">(</span><span class="s1">&#39;s0&#39;</span><span class="p">)</span>
+
+<span class="n">dfa</span><span class="o">.</span><span class="n">transition</span><span class="p">(</span><span class="s1">&#39;s0&#39;</span><span class="p">,</span><span class="s1">&#39;0&#39;</span><span class="p">,</span><span class="s1">&#39;s1&#39;</span><span class="p">)</span>
+<span class="n">dfa</span><span class="o">.</span><span class="n">transition</span><span class="p">(</span><span class="s1">&#39;s1&#39;</span><span class="p">,[</span><span class="s1">&#39;1&#39;</span><span class="p">,</span><span class="s1">&#39;2&#39;</span><span class="p">,</span><span class="s1">&#39;3&#39;</span><span class="p">,</span><span class="s1">&#39;4&#39;</span><span class="p">,</span><span class="s1">&#39;5&#39;</span><span class="p">,</span><span class="s1">&#39;6&#39;</span><span class="p">,</span><span class="s1">&#39;7&#39;</span><span class="p">,</span><span class="s1">&#39;8&#39;</span><span class="p">,</span><span class="s1">&#39;9&#39;</span><span class="p">],</span><span class="s1">&#39;s2&#39;</span><span class="p">)</span>
+<span class="n">dfa</span><span class="o">.</span><span class="n">transition</span><span class="p">(</span><span class="s1">&#39;s0&#39;</span><span class="p">,</span><span class="s1">&#39;1&#39;</span><span class="p">,</span><span class="s1">&#39;s3&#39;</span><span class="p">)</span>
+<span class="n">dfa</span><span class="o">.</span><span class="n">transition</span><span class="p">(</span><span class="s1">&#39;s3&#39;</span><span class="p">,[</span><span class="s1">&#39;0&#39;</span><span class="p">,</span><span class="s1">&#39;1&#39;</span><span class="p">,</span><span class="s1">&#39;2&#39;</span><span class="p">],</span><span class="s1">&#39;s4&#39;</span><span class="p">)</span>
+<span class="n">dfa</span><span class="o">.</span><span class="n">transition</span><span class="p">(</span><span class="s1">&#39;s0&#39;</span><span class="p">,[</span><span class="s1">&#39;2&#39;</span><span class="p">,</span><span class="s1">&#39;3&#39;</span><span class="p">,</span><span class="s1">&#39;4&#39;</span><span class="p">,</span><span class="s1">&#39;5&#39;</span><span class="p">,</span><span class="s1">&#39;6&#39;</span><span class="p">,</span><span class="s1">&#39;7&#39;</span><span class="p">,</span><span class="s1">&#39;8&#39;</span><span class="p">,</span><span class="s1">&#39;9&#39;</span><span class="p">],</span><span class="s1">&#39;s5&#39;</span><span class="p">)</span>
+
+<span class="n">dfa</span><span class="o">.</span><span class="n">accept</span><span class="p">(</span><span class="s1">&#39;s2&#39;</span><span class="p">,</span><span class="s1">&#39;MONTH&#39;</span><span class="p">)</span>
+<span class="n">dfa</span><span class="o">.</span><span class="n">accept</span><span class="p">(</span><span class="s1">&#39;s3&#39;</span><span class="p">,</span><span class="s1">&#39;MONTH&#39;</span><span class="p">)</span>
+<span class="n">dfa</span><span class="o">.</span><span class="n">accept</span><span class="p">(</span><span class="s1">&#39;s4&#39;</span><span class="p">,</span><span class="s1">&#39;MONTH&#39;</span><span class="p">)</span>
+<span class="n">dfa</span><span class="o">.</span><span class="n">accept</span><span class="p">(</span><span class="s1">&#39;s5&#39;</span><span class="p">,</span><span class="s1">&#39;MONTH&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;3&#39;</span><span class="p">,</span><span class="s1">&#39;02&#39;</span><span class="p">,</span><span class="s1">&#39;12&#39;</span><span class="p">,</span><span class="s1">&#39;0&#39;</span><span class="p">,</span><span class="s1">&#39;00&#39;</span><span class="p">,</span><span class="s1">&#39;15&#39;</span><span class="p">,</span><span class="s1">&#39;32&#39;</span><span class="p">,</span><span class="s1">&#39;1&#39;</span><span class="p">]:</span>
+    <span class="n">token</span><span class="p">,</span><span class="n">lexeme</span> <span class="o">=</span> <span class="n">dfa</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">token</span><span class="p">,</span><span class="n">lexeme</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Η εκτέλεση του κώδικα θα δώσει ως έξοδο (αριστερά είναι η είσοδος, στο κέντρο το token που αναγνωρίστηκε και δεξιά το μέρος της εισόδου που καταναλώθηκε):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>3 MONTH 3
+02 MONTH 02
+12 MONTH 12
+0 None
+00 None
+15 MONTH 1
+32 MONTH 3
+1 MONTH 1
+</pre></div>
+</div>
+</details></section>
 <section id="id3">
 <h3>Ομαδοποίηση χαρακτήρων<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
 <p>Ας εξετάσουμε την υλοποίηση του αυτομάτου DFA το οποίο αναγνωρίζει ακολουθίες ψηφίων <cite>0..9</cite> οποιουδήποτε μήκους:</p>
-<figure class="align-default" id="id8">
+<figure class="align-default" id="id9">
 <img alt="Αυτόματο πεπερασμένων καταστάσεων για αναγνώριση σειράς ψηφίων" src="../_images/digits.png" />
 <figcaption>
-<p><span class="caption-text">Αυτόματο πεπερασμένων καταστάσεων για αναγνώριση σειράς ψηφίων</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
+<p><span class="caption-text">Αυτόματο πεπερασμένων καταστάσεων για αναγνώριση σειράς ψηφίων</span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
 </figcaption>
 </figure>
 <p>Για να περιγράψουμε τη μετάβαση από το <span class="math notranslate nohighlight">\(s_0\)</span> στο <span class="math notranslate nohighlight">\(s_1\)</span> θα μπορούσαμε να γράψουμε:</p>
@@ -172,10 +215,10 @@
 <section id="dfa-intfloat-ref">
 <span id="id4"></span><h2>Διαφορές από το θεωρητικό αυτόματο<a class="headerlink" href="#dfa-intfloat-ref" title="Permalink to this heading">¶</a></h2>
 <p>Το θεωρητικό αυτόματο (D)FA θα προσπαθήσει να ταιριάξει <em>όλους</em> τους χαρακτήρες εισόδου. Εάν για κάποιον χαρακτήρα δεν υπάρχει μετάβαση από την τρέχουσα κατάσταση θα παραχθεί σφάλμα. Το θεωρητικό αυτόματο αναγνωρίζει ένα κείμενο όταν, αφού το καταναλώσει όλο, βρίσκεται σε κατάσταση αποδοχής.</p>
-<figure class="align-default" id="id9">
+<figure class="align-default" id="id10">
 <img alt="Αυτόματο πεπερασμένων καταστάσεων για αναγνώριση σειράς ψηφίων" src="../_images/digits.png" />
 <figcaption>
-<p><span class="caption-text">Αυτόματο πεπερασμένων καταστάσεων για αναγνώριση σειράς ψηφίων</span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
+<p><span class="caption-text">Αυτόματο πεπερασμένων καταστάσεων για αναγνώριση σειράς ψηφίων</span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
 </figcaption>
 </figure>
 <p>Για παράδειγμα, το θεωρητικό αυτόματο που αναγνωρίζει σειρές από αριθμητικά ψηφία (0..9) στο προηγούμενο σχήμα θα επιστρέψει σφάλμα τόσο στο <code class="docutils literal notranslate"><span class="pre">a123</span></code> (επειδή από την αρχική κατάσταση δεν υπάρχει μετάβαση με τον χαρακτήρα <code class="docutils literal notranslate"><span class="pre">a</span></code>) όσο και στο <code class="docutils literal notranslate"><span class="pre">123a</span></code> (γιατί από το <code class="docutils literal notranslate"><span class="pre">s1</span></code> δεν υπάρχει μετάβαση με το <code class="docutils literal notranslate"><span class="pre">a</span></code>).</p>
@@ -198,10 +241,10 @@
 <section id="id5">
 <h3>Προαιρετικά ταιριάσματα<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h3>
 <p>Έστω ότι υλοποιείται το αυτόματο της επόμενης εικόνας:</p>
-<figure class="align-default" id="id10">
+<figure class="align-default" id="id11">
 <img alt="Αυτόματο για την αναγνώριση int και float αριθμών" src="../_images/intfloat.png" />
 <figcaption>
-<p><span class="caption-text">Αυτόματο για την αναγνώριση int και float αριθμών</span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
+<p><span class="caption-text">Αυτόματο για την αναγνώριση int και float αριθμών</span><a class="headerlink" href="#id11" title="Permalink to this image">¶</a></p>
 </figcaption>
 </figure>
 <p>Ο στόχος είναι η αναγνώριση ακεραίων αριθμών (στην κατάσταση <span class="math notranslate nohighlight">\(s_1\)</span>) και αριθμών με δεκαδικό μέρος (στην κατάσταση αποδοχής <span class="math notranslate nohighlight">\(s_3\)</span>).</p>
@@ -280,7 +323,8 @@
   <ul>
 <li><a class="reference internal" href="#">Υλοποίηση αυτομάτων με την κλάση DFA</a><ul>
 <li><a class="reference internal" href="#id1">Κατασκευή και χρήση αυτομάτου DFA</a><ul>
-<li><a class="reference internal" href="#id2">Παράδειγμα</a></li>
+<li><a class="reference internal" href="#long-term-test">Παράδειγμα: το αυτόματο για τα long, term και test</a></li>
+<li><a class="reference internal" href="#id2">Παράδειγμα: το αυτόματο για τον αριθμό μήνα (1..12)</a></li>
 <li><a class="reference internal" href="#id3">Ομαδοποίηση χαρακτήρων</a></li>
 </ul>
 </li>

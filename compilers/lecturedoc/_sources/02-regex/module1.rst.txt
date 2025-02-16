@@ -75,12 +75,12 @@
    
 	if m:	# m is not None
 	
-		print('found! matched={}'.format(m.group(0)))
+		print(f'found! matched={m.group(0)}')
 	
 	else:	# m is None
 		print('not found')   
 
-Το ``m.group(0)`` επιστρέφει το συνολικό κείμενο που ταίριαξε. Τα *groups* είναι μέρη του ταιριάσματος και θα αναλυθούν στα επόμενα.
+Το ``m.group(0)`` (ή πιο απλά ``m.group()``) επιστρέφει το συνολικό κείμενο που ταίριαξε. Τα *groups* είναι μέρη του ταιριάσματος και θα αναλυθούν στα επόμενα.
 
 Υπενθυμίζεται ότι η μέθοδος ``search()`` δεν επιστρέφει όλα τα ταιριάσματα μέσα στο κείμενο παρά μόνο το *πρώτο που θα συναντήσει*.
 
@@ -113,7 +113,7 @@
 		m = rexp.search('category')
 		
 		if m:
-			print('found! matched={}'.format(m.group(0)))
+			print(f'found! matched={m.group(0)}')
 		else:
 			print('not found')
 

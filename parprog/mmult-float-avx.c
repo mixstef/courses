@@ -1,7 +1,7 @@
 // AVX float version of dot product of two NxN matrices 
 // compile with: gcc -mavx -Wall -O2 mmult-float-avx.c -o mmult-float-avx -DN=1000
 
-// N must be a multiple of 4!
+// N must be a multiple of 8!
 
 // NOTE: in order to be cache friendly, matrix B is assumed to be transposed
 

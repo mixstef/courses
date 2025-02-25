@@ -37,8 +37,8 @@ double ts,te;
   
   // init accumulator to 0  
   __m256d sum = _mm256_setzero_pd();
-  // init counter (i) to 1
-  __m256d cnt = _mm256_set1_pd(1.0);
+  // init counter (i) to 1..4
+  __m256d cnt = _mm256_set_pd(4.0,3.0,2.0,1.0);
   
   for (int i=1;i<=N/4;i++) {
     

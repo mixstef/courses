@@ -67,6 +67,6 @@ except TokenizerError as e:
     print(e)            
             
 except StackError:        
-    print('Input error at line {symbol.lineno} char {symbol.charpos}: stack is empty')
+    print(f'Input error at line {symbol.lineno} char {symbol.charpos}: stack is empty')
             
 

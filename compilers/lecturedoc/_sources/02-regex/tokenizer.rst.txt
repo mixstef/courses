@@ -165,7 +165,31 @@
 		
 		Γενικό μήνυμα περιγραφής του σφάλματος.
 	
+		..	code-block:: python
 		
+			from compilerlabs import Tokenizer,TokenAction,TokenizerError
+
+			t = Tokenizer()
+
+			t.pattern('[0-9]+','NUM')
+			t.pattern('\s+',TokenAction.IGNORE)
+			t.pattern('.',TokenAction.ERROR)
+
+			text = """123
+			456 abc 789"""
+
+			try:
+			    for s in t.scan(text,eot=False):
+				print(s.token,s.lexeme)
+			except TokenizerError as e:
+			    print(f'Scan error happened at line {e.lineno} and char position {e.charpos+1}')
+			    
+		::
+		
+		   NUM 123
+		   NUM 456
+		   Scan error happened at line 2 and char position 5
+
 Παράδειγμα: Postfix calculator
 ===============================
 Ο λεκτικός αναλυτής επιστρέφει μια σειρά από tokens χωρίς να εκτελεί οποιουδήποτε τύπου συντακτική ανάλυση. Έτσι, δεν είναι εύκολο να φτιαχτεί χρήσιμη εφαρμογή μόνο με αυτόν. Υπάρχει όμως ένας τρόπος γραφής αριθμητικών εκφράσεων (`postfix notation <https://en.wikipedia.org/wiki/Reverse_Polish_notation>`_), ο οποίος επιτρέπει τον υπολογισμό τους χωρίς συντακτική ανάλυση. Το παράδειγμα αυτό θα δούμε στη συνέχεια.
@@ -245,5 +269,5 @@
   
   Ο λεκτικός αναλυτής θα πρέπει να επιστρέφει ``INT_TOKEN``, ``FLOAT_TOKEN`` και ``HEX_TOKEN``, αντίστοιχα.
   
-2. Προσπαθήστε να προσθέσετε στον προηγούμενο λεκτικό αναλυτή τη δυνατότητα αναγνώρισης **σχολίων μονής γραμμής** στο στυλ της C: ξεκινώντας από ``\\`` και έως το τέλος της γραμμής (μέχρι να βρείτε newline). Τα σχόλια θα πρέπει να αγνοούνται.
+2. Προσπαθήστε να προσθέσετε στον προηγούμενο λεκτικό αναλυτή τη δυνατότητα αναγνώρισης **σχολίων μονής γραμμής** στο στυλ της C: ξεκινώντας από ``//`` και έως το τέλος της γραμμής (μέχρι να βρείτε newline). Τα σχόλια θα πρέπει να αγνοούνται.
 

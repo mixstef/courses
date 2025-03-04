@@ -22,7 +22,7 @@ void get_walltime(double *wct) {
 // struct of info passed to each thread
 struct thread_params {
   double *a;	// start of block on input array
-  double *sum;	// output for each thread
+  double sum;	// output for each thread
   int n;	// how many elements to sum
 };
 
@@ -33,7 +33,6 @@ void *thread_func(void *args) {
 
   struct thread_params *tp = (struct thread_params*)args;
   double *a = tp->a;
-  double *sum = tp->sum;
   int n = tp->n;
   
   // compute local sum of block
@@ -45,7 +44,7 @@ void *thread_func(void *args) {
   
   // write partial sum
    
-  *sum = mysum;  
+  tp->sum = mysum;  
   
   // exit and let be joined
   pthread_exit(NULL); 
@@ -60,9 +59,7 @@ int main() {
   pthread_t pid[THREADS];
   
   struct thread_params tparm[THREADS];
-  
-  double partial_sums[THREADS];
-  
+    
   // allocate array
   double *a = (double *)malloc(N*sizeof(double));
   if (a==NULL) {
@@ -82,7 +79,6 @@ int main() {
   for (int i=0;i<THREADS;i++) {
     // fill i-th member of tparm array
     tparm[i].a = a+i*BLOCKSIZE;
-    tparm[i].sum = partial_sums+i;    
 
     if (i==(THREADS-1)) { // last thread, maybe less than blocksize to do...
       tparm[i].n = N-i*BLOCKSIZE; 
@@ -110,7 +106,7 @@ int main() {
   // main thread computes final sum
   double sum = 0.0;
   for (int i=0;i<THREADS;i++) {
-    sum += partial_sums[i];
+    sum += tparm[i].sum;
   }
 
   // get ending time

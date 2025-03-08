@@ -33,7 +33,7 @@ void get_walltime(double *wct) {
 float *allocate_array() {
 
   // Αλλάξτε το περιεχόμενο της allocate_array για να εξασφαλίσετε
-  // ευθυγράμμιση διευθύνεσων στα 32 bytes
+  // ευθυγράμμιση διευθύνσεων στα 32 bytes
 
   return (float *)malloc(N*sizeof(float));
 

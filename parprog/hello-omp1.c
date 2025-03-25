@@ -1,7 +1,7 @@
 // Example showing the usage of a plain parallel construct without
 // a worksharing construct: all threads will execute the same code!
 
-// Compile with: gcc -O2 -Wall -fopenmp hello-omp.c -o hello-omp
+// Compile with: gcc -O2 -Wall -fopenmp hello-omp1.c -o hello-omp1
 
 
 #include <stdio.h>
@@ -15,7 +15,7 @@ int main() {
   
   #pragma omp parallel
   {
-    printf("Hello world!\n");
+    printf("Thread %d of %d: Hello world!\n",omp_get_thread_num(), omp_get_num_threads());
   
   } // NOTE: implicit barrier sync here
 

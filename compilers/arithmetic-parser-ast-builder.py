@@ -1,21 +1,20 @@
 """
-Recursive descent parser for arithmetic expressions accompanied by a simple statement interpreter.
+Recursive descent parser for arithmetic expressions accompanied by an AST builder.
 
-NOTE: added support for %, unary +- and **(power)
+NOTE: modified for correct calculation for operators with left associativity
 
 Grammar is:
 Stmt_list → Stmt Stmt_list | ε
 Stmt → id = Expr | print Expr
 Expr → Term (Addop Term)*
 Term → Factor (Multop Factor)*
-Factor → Addop Factor | Atom Atom_tail
-Atom_tail → pow Factor | ε 
-Atom → (Expr) | id | number
+Factor → (Expr) | id | number
 Addop → + | -
-Multop → * | / | %
+Multop → * | /
 """
 
-from compilerlabs import Tokenizer,TokenAction,TokenizerError
+from compilerlabs import Tokenizer,TokenAction,TokenizerError, \
+                         ASTNode
 
 
 # parsing error, a user-defined exception
@@ -57,22 +56,29 @@ class MyParserInterpreter():
     def parse(self):
 
         # call method for starting symbol of grammar
-        self.Stmt_list()
+        sl = self.Stmt_list()	# sl holds program's list of statement ASTs
         
         # keep the following to match end-of-text
         self.match(None)
+
+        return sl
 
 
     def Stmt_list(self):
                 
         if self.next_symbol.token in ('id','print'):
             # Stmt_list → Stmt Stmt_list
-            self.Stmt()
-            self.Stmt_list()
+            s = self.Stmt()
+            sl = self.Stmt_list()
+            
+            if not sl:	# sl is empty
+                return [s]
+                
+            return [s] + sl
         
         elif self.next_symbol.token==None:
             # Stmt_list → e
-            return
+            return []
                 
         else:
             raise ParseError(f'Syntax error at line {self.next_symbol.lineno} char {self.next_symbol.charpos}: In Stmt_list(), expecting id, print or EOT, found {self.next_symbol.token} instead')
@@ -85,12 +91,18 @@ class MyParserInterpreter():
             varname = self.next_symbol.lexeme
             self.match('id')
             self.match('=')
-            self.symbol_table[varname] = self.Expr()
+            e = self.Expr()
+            
+            return ASTNode(attributes={'type':'ASSIGN','name':varname},
+            		   subnodes=[e])
 
         elif self.next_symbol.token=='print':
             # Stmt → print Expr
             self.match('print')
-            print(self.Expr())
+            e = self.Expr()
+            
+            return ASTNode(attributes={'type':'PRINT'},
+            		   subnodes=[e])
                 
         else:
             raise ParseError(f'Syntax error at line {self.next_symbol.lineno} char {self.next_symbol.charpos}: In Stmt(), expecting id or print, found {self.next_symbol.token} instead')
@@ -98,16 +110,15 @@ class MyParserInterpreter():
 
     def Expr(self):
                 
-        if self.next_symbol.token in ('+','-','(','id','number'):
+        if self.next_symbol.token in ('(','id','number'):
             # Expr → Term (Addop Term)*
             t = self.Term()
             while self.next_symbol.token in ('+','-'):
                 op = self.Addop()
                 t2 = self.Term()
-                if op=='+':
-                    t += t2
-                else:
-                    t -= t2
+                
+                t = ASTNode(attributes={'type':'OP','func':op},
+                	    subnodes=[t,t2]) 
                            
             return t
              
@@ -117,28 +128,20 @@ class MyParserInterpreter():
 
     def Term(self):
                 
-        if self.next_symbol.token in ('+','-','(','id','number'):
+        if self.next_symbol.token in ('(','id','number'):
             # Term → Factor (Multop Factor)*
             f = self.Factor()
-            while self.next_symbol.token in ('*','/','%'):
-                op = self.Multop()
-
-                # keep these for meaningful error reporting in case of div/mod by 0
+            while self.next_symbol.token in ('*','/'):
+                # keep op position for future error reporting
                 lineno = self.next_symbol.lineno
                 charpos = self.next_symbol.charpos
-                
+                op = self.Multop()
                 f2 = self.Factor()
-                if op=='*':
-                    f *= f2
-                elif op=='/':
-                    if f2==0:
-                        raise RunError(f'Runtime error at line {lineno} char {charpos}: division by zero')                
-                    f /= f2
-                else:
-                    if f2==0:
-                        raise RunError(f'Runtime error at line {lineno} char {charpos}: modulo by zero')                
-                    f %= f2
-                           
+                
+                f = ASTNode(attributes={'type':'OP','func': op,
+                		        'lineno':lineno,'charpos':charpos},
+                            subnodes=[f,f2])
+                                          
             return f
 
         else:
@@ -146,79 +149,29 @@ class MyParserInterpreter():
             
 
     def Factor(self):
-    
-        if self.next_symbol.token in ('+','-'):
-            # Factor → Addop Factor
-            op = self.Addop()
-            f = self.Factor()
-            if op=='-':
-                return -f
-                
-            return f
-            
-        elif self.next_symbol.token in ('(','id','number'):
-            # Factor → Atom Atom_tail
-            a = self.Atom()
-            
-            # keep these for meaningful error reporting in case of invalid/non-float exponentation results, e.g. (-2)**0.5 gives complex number, 0**-1 is invalid
-            lineno = self.next_symbol.lineno
-            charpos = self.next_symbol.charpos
-            
-            at = self.Atom_tail()
-            
-            if at is None:
-                return a
-
-            try:
-                val = float(a**at)
-            except:
-                raise RunError(f'Runtime error at line {lineno} char {charpos}: invalid exponentation result')
-                
-            return val            
-    
-        else:
-            raise ParseError(f'Syntax error at line {self.next_symbol.lineno} char {self.next_symbol.charpos}: In Factor(), expecting +, -, (, id or number, found {self.next_symbol.token} instead')            
-    
-
-    def Atom_tail(self):
-    
-        if self.next_symbol.token=='pow':
-            # Atom_tail → pow Factor
-            self.match('pow')
-            return self.Factor()
-        
-        elif self.next_symbol.token in (')','*','/','%','+','-','id','print',None):
-            # Atom_tail → ε
-            return
-            
-        else:
-            raise RunError(f'Syntax error at line {self.next_symbol.lineno} char {self.next_symbol.charpos}: In Atom_tail(), expecting **, ), *, /, %, +, -, id, print or None, found {self.next_symbol.token} instead')            
-        
-
-    def Atom(self):
                 
         if self.next_symbol.token=='(':
-            # Atom → ( Expr )
+            # Factor → ( Expr )
             self.match('(')
-            value = self.Expr()
+            e = self.Expr()
             self.match(')')
-            return value
+            return e
 
         elif self.next_symbol.token=='id':
-            # Atom → id
+            # Factor → id
             varname = self.next_symbol.lexeme
+            # keep id position for future error reporting
             lineno = self.next_symbol.lineno
             charpos = self.next_symbol.charpos
             self.match('id')
-            if varname in self.symbol_table:
-                return self.symbol_table[varname]
-            raise RunError(f'Runtime error at line {lineno} char {charpos}: Uninitialized variable "{varname}"')
-
+            return ASTNode(attributes={'type':'DEREF','name':varname,
+				       'lineno':lineno,'charpos':charpos})
+				       
         elif self.next_symbol.token=='number':
-            # Atom → number
+            # Factor → number
             value = float(self.next_symbol.lexeme)
             self.match('number')
-            return value
+            return ASTNode(attributes={'type':'NUMBER','value':value})
                 
         else:
             raise ParseError(f'Syntax error at line {self.next_symbol.lineno} char {self.next_symbol.charpos}: In Factor(), expecting (, id or number, found {self.next_symbol.token} instead')
@@ -252,11 +205,6 @@ class MyParserInterpreter():
             self.match('/')
             return '/'
 
-        elif self.next_symbol.token=='%':
-            # Multop → /
-            self.match('%')
-            return '%'
-            
         else:
             raise ParseError(f'Syntax error at line {self.next_symbol.lineno} char {self.next_symbol.charpos}: In Multop(), expecting * or /, found {self.next_symbol.token} instead')
 
@@ -268,8 +216,7 @@ class MyParserInterpreter():
 # create tokenizer and define token patterns
 tokenizer = Tokenizer()
 tokenizer.pattern(r'[0-9]+(\.[0-9]+)?','number')
-tokenizer.pattern(r'\*\*','pow')
-tokenizer.pattern('[-+*/=()%]',TokenAction.TEXT)
+tokenizer.pattern('[-+*/=()]',TokenAction.TEXT)
 tokenizer.pattern('[_a-zA-Z][_a-zA-Z0-9]*','id',keywords=['print'])
 tokenizer.pattern(r'\s+',TokenAction.IGNORE)
 tokenizer.pattern('.',TokenAction.ERROR)
@@ -281,9 +228,6 @@ b = 3*(a-99.01)
 print b*0.23
 c = 5-3-2
 print c
-print 35 % 6 % 2
-print -(+27.32/-3.5/---8.0)
-print -4**3**-2
 """    
         
 # create scanner for input text
@@ -293,9 +237,11 @@ scanner = tokenizer.scan(text)
 parser = MyParserInterpreter(scanner)
 
 try:
-    parser.parse()
+    stmt_asts = parser.parse()
     
-except (TokenizerError,ParseError,RunError) as e:
+except (TokenizerError,ParseError) as e:
     print(e)
             
-
+else:    # if no lexical or syntax error
+    for ix,ast in enumerate(stmt_asts):
+        print(f'{ix+1}:\n{ast}')

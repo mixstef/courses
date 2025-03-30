@@ -1,9 +1,11 @@
-// Simple sum-reduction example.
-// Compile with: gcc -O2 -Wall sum-reduction-double.c -o sum-reduction-double -DN=10000000
+// OpenMP sum-reduction example, using firstprivate clause.
+// Compile with: gcc -O2 -Wall -fopenmp sum-reduction-double-omp-atomic.c -o sum-reduction-double-omp-atomic -DN=10000000
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
+
+#include <omp.h>
 
 
 void get_walltime(double *wct) {
@@ -33,8 +35,18 @@ double *a;
   
   // reduce array to sum
   double sum = 0;
-  for (int i=0;i<N;i++) {
-    sum += a[i];
+  double gsum = 0;
+  
+  #pragma omp parallel firstprivate(sum)
+  {
+    #pragma omp for nowait
+    for (int i=0;i<N;i++) {
+      sum += a[i];
+    }
+    
+    #pragma omp atomic // update by default
+    gsum += sum;
+      
   }
 
   // get ending time
@@ -42,7 +54,7 @@ double *a;
 
   // check result
   double result = ((double)N*(N+1))/2;  
-  if (sum!=result) {
+  if (gsum!=result) {
     printf("Reduction error!\n");
   }
 

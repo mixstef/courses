@@ -1,26 +1,48 @@
-// compile with: gcc -O2 -Wall fib-iterative.c -o fib-iterative
+// compile with: gcc -O2 -Wall -fopenmp fib-iterative.c -o fib-iterative
 
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <omp.h>
 
 #define N 13
 
 
 
 int main() {
-int fib[N];
+  int fib[N];
 
-  fib[0] = 1;
-  fib[1] = 1;
+  #pragma omp parallel
+  {
   
-  for (int i=2;i<N;i++) {
-    fib[i] = fib[i-1] + fib[i-2];
+    #pragma omp single nowait
+    {
+    
+      // this will be a task
+      {
+        printf("Computing fib(0) = ");
+        fib[0] = 1;
+        printf("%d\n",fib[0]);
+      }
+      
+      // this will be a task
+      {
+        printf("Computing fib(1) = ");
+        fib[1] = 1;
+        printf("%d\n",fib[1]);
+      }
+   
+      for (int i=2;i<N;i++) {
+        // this will be a task
+        {
+          printf("Computing fib(%d) = ",i);        
+          fib[i] = fib[i-1] + fib[i-2];
+          printf("%d\n",fib[i]);
+        }
+      }
+  
+    }
   }
-  
-  for (int i=0;i<N;i++) {
-    printf("fib(%d)= %d\n",i,fib[i]);
-  }
-  
+    
   return 0;
 }

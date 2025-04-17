@@ -39,8 +39,9 @@ int main() {
   {
   // 3. reduce array to sum (R times)
   for (int j=0;j<R;j++) {
-    sum = 0.0;
-    #pragma omp for simd reduction(+:sum) schedule(simd:static,8)
+    #pragma omp single
+    sum = 0.0;	// sum is shared, set to 0 per j loop by only one thread!
+    #pragma omp for simd reduction(+:sum)
     for (int i=0;i<N;i++) {
       sum += a[i];
     }

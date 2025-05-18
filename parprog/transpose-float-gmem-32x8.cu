@@ -1,8 +1,7 @@
-// Example to transpose a NxN matrix of floats in GPU version, global memory only.
-
-// Uses blocks of 1024 threads, arranged in 32x32 (2D) tiles, as many required to cover NxN size. Each block transposes a 32x32 tile.
-
-// Compile with:  nvcc transpose-float-gmem.cu -o transpose-float-gmem -DN=4000
+// Code example to transpose a NxN matrix of floats, GPU version, global memory only.
+// Uses blocks of 256 threads, arranged in 32x8 (2D), as many required to cover NxN size.
+// Each block transposes a 32x32 tile.
+// compile with:  nvcc transpose-float-gmem-32x8.cu -o transpose-float-gmem-32x8 -DN=4000
 
 
 
@@ -24,18 +23,26 @@ static void HandleError( cudaError_t err,
 
 
 #define TILESIZE 32
-#define BLOCKS ((N+TILESIZE-1)/TILESIZE)
+#define BLOCKSIZE ((N+TILESIZE-1)/TILESIZE)
 
 
 // the kernel function
 __global__ void transposeTile(float *a,float *b) {
 
-  // compute x,y position of input element this thread is going to transpose
-  int x = blockIdx.x * TILESIZE + threadIdx.x;  // column
-  int y = blockIdx.y * TILESIZE + threadIdx.y;  // row
-    
-  if (x<N && y<N) {    
-    b[x*N+y] = a[y*N+x]; // b(x,y) = a(y,x)
+  // compute x,y position of first of 4 input elements this thread is going to transpose
+  int x = blockIdx.x * TILESIZE + threadIdx.x;
+  int y = blockIdx.y * TILESIZE + threadIdx.y;
+  
+  // this thread will work on 32/8 = 4 elements, veritcal step is blockDim.y (=8) 
+  int step = blockDim.y;
+  
+  for(int i=0;i<TILESIZE;i+=step) {
+    // b(y+i,x) = a(x,y+i)
+    if (x<N && (y+i)<N) {
+      int rd_ix = (y+i)*N+x;
+      int wr_ix = x*N+y+i;
+      b[wr_ix] = a[rd_ix];
+    }
   }
 
 }
@@ -72,8 +79,8 @@ float *dev_a,*dev_b;
   HANDLE_ERROR(cudaMemcpy(dev_a,a,N*N*sizeof(float),cudaMemcpyHostToDevice));
 
   // call the kernel on device
-  dim3 blocks(BLOCKS,BLOCKS,1);
-  dim3 threads(TILESIZE,TILESIZE,1);
+  dim3 blocks(BLOCKSIZE,BLOCKSIZE,1);
+  dim3 threads(TILESIZE,8,1);
   transposeTile<<<blocks,threads>>>(dev_a,dev_b);
   
   // transfer device's output into host's output array

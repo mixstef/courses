@@ -1,8 +1,9 @@
-// Example to transpose a NxN matrix of floats in GPU version, global memory only.
+// Example to transpose a NxN matrix of floats in GPU, global memory only.
 
-// Uses blocks of 1024 threads, arranged in 32x32 (2D) tiles, as many required to cover NxN size. Each block transposes a 32x32 tile.
+// NOTE: this is only a template, using a single thread to transpose
+// the entire matrix, should be transformed to something more useful! 
 
-// Compile with:  nvcc transpose-float-gmem.cu -o transpose-float-gmem -DN=4000
+// Compile with:  nvcc transpose-float-template.cu -o transpose-float-template -DN=4000
 
 
 
@@ -23,21 +24,16 @@ static void HandleError( cudaError_t err,
 #define HANDLE_ERROR( err ) (HandleError( err, __FILE__, __LINE__ ))
 
 
-#define TILESIZE 32
-#define BLOCKS ((N+TILESIZE-1)/TILESIZE)
 
 
 // the kernel function
-__global__ void transposeTile(float *a,float *b) {
+__global__ void transpose(float *a,float *b) {
 
-  // compute x,y position of input element this thread is going to transpose
-  int x = blockIdx.x * TILESIZE + threadIdx.x;  // column
-  int y = blockIdx.y * TILESIZE + threadIdx.y;  // row
-    
-  if (x<N && y<N) {    
-    b[x*N+y] = a[y*N+x]; // b(x,y) = a(y,x)
+  for (int i=0;i<N;i++) { // for every row
+    for (int j=0;j<N;j++) { // for every column
+      b[j*N+i] = a[i*N+j];// b(j,i) = a(i,j)
+    }
   }
-
 }
 
 
@@ -71,10 +67,8 @@ float *dev_a,*dev_b;
   // transfer host input array to device
   HANDLE_ERROR(cudaMemcpy(dev_a,a,N*N*sizeof(float),cudaMemcpyHostToDevice));
 
-  // call the kernel on device
-  dim3 blocks(BLOCKS,BLOCKS,1);
-  dim3 threads(TILESIZE,TILESIZE,1);
-  transposeTile<<<blocks,threads>>>(dev_a,dev_b);
+  // launch the kernel on device
+  transpose<<<1,1>>>(dev_a,dev_b);
   
   // transfer device's output into host's output array
   HANDLE_ERROR(cudaMemcpy(b,dev_b,N*N*sizeof(float),cudaMemcpyDeviceToHost));

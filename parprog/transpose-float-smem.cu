@@ -1,8 +1,9 @@
-// Example to transpose a NxN matrix of floats in GPU version, global memory only.
+// Example to transpose a NxN matrix of floats in GPU, shared memory used.
 
-// Uses blocks of 1024 threads, arranged in 32x32 (2D) tiles, as many required to cover NxN size. Each block transposes a 32x32 tile.
+// Uses blocks of 1024 threads, arranged in 32x32 (2D) tiles, as many required to cover NxN size.
+// Each block transposes a 32x32 tile in shared memory.
 
-// Compile with:  nvcc transpose-float-gmem.cu -o transpose-float-gmem -DN=4000
+// Compile with:  nvcc transpose-float-smem.cu -o transpose-float-smem -DN=4000
 
 
 
@@ -28,14 +29,33 @@ static void HandleError( cudaError_t err,
 
 
 // the kernel function
-__global__ void transposeTile(float *a,float *b) {
+__global__ void transposeTileShm(float *a,float *b) {
 
-  // compute x,y position of input element this thread is going to transpose
-  int x = blockIdx.x * TILESIZE + threadIdx.x;  // column
-  int y = blockIdx.y * TILESIZE + threadIdx.y;  // row
-    
+  // shared memory for a 32x32 tile (2D array)
+  __shared__ float buffer[TILESIZE][TILESIZE];
+  // NOTE: change to buffer[TILESIZE][TILESIZE+1] to avoid bank conflicts!
+  
+  // // compute x,y position of input element for this thread
+  int x = blockIdx.x * TILESIZE + threadIdx.x;  // input column
+  int y = blockIdx.y * TILESIZE + threadIdx.y;  // input row
+
+  // load input tile from global memory and copy into shared memory
   if (x<N && y<N) {    
-    b[x*N+y] = a[y*N+x]; // b(x,y) = a(y,x)
+    buffer[threadIdx.y][threadIdx.x] = a[y*N+x]; // buffer(thread-y,thread-x) = a(y,x)
+  }
+      
+  // sync needed, threads use shared memory data other than their own
+  __syncthreads();
+  
+  // compute x,y position of output element for this thread
+  // NOTE: (blockIdx.y * TILESIZE,blockIdx.x * TILESIZE) is the base of transposed block.
+  // threadIdx.x and threadIdx.y thread offsets are same as in input phase
+  x = blockIdx.y * TILESIZE + threadIdx.x;
+  y = blockIdx.x * TILESIZE + threadIdx.y;
+  
+  // transpose and store output element to global memory
+  if (x<N && y<N) {    
+    b[y*N+x] = buffer[threadIdx.x][threadIdx.y]; // b(y,x) = buffer(thread-x,thread-y)
   }
 
 }
@@ -74,7 +94,7 @@ float *dev_a,*dev_b;
   // call the kernel on device
   dim3 blocks(BLOCKS,BLOCKS,1);
   dim3 threads(TILESIZE,TILESIZE,1);
-  transposeTile<<<blocks,threads>>>(dev_a,dev_b);
+  transposeTileShm<<<blocks,threads>>>(dev_a,dev_b);
   
   // transfer device's output into host's output array
   HANDLE_ERROR(cudaMemcpy(b,dev_b,N*N*sizeof(float),cudaMemcpyDeviceToHost));

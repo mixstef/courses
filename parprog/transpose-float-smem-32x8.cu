@@ -1,8 +1,7 @@
-// Example to transpose a NxN matrix of floats in GPU version, global memory only.
-
-// Uses blocks of 1024 threads, arranged in 32x32 (2D) tiles, as many required to cover NxN size. Each block transposes a 32x32 tile.
-
-// Compile with:  nvcc transpose-float-gmem.cu -o transpose-float-gmem -DN=4000
+// Code example to transpose a NxN matrix of floats in GPU, shared memory used.
+// Uses blocks of 256 threads, arranged in 32x8 (2D), as many required to cover NxN size.
+// Each block transposes a 32x32 tile in shared memory.
+// compile with:  nvcc transpose-float-smem-32x8.cu -o transpose-float-smem-32x8 -DN=4000
 
 
 
@@ -24,18 +23,42 @@ static void HandleError( cudaError_t err,
 
 
 #define TILESIZE 32
-#define BLOCKS ((N+TILESIZE-1)/TILESIZE)
+#define BLOCKSIZE ((N+TILESIZE-1)/TILESIZE)
 
 
 // the kernel function
-__global__ void transposeTile(float *a,float *b) {
+__global__ void transposeTileShm(float *a,float *b) {
 
-  // compute x,y position of input element this thread is going to transpose
-  int x = blockIdx.x * TILESIZE + threadIdx.x;  // column
-  int y = blockIdx.y * TILESIZE + threadIdx.y;  // row
-    
-  if (x<N && y<N) {    
-    b[x*N+y] = a[y*N+x]; // b(x,y) = a(y,x)
+  // shared memory for a 32x32 tile (2D array)
+  __shared__ float buffer[TILESIZE][TILESIZE];
+  // NOTE: change to buffer[TILESIZE][TILESIZE+1] to avoid bank conflicts!
+
+  // this thread will work on 32/8 = 4 elements, veritcal step is blockDim.y (=8) 
+  int step = blockDim.y;
+  
+  // compute x,y position of first input element for this thread
+  int x = blockIdx.x * TILESIZE + threadIdx.x;
+  int y = blockIdx.y * TILESIZE + threadIdx.y;
+
+  // load 4 input elements from global memory and copy into shared memory  
+  for (int i=0;i<TILESIZE;i+=step) {
+    if (x<N && (y+i)<N) {
+      buffer[threadIdx.y+i][threadIdx.x] = a[(y+i)*N+x]; // buffer(thread_y+i,thread_x) = a(x,y+i)
+    }
+  }
+  
+  // sync needed, threads use shared memory data other than their own
+  __syncthreads();
+  
+  // compute x,y position of first output element for this thread
+  x = blockIdx.y * TILESIZE + threadIdx.x;
+  y = blockIdx.x * TILESIZE + threadIdx.y;
+
+  // transpose and store 4 output elements to global memory  
+  for (int i=0;i<TILESIZE;i+=step) {
+    if (x<N && (y+i)<N) {
+      b[(y+i)*N+x] = buffer[threadIdx.x][threadIdx.y+i]; // b(x,y+i) = buffer(thread_x,thread_y+i)
+    }
   }
 
 }
@@ -72,9 +95,9 @@ float *dev_a,*dev_b;
   HANDLE_ERROR(cudaMemcpy(dev_a,a,N*N*sizeof(float),cudaMemcpyHostToDevice));
 
   // call the kernel on device
-  dim3 blocks(BLOCKS,BLOCKS,1);
-  dim3 threads(TILESIZE,TILESIZE,1);
-  transposeTile<<<blocks,threads>>>(dev_a,dev_b);
+  dim3 blocks(BLOCKSIZE,BLOCKSIZE,1);
+  dim3 threads(TILESIZE,8,1);
+  transposeTileShm<<<blocks,threads>>>(dev_a,dev_b);
   
   // transfer device's output into host's output array
   HANDLE_ERROR(cudaMemcpy(b,dev_b,N*N*sizeof(float),cudaMemcpyDeviceToHost));

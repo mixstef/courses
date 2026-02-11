@@ -1,24 +1,25 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Μεταγλωττιστές - Σημειώσεις Εργαστηρίου &#8212; Compiler Labs Doc 1.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=4f649999" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
     <link rel="stylesheet" type="text/css" href="_static/mytheme.css?v=9774cda0" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=359c27e9"></script>
-    <script src="_static/doctools.js?v=888ff710"></script>
-    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Εισαγωγή στη λεκτική ανάλυση" href="01-dfa/module1.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
+
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
 
   </head><body>
 <div class="pageheader">
@@ -26,7 +27,7 @@
      <div>
         <h4>Τμήμα Πληροφορικής - Ιόνιο Πανεπιστήμιο</h4>
         <h2>Μεταγλωττιστές</h2>
-        <h4>Εαρινό Εξάμηνο 2024-25</h4>        
+        <h4>Εαρινό Εξάμηνο 2025-26</h4>        
         <h5>Μ.Στεφανιδάκης</h5>
       </div>    
 </div>
@@ -41,9 +42,10 @@
 
           <div class="body" role="main">
             
-  <a class="reference internal image-reference" href="_images/by-sa.png"><img alt="Creative Commons Attribution-ShareAlike 4.0 International License" src="_images/by-sa.png" style="width: 80px;" /></a>
+  <a class="reference internal image-reference" href="_images/by-sa.png"><img alt="Creative Commons Attribution-ShareAlike 4.0 International License" src="_images/by-sa.png" style="width: 80px;" />
+</a>
 <section id="id1">
-<h1>Μεταγλωττιστές - Σημειώσεις Εργαστηρίου<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h1>
+<h1>Μεταγλωττιστές - Σημειώσεις Εργαστηρίου<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h1>
 <p>Στις σελίδες αυτές θα βρείτε το υλικό του εργαστηρίου των Μεταγλωττιστών. Εδώ δίνεται έμφαση στην πρακτική υλοποίηση θεμάτων των μεταγλωττιστών και στις ασκήσεις του εργαστηρίου. Για το θεωρητικό μέρος, εκτός από τις βασικές πληροφορίες, παρατίθενται όπου απαιτείται οι αναφορές στο βιβλίο του μαθήματος καθώς και οι παραπομπές σε εξωτερικές πηγές.</p>
 <p class="rubric">Περιβάλλον εκτέλεσης ασκήσεων</p>
 <p>Στο εργαστήριο χρησιμοποιείται το <a class="reference external" href="https://mybinder.org/v2/gh/mixstef/mybinder-compilers/HEAD">on-line περιβάλλον</a>  στο Mybinder.org, το οποίο δεν απαιτεί κανενός είδους εγκατάσταση. Αν θέλετε όμως να χρησιμοποιήσετε τον υπολογιστή σας θα πρέπει να εγκαταστήσετε την Python3 αν δεν υπάρχει, όπως επίσης και τη βιβλιοθήκη <code class="docutils literal notranslate"><span class="pre">compilerlabs</span></code> που χρησιμοποιείται στο εργαστήριο. Δείτε την ενότητα <a class="reference internal" href="appendix-python/module1.html#install-ref"><span class="std std-ref">εγκατάστασης της Python3 ή/και της βιβλιοθήκης compilerlabs στο Παράρτημα</span></a> για περισσότερα.</p>
@@ -54,28 +56,6 @@
 <li class="toctree-l2"><a class="reference internal" href="01-dfa/module1.html#id2">Η λειτουργία της λεκτικής ανάλυσης</a></li>
 <li class="toctree-l2"><a class="reference internal" href="01-dfa/module1.html#id3">Αυτόματα πεπερασμένων καταστάσεων</a></li>
 <li class="toctree-l2"><a class="reference internal" href="01-dfa/module1.html#id7">Ερωτήσεις</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="01-dfa/dfa-in-python.html">Υλοποίηση αυτομάτων με την κλάση DFA</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="01-dfa/dfa-in-python.html#id1">Κατασκευή και χρήση αυτομάτου DFA</a></li>
-<li class="toctree-l2"><a class="reference internal" href="01-dfa/dfa-in-python.html#dfa-intfloat-ref">Διαφορές από το θεωρητικό αυτόματο</a></li>
-<li class="toctree-l2"><a class="reference internal" href="01-dfa/dfa-in-python.html#id6">Ασκήσεις</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="02-regex/module1.html">Κανονικές εκφράσεις και Python</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="02-regex/module1.html#id1">Χρήση κανονικών εκφράσεων στην Python</a></li>
-<li class="toctree-l2"><a class="reference internal" href="02-regex/module1.html#id2">Βασικά σύμβολα κανονικών εκφράσεων</a></li>
-<li class="toctree-l2"><a class="reference internal" href="02-regex/module1.html#id3">Παραδείγματα</a></li>
-<li class="toctree-l2"><a class="reference internal" href="02-regex/module1.html#groups">Μέρη ταιριασμάτων (groups)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="02-regex/module1.html#id11">Η απληστία των τελεστών * και +</a></li>
-<li class="toctree-l2"><a class="reference internal" href="02-regex/module1.html#search">Άλλες μέθοδοι εκτός από τη search()</a></li>
-<li class="toctree-l2"><a class="reference internal" href="02-regex/module1.html#id12">Ασκήσεις</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="02-regex/tokenizer.html">Εξαγωγή tokens</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="02-regex/tokenizer.html#tokenizer">Η κλάση Tokenizer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="02-regex/tokenizer.html#postfix-calculator">Παράδειγμα: Postfix calculator</a></li>
-<li class="toctree-l2"><a class="reference internal" href="02-regex/tokenizer.html#id3">Ασκήσεις</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="appendix-python/module1.html">Παράρτημα</a><ul>
@@ -97,7 +77,7 @@
           
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
         </div>
       </div>

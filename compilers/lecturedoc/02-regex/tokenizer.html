@@ -1,25 +1,24 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Εξαγωγή tokens &#8212; Compiler Labs Doc 1.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=4f649999" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
     <link rel="stylesheet" type="text/css" href="../_static/mytheme.css?v=9774cda0" />
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=359c27e9"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
-    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Παράρτημα" href="../appendix-python/module1.html" />
-    <link rel="prev" title="Κανονικές εκφράσεις και Python" href="module1.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
+
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
 
   </head><body>
 <div class="pageheader">
@@ -27,7 +26,7 @@
      <div>
         <h4>Τμήμα Πληροφορικής - Ιόνιο Πανεπιστήμιο</h4>
         <h2>Μεταγλωττιστές</h2>
-        <h4>Εαρινό Εξάμηνο 2024-25</h4>        
+        <h4>Εαρινό Εξάμηνο 2025-26</h4>        
         <h5>Μ.Στεφανιδάκης</h5>
       </div>    
 </div>
@@ -42,9 +41,10 @@
 
           <div class="body" role="main">
             
-  <a class="reference internal image-reference" href="../_images/by-sa.png"><img alt="Creative Commons Attribution-ShareAlike 4.0 International License" src="../_images/by-sa.png" style="width: 80px;" /></a>
+  <a class="reference internal image-reference" href="../_images/by-sa.png"><img alt="Creative Commons Attribution-ShareAlike 4.0 International License" src="../_images/by-sa.png" style="width: 80px;" />
+</a>
 <section id="tokens">
-<h1>Εξαγωγή tokens<a class="headerlink" href="#tokens" title="Permalink to this heading">¶</a></h1>
+<h1>Εξαγωγή tokens<a class="headerlink" href="#tokens" title="Link to this heading">¶</a></h1>
 <p>Το στάδιο της <em>λεκτικής ανάλυσης</em> σε έναν μεταγλωττιστή δέχεται ως είσοδο τον πηγαίο κώδικα ενός προγράμματος και παράγει σύμβολα (tokens) που αντιπροσωπεύουν keywords, ονόματα μεταβλητών, αριθμητικές σταθερές, τελεστές κ.ο.κ. Στο στάδιο αυτό αναγνωρίζονται επίσης τα κενά και τα σχόλια, τα οποία συνήθως απορρίπτονται.</p>
 <p>Μπορούμε να κατασκευάσουμε έναν λεκτικό αναλυτή με τη βοήθεια των κανονικών εκφράσεων συνενώνοντας με την εναλλαγή (|) μια σειρά από επιθυμητά patterns προς αναγνώριση:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>(pattern1)|(pattern2)|(pattern3)|...|(patternN)
@@ -52,10 +52,10 @@
 </div>
 <p>Ένα πλήρες παράδειγμα για το πώς μπορεί να γίνει το προηγούμενο, μαζί με τον τρόπο χρήσης των groups για να ξέρουμε ποιο pattern ταίριαξε κάθε φορά, θα βρείτε στην τεκμηρίωση της βιβλιοθήκης <code class="docutils literal notranslate"><span class="pre">re</span></code> της Python: <a class="reference external" href="https://docs.python.org/3/library/re.html#writing-a-tokenizer">“Writing a Tokenizer”</a> .</p>
 <section id="tokenizer">
-<h2>Η κλάση Tokenizer<a class="headerlink" href="#tokenizer" title="Permalink to this heading">¶</a></h2>
+<h2>Η κλάση Tokenizer<a class="headerlink" href="#tokenizer" title="Link to this heading">¶</a></h2>
 <p>Στις βιβλιοθήκες του εργαστηρίου θα βρείτε την κλάση <a class="reference internal" href="#Tokenizer" title="Tokenizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Tokenizer</span></code></a> που υλοποιεί έναν λεκτικό αναλυτή για την εξαγωγή tokens μέσω κανονικών εκφράσεων της Python, όπως περιγράφηκε προηγουμένως.</p>
 <p>Γίνεται import (μαζί το σφάλμα <a class="reference internal" href="#TokenizerError" title="TokenizerError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TokenizerError</span></code></a> και τις σταθερές <a class="reference internal" href="#TokenAction" title="TokenAction"><code class="xref py py-class docutils literal notranslate"><span class="pre">TokenAction</span></code></a>) στο πρόγραμμά μας ως εξής:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">compilerlabs</span> <span class="kn">import</span> <span class="n">Tokenizer</span><span class="p">,</span> <span class="n">TokenizerError</span><span class="p">,</span> <span class="n">TokenAction</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">compilerlabs</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tokenizer</span><span class="p">,</span> <span class="n">TokenizerError</span><span class="p">,</span> <span class="n">TokenAction</span>
 </pre></div>
 </div>
 <aside class="topic">
@@ -65,14 +65,14 @@
 <p>Ακολουθούν η περιγραφή και παραδείγματα χρήσης του Tokenizer.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="Tokenizer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Tokenizer</span></span><a class="headerlink" href="#Tokenizer" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Tokenizer</span></span><a class="headerlink" href="#Tokenizer" title="Link to this definition">¶</a></dt>
 <dd><p>Δημιουργεί ένα καινούργιο αντικείμενο τύπου Tokenizer.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>
 </pre></div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="Tokenizer.pattern">
-<span class="sig-name descname"><span class="pre">pattern</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">regex</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keywords</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Tokenizer.pattern" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">pattern</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">regex</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keywords</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Tokenizer.pattern" title="Link to this definition">¶</a></dt>
 <dd><p>Προσθέτει στον λεκτικό αναλυτή τη δυνατότητα αναγνώρισης του pattern <em>regex</em> (ένα string κανονικής έκφρασης, όπως αυτά που δίνονται ως είσοδος στο <code class="xref py py-func docutils literal notranslate"><span class="pre">re.compile()</span></code>).</p>
 <p>Η τιμή του <em>token</em> επιστρέφεται όταν αναγνωριστεί το συγκεκριμένο pattern. Ως <em>token</em> μπορεί επίσης να δοθεί μία από τις σταθερές <a class="reference internal" href="#TokenAction" title="TokenAction"><code class="xref py py-class docutils literal notranslate"><span class="pre">TokenAction</span></code></a>, προσδιορίζοντας ειδικό χειρισμό κατά την αναγνώριση του pattern.</p>
 <p>Εάν στα στοιχεία που αναγνωρίζονται από το pattern υπάρχουν strings για τα οποία απαιτείται ειδικός χειρισμός (π.χ. τα keywords μιας γλώσσας προγραμματισμού), αυτά μπορούν να δοθούν μέσω της προαιρετικής παραμέτρου <em>keywords</em>.</p>
@@ -92,7 +92,7 @@
 </pre></div>
 </div>
 <p>Εάν το <em>keywords</em> είναι ένα λεξικό (dict) τότε ως token επιστρέφεται η τιμή του λεξικού που αντιστοιχεί στο κλειδί που αναγνωρίστηκε:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">compilerlabs</span> <span class="kn">import</span> <span class="n">Tokenizer</span><span class="p">,</span><span class="n">TokenizerError</span><span class="p">,</span><span class="n">TokenAction</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">compilerlabs</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tokenizer</span><span class="p">,</span><span class="n">TokenizerError</span><span class="p">,</span><span class="n">TokenAction</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">pattern</span><span class="p">(</span><span class="s1">&#39;[a-zA-z]+&#39;</span><span class="p">,</span><span class="s1">&#39;word&#39;</span><span class="p">,</span><span class="n">keywords</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;if&#39;</span><span class="p">:</span><span class="s1">&#39;KW_IF&#39;</span><span class="p">,</span> <span class="s1">&#39;else&#39;</span><span class="p">:</span><span class="s1">&#39;KW_ELSE&#39;</span><span class="p">})</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">pattern</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\s+&#39;</span><span class="p">,</span><span class="n">TokenAction</span><span class="o">.</span><span class="n">IGNORE</span><span class="p">)</span>
@@ -112,7 +112,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Tokenizer.scan">
-<span class="sig-name descname"><span class="pre">scan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Tokenizer.scan" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">scan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Tokenizer.scan" title="Link to this definition">¶</a></dt>
 <dd><p>Επιστρέφει μια ακολουθία συμβόλων αναλύοντας λεκτικά το κείμενο <em>text</em>. Κάθε σύμβολο είναι μια πλειάδα (namedtuple) της μορφής <em>(token, lexeme, lineno, charpos)</em> όπου:</p>
 <ul class="simple">
 <li><p>Το <em>token</em> αντιστοιχεί στο pattern που αναγνωρίστηκε.</p></li>
@@ -125,8 +125,8 @@
 </dd></dl>
 
 <section id="id1">
-<h3>Παράδειγμα χρήσης<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">compilerlabs</span> <span class="kn">import</span> <span class="n">Tokenizer</span><span class="p">,</span><span class="n">TokenAction</span><span class="p">,</span><span class="n">TokenizerError</span>
+<h3>Παράδειγμα χρήσης<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">compilerlabs</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tokenizer</span><span class="p">,</span><span class="n">TokenAction</span><span class="p">,</span><span class="n">TokenizerError</span>
 
 <span class="n">t</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>
 
@@ -154,65 +154,65 @@
 <p>Μπορείτε να κατεβάσετε το αρχείο του παραδείγματος <a class="reference download internal" download="" href="../_downloads/eae237c7fde81d2b2009158e6615ea0c/tokenizer-example.py"><code class="xref download docutils literal notranslate"><span class="pre">εδώ</span></code></a>.</p>
 </section>
 <section id="tokenaction">
-<h3>Σταθερές TokenAction<a class="headerlink" href="#tokenaction" title="Permalink to this heading">¶</a></h3>
+<h3>Σταθερές TokenAction<a class="headerlink" href="#tokenaction" title="Link to this heading">¶</a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="TokenAction">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TokenAction</span></span><a class="headerlink" href="#TokenAction" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TokenAction</span></span><a class="headerlink" href="#TokenAction" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <p>Επιλογές ειδικού χειρισμού κατά την αναγνώριση ενός pattern. Περιλαμβάνονται οι εξής σταθερές:</p>
 <dl class="py data">
 <dt class="sig sig-object py" id="TokenAction.IGNORE">
-<span class="sig-prename descclassname"><span class="pre">TokenAction.</span></span><span class="sig-name descname"><span class="pre">IGNORE</span></span><a class="headerlink" href="#TokenAction.IGNORE" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">TokenAction.</span></span><span class="sig-name descname"><span class="pre">IGNORE</span></span><a class="headerlink" href="#TokenAction.IGNORE" title="Link to this definition">¶</a></dt>
 <dd><p>Το token που αναγνωρίστηκε δεν επιστρέφεται και ο λεκτικός αναλυτής συνεχίζει στο επόμενο.</p>
 </dd></dl>
 
 <dl class="py data">
 <dt class="sig sig-object py" id="TokenAction.TEXT">
-<span class="sig-prename descclassname"><span class="pre">TokenAction.</span></span><span class="sig-name descname"><span class="pre">TEXT</span></span><a class="headerlink" href="#TokenAction.TEXT" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">TokenAction.</span></span><span class="sig-name descname"><span class="pre">TEXT</span></span><a class="headerlink" href="#TokenAction.TEXT" title="Link to this definition">¶</a></dt>
 <dd><p>Επιστρέφεται ως token το κείμενο (lexeme) που αναγνωρίστηκε.</p>
 </dd></dl>
 
 <dl class="py data">
 <dt class="sig sig-object py" id="TokenAction.ERROR">
-<span class="sig-prename descclassname"><span class="pre">TokenAction.</span></span><span class="sig-name descname"><span class="pre">ERROR</span></span><a class="headerlink" href="#TokenAction.ERROR" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">TokenAction.</span></span><span class="sig-name descname"><span class="pre">ERROR</span></span><a class="headerlink" href="#TokenAction.ERROR" title="Link to this definition">¶</a></dt>
 <dd><p>Δημιουργείται σφάλμα <a class="reference internal" href="#TokenizerError" title="TokenizerError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TokenizerError</span></code></a>.</p>
 </dd></dl>
 
 </section>
 <section id="id2">
-<h3>Σφάλμα λεκτικού αναλυτή<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
+<h3>Σφάλμα λεκτικού αναλυτή<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h3>
 <dl class="py exception">
 <dt class="sig sig-object py" id="TokenizerError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TokenizerError</span></span><a class="headerlink" href="#TokenizerError" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TokenizerError</span></span><a class="headerlink" href="#TokenizerError" title="Link to this definition">¶</a></dt>
 <dd><p>Δημιουργείται όταν αναγνωριστεί pattern του οποίου το <em>token</em> έχει προσδιοριστεί με την ειδική επιλογή <a class="reference internal" href="#TokenAction.ERROR" title="TokenAction.ERROR"><code class="xref py py-data docutils literal notranslate"><span class="pre">TokenAction.ERROR</span></code></a>. Θα πρέπει να σημειωθεί ότι <em>κείμενο που δεν αναγνωρίζεται από κανένα pattern απλά αγνοείται</em>.</p>
 <p>Το σφάλμα περιέχει τα εξής χαρακτηριστικά (attributes):</p>
 <blockquote>
 <div><dl class="py attribute">
 <dt class="sig sig-object py" id="TokenizerError.lexeme">
-<span class="sig-name descname"><span class="pre">lexeme</span></span><a class="headerlink" href="#TokenizerError.lexeme" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">lexeme</span></span><a class="headerlink" href="#TokenizerError.lexeme" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <p>Το κείμενο που προκάλεσε το σφάλμα.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="TokenizerError.lineno">
-<span class="sig-name descname"><span class="pre">lineno</span></span><a class="headerlink" href="#TokenizerError.lineno" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">lineno</span></span><a class="headerlink" href="#TokenizerError.lineno" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <p>Ο αριθμός γραμμης του σημείου που προκάλεσε το σφάλμα.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="TokenizerError.charpos">
-<span class="sig-name descname"><span class="pre">charpos</span></span><a class="headerlink" href="#TokenizerError.charpos" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">charpos</span></span><a class="headerlink" href="#TokenizerError.charpos" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <p>Ο αριθμός στήλης (χαρακτήρα) του σημείου που προκάλεσε το σφάλμα.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="TokenizerError.message">
-<span class="sig-name descname"><span class="pre">message</span></span><a class="headerlink" href="#TokenizerError.message" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">message</span></span><a class="headerlink" href="#TokenizerError.message" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <p>Γενικό μήνυμα περιγραφής του σφάλματος.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">compilerlabs</span> <span class="kn">import</span> <span class="n">Tokenizer</span><span class="p">,</span><span class="n">TokenAction</span><span class="p">,</span><span class="n">TokenizerError</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">compilerlabs</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tokenizer</span><span class="p">,</span><span class="n">TokenAction</span><span class="p">,</span><span class="n">TokenizerError</span>
 
 <span class="n">t</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>
 
@@ -241,7 +241,7 @@ Scan error happened at line 2 and char position 5
 </section>
 </section>
 <section id="postfix-calculator">
-<h2>Παράδειγμα: Postfix calculator<a class="headerlink" href="#postfix-calculator" title="Permalink to this heading">¶</a></h2>
+<h2>Παράδειγμα: Postfix calculator<a class="headerlink" href="#postfix-calculator" title="Link to this heading">¶</a></h2>
 <p>Ο λεκτικός αναλυτής επιστρέφει μια σειρά από tokens χωρίς να εκτελεί οποιουδήποτε τύπου συντακτική ανάλυση. Έτσι, δεν είναι εύκολο να φτιαχτεί χρήσιμη εφαρμογή μόνο με αυτόν. Υπάρχει όμως ένας τρόπος γραφής αριθμητικών εκφράσεων (<a class="reference external" href="https://en.wikipedia.org/wiki/Reverse_Polish_notation">postfix notation</a>), ο οποίος επιτρέπει τον υπολογισμό τους χωρίς συντακτική ανάλυση. Το παράδειγμα αυτό θα δούμε στη συνέχεια.</p>
 <p>Στη μορφή <em>postfix</em> ο τελεστής γράφεται αμέσως μετά τα δεδομένα εισόδου. Π.χ. η έκφραση <code class="docutils literal notranslate"><span class="pre">3+5</span></code> γράφεται ως:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>3 5 +
@@ -267,7 +267,7 @@ Scan error happened at line 2 and char position 5
 <p class="topic-title">Μια (στοιχειώδης) υλοποίηση στοίβας (stack)</p>
 <p>Στην Python είναι πολύ εύκολο να φτιάξουμε μια στοίβα χρησιμοποιώντας μια λίστα (list). Για ευκολία, στα επόμενα χρησιμοποιούμε την έτοιμη κλάση <code class="docutils literal notranslate"><span class="pre">Stack</span></code> που βρίσκεται στο package <code class="docutils literal notranslate"><span class="pre">compilerlabs</span></code>. Η κλάση παρέχει μόνο τις βασικές λειτουργίες <em>push</em> και <em>pop</em>, ενώ δημιουργείται σφάλμα <code class="docutils literal notranslate"><span class="pre">StackError</span></code> εάν προσπαθήσουμε να εξάγουμε ένα στοιχείο όταν η στοίβα είναι άδεια.</p>
 <p>Παραδείγματα χρήσης της κλασης <code class="docutils literal notranslate"><span class="pre">Stack</span></code>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">compilerlabs</span> <span class="kn">import</span> <span class="n">Stack</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">compilerlabs</span><span class="w"> </span><span class="kn">import</span> <span class="n">Stack</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Stack</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="mf">12.34</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="mf">9.22</span><span class="p">)</span>
@@ -282,7 +282,7 @@ Scan error happened at line 2 and char position 5
 </div>
 </aside>
 <p>Το επόμενο πρόγραμμα Python υλοποιεί τον αλγόριθμο για υπολογισμό αριθμητικών εκφράσεων σε postfix μορφή. Οι υποστηριζόμενοι τελεστές ειναι οι <code class="docutils literal notranslate"><span class="pre">+</span></code>, <code class="docutils literal notranslate"><span class="pre">-</span></code>, <code class="docutils literal notranslate"><span class="pre">*</span></code>, <code class="docutils literal notranslate"><span class="pre">/</span></code> και η εντολή <code class="docutils literal notranslate"><span class="pre">print</span></code>, η οποίη τυπώνει ό,τι βρίσκεται στην κορυφή της στοίβας εκείνη τη στιγμή (χωρίς να αλλάζει το περιεχόμενο της στοίβας).</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">compilerlabs</span> <span class="kn">import</span> <span class="n">Tokenizer</span><span class="p">,</span><span class="n">TokenAction</span><span class="p">,</span><span class="n">TokenizerError</span><span class="p">,</span> \
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">compilerlabs</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tokenizer</span><span class="p">,</span><span class="n">TokenAction</span><span class="p">,</span><span class="n">TokenizerError</span><span class="p">,</span> \
                          <span class="n">Stack</span><span class="p">,</span><span class="n">StackError</span>
 
 
@@ -295,22 +295,22 @@ Scan error happened at line 2 and char position 5
 
 <span class="c1"># functions of operators</span>
 
-<span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">stack</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">stack</span><span class="p">):</span>
     <span class="n">b</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
     <span class="n">a</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
     <span class="n">stack</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">)</span>
     
-<span class="k">def</span> <span class="nf">sub</span><span class="p">(</span><span class="n">stack</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sub</span><span class="p">(</span><span class="n">stack</span><span class="p">):</span>
     <span class="n">b</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
     <span class="n">a</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
     <span class="n">stack</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">a</span><span class="o">-</span><span class="n">b</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">mult</span><span class="p">(</span><span class="n">stack</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">mult</span><span class="p">(</span><span class="n">stack</span><span class="p">):</span>
     <span class="n">b</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
     <span class="n">a</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
     <span class="n">stack</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">b</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">div</span><span class="p">(</span><span class="n">stack</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">div</span><span class="p">(</span><span class="n">stack</span><span class="p">):</span>
     <span class="n">b</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
     <span class="n">a</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
     <span class="n">stack</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">a</span><span class="o">/</span><span class="n">b</span><span class="p">)</span>
@@ -318,7 +318,7 @@ Scan error happened at line 2 and char position 5
     
 <span class="c1"># functions of commands</span>
 
-<span class="k">def</span> <span class="nf">prn</span><span class="p">(</span><span class="n">stack</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">prn</span><span class="p">(</span><span class="n">stack</span><span class="p">):</span>
     <span class="n">a</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
     <span class="n">stack</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>	<span class="c1"># put back item in stack</span>
@@ -365,7 +365,7 @@ Scan error happened at line 2 and char position 5
 <p>Μπορείτε να κατεβάσετε το αρχείο με τον <a class="reference download internal" download="" href="../_downloads/5a316f2980b885e8d0f4998b2fe87a3e/rpn.py"><code class="xref download docutils literal notranslate"><span class="pre">κώδικα</span> <span class="pre">Python</span></code></a> του postfix calculator.</p>
 </section>
 <section id="id3">
-<h2>Ασκήσεις<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h2>
+<h2>Ασκήσεις<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h2>
 <ol class="arabic simple">
 <li><p>Κατασκευάστε με τη βοήθεια του module <code class="docutils literal notranslate"><span class="pre">Tokenizer</span></code> λεκτικό αναλυτή ο οποίος θα αναγνωρίζει αριθμητικές σταθερές (literals) στις εξής μορφές:</p></li>
 </ol>
@@ -388,7 +388,7 @@ Scan error happened at line 2 and char position 5
           
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Περιεχόμενα</a></h3>
   <ul>

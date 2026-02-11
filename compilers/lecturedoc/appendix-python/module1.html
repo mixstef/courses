@@ -1,24 +1,25 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Παράρτημα &#8212; Compiler Labs Doc 1.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=4f649999" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
     <link rel="stylesheet" type="text/css" href="../_static/mytheme.css?v=9774cda0" />
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=359c27e9"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
-    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Εξαγωγή tokens" href="../02-regex/tokenizer.html" />
+    <link rel="prev" title="Εισαγωγή στη λεκτική ανάλυση" href="../01-dfa/module1.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
+
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
 
   </head><body>
 <div class="pageheader">
@@ -26,7 +27,7 @@
      <div>
         <h4>Τμήμα Πληροφορικής - Ιόνιο Πανεπιστήμιο</h4>
         <h2>Μεταγλωττιστές</h2>
-        <h4>Εαρινό Εξάμηνο 2024-25</h4>        
+        <h4>Εαρινό Εξάμηνο 2025-26</h4>        
         <h5>Μ.Στεφανιδάκης</h5>
       </div>    
 </div>
@@ -41,14 +42,15 @@
 
           <div class="body" role="main">
             
-  <a class="reference internal image-reference" href="../_images/by-sa.png"><img alt="Creative Commons Attribution-ShareAlike 4.0 International License" src="../_images/by-sa.png" style="width: 80px;" /></a>
+  <a class="reference internal image-reference" href="../_images/by-sa.png"><img alt="Creative Commons Attribution-ShareAlike 4.0 International License" src="../_images/by-sa.png" style="width: 80px;" />
+</a>
 <section id="id1">
-<h1>Παράρτημα<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h1>
+<h1>Παράρτημα<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h1>
 <p>Στο παράρτημα αυτό θα βρείτε τα βασικά στοιχεία για να δουλέψετε τοπικά στον υπολογιστή σας με την Python3 στο εργαστήριο των Μεταγλωττιστών. Επειδή θα χρειαστεί να εγκαταστήσετε τη βιβλιοθήκη <code class="docutils literal notranslate"><span class="pre">compilerlabs</span></code> του μαθήματος συνιστάται η χρήση virtual environments για να μην πειράξετε την κεντρική εγκατάσταση Python.</p>
 <section id="python">
-<span id="install-ref"></span><h2>Εγκατάσταση της Python<a class="headerlink" href="#python" title="Permalink to this heading">¶</a></h2>
+<span id="install-ref"></span><h2>Εγκατάσταση της Python<a class="headerlink" href="#python" title="Link to this heading">¶</a></h2>
 <section id="linux">
-<h3>Linux<a class="headerlink" href="#linux" title="Permalink to this heading">¶</a></h3>
+<h3>Linux<a class="headerlink" href="#linux" title="Link to this heading">¶</a></h3>
 <p>Εάν το λειτουργικό σας σύστημα είναι Linux, έχετε κατά πάσα πιθανότητα τη γλώσσα διαθέσιμη ήδη. Βεβαιωθείτε ότι τρέχετε την 3η έκδοση της γλώσσας -συχνά πρέπει να δώσετε την εντολή <code class="docutils literal notranslate"><span class="pre">python3</span></code> (η απλή εντολή <code class="docutils literal notranslate"><span class="pre">python</span></code> σε κάποιες διανομές εκτελεί ακόμα την προηγούμενη έκδοση 2). Δεν απαιτείται πολύ πρόσφατη έκδοση της γλώσσας, οτιδήποτε μεγαλύτερο από την 3.8 είναι αρκετό.</p>
 <p>Για παράδειγμα, μπορείτε να μπείτε στο interactive shell της python3 ως εξής (βγείτε με <code class="docutils literal notranslate"><span class="pre">exit()</span></code> ή <code class="docutils literal notranslate"><span class="pre">Ctrl-D</span></code> όταν τελειώσετε):</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ python3
@@ -64,7 +66,7 @@ Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;licen
 </div>
 </section>
 <section id="windows">
-<h3>Windows<a class="headerlink" href="#windows" title="Permalink to this heading">¶</a></h3>
+<h3>Windows<a class="headerlink" href="#windows" title="Link to this heading">¶</a></h3>
 <p>Εάν δεν έχετε ήδη εγκαταστήσει την Python3 στο σύστημά σας, πηγαίνετε <a class="reference external" href="https://www.python.org/downloads/">στη σελίδα της Python για download</a>. Βεβαιωθείτε ότι διαλέγετε την πιο πρόσφατη έκδοση 3, κατεβάστε και εκτελέστε τον installer. Θυμηθείτε να ενεργοποιήσετε κατά την εγκατάσταση τις δύο προτεινόμενες επιλογές:</p>
 <ul class="simple">
 <li><p>Την προσθήκη της Python στο <code class="docutils literal notranslate"><span class="pre">PATH</span></code></p></li>
@@ -89,7 +91,7 @@ Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;licen
 </section>
 </section>
 <section id="python-virtual-environments">
-<span id="python-venv-ref"></span><h2>Python virtual environments<a class="headerlink" href="#python-virtual-environments" title="Permalink to this heading">¶</a></h2>
+<span id="python-venv-ref"></span><h2>Python virtual environments<a class="headerlink" href="#python-virtual-environments" title="Link to this heading">¶</a></h2>
 <p>Στην Python, ένα <em>virtual environment</em> επιτρέπει την εγκατάσταση πακέτων σε προστατευμένα περιβάλλοντα, <strong>χωρίς να επεμβαίνετε στην κύρια εγκατάσταση της Python του υπολογιστή σας</strong>. Μπορείτε να έχετε διαφορετικά virtual environments ανά project, με διαφορετικές εκδόσεις της Python και άλλων βιβλιοθηκών, χωρίς το ένα να επηρεάζει τα άλλα.</p>
 <p>Συνοπτικά, τα βήματα για τη χρήση των virtual environments:</p>
 <ol class="arabic simple">
@@ -101,9 +103,9 @@ Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;licen
 <p>Το βήμα (1) γίνεται μόνο μια φορά. Το βήμα (2) πρέπει να γίνεται πάντα πριν ξεκινήσουμε την εργασία μας στο επιλεγμένο περιβάλλον. Το βήμα (4) είναι προαιρετικό: μπορούμε απλά να κλείσουμε το terminal/command prompt.</p>
 <p><strong>Προσοχή:</strong> Αν τρέχετε την Python σε κάποιο IDE (αυτό δεν καλύπτεται στο εργαστήριο), θα πρέπει να φροντίσετε να ξεκινήσει μέσα από το ενεργοποιημένο virtual environment!</p>
 <section id="id2">
-<h3>Οδηγίες για Linux<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
+<h3>Οδηγίες για Linux<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h3>
 <section id="virtual-environment">
-<h4>1. Δημιουργία ενός virtual environment<a class="headerlink" href="#virtual-environment" title="Permalink to this heading">¶</a></h4>
+<h4>1. Δημιουργία ενός virtual environment<a class="headerlink" href="#virtual-environment" title="Link to this heading">¶</a></h4>
 <p>Ανοίξτε ένα τερματικό και μετακινηθείτε στον φάκελο που θέλετε να φτιάξετε το virtual environment (έστω ότι ο φάκελος λέγεται <code class="docutils literal notranslate"><span class="pre">test-folder</span></code>).</p>
 <p>Δώστε την εντολή:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>python3 -m venv my-venv
@@ -117,7 +119,7 @@ sudo apt-get install python3-venv
 </div>
 </section>
 <section id="id3">
-<h4>2. Ενεργοποίηση του virtual environment<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h4>
+<h4>2. Ενεργοποίηση του virtual environment<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h4>
 <p>Θα πρέπει να γίνεται κάθε φορά, πριν ξεκινήσετε να δουλεύετε στο virtual environment.
 Όντας στο <code class="docutils literal notranslate"><span class="pre">test-folder</span></code>, δώστε την εντολή:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>source my-venv/bin/activate
@@ -134,7 +136,7 @@ sudo apt-get install python3-venv
 </div>
 </section>
 <section id="id4">
-<h4>3. Απενεργοποίηση του virtual environment<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h4>
+<h4>3. Απενεργοποίηση του virtual environment<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h4>
 <p>Δεν απαιτείται συνήθως (μπορείτε απλά να κλείσετε το terminal) αλλά γίνεται ως εξής:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>deactivate
 </pre></div>
@@ -142,9 +144,9 @@ sudo apt-get install python3-venv
 </section>
 </section>
 <section id="id5">
-<h3>Οδηγίες για Windows<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h3>
+<h3>Οδηγίες για Windows<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h3>
 <section id="id6">
-<h4>1. Δημιουργία ενός virtual environment<a class="headerlink" href="#id6" title="Permalink to this heading">¶</a></h4>
+<h4>1. Δημιουργία ενός virtual environment<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h4>
 <p>Βεβαιωθείτε ότι έχετε εγκαταστήσει μια πρόσφατη έκδοση (3.3+) της Python στον υπολογιστή σας.</p>
 <p>Ανοίξτε ένα command prompt και μετακινηθείτε στο σημείο που θέλετε να φτιάξετε το virtual environment. Για παράδειγμα, φτιάξτε έναν φάκελο <code class="docutils literal notranslate"><span class="pre">test-folder</span></code> στον φάκελο του χρήστη σας:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>C:\Users\Myuser&gt;md test-folder
@@ -158,7 +160,7 @@ C:\Users\Myuser&gt;cd test-folder
 <p>Αν όλα πάνε καλά, η εντολή θα επιστρέψει <strong>χωρίς μήνυμα λάθους</strong>. Στο σημείο που είσαστε θα πρέπει να υπάρχει υποφάκελος <code class="docutils literal notranslate"><span class="pre">my-venv</span></code> με την python3 εγκατεστημένη τοπικά.</p>
 </section>
 <section id="id7">
-<h4>2. Ενεργοποίηση του virtual environment<a class="headerlink" href="#id7" title="Permalink to this heading">¶</a></h4>
+<h4>2. Ενεργοποίηση του virtual environment<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h4>
 <p>Θα πρέπει να γίνεται κάθε φορά, πριν ξεκινήσετε να δουλεύετε στο virtual environment.</p>
 <p>Όντας στον φάκελο <code class="docutils literal notranslate"><span class="pre">test-folder</span></code>, δώστε την εντολή:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>my-venv\Scripts\activate.bat
@@ -175,7 +177,7 @@ C:\Users\Myuser&gt;cd test-folder
 </div>
 </section>
 <section id="id8">
-<h4>3. Απενεργοποίηση του virtual environment<a class="headerlink" href="#id8" title="Permalink to this heading">¶</a></h4>
+<h4>3. Απενεργοποίηση του virtual environment<a class="headerlink" href="#id8" title="Link to this heading">¶</a></h4>
 <p>Δεν απαιτείται συνήθως (μπορείτε απλά να κλείσετε το command prompt) αλλά γίνεται ως εξής:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>deactivate
 </pre></div>
@@ -184,7 +186,7 @@ C:\Users\Myuser&gt;cd test-folder
 </section>
 </section>
 <section id="compilerlabs">
-<span id="instal-lab-libs-ref"></span><h2>Εγκατάσταση βιβλιοθήκης compilerlabs<a class="headerlink" href="#compilerlabs" title="Permalink to this heading">¶</a></h2>
+<span id="instal-lab-libs-ref"></span><h2>Εγκατάσταση βιβλιοθήκης compilerlabs<a class="headerlink" href="#compilerlabs" title="Link to this heading">¶</a></h2>
 <p>Αν δουλεύετε με virtual environments, τα επόμενα πρέπει να γίνουν με το virtual environment <strong>ενεργοποιημένο</strong>.</p>
 <ol class="arabic simple">
 <li><p>Για να δουλέψετε με jupyter notebooks (παρόμοια με το online mybinder) εγκαταστήστε το <cite>jupyter</cite>:</p></li>
@@ -201,10 +203,10 @@ C:\Users\Myuser&gt;cd test-folder
 <p>(Σημ.: για να ξεκινήσετε τα notebooks μετά την εγκατάσταση δώστε την εντολή <code class="docutils literal notranslate"><span class="pre">jupyter-notebook</span></code>)</p>
 </section>
 <section id="id9">
-<h2>Βασικά παραδείγματα χρήσης της Python<a class="headerlink" href="#id9" title="Permalink to this heading">¶</a></h2>
+<h2>Βασικά παραδείγματα χρήσης της Python<a class="headerlink" href="#id9" title="Link to this heading">¶</a></h2>
 <p>Στη συνέχεια παρουσιάζονται ορισμένα ενδιαφέροντα στοιχεία και παραδείγματα χρήσης της Python. Αυτό που ακολουθεί δεν είναι tutorial, αν θέλετε κάτι τέτοιο μπορείτε να βρείτε εξαιρετικά κείμενα on-line.</p>
 <section id="strings">
-<h3>Strings<a class="headerlink" href="#strings" title="Permalink to this heading">¶</a></h3>
+<h3>Strings<a class="headerlink" href="#strings" title="Link to this heading">¶</a></h3>
 <p>Η Python προσφέρει τους κλασσικούς τύπους δεδομένων (int, string κλπ). Τα αντικείμενα των τύπων αυτών είναι <strong>immutable</strong>, δηλαδή <strong>δεν αλλάζουν τιμή</strong> (μπορούν όμως να δημιουργηθούν νέα αντικείμενα ανά πάσα στιγμή).</p>
 <p>Τα <strong>strings</strong> αποτελούν έναν πολύ εύχρηστο τύπο δεδομένων και μερικά χαρακτηριστικά τους δίνονται στη συνέχεια:</p>
 <p>Οι σταθερές string εισάγονται με μονά ή διπλά εισαγωγικά</p>
@@ -254,10 +256,10 @@ C:\Users\Myuser&gt;cd test-folder
 <p>Τα αντικείμενα τύπου string διαθέτουν μια μεγάλη σειρά από <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#string-methods">χρήσιμες μεθόδους</a>.</p>
 </section>
 <section id="id11">
-<h3>Σύνθετα Αντικείμενα<a class="headerlink" href="#id11" title="Permalink to this heading">¶</a></h3>
+<h3>Σύνθετα Αντικείμενα<a class="headerlink" href="#id11" title="Link to this heading">¶</a></h3>
 <p>Το δυνατό σημείο της Python είναι τα σύνθετα αντικείμενα που παρέχει, τα οποία χρησιμοποιούμε για όλες τις δομές που θέλουμε να υλοποιήσουμε. Τα δύο βασικότερα είναι οι <strong>λίστες (lists)</strong> και τα <strong>λεξικά (dictionaries)</strong>.  Και οι δύο αυτοί τύποι αντικειμένων είναι <strong>mutable</strong>, τα αντικείμενά τους δηλαδή μπορούν να αλλάξουν περιεχόμενα.</p>
 <section id="lists">
-<h4>Λίστες (Lists)<a class="headerlink" href="#lists" title="Permalink to this heading">¶</a></h4>
+<h4>Λίστες (Lists)<a class="headerlink" href="#lists" title="Link to this heading">¶</a></h4>
 <p>Οι λίστες ανήκουν στην κατηγορία sequence (όπως και τα strings) και υλοποιούν μια διατεταγμένη συλλογή αντικειμένων. Τα αντικείμενα που περιέχονται στη λίστα μπορούν να είναι οποιουδήποτε τύπου (ακόμα και άλλες λίστες). Εφόσον μια λίστα είναι sequence, μπορούμε να πάρουμε μέρος της, όπως σε ένα string:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">li</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;abcd&#39;</span><span class="p">,</span><span class="s1">&#39;ef&#39;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">li</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -343,7 +345,7 @@ C:\Users\Myuser&gt;cd test-folder
 </div></blockquote>
 </section>
 <section id="dictionaries">
-<span id="apx-dicts-ref"></span><h4>Λεξικά (Dictionaries)<a class="headerlink" href="#dictionaries" title="Permalink to this heading">¶</a></h4>
+<span id="apx-dicts-ref"></span><h4>Λεξικά (Dictionaries)<a class="headerlink" href="#dictionaries" title="Link to this heading">¶</a></h4>
 <p>Τα λεξικά (dictionaries) είναι τύπου mapping: ζεύγη αντιστοιχιών (κλειδιού-τιμής).</p>
 <ul class="simple">
 <li><p>Κάθε κλειδί πρέπει να είναι μοναδικό, αλλά όχι απαραίτητα του ίδιου τύπου με τα άλλα.</p></li>
@@ -391,7 +393,7 @@ C:\Users\Myuser&gt;cd test-folder
 </section>
 </section>
 <section id="id12">
-<h2>Διαβάζοντας ένα ολόκληρο αρχείο κειμένου<a class="headerlink" href="#id12" title="Permalink to this heading">¶</a></h2>
+<h2>Διαβάζοντας ένα ολόκληρο αρχείο κειμένου<a class="headerlink" href="#id12" title="Link to this heading">¶</a></h2>
 <p>Στο εργαστήριο επεξεργαζόμαστε το περιεχόμενο αρχείων απλού κειμένου. Στο παράδειγμα που ακολουθεί φαίνεται ο τρόπος για να διαβάσουμε <strong>ολόκληρο το περιεχόμενο</strong> ενός αρχείου κειμένου και να το τοποθετήσουμε σε μια μεταβλητή τύπου string.</p>
 <aside class="topic">
 <p class="topic-title">Πόσο μεγάλα αρχεία μπορούμε να διαβάσουμε;</p>
@@ -411,7 +413,7 @@ C:\Users\Myuser&gt;cd test-folder
 </aside>
 </section>
 <section id="file-line-processing-ref">
-<span id="id13"></span><h2>Διαβάζοντας ένα αρχείο κειμένου γραμμή προς γραμμή<a class="headerlink" href="#file-line-processing-ref" title="Permalink to this heading">¶</a></h2>
+<span id="id13"></span><h2>Διαβάζοντας ένα αρχείο κειμένου γραμμή προς γραμμή<a class="headerlink" href="#file-line-processing-ref" title="Link to this heading">¶</a></h2>
 <p>Σε πολλές περιπτώσεις, η επεξεργασία αρχείων κειμένου γίνεται <strong>γραμμή προς γραμμή</strong>. Αυτό συμβαίνει όταν κάθε γραμμή του κειμένου (και η επεξεργασία της) είναι <em>ανεξάρτητη</em> από τις υπόλοιπες γραμμές. Ιδιαίτερα σημαντική είναι η επεξεργασία γραμμή προς γραμμή σε <em>πολύ μεγάλα</em> αρχεία (δισεκατομμύρια γραμμές).</p>
 <p>Σε αντίθεση με την ανάγνωση του συνόλου του αρχείου, εδώ έχουμε μια δομή επανάληψης <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">..</span> <span class="pre">in</span> <span class="pre">..</span></code> που μας παρέχει το περιεχόμενο κάθε γραμμής ανά επανάληψη. Στο παράδειγμα που ακολουθεί, τοποθετούμε το <code class="docutils literal notranslate"><span class="pre">for</span></code> μέσα σε μια δομή <code class="docutils literal notranslate"><span class="pre">with</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;sample1.txt&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
@@ -438,15 +440,15 @@ C:\Users\Myuser&gt;cd test-folder
 </aside>
 </section>
 <section id="apx-classes-ref">
-<span id="id14"></span><h2>Κλάσεις στην Python: μια μικροσκοπική εισαγωγή<a class="headerlink" href="#apx-classes-ref" title="Permalink to this heading">¶</a></h2>
+<span id="id14"></span><h2>Κλάσεις στην Python: μια μικροσκοπική εισαγωγή<a class="headerlink" href="#apx-classes-ref" title="Link to this heading">¶</a></h2>
 <p>Η Python είναι αντικειμενοστρεφής γλώσσα και το κύριο εργαλείο για αυτόν τον σκοπό είναι οι κλάσεις. Οι κλάσεις ορίζονται ως εξής:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Test</span><span class="p">:</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Test</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; a class without parent &quot;&quot;&quot;</span>
 
         <span class="c1"># put class code here</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Test2</span><span class="p">(</span><span class="n">Parent</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Test2</span><span class="p">(</span><span class="n">Parent</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; a class having as parent the class Parent &quot;&quot;&quot;</span>
 
         <span class="c1"># put class code here</span>
@@ -457,21 +459,21 @@ C:\Users\Myuser&gt;cd test-folder
 </pre></div>
 </div>
 <p>Οι μέθοδοι μέσα στις κλάσεις δηλώνονται με πρώτη παράμετρο το <code class="docutils literal notranslate"><span class="pre">self</span></code> που συμβολίζει <em>το ίδιο το αντικείμενο</em> της κλάσης. Το <code class="docutils literal notranslate"><span class="pre">self</span></code> χρησιμοποιείται για να αναφερθούμε τόσο σε μεταβλητές όσο και σε μεθόδους του αντικειμένου της κλάσης. <strong>Προσοχή!</strong> Το όρισμα self το παρέχει κατά την κλήση κάθε μεθόδου η Python, έτσι δεν πρέπει να το δώσουμε εμείς:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Test</span><span class="p">:</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Test</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; a test class &quot;&quot;&quot;</span>
 
-        <span class="k">def</span> <span class="nf">testmethod</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">):</span>    <span class="c1"># declaration of method &quot;testmethod&quot;</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">testmethod</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">):</span>    <span class="c1"># declaration of method &quot;testmethod&quot;</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span>         <span class="c1"># &quot;self.t&quot; is a class member variable</span>
 
-        <span class="k">def</span> <span class="nf">testmethod2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>       <span class="c1"># declaration of method &quot;testmethod&quot;</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">testmethod2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>       <span class="c1"># declaration of method &quot;testmethod&quot;</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">testmethod</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span> <span class="c1"># call of class method &quot;testmethod&quot;</span>
 </pre></div>
 </div>
 <p>Η συνάρτηση <code class="docutils literal notranslate"><span class="pre">__init__()</span></code> έχει ειδικό ρόλο: καλείται κατά την αρχικοποίηση ενός αντικειμένου και μπορεί να δεχτεί αρχικές παραμέτρους για το νέο αντικείμενο:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Test</span><span class="p">:</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Test</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; a test class &quot;&quot;&quot;</span>
 
-        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">size</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">size</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">size</span>     <span class="c1"># &quot;self.size&quot; is a class member variable</span>
 
 
@@ -489,7 +491,7 @@ C:\Users\Myuser&gt;cd test-folder
           
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Περιεχόμενα</a></h3>
   <ul>

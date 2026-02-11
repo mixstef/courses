@@ -1,26 +1,25 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Υλοποίηση αυτομάτων με την κλάση DFA &#8212; Compiler Labs Doc 1.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=4f649999" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
     <link rel="stylesheet" type="text/css" href="../_static/mytheme.css?v=9774cda0" />
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=359c27e9"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
-    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Κανονικές εκφράσεις και Python" href="../02-regex/module1.html" />
-    <link rel="prev" title="Εισαγωγή στη λεκτική ανάλυση" href="module1.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
+
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
 
   </head><body>
 <div class="pageheader">
@@ -28,7 +27,7 @@
      <div>
         <h4>Τμήμα Πληροφορικής - Ιόνιο Πανεπιστήμιο</h4>
         <h2>Μεταγλωττιστές</h2>
-        <h4>Εαρινό Εξάμηνο 2024-25</h4>        
+        <h4>Εαρινό Εξάμηνο 2025-26</h4>        
         <h5>Μ.Στεφανιδάκης</h5>
       </div>    
 </div>
@@ -43,14 +42,15 @@
 
           <div class="body" role="main">
             
-  <a class="reference internal image-reference" href="../_images/by-sa.png"><img alt="Creative Commons Attribution-ShareAlike 4.0 International License" src="../_images/by-sa.png" style="width: 80px;" /></a>
+  <a class="reference internal image-reference" href="../_images/by-sa.png"><img alt="Creative Commons Attribution-ShareAlike 4.0 International License" src="../_images/by-sa.png" style="width: 80px;" />
+</a>
 <section id="dfa">
-<h1>Υλοποίηση αυτομάτων με την κλάση DFA<a class="headerlink" href="#dfa" title="Permalink to this heading">¶</a></h1>
+<h1>Υλοποίηση αυτομάτων με την κλάση DFA<a class="headerlink" href="#dfa" title="Link to this heading">¶</a></h1>
 <p>Στα παραδείγματα και τις ασκήσεις θα χρησιμοποιήσουμε την έτοιμη κλάση <code class="docutils literal notranslate"><span class="pre">DFA</span></code> από τη βιβλιοθήκη <code class="docutils literal notranslate"><span class="pre">compilerlabs</span></code>. Η κλάση αυτή παρέχει ένα απλό interface για την κατασκευή και λειτουργία αυτομάτων DFA.</p>
 <section id="id1">
-<h2>Κατασκευή και χρήση αυτομάτου DFA<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h2>
+<h2>Κατασκευή και χρήση αυτομάτου DFA<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
 <p>Αρχικά κάνουμε import την κλάση <code class="docutils literal notranslate"><span class="pre">DFA</span></code> στο πρόγραμμά μας:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">compilerlabs</span> <span class="kn">import</span> <span class="n">DFA</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">compilerlabs</span><span class="w"> </span><span class="kn">import</span> <span class="n">DFA</span>
 </pre></div>
 </div>
 <aside class="topic">
@@ -88,16 +88,16 @@
 </div>
 <p>Η μέθοδος επιστρέφει το token που αναγνωρίστηκε (ή None αν δεν υπάρχει ταίριασμα) και το αντίστοιχο κείμενο (ή το κενό string αν δεν αναγνωρίστηκε κάτι).</p>
 <section id="long-term-test">
-<h3>Παράδειγμα: το αυτόματο για τα long, term και test<a class="headerlink" href="#long-term-test" title="Permalink to this heading">¶</a></h3>
+<h3>Παράδειγμα: το αυτόματο για τα long, term και test<a class="headerlink" href="#long-term-test" title="Link to this heading">¶</a></h3>
 <p>Στη συνέχεια θα δούμε την υλοποίηση του γνωστού παραδείγματος του αυτομάτου με τα τρία keywords, τις λέξεις <cite>long</cite>, <cite>term</cite> και <cite>test</cite> του επόμενου σχήματος:</p>
 <figure class="align-default" id="id7">
 <img alt="Αυτόματο πεπερασμένων καταστάσεων για τα  keywords long, term, test" src="../_images/longtermtest.png" />
 <figcaption>
-<p><span class="caption-text">Το αυτόματο πεπερασμένων καταστάσεων για τα  keywords long, term, test</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
+<p><span class="caption-text">Το αυτόματο πεπερασμένων καταστάσεων για τα  keywords long, term, test</span><a class="headerlink" href="#id7" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
 <p>Η υλοποίηση μέσω της κλάσης <code class="docutils literal notranslate"><span class="pre">DFA</span></code>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">compilerlabs</span> <span class="kn">import</span> <span class="n">DFA</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">compilerlabs</span><span class="w"> </span><span class="kn">import</span> <span class="n">DFA</span>
 
 <span class="n">dfa1</span> <span class="o">=</span> <span class="n">DFA</span><span class="p">(</span><span class="s1">&#39;s0&#39;</span><span class="p">)</span>
 
@@ -128,17 +128,17 @@
 </div>
 </section>
 <section id="id2">
-<h3>Παράδειγμα: το αυτόματο για τον αριθμό μήνα (1..12)<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
+<h3>Παράδειγμα: το αυτόματο για τον αριθμό μήνα (1..12)<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h3>
 <p>Το αυτόματο για την αναγνώριση αριθμών μήνα (1..12) με ένα ή δύο ψηφία έχει παρουσιαστεί σε <a class="reference internal" href="module1.html#dfa-month-number-ref"><span class="std std-ref">προηγούμενη ενότητα</span></a> και είναι ως εξής:</p>
 <figure class="align-default" id="id8">
 <img alt="Αυτόματο πεπερασμένων καταστάσεων για αναγνώριση αριθμού μήνα" src="../_images/month-number.png" />
 <figcaption>
-<p><span class="caption-text">Αυτόματο πεπερασμένων καταστάσεων για αναγνώριση  αριθμού μήνα</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
+<p><span class="caption-text">Αυτόματο πεπερασμένων καταστάσεων για αναγνώριση  αριθμού μήνα</span><a class="headerlink" href="#id8" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
 <p>Πώς θα υλοποιηθεί με την κλάση DFA;</p>
 <details class="summary-">
-<summary>Δείτε τη λύση</summary><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">compilerlabs</span> <span class="kn">import</span> <span class="n">DFA</span>
+<summary>Δείτε τη λύση</summary><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">compilerlabs</span><span class="w"> </span><span class="kn">import</span> <span class="n">DFA</span>
 
 <span class="n">dfa</span> <span class="o">=</span> <span class="n">DFA</span><span class="p">(</span><span class="s1">&#39;s0&#39;</span><span class="p">)</span>
 
@@ -171,12 +171,12 @@
 </div>
 </details></section>
 <section id="id3">
-<h3>Ομαδοποίηση χαρακτήρων<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
+<h3>Ομαδοποίηση χαρακτήρων<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h3>
 <p>Ας εξετάσουμε την υλοποίηση του αυτομάτου DFA το οποίο αναγνωρίζει ακολουθίες ψηφίων <cite>0..9</cite> οποιουδήποτε μήκους:</p>
 <figure class="align-default" id="id9">
 <img alt="Αυτόματο πεπερασμένων καταστάσεων για αναγνώριση σειράς ψηφίων" src="../_images/digits.png" />
 <figcaption>
-<p><span class="caption-text">Αυτόματο πεπερασμένων καταστάσεων για αναγνώριση σειράς ψηφίων</span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
+<p><span class="caption-text">Αυτόματο πεπερασμένων καταστάσεων για αναγνώριση σειράς ψηφίων</span><a class="headerlink" href="#id9" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
 <p>Για να περιγράψουμε τη μετάβαση από το <span class="math notranslate nohighlight">\(s_0\)</span> στο <span class="math notranslate nohighlight">\(s_1\)</span> θα μπορούσαμε να γράψουμε:</p>
@@ -184,7 +184,7 @@
 </pre></div>
 </div>
 <p>Για να διευκολύνει την κατασκευή, το interface της κλάσης <code class="docutils literal notranslate"><span class="pre">DFA</span></code> επιτρέπει την προαιρετική χρήση ενός «προ-επεξεργαστή» (preprocessor) των χαρακτήρων εισόδου, ο οποίος μπορεί να ομαδοποιήσει διάφορους χαρακτήρες σε μια και μόνο αναγνωριστική ετικέτα. Στο παράδειγμα του αυτομάτου των αριθμητικών ψηφίων μπορούμε να ορίσουμε:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">preproc</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">preproc</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">c</span><span class="o">&gt;=</span><span class="s1">&#39;0&#39;</span> <span class="ow">and</span> <span class="n">c</span><span class="o">&lt;=</span><span class="s1">&#39;9&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="s1">&#39;DIGIT&#39;</span>
     <span class="k">return</span> <span class="n">c</span>
@@ -213,12 +213,12 @@
 </section>
 </section>
 <section id="dfa-intfloat-ref">
-<span id="id4"></span><h2>Διαφορές από το θεωρητικό αυτόματο<a class="headerlink" href="#dfa-intfloat-ref" title="Permalink to this heading">¶</a></h2>
+<span id="id4"></span><h2>Διαφορές από το θεωρητικό αυτόματο<a class="headerlink" href="#dfa-intfloat-ref" title="Link to this heading">¶</a></h2>
 <p>Το θεωρητικό αυτόματο (D)FA θα προσπαθήσει να ταιριάξει <em>όλους</em> τους χαρακτήρες εισόδου. Εάν για κάποιον χαρακτήρα δεν υπάρχει μετάβαση από την τρέχουσα κατάσταση θα παραχθεί σφάλμα. Το θεωρητικό αυτόματο αναγνωρίζει ένα κείμενο όταν, αφού το καταναλώσει όλο, βρίσκεται σε κατάσταση αποδοχής.</p>
 <figure class="align-default" id="id10">
 <img alt="Αυτόματο πεπερασμένων καταστάσεων για αναγνώριση σειράς ψηφίων" src="../_images/digits.png" />
 <figcaption>
-<p><span class="caption-text">Αυτόματο πεπερασμένων καταστάσεων για αναγνώριση σειράς ψηφίων</span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
+<p><span class="caption-text">Αυτόματο πεπερασμένων καταστάσεων για αναγνώριση σειράς ψηφίων</span><a class="headerlink" href="#id10" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
 <p>Για παράδειγμα, το θεωρητικό αυτόματο που αναγνωρίζει σειρές από αριθμητικά ψηφία (0..9) στο προηγούμενο σχήμα θα επιστρέψει σφάλμα τόσο στο <code class="docutils literal notranslate"><span class="pre">a123</span></code> (επειδή από την αρχική κατάσταση δεν υπάρχει μετάβαση με τον χαρακτήρα <code class="docutils literal notranslate"><span class="pre">a</span></code>) όσο και στο <code class="docutils literal notranslate"><span class="pre">123a</span></code> (γιατί από το <code class="docutils literal notranslate"><span class="pre">s1</span></code> δεν υπάρχει μετάβαση με το <code class="docutils literal notranslate"><span class="pre">a</span></code>).</p>
@@ -239,19 +239,19 @@
 </ul>
 <p>Στο παράδειγμα του αυτομάτου των αριθμητικών ψηφίων, η κλάση <code class="docutils literal notranslate"><span class="pre">DFA</span></code> θα αναγνωρίσει με επιτυχία το μέρος <code class="docutils literal notranslate"><span class="pre">123</span></code> της εισόδου <code class="docutils literal notranslate"><span class="pre">123a</span></code>.</p>
 <section id="id5">
-<h3>Προαιρετικά ταιριάσματα<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h3>
+<h3>Προαιρετικά ταιριάσματα<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h3>
 <p>Έστω ότι υλοποιείται το αυτόματο της επόμενης εικόνας:</p>
 <figure class="align-default" id="id11">
 <img alt="Αυτόματο για την αναγνώριση int και float αριθμών" src="../_images/intfloat.png" />
 <figcaption>
-<p><span class="caption-text">Αυτόματο για την αναγνώριση int και float αριθμών</span><a class="headerlink" href="#id11" title="Permalink to this image">¶</a></p>
+<p><span class="caption-text">Αυτόματο για την αναγνώριση int και float αριθμών</span><a class="headerlink" href="#id11" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
 <p>Ο στόχος είναι η αναγνώριση ακεραίων αριθμών (στην κατάσταση <span class="math notranslate nohighlight">\(s_1\)</span>) και αριθμών με δεκαδικό μέρος (στην κατάσταση αποδοχής <span class="math notranslate nohighlight">\(s_3\)</span>).</p>
 <p>Εάν το string εισόδου είναι το <code class="docutils literal notranslate"><span class="pre">'123.'</span></code>, θα θέλαμε να αναγνωρίσουμε το <code class="docutils literal notranslate"><span class="pre">123</span></code> ως ακέραιο. Κάτι τέτοιο δεν θα συμβεί όμως κανονικά, γιατί στο τέλος της αναζήτησης βρισκόμαστε στην κατάσταση <span class="math notranslate nohighlight">\(s_2\)</span>, η οποία <em>δεν είναι κατάσταση αποδοχής</em>.</p>
 <p>Για να διορθωθεί αυτή η ατέλεια έχει εισαχθεί στη <code class="docutils literal notranslate"><span class="pre">scan()</span></code> η δυνατότητα <em>μνήμης</em>, όπου φυλάσσεται η <em>τελευταία κατάσταση αποδοχής</em> όπου έχει βρεθεί το αυτόματο. Αυτή η κατάσταση (αν υπάρχει) επιστρέφεται όταν δεν μπορούμε να προχωρήσουμε άλλο.</p>
 <p>Το αυτόματο για την αναγνώριση int και float αριθμών μπορεί να υλοποιηθεί με την κλάση <code class="docutils literal notranslate"><span class="pre">DFA</span></code> ως εξής:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">preproc</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">preproc</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">c</span><span class="o">&gt;=</span><span class="s1">&#39;0&#39;</span> <span class="ow">and</span> <span class="n">c</span><span class="o">&lt;=</span><span class="s1">&#39;9&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="s1">&#39;DIGIT&#39;</span>
     <span class="k">return</span> <span class="n">c</span>
@@ -278,7 +278,7 @@
 </section>
 </section>
 <section id="id6">
-<h2>Ασκήσεις<a class="headerlink" href="#id6" title="Permalink to this heading">¶</a></h2>
+<h2>Ασκήσεις<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h2>
 <ol class="arabic simple">
 <li><p>Υλοποιήστε μέσω της κλάσης <code class="docutils literal notranslate"><span class="pre">DFA</span></code> αυτόματο για την αναγνώριση ακέραιων και δεκαδικών αριθμών οποιουδήποτε μήκους στις εξής μορφές:</p></li>
 </ol>
@@ -317,7 +317,7 @@
           
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Περιεχόμενα</a></h3>
   <ul>

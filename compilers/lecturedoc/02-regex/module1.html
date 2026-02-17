@@ -13,6 +13,8 @@
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Παράρτημα" href="../appendix-python/module1.html" />
+    <link rel="prev" title="Υλοποίηση αυτομάτων με την κλάση DFA" href="../01-dfa/dfa-in-python.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -190,14 +192,14 @@
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">{n}</span></code> <code class="docutils literal notranslate"><span class="pre">{m,n}</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">n</span></code> φορές / από <code class="docutils literal notranslate"><span class="pre">n</span></code> έως <code class="docutils literal notranslate"><span class="pre">m</span></code> φορές ο χαρακτήρας που προηγείται</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">\b</span></code></p></td>
-<td><p>ταιριάζει στην αρχή και στο τέλος μιας λέξης</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">\w</span></code> <code class="docutils literal notranslate"><span class="pre">\W</span></code></p></td>
+<td><p>οποιοσδήποτε αλφαριθμητικός / μη αλφαριθμητικός χαρακτήρας (<em>αλφαριθμητικοί χαρακτήρες: γράμματα/αριθμοί στο Unicode και ο χαρακτήρας _</em>)</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">\w</span></code> <code class="docutils literal notranslate"><span class="pre">\W</span></code></p></td>
-<td><p>οποιοσδήποτε αλφαριθμητικός / μη αλφαριθμητικός χαρακτήρας</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">\b</span></code></p></td>
+<td><p>ταιριάζει στην αρχή ή στο τέλος μιας λέξης (<em>τεχνικά, στο σημείο μεταξύ ενός \w και ενός \W χαρακτήρα, ή αντίστροφα</em>)</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">\s</span></code> <code class="docutils literal notranslate"><span class="pre">\S</span></code></p></td>
-<td><p>οποιοσδήποτε whitespace / μη whitespace χαρακτήρας</p></td>
+<td><p>οποιοσδήποτε whitespace / μη whitespace χαρακτήρας (<em>whitespace χαρακτήρες: space, tab, newline και άλλοι χαρακτήρες κενού στο Unicode</em>)</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">*?</span></code> <code class="docutils literal notranslate"><span class="pre">+?</span></code> <code class="docutils literal notranslate"><span class="pre">??</span></code></p></td>
 <td><p>μη άπληστες (non-greedy) μορφές των <code class="docutils literal notranslate"><span class="pre">*</span></code>, <code class="docutils literal notranslate"><span class="pre">+</span></code> και <code class="docutils literal notranslate"><span class="pre">?</span></code></p></td>

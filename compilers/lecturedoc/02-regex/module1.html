@@ -442,7 +442,15 @@
 <span class="go">54</span>
 </pre></div>
 </div>
-<p>Στο προηγούμενο παράδειγμα, οι παρενθέσεις γύρω από το ακέραιο και το δεκαδικό μέρος ορίζουν δύο πρόσθετα groups (<code class="docutils literal notranslate"><span class="pre">group(1)</span></code> και <code class="docutils literal notranslate"><span class="pre">group(2)</span></code>), εκτός από το <code class="docutils literal notranslate"><span class="pre">group(0)</span></code> που περιλαμβάνει όλο το κείμενο που έχει ταιριάξει.</p>
+<p>Στο προηγούμενο παράδειγμα, οι παρενθέσεις γύρω από το ακέραιο και το δεκαδικό μέρος ορίζουν δύο πρόσθετα groups. Λαμβάνουμε το κείμενο που ταίριαξε σε κάθε γκρουπ με την κλήση των <code class="docutils literal notranslate"><span class="pre">m.group(1)</span></code> και <code class="docutils literal notranslate"><span class="pre">m.group(2)</span></code>. Υπενθυμίζεται ότι το <code class="docutils literal notranslate"><span class="pre">m.group(0)</span></code> επιστρέφει όλο το κείμενο που έχει ταιριάξει.</p>
+<ul class="simple">
+<li><p>Αν ένα group είναι σε προαιρετικό ή εναλλακτικό μέρος της κανονικής έκφρασης και δεν ταίριαξε, τότε παίρνει την τιμή <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+<ul>
+<li><p>Προσοχή: το συνολικό προαιρετικό μέρος (<code class="docutils literal notranslate"><span class="pre">?</span></code> ή <code class="docutils literal notranslate"><span class="pre">*</span></code>) ταιριάζει το τίποτα, συνεπώς μπορεί να επιστρέψει ως γκρουπ το κενό string <code class="docutils literal notranslate"><span class="pre">''</span></code>.</p></li>
+</ul>
+</li>
+<li><p>Αν σε ένα group ταιριάζει κείμενο πολλαπλές φορές (π.χ. <code class="docutils literal notranslate"><span class="pre">([0-9])+</span></code>), συγκρατείται η τελευταία φορά.</p></li>
+</ul>
 <p>Η αρίθμηση των πρόσθετων groups αρχίζει από το 1, κάθε φορά που ανοίγει μια παρένθεση, προχωρώντας από αριστερά προς τα δεξιά. Αυτό ισχύει ακόμα και όταν οι παρενθέσεις είναι μέσα σε άλλες.</p>
 <p>Αν ένα σετ παρενθέσεων έχει μπει μόνο για την εξυπηρέτηση του <code class="docutils literal notranslate"><span class="pre">*</span></code>, <code class="docutils literal notranslate"><span class="pre">+</span></code>, <code class="docutils literal notranslate"><span class="pre">?</span></code> κλπ και δεν θέλουμε τη συγκράτηση της τιμής του group, μπορούμε να χρησιμοποιήσουμε το <code class="docutils literal notranslate"><span class="pre">(?:...)</span></code>. Στη μορφή αυτή οι παρενθέσεις δεν ορίζουν νέο group.</p>
 </section>

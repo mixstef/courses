@@ -31,25 +31,24 @@ double ts,te;
   
   // constant setup
   __m256d w4 = _mm256_set1_pd(w);
-  __m256d c1 = _mm256_set1_pd(0.5);
-  __m256d c2 = _mm256_set1_pd(4.0);
-  __m256d c3 = _mm256_set1_pd(1.0);
+  __m256d c4 = _mm256_set1_pd(4.0);
+  __m256d c1 = _mm256_set1_pd(1.0);
   
   // init accumulator to 0  
   __m256d sum = _mm256_setzero_pd();
-  // init counter (i) to 1..4
-  __m256d cnt = _mm256_set_pd(4.0,3.0,2.0,1.0);
+  // init counter (i) to 1..4 (with 0.5 pre-subtracted!)
+  __m256d cnt = _mm256_set_pd(3.5,2.5,1.5,0.5);
   
   for (int i=1;i<=N/4;i++) {
     
     // x = w*(i-0.5);	// midpoint
-    __m256d t = _mm256_mul_pd(w4,_mm256_sub_pd(cnt,c1));
+    __m256d x = _mm256_mul_pd(w4,cnt);
     
     // sum += 4.0/(1.0+x*x); // NOTE: without mult by step (w), done later
-    sum = _mm256_add_pd(sum,_mm256_div_pd(c2,_mm256_add_pd(c3,_mm256_mul_pd(t,t))));
+    sum = _mm256_add_pd(sum,_mm256_div_pd(c4,_mm256_add_pd(c1,_mm256_mul_pd(x,x))));
     
     // step counter to +4 values
-    cnt = _mm256_add_pd(cnt,c2);
+    cnt = _mm256_add_pd(cnt,c4);
   }
 
   // move 4-double sum to result = unaligned store, slow

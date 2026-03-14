@@ -63,6 +63,12 @@ scanner = tokenizer.scan(text)
 parser = MyParser(scanner)
 
 try:
+    # create scanner for input text
+    scanner = tokenizer.scan(text)
+
+    # create recursive descent parser
+    parser = MyParser(scanner)
+    
     parser.parse()
     
 except (TokenizerError,ParseError) as e:

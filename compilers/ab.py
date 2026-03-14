@@ -37,7 +37,7 @@ class MyParser(LL1ParserBase):
             self.B()
                 
         else:
-            raise ParseError(f'In S(), expecting A_TOKEN, found {self.next_symbol.token} instead')
+            self.error(f'In S(), expecting A_TOKEN, found {self.next_symbol.token} instead')
         
     
     def B(self):
@@ -53,7 +53,7 @@ class MyParser(LL1ParserBase):
             self.match('B_TOKEN')
             
         else:
-            raise ParseError(f'In B(), expecting A_TOKEN or B_TOKEN, found {self.next_symbol.token} instead')
+            self.error(f'In B(), expecting A_TOKEN or B_TOKEN, found {self.next_symbol.token} instead')
             
             
 # main part of program
@@ -73,13 +73,13 @@ aa aabbb b
 """    
     
     
-# create scanner for input text
-scanner = tokenizer.scan(text)
-
-# create recursive descent parser
-parser = MyParser(scanner)
-
 try:
+    # create scanner for input text
+    scanner = tokenizer.scan(text)
+
+    # create recursive descent parser
+    parser = MyParser(scanner)
+
     parser.parse()
     
 except (TokenizerError,ParseError) as e:

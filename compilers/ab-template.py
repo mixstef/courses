@@ -56,11 +56,6 @@ aa aabbb b
 """    
     
     
-# create scanner for input text
-scanner = tokenizer.scan(text)
-
-# create recursive descent parser
-parser = MyParser(scanner)
 
 try:
     # create scanner for input text

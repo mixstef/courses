@@ -1,4 +1,4 @@
-// Threaded sum-reduction mutex example, threads sum blocks of input array and update global sum at the end.
+// Threaded sum reduction example without mutex, each thread sums a block of input array and updates a global sum (protected by mutex) at the end.
 // Compile with: gcc -O2 -Wall -pthread sum-reduction-double-threads-mutex.c -o sum-reduction-double-threads-mutex -DN=10000000 -DTHREADS=4
 
 #include <stdio.h>
@@ -48,7 +48,7 @@ void *thread_func(void *args) {
   }
   
   // update global sum
-  
+   
   // lock sum mutex
   pthread_mutex_lock(&sum_mutex);
   
@@ -56,8 +56,7 @@ void *thread_func(void *args) {
   
   // unlock sum mutex
   pthread_mutex_unlock(&sum_mutex);
-
-
+  
   // exit and let be joined
   pthread_exit(NULL); 
 }
@@ -90,7 +89,7 @@ int main() {
   // for all threads
   for (int i=0;i<THREADS;i++) {
     // fill i-th member of tparm array
-    tparm[i].a = a+i*BLOCKSIZE;    
+    tparm[i].a = a+i*BLOCKSIZE;
 
     if (i==(THREADS-1)) { // last thread, maybe less than blocksize to do...
       tparm[i].n = N-i*BLOCKSIZE; 
@@ -124,13 +123,12 @@ int main() {
     printf("Reduction error!\n");
   }
 
-
   // destroy mutex - should be unlocked
   pthread_mutex_destroy(&sum_mutex);
 
   // free array
   free(a);
-  
+    
   printf("Exec Time (sec) = %f\n",te-ts);  
   
   return 0;

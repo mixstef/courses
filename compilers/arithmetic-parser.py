@@ -13,36 +13,19 @@ Addop → + | -
 Multop → * | /
 """
 
-from compilerlabs import Tokenizer,TokenAction,TokenizerError
+from compilerlabs import Tokenizer,TokenAction,TokenizerError, \
+                         LL1ParserBase,ParseError
 
-
-# parsing error, a user-defined exception
-class ParseError(Exception):
-    pass
 
 
 # class of recursive descent parser
-class MyParser():
+class MyParser(LL1ParserBase):
+
 
     def __init__(self,scanner):
             
-        self.scanner = scanner
-        
-        # get initial input token
-        self.next_symbol = next(self.scanner)
+        super().__init__(scanner)
 
-
-    def match(self,expected):
-    
-        if self.next_symbol.token == expected:
-            # proceed to next token, if not at end-of-text
-            if self.next_symbol.token is not None:
-                self.next_symbol = next(self.scanner)
-
-        else:
-            raise ParseError(f'Syntax error at line {self.next_symbol.lineno} char {self.next_symbol.charpos}: Expected {expected}, found {self.next_symbol.token} instead')
-
-            
             
     def parse(self):
 
@@ -65,7 +48,7 @@ class MyParser():
             return
                 
         else:
-            raise ParseError(f'Syntax error at line {self.next_symbol.lineno} char {self.next_symbol.charpos}: In Stmt_list(), expecting id, print or EOT, found {self.next_symbol.token} instead')
+            self.error(f'In Stmt_list(), expecting id, print or EOT, found {self.next_symbol.token} instead')
 
 
     def Stmt(self):
@@ -82,7 +65,7 @@ class MyParser():
             self.Expr()
                 
         else:
-            raise ParseError(f'Syntax error at line {self.next_symbol.lineno} char {self.next_symbol.charpos}: In Stmt(), expecting id or print, found {self.next_symbol.token} instead')
+            self.error(f'In Stmt(), expecting id or print, found {self.next_symbol.token} instead')
         
 
     def Expr(self):
@@ -93,7 +76,7 @@ class MyParser():
             self.Term_tail()
                 
         else:
-            raise ParseError(f'Syntax error at line {self.next_symbol.lineno} char {self.next_symbol.charpos}: In Expr(), expecting (, id or number, found {self.next_symbol.token} instead')    
+            self.error(f'In Expr(), expecting (, id or number, found {self.next_symbol.token} instead')    
             
 
     def Term_tail(self):
@@ -109,7 +92,7 @@ class MyParser():
             return
                 
         else:
-            raise ParseError(f'Syntax error at line {self.next_symbol.lineno} char {self.next_symbol.charpos}: In Term_tail(), expecting +, -, id, print, ) or EOT , found {self.next_symbol.token} instead')    
+            self.error(f'In Term_tail(), expecting +, -, id, print, ) or EOT , found {self.next_symbol.token} instead')    
 
 
     def Term(self):
@@ -120,7 +103,7 @@ class MyParser():
             self.Factor_tail()
                 
         else:
-            raise ParseError(f'Syntax error at line {self.next_symbol.lineno} char {self.next_symbol.charpos}: In Term(), expecting (, id or number, found {self.next_symbol.token} instead')            
+            self.error(f'In Term(), expecting (, id or number, found {self.next_symbol.token} instead')            
             
 
     def Factor_tail(self):
@@ -136,7 +119,7 @@ class MyParser():
             return
                 
         else:
-            raise ParseError(f'Syntax error at line {self.next_symbol.lineno} char {self.next_symbol.charpos}: In Factor_tail(), expecting *, /, +, -, id, print, ) or EOT, found {self.next_symbol.token} instead')    
+            self.error(f'In Factor_tail(), expecting *, /, +, -, id, print, ) or EOT, found {self.next_symbol.token} instead')    
 
 
     def Factor(self):
@@ -156,7 +139,7 @@ class MyParser():
             self.match('number')
                 
         else:
-            raise ParseError(f'Syntax error at line {self.next_symbol.lineno} char {self.next_symbol.charpos}: In Factor(), expecting (, id or number, found {self.next_symbol.token} instead')
+            self.error(f'In Factor(), expecting (, id or number, found {self.next_symbol.token} instead')
 
 
     def Addop(self):
@@ -170,7 +153,7 @@ class MyParser():
             self.match('-')
 
         else:
-            raise ParseError(f'Syntax error at line {self.next_symbol.lineno} char {self.next_symbol.charpos}: In Addop(), expecting + or -, found {self.next_symbol.token} instead')
+            self.error(f'In Addop(), expecting + or -, found {self.next_symbol.token} instead')
 
 
     def Multop(self):
@@ -184,10 +167,10 @@ class MyParser():
             self.match('/')
 
         else:
-            raise ParseError(f'Syntax error at line {self.next_symbol.lineno} char {self.next_symbol.charpos}: In Multop(), expecting * or /, found {self.next_symbol.token} instead')
-
-
-        
+            self.error(f'In Multop(), expecting * or /, found {self.next_symbol.token} instead')
+            
+            
+            
 # main part of program
 
 
@@ -207,17 +190,18 @@ print b*0.23
 c = 5-3-2
 print c
 """    
-        
-# create scanner for input text
-scanner = tokenizer.scan(text)
-
-# create recursive descent parser
-parser = MyParser(scanner)
-
+    
 try:
+    # create scanner for input text
+    scanner = tokenizer.scan(text)
+
+    # create recursive descent parser
+    parser = MyParser(scanner)
+
     parser.parse()
     
 except (TokenizerError,ParseError) as e:
     print(e)
             
+
 

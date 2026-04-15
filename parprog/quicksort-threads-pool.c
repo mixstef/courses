@@ -1,11 +1,13 @@
 // quicksort implementation via a thread worker pool
-// compile with e.g.:
-// gcc -O2 -Wall -pthread quicksort-threads-pool.c -o quicksort-threads-pool -DN=10000000 -DTHREADS=4
+// compile with:
+// gcc -O2 -Wall -pthread quicksort-threads-pool.c myqueue.c -o quicksort-threads-pool -DN=10000000 -DTHREADS=4
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
 #include <sys/time.h>
+
+#include "myqueue.h"
 
 
 void get_walltime(double *wct) {
@@ -14,88 +16,30 @@ void get_walltime(double *wct) {
   *wct = (double)(tp.tv_sec+tp.tv_usec/1000000.0);
 }
 
-// ---------- message queue -------------
 
+// ---------- message/signaling queue declarations -------------
+
+#define WORK_QUEUE_SIZE 1000
+
+// work diffusing message
 struct message {
-  double *a;	// a!=NULL -> work(a,n) msg
-  int n;	// a==NULL: n==0 -> shutdown msg | n>0: work_termination(n) msg 
+  double *a;
+  int n;	// n<=0 -> shutdown msg  
 };
 
-
-#define QUEUE_SIZE 1000
-
-// global integer buffer
-struct message global_buffer[QUEUE_SIZE];
-int global_qin = 0;	// insertion index
-int global_qout = 0;	// extraction index
+myqueue_t work_queue;
 
 
-// global avail messages count
-int global_availmsg = 0;	// empty
+#define SIGNAL_QUEUE_SIZE 10
 
-// conditional variable, signals a put operation (receiver waits on this)
-pthread_cond_t msg_in = PTHREAD_COND_INITIALIZER;
-// conditional variable, signals a get operation (sender waits on this)
-pthread_cond_t msg_out = PTHREAD_COND_INITIALIZER;
-
-// mutex protecting common resources
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-
-
-void send(double *a,int n) {
-
-    pthread_mutex_lock(&mutex);
-    while (global_availmsg>=QUEUE_SIZE) { 
-    
-      pthread_cond_wait(&msg_out,&mutex);  
-      
-    }
-    
-    // send message
-    global_buffer[global_qin].a = a;
-    global_buffer[global_qin].n = n;
-        
-    global_qin += 1;
-    if (global_qin>=QUEUE_SIZE) global_qin = 0; // wrap around
-    global_availmsg += 1;
-    
-    // signal the receiver that something was put in buffer
-    pthread_cond_signal(&msg_in);
-    
-    pthread_mutex_unlock(&mutex);
-
-}
-
-
-void recv(double **a,int *n) {
-
-    // lock mutex
-    pthread_mutex_lock(&mutex);
-    while (global_availmsg<1) {	
-    
-      pthread_cond_wait(&msg_in,&mutex);  
-    
-    }
-    
-    // receive message
-    *a = global_buffer[global_qout].a;
-    *n = global_buffer[global_qout].n;    
-    
-    global_qout += 1;
-    if (global_qout>=QUEUE_SIZE) global_qout = 0; // wrap around
-    global_availmsg -= 1;
-      
-    // signal the sender that something was removed from buffer
-    pthread_cond_signal(&msg_out);
-    
-    pthread_mutex_unlock(&mutex);
-
-}
+myqueue_t signal_queue;
 
 
 // --------- quicksort functions ----------------
 
 #define CUTOFF 10
+
+#define SERIAL_THRESHOLD 10000
 
 
 void inssort(double *a,int n) {
@@ -143,7 +87,7 @@ int i,j;
 }
 
 
-void quicksort(double *a,int n) {
+void serial_quicksort(double *a,int n) {
 int i;
   // check if below cutoff limit
   if (n<=CUTOFF) {
@@ -155,47 +99,54 @@ int i;
   i = partition(a,n);
    
   // recursively sort halves
-  quicksort(a,i);
-  quicksort(a+i,n-i);
+  serial_quicksort(a,i);
+  serial_quicksort(a+i,n-i);
+  
+}
+
+
+void threaded_quicksort(double *a,int n) {
+
+  // check if below serial threshold limit
+  if (n<=SERIAL_THRESHOLD) { // handle this serially
+    serial_quicksort(a,n);
+    // send work termination message to main 
+    myqueue_send(&signal_queue,&n);
+  }
+  else {  
+    // partition into two halves
+    int i = partition(a,n);
+   
+    // create work diffusion message for left half
+    struct message msg;
+    msg.a = a;
+    msg.n = i;
+    myqueue_send(&work_queue,&msg);
+    
+    // handle righthalf ourselves
+    threaded_quicksort(a+i,n-i);
+  }
   
 }
 
 // -------- thread worker function ---------
 
-#define SPLIT_LIMIT 10000
-
 void *work(void *args) {
-double *a;
-int i,n;
 
   
   // do until shutdown
   do {
-    // receive msg from queue
-    recv(&a,&n);	// blocking call
+    // receive msg from queue - blocking call
+    struct message msg;
+    myqueue_recv(&work_queue,&msg);
 
-    if ((a==NULL)&&(n>0)) { // a termination logging msg, ignore (resend)
-      send(a,n); // put back to queue
-      continue;
+    if (msg.n<=0) { // shutdown message (from main thread)
+      break; 
     }
-    if ((a==NULL)&&(n==0)) { // a shutdown msg
-      send(a,n); // put back to queue
-      break; // exit loop
-    }
-
-    if (n<=SPLIT_LIMIT) { // handle this ourselves
-      quicksort(a,n);
-      // send termination log
-      send(NULL,n);
-    }
-    else {  // partition and let 2 new threads to sort sublists
-      i = partition(a,n);
     
-      // send 2 msgs to queue
-      send(a,i);
-      send(a+i,n-i);
-     
-    }
+    // else, a work diffusing message was received
+    threaded_quicksort(msg.a,msg.n);
+
   } while (1);
   
   // exit and let be joined
@@ -208,6 +159,10 @@ int main() {
 double ts,te;
 double *a;
 int i;
+
+  myqueue_init(&work_queue,sizeof(struct message),WORK_QUEUE_SIZE);
+  myqueue_init(&signal_queue,sizeof(int),SIGNAL_QUEUE_SIZE);
+  
  
   a = (double *)malloc(N*sizeof(double));
   if (a==NULL) {
@@ -238,25 +193,25 @@ int i;
   }
  
   // put first work message in queue
-  send(a,N);
+  struct message msg;
+  msg.a = a;
+  msg.n = N;
+  myqueue_send(&work_queue,&msg);
 
   // track work completion messages
   int completed = 0;
   while (1) {
-    double *a;
-    int n;
-    
-    recv(&a,&n); // blocking call
-    if ((a==NULL)&&(n>0)) { // a completion msg
-      completed += n;
-      if (completed==N) {
-        // send shutdown msg and exit loop
-        send(NULL,0);
-        break;
+    int n;    
+    myqueue_recv(&signal_queue,&n); // blocking call
+    completed += n;
+    if (completed==N) {
+      // send shutdown msgs and exit loop
+      for (int i=0;i<THREADS;i++) {
+        struct message msg;
+        msg.n = -i;
+        myqueue_send(&work_queue,&msg);
       }
-    }
-    else { // push back in queue
-      send(a,n);
+      break;
     }
   }  
   
@@ -279,6 +234,9 @@ int i;
   free(a);
 
   printf("Exec Time (sec) = %f\n",te-ts);
+  
+  myqueue_destroy(&work_queue);
+  myqueue_destroy(&signal_queue);
     
   return 0;
 }

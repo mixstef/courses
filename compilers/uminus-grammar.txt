@@ -1,0 +1,27 @@
+LL(1) Grammar for addition of unary minus/plus
+NOTE: this allows constructs as +----+7 -+---++++8
+
+Stmt_list -> Stmt Stmt_list | .
+Stmt -> id assign Expr | print Expr .
+Expr -> Term Term_tail .
+Term_tail -> Addop Term Term_tail | .
+Term -> Factor Factor_tail .
+Factor_tail -> Multop Factor Factor_tail | .
+Factor -> Addop Factor | Atom .
+Atom -> lparen Expr rparen | id | number .
+Addop -> plus | minus .
+Multop -> mul | div .
+
+https://smlweb.cpsc.ucalgary.ca/vital-stats.php?grammar=Stmt_list+-%3E+Stmt+Stmt_list+%7C+.%0D%0AStmt+-%3E+id+assign+Expr+%7C+print+Expr+.%0D%0AExpr+-%3E+Term+Term_tail+.%0D%0ATerm_tail+-%3E+Addop+Term+Term_tail+%7C+.%0D%0ATerm+-%3E+Factor+Factor_tail+.%0D%0AFactor_tail+-%3E+Multop+Factor+Factor_tail+%7C+.%0D%0AFactor+-%3E+Addop+Factor+%7C+Atom+.%0D%0AAtom+-%3E+lparen+Expr+rparen+%7C+id+%7C+number+.%0D%0AAddop+-%3E+plus+%7C+minus+.%0D%0AMultop+-%3E+mul+%7C+div+.
+
+nonterminal	first set			follow set 				nullable	endable
+Stmt_list	id print			∅					yes		yes
+Stmt		id print			id print				no		yes
+Term_tail	plus minus			rparen id print				yes		yes
+Term		plus minus lparen id number	rparen plus minus id print		no		yes
+Factor_tail	mul div				rparen plus minus id print		yes		yes
+Factor		plus minus lparen id number	rparen mul div plus minus id print	no		yes
+Atom		lparen id number		rparen mul div plus minus id print	no		yes
+Expr		plus minus lparen id number	rparen id print				no		yes
+Addop		plus minus			plus minus lparen id number		no		no
+Multop		mul div				plus minus lparen id number		no		no

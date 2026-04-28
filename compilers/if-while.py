@@ -1,7 +1,9 @@
 """
-Recursive descent parser for arithmetic/logic expressions accompanied by an AST builder-interpreter. If, ifelse & while statements supported.
+Recursive descent parser for arithmetic expressions accompanied by an AST builder-interpreter.
 
-NOTE: modified for correct calculation for arithmetic operators with left associativity
+NOTE: modified for correct calculation for operators with left associativity
+NOTE: added logical expressions support
+NOTE: added if/ifelse/while support
 
 Grammar is:
 Stmt_list → Stmt Stmt_list | ε
@@ -10,9 +12,9 @@ Stmt → id = Lexpr | print Lexpr
      | while Lexpr Block_stmt
 Block_stmt → Stmt | { Stmt_list }
 Lexpr → Lterm Lterm_tail
-Lterm_tail → or Lexpr | ε		# or Lterm Lterm_tail | ε
+Lterm_tail → or Lterm Lterm_tail | ε
 Lterm → Lfactor Lfactor_tail
-Lfactor_tail → and Lterm | ε		# and Lfactor Lfactor_tail | ε
+Lfactor_tail → and Lfactor Lfactor_tail | ε
 Lfactor → not Lfactor | Expr Rest
 Rest → Relop Expr | ε
 Expr → Term (Addop Term)*
@@ -24,50 +26,29 @@ Relop → == | != | > | >= | < | <=
 """
 
 from compilerlabs import Tokenizer,TokenAction,TokenizerError, \
+                         LL1ParserBase,ParseError, \
                          ASTNode
 
 
-# parsing error, a user-defined exception
-class ParseError(Exception):
-    pass
+# class of recursive descent parser/AST builder
+class MyParserASTBuilder(LL1ParserBase):
 
-
-# class of recursive descent parser
-class MyParser():
 
     def __init__(self,scanner):
             
-        self.scanner = scanner
-        
-        # get initial input token
-        self.next_symbol = next(self.scanner)
-        
-        # dict used as variables' symbol table
-        self.symbol_table = {}
-
-
-    def match(self,expected):
-    
-        if self.next_symbol.token == expected:
-            # proceed to next token, if not at end-of-text
-            if self.next_symbol.token is not None:
-                self.next_symbol = next(self.scanner)
-
-        else:
-            raise ParseError(f'Syntax error at line {self.next_symbol.lineno} char {self.next_symbol.charpos}: Expected {expected}, found {self.next_symbol.token} instead')
-
-            
+        super().__init__(scanner)
+                
             
     def parse(self):
 
         # call method for starting symbol of grammar
-        sl = self.Stmt_list()	# sl holds program's list of statement ASTs
+        sl = self.Stmt_list()
         
         # keep the following to match end-of-text
         self.match(None)
 
         return sl
-
+        
 
     def Stmt_list(self):
                 
@@ -76,9 +57,6 @@ class MyParser():
             s = self.Stmt()
             sl = self.Stmt_list()
             
-            if not sl:	# sl is empty
-                return [s]
-                
             return [s] + sl
         
         elif self.next_symbol.token in ('}',None):
@@ -86,7 +64,7 @@ class MyParser():
             return []
                 
         else:
-            raise ParseError(f'Syntax error at line {self.next_symbol.lineno} char {self.next_symbol.charpos}: In Stmt_list(), expecting id, print, if, while, }} or EOT, found {self.next_symbol.token} instead')
+            self.error(f'In Stmt_list(), expecting id, print, if, while, }}, or EOT, found {self.next_symbol.token} instead')
 
 
     def Stmt(self):
@@ -99,7 +77,7 @@ class MyParser():
             e = self.Lexpr()
             
             return ASTNode(attributes={'type':'ASSIGN','name':varname},
-            		   subnodes=[e])
+            		                   subnodes=[e])
 
         elif self.next_symbol.token=='print':
             # Stmt → print Lexpr
@@ -107,10 +85,10 @@ class MyParser():
             e = self.Lexpr()
             
             return ASTNode(attributes={'type':'PRINT'},
-            		   subnodes=[e])
+            		                   subnodes=[e])
 
         elif self.next_symbol.token=='if':
-            # Stmt → if Lexpr Block_stmt (else Block_stmt)?
+            # Stmt → if Lexpr Block_stmt (else Block_stmt)? 
             self.match('if')
             l = self.Lexpr()
             bs = self.Block_stmt()
@@ -125,7 +103,7 @@ class MyParser():
                             
             return ASTNode(attributes={'type':'IF'},
                            subnodes=[l,bs])
-            
+        
         elif self.next_symbol.token=='while':
             # Stmt → while Lexpr Block_stmt
             self.match('while')
@@ -134,11 +112,12 @@ class MyParser():
 
             return ASTNode(attributes={'type':'WHILE'},
                            subnodes=[l,bs])
+
                 
         else:
-            raise ParseError(f'Syntax error at line {self.next_symbol.lineno} char {self.next_symbol.charpos}: In Stmt(), expecting id, print, if, while found {self.next_symbol.token} instead')
-
-
+            self.error(f'In Stmt(), expecting id, print, if or while, found {self.next_symbol.token} instead')
+   
+    
     def Block_stmt(self):
     
         if self.next_symbol.token=='{':
@@ -147,85 +126,98 @@ class MyParser():
             sl = self.Stmt_list()
             self.match('}')
             
-            return ASTNode(attributes={'name':'BS'},
-                           subnodes=sl)
+            return sl
 
         elif self.next_symbol.token in ('id','print','if','while'):
             # Block_stmt → Stmt
             s = self.Stmt()
             
-            return ASTNode(attributes={'name':'BS'},
-                           subnodes=[s])
+            return [s]
 
         else:
-            raise ParseError(f'Syntax error at line {self.next_symbol.lineno} char {self.next_symbol.charpos}: In Block_stmt(), expecting id, print, if, while or {{, found {self.next_symbol.token} instead')                    
-
+            self.error(f'In Block_stmt(), expecting id, print, if, while or {{, found {self.next_symbol.token} instead')                    
+    
+    
     def Lexpr(self):
     
         if self.next_symbol.token in ('not','(','id','number'):
             # Lexpr → Lterm Lterm_tail
-            t = self.Lterm()
-            tt = self.Lterm_tail()
+            lt = self.Lterm()
+            ltt = self.Lterm_tail()
 
-            if tt is None:
-                return t
+            if ltt is None:
+                return lt
                 
             return ASTNode(attributes={'type':'OR'},
-            		   subnodes=[t,tt]) 
+            		   subnodes=[lt,ltt]) 
             
         else:
-            raise ParseError(f'Syntax error at line {self.next_symbol.lineno} char {self.next_symbol.charpos}: In Lexpr(), expecting not, (, id, number, found {self.next_symbol.token} instead')
-
-
+            self.error(f'In Lexpr(), expecting not, (, id, number, found {self.next_symbol.token} instead')
+    
+    
     def Lterm_tail(self):
     
         if self.next_symbol.token=='or':
-            # Lterm_tail → or Lexpr		# or Lterm Lterm_tail
+            # Lterm_tail → or Lterm Lterm_tail
             self.match('or')
-            return self.Lexpr()
+            lt = self.Lterm()
+            ltt = self.Lterm_tail()
+            
+            if ltt is None:
+                return lt
+                
+            return ASTNode(attributes={'type':'OR'},
+            		   subnodes=[lt,ltt])
              
-        elif self.next_symbol.token in (')','{','}','id','print','if','while','else',None):
+        elif self.next_symbol.token in (')','id','print',None,'{','}','if','while','else'):
             # Lterm_tail → ε
             return
 
         else:
-            raise ParseError(f'Syntax error at line {self.next_symbol.lineno} char {self.next_symbol.charpos}: In Lterm_tail(), expecting or, ), {{, }}, id, print, if, while, else, EOT, found {self.next_symbol.token} instead')
-
-
+            self.error(f'In Lterm_tail(), expecting or, ), id, print, EOT, {{, }}, if, while, else, found {self.next_symbol.token} instead')
+    
+    
     def Lterm(self):
     
         if self.next_symbol.token in ('not','(','id','number'):
             # Lterm → Lfactor Lfactor_tail
-            f = self.Lfactor()
-            ft = self.Lfactor_tail()
+            lf = self.Lfactor()
+            lft = self.Lfactor_tail()
             
-            if ft is None:
-                return f
+            if lft is None:
+                return lf
                 
             return ASTNode(attributes={'type':'AND'},
-            		   subnodes=[f,ft]) 
+            		   subnodes=[lf,lft]) 
 
         else:
-            raise ParseError(f'Syntax error at line {self.next_symbol.lineno} char {self.next_symbol.charpos}: In Lterm(), expecting not, (, id, number, found {self.next_symbol.token} instead')            
-
-
+            self.error(f'In Lterm(), expecting not, (, id, number, found {self.next_symbol.token} instead')            
+    
+    
     def Lfactor_tail(self):
     
         if self.next_symbol.token=='and':
-            # Lfactor_tail → and Lterm		# and Lfactor Lfactor_tail
+            # Lfactor_tail → and Lfactor Lfactor_tail
             self.match('and')
-            return self.Lterm()
+            lf = self.Lfactor()
+            lft = self.Lfactor_tail()
             
-        elif self.next_symbol.token in (')','{','}','or','id','print','if','while','else',None):
+            if lft is None:
+                return lf
+                
+            return ASTNode(attributes={'type':'AND'},
+            		   subnodes=[lf,lft]) 
+            
+        elif self.next_symbol.token in (')','or','id','print',None,'{','}','if','while','else'):
             # Lfactor_tail → ε
             return
 
         else:
-            raise ParseError(f'Syntax error at line {self.next_symbol.lineno} char {self.next_symbol.charpos}: In Lfactor_tail(), expecting and, or, ), {{, }}, id, print, if, while, else, EOT, found {self.next_symbol.token} instead')
-
-
-    def Lfactor(self):
+            self.error(f'In Lfactor_tail(), expecting and, or, ), id, print, EOT, {{, }}, if, while, else, found {self.next_symbol.token} instead')
     
+    
+    def Lfactor(self):
+
         if self.next_symbol.token=='not':
             # Lfactor → not Lfactor
             self.match('not')
@@ -246,9 +238,9 @@ class MyParser():
             		   subnodes=[e,r[1]])
 
         else:
-            raise ParseError(f'Syntax error at line {self.next_symbol.lineno} char {self.next_symbol.charpos}: In Lfactor(), expecting not, (, id, number, found {self.next_symbol.token} instead')            
-
-
+            self.error(f'In Lfactor(), expecting not, (, id, number, found {self.next_symbol.token} instead')            
+    
+        
     def Rest(self):
     
         if self.next_symbol.token in ('==','!=','>','>=','<','<='):
@@ -258,14 +250,14 @@ class MyParser():
             
             return r,e
             
-        elif self.next_symbol.token in (')','{','}','or','and','id','print','if','while','else',None):
+        elif self.next_symbol.token in (')','or','and','id','print',None,'{','}','if','while','else'):
             # Lfactor_tail → ε
             return
 
         else:
-            raise ParseError(f'Syntax error at line {self.next_symbol.lineno} char {self.next_symbol.charpos}: In Rest(), expecting relop and, or, ), {{, }}, id, print, if, while, else EOT, found {self.next_symbol.token} instead')
-
-
+            self.error(f'In Rest(), expecting relop and, or, ), id, print, EOT, {{, }}, if, while, else, found {self.next_symbol.token} instead')
+    
+    
     def Relop(self):
     
         if self.next_symbol.token in ('==','!=','>','>=','<','<='):
@@ -275,9 +267,9 @@ class MyParser():
         	return relop
         	
         else:
-            raise ParseError(f'Syntax error at line {self.next_symbol.lineno} char {self.next_symbol.charpos}: In Relop(), expecting relop , found {self.next_symbol.token} instead')        	
-     
- 
+            self.error(f'In Relop(), expecting relop, found {self.next_symbol.token} instead')        	
+    
+    
     def Expr(self):
                 
         if self.next_symbol.token in ('(','id','number'):
@@ -286,36 +278,35 @@ class MyParser():
             while self.next_symbol.token in ('+','-'):
                 op = self.Addop()
                 t2 = self.Term()
-                
+
                 t = ASTNode(attributes={'type':'OP','func':op},
-                	    subnodes=[t,t2]) 
+                	                    subnodes=[t,t2]) 
                            
             return t
-             
+
         else:
-            raise ParseError(f'Syntax error at line {self.next_symbol.lineno} char {self.next_symbol.charpos}: In Expr(), expecting (, id or number, found {self.next_symbol.token} instead')    
+            self.error(f'In Expr(), expecting (, id or number, found {self.next_symbol.token} instead')    
             
 
     def Term(self):
                 
         if self.next_symbol.token in ('(','id','number'):
-            # Term → Factor (Multop Factor)*
+            # Term → Factor Factor_tail
             f = self.Factor()
             while self.next_symbol.token in ('*','/'):
-                # keep op position for future error reporting
+                # keep op position in text for future error reporting
                 lineno = self.next_symbol.lineno
                 charpos = self.next_symbol.charpos
                 op = self.Multop()
                 f2 = self.Factor()
-                
-                f = ASTNode(attributes={'type':'OP','func': op,
-                		        'lineno':lineno,'charpos':charpos},
-                            subnodes=[f,f2])
-                                          
-            return f
 
+                f = ASTNode(attributes={'type':'OP','func': op,
+                		                'lineno':lineno,'charpos':charpos},
+                                        subnodes=[f,f2])                         
+            return f
+                                    
         else:
-            raise ParseError(f'Syntax error at line {self.next_symbol.lineno} char {self.next_symbol.charpos}: In Term(), expecting (, id or number, found {self.next_symbol.token} instead')            
+            self.error(f'In Term(), expecting (, id or number, found {self.next_symbol.token} instead')            
             
 
     def Factor(self):
@@ -323,20 +314,20 @@ class MyParser():
         if self.next_symbol.token=='(':
             # Factor → ( Lexpr )
             self.match('(')
-            l = self.Lexpr()
+            e = self.Lexpr()
             self.match(')')
-            return l
+            return e
 
         elif self.next_symbol.token=='id':
             # Factor → id
             varname = self.next_symbol.lexeme
-            # keep id position for future error reporting
+            # keep varname position in text for future error reporting
             lineno = self.next_symbol.lineno
             charpos = self.next_symbol.charpos
             self.match('id')
             return ASTNode(attributes={'type':'DEREF','name':varname,
-				       'lineno':lineno,'charpos':charpos})
-				       
+				                       'lineno':lineno,'charpos':charpos}) 
+
         elif self.next_symbol.token=='number':
             # Factor → number
             value = float(self.next_symbol.lexeme)
@@ -344,7 +335,7 @@ class MyParser():
             return ASTNode(attributes={'type':'NUMBER','value':value})
                 
         else:
-            raise ParseError(f'Syntax error at line {self.next_symbol.lineno} char {self.next_symbol.charpos}: In Factor(), expecting (, id or number, found {self.next_symbol.token} instead')
+            self.error(f'In Factor(), expecting (, id or number, found {self.next_symbol.token} instead')
 
 
     def Addop(self):
@@ -360,7 +351,7 @@ class MyParser():
             return '-'
 
         else:
-            raise ParseError(f'Syntax error at line {self.next_symbol.lineno} char {self.next_symbol.charpos}: In Addop(), expecting + or -, found {self.next_symbol.token} instead')
+            self.error(f'In Addop(), expecting + or -, found {self.next_symbol.token} instead')
 
 
     def Multop(self):
@@ -376,15 +367,15 @@ class MyParser():
             return '/'
 
         else:
-            raise ParseError(f'Syntax error at line {self.next_symbol.lineno} char {self.next_symbol.charpos}: In Multop(), expecting * or /, found {self.next_symbol.token} instead')
-
-
+            self.error(f'In Multop(), expecting * or /, found {self.next_symbol.token} instead')
+            
+            
 
 # runtime error, a user-defined exception
 class RunError(Exception):
     pass
-
     
+
 # class of AST walking interpreter
 class MyInterpreter():
 
@@ -401,104 +392,109 @@ class MyInterpreter():
     def execute_statements(self,ast_list):
     
         for astnode in ast_list:
-            if astnode.attributes['type']=='ASSIGN':
-                self.symbol_table[astnode.attributes['name']] = self.evaluate_expression(astnode.subnodes[0])    
+            match astnode:
+                case ASTNode(attributes={'type':'ASSIGN','name':varname},subnodes=[exprnode]):
+                    self.symbol_table[varname] = self.evaluate_expression(exprnode)    
         
-            elif astnode.attributes['type']=='PRINT':
-                print(self.evaluate_expression(astnode.subnodes[0]))
+                case ASTNode(attributes={'type':'PRINT'},subnodes=[exprnode]):
+                    print(self.evaluate_expression(exprnode))
 
-            elif astnode.attributes['type']=='IF':
-                if self.evaluate_expression(astnode.subnodes[0])!=0.0:
-                    self.execute_statements(astnode.subnodes[1].subnodes)
+                case ASTNode(attributes={'type':'IF'},subnodes=[exprnode,ast_list]):
+                    if self.evaluate_expression(exprnode)!=0.0:
+                        self.execute_statements(ast_list)
 
-            elif astnode.attributes['type']=='IFELSE':
-                if self.evaluate_expression(astnode.subnodes[0])!=0.0:
-                    self.execute_statements(astnode.subnodes[1].subnodes)
-                else:
-                    self.execute_statements(astnode.subnodes[2].subnodes)
+                case ASTNode(attributes={'type':'WHILE'},subnodes=[exprnode,ast_list]):
+                    while self.evaluate_expression(exprnode)!=0.0:
+                        self.execute_statements(ast_list)
 
-            elif astnode.attributes['type']=='WHILE':
-                while self.evaluate_expression(astnode.subnodes[0])!=0.0:
-                    self.execute_statements(astnode.subnodes[1].subnodes)
-                    
+                case ASTNode(attributes={'type':'IFELSE'},subnodes=[exprnode,if_ast_list,else_ast_list]):
+                    if self.evaluate_expression(exprnode)!=0.0:
+                        self.execute_statements(if_ast_list)
+                    else:
+                        self.execute_statements(else_ast_list)
+                
+                case _:
+                    raise RunError(f'Runtime error: Malformed AST {astnode}')    
+
 
     def evaluate_expression(self,astnode):
     
-        typ = astnode.attributes['type']
-        if typ =='NUMBER':
-            return astnode.attributes['value']
-        
-        elif typ=='DEREF':
-            varname = astnode.attributes['name']
-            if varname in self.symbol_table:
-                return self.symbol_table[varname]
-            else:
-                lineno = astnode.attributes['lineno']
-                charpos = astnode.attributes['charpos']
-                raise RunError(f'Run error at line {lineno} char {charpos}: Uninitialized variable {varname}')
-        
-        elif typ=='CMP':
-            rop = astnode.attributes['condition']
-            # visit children first
-            a = self.evaluate_expression(astnode.subnodes[0])
-            b = self.evaluate_expression(astnode.subnodes[1])
-        
-            if rop=='==' and a==b:
-                return 1.0
-            elif rop=='!=' and a!=b:
-                return 1.0
-            elif rop=='>' and a>b:
-                return 1.0
-            elif rop=='>=' and a>=b:
-                return 1.0
-            elif rop=='<' and a<b:
-                return 1.0
-            elif rop=='<=' and a<=b:
-                return 1.0
+        match astnode:
+            case ASTNode(attributes={'type':'NUMBER','value':value}):
+                return value
                 
-            return 0.0
-            
-        elif typ=='NOT':
-            # visit child
-            a = self.evaluate_expression(astnode.subnodes[0])
-            if a==0.0: return 1.0
-            return 0.0
-            
-        elif typ=='AND':
-            # visit left child first
-            a = self.evaluate_expression(astnode.subnodes[0])
-            if a==0.0: return 0.0
-            # return value of right child
-            return self.evaluate_expression(astnode.subnodes[1])
-
-        elif typ=='OR':
-            # visit left child first
-            a = self.evaluate_expression(astnode.subnodes[0])
-            if a!=0.0: return 1.0
-            # return value of right child
-            return self.evaluate_expression(astnode.subnodes[1])
-        
-        else:    # a binary arithmetic operator, visit children first
-            a = self.evaluate_expression(astnode.subnodes[0])
-            b = self.evaluate_expression(astnode.subnodes[1])
-            
-            # process after children (post-order)
-            if astnode.attributes['func']=='+':
-                return a+b
-            elif astnode.attributes['func']=='-':
-                return a-b
-            elif astnode.attributes['func']=='*':
-                return a*b
-            else:    # func = '/'
-                if b==0:
+            case ASTNode(attributes={'type':'DEREF','name':varname}):
+                if varname in self.symbol_table:
+                    return self.symbol_table[varname]
+                else:
                     lineno = astnode.attributes['lineno']
                     charpos = astnode.attributes['charpos']
-                    raise RunError(f'Runtime error at line {lineno} char {charpos}: division by zero')
+                    raise RunError(f'Run error at line {lineno} char {charpos}: Uninitialized variable {varname}')
+
+            case ASTNode(attributes={'type':'AND'},subnodes=[lnode,rnode]):
+                a = self.evaluate_expression(lnode)
+                if a==0.0: return 0.0
+                # else, return value of right child
+                return self.evaluate_expression(rnode)
+            
+            case ASTNode(attributes={'type':'OR'},subnodes=[lnode,rnode]):
+                # visit left child first
+                a = self.evaluate_expression(lnode)
+                if a!=0.0: return a
+                # else, return value of right child
+                return self.evaluate_expression(rnode)            
+
+            case ASTNode(attributes={'type':'NOT'},subnodes=[snode]):
+                a = self.evaluate_expression(snode)
+                if a==0.0: return 1.0
+                return 0.0
+
+            case ASTNode(attributes={'type':'CMP','condition':rop},subnodes=[lnode,rnode]):
+                # visit children first
+                a = self.evaluate_expression(lnode)
+                b = self.evaluate_expression(rnode)
+            
+                if rop=='==' and a==b:
+                    return 1.0
+                elif rop=='!=' and a!=b:
+                    return 1.0
+                elif rop=='>' and a>b:
+                    return 1.0
+                elif rop=='>=' and a>=b:
+                    return 1.0
+                elif rop=='<' and a<b:
+                    return 1.0
+                elif rop=='<=' and a<=b:
+                    return 1.0
                     
-                return a/b
+                return 0.0
+ 
+            case ASTNode(attributes={'type':'OP','func':func},subnodes=[lnode,rnode]):        
+                # a binary operator, visit children first
+                a = self.evaluate_expression(lnode)
+                b = self.evaluate_expression(rnode)
+                
+                # process after children (post-order)
+                if func=='+':
+                    return a+b
+                elif func=='-':
+                    return a-b
+                elif func=='*':
+                    return a*b
+                else:    # func = '/'
+                    if b==0:
+                        lineno = astnode.attributes['lineno']
+                        charpos = astnode.attributes['charpos']
+                        raise RunError(f'Runtime error at line {lineno} char {charpos}: division by zero')
+                        
+                    return a/b
+                    
+            case _:
+                raise RunError(f'Runtime error: Malformed AST {astnode}')
 
 
-        
+
+            
 # main part of program
 
 
@@ -528,30 +524,31 @@ else
   print a-3.14
 if a>0 print 3<a+1000 else print b 
 """    
-        
-# create scanner for input text
-scanner = tokenizer.scan(text)
-
-# create recursive descent parser
-parser = MyParser(scanner)
-
+    
 try:
-    ast_list = parser.parse()
+    # create scanner for input text
+    scanner = tokenizer.scan(text)
+
+    # create recursive descent parser
+    parser = MyParserASTBuilder(scanner)
+
+    stmt_asts = parser.parse()
     
 except (TokenizerError,ParseError) as e:
     print(e)
-            
-else:    # if no lexical or syntax error
 
-    #for ix,ast in enumerate(ast_list):
-    #    print(f'{ix+1}:\n{ast}')
-        
+else:    # if no lexical or syntax error
+    
+    # debug print statements' ASTs
+    for ix,ast in enumerate(stmt_asts):
+        print(f'{ix+1}:\n{ast}')
+
     # create AST interpreter
     interpreter = MyInterpreter()
     
     try:
-        interpreter.run(ast_list)
+        interpreter.run(stmt_asts)
     
     except RunError as e:
         print(e)
-    
+
